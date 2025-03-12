@@ -1,23 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   cub_3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ide-dieg <ide-dieg@student.42madrid>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 18:54:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/03/12 18:57:43 by ide-dieg         ###   ########.fr       */
+/*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
+/*   Updated: 2025/03/12 18:50:38 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub_3d.h"
+#ifndef CUB_3D_H
+# define CUB_3D_H
 
-int main(void)
+# include "../minilibx-linux/mlx.h"
+# include "../minilibx-linux/mlx_int.h"
+# include "../42_Libft/libft.h"
+
+typedef struct s_cub_3d
 {
-	t_cub_3d *cub3d;
+	void	*mlx;
+	void	*win;
+	int 	win_width;
+	int 	win_height;
+}	t_cub_3d;
 
-	cub3d = ft_init_cub3d();
-	mlx_loop(cub3d->mlx);
-	ft_close_game(cub3d);
-	return (0);
-}
+int			ft_close_game(void *param);
+t_cub_3d	*ft_init_cub3d(void);
+
+#endif

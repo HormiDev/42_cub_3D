@@ -3,4 +3,5 @@
 *.o
 .*
 cub_3d
+cub3d
 !.gitignore
