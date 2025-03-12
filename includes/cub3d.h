@@ -2,9 +2,10 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
-# include "../MLX42/include/MLX42/MLX42.h"
-# include <stdib.h>
 # include <stdio.h>
+# include "../minilibx-linux/mlx.h"
+# include "../minilibx-linux/mlx_int.h"
+# include "../42_Libft/libft.h"
 
 typedef struct mlx_data
 {

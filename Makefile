@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/03/12 13:37:17 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/03/12 15:46:07 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,11 +21,14 @@ VPATH	=	src/:\
 			src/render/:\
 
 
-SRC		=	main.c \
+SRC		=	src/main.c \
 
 OBJ_DIR  = objects
 
-INCLUDE = /includes/CUB3D.h
+LIBSA = minilibx-linux/libmlx.a \
+		42_Libft/libft.a \
+
+LFLAGS = -lXext -lX11 -lm
 
 OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 
@@ -35,19 +38,24 @@ CFLAGS = -Wall -Wextra -Werror -g
 all: clear $(NAME) title_print
 
 update_submodules:
-	@echo "$(NARANJA)Updating submodules...$(NC)"
+	@echo "$(Y)----------------------------------------------------------------------------------------------------$(NC)"
+	@echo "$(Y)-----------------------------------------Updating submodules----------------------------------------$(NC)"
+	@echo "$(Y)----------------------------------------------------------------------------------------------------$(NC)\n"
 	@git submodule update --init --recursive > /dev/null 2>&1
 	@tput cuu1 && tput el
+	@tput cuu1 && tput el
+	@tput cuu1 && tput el
+	@tput cuu1 && tput el
 	@echo "$(G)----------------------------------------------------------------------------------------------------$(NC)"
-	@echo "$(G)-----------------------------------------Submodules updated!----------------------------------------$(NC)"
+	@echo "$(G)---------------------------------------- Submodules updated! ---------------------------------------$(NC)"
 	@echo "$(G)----------------------------------------------------------------------------------------------------$(NC)\n"
 
 clear:
 	clear
 
-$(NAME): update_submodules build_libft $(OBJ)
+$(NAME): update_submodules build_libft build_minilibx-linux $(OBJ)
 	@printf "%-183s\r" "" 
-	@$(CC) $(CFLAGS) $(OBJ) -I $(INCLUDE) $(LIBFT) -lreadline -o $(NAME)
+	@$(CC) $(CFLAGS) $(OBJ) $(LIBSA) $(LFLAGS) -o $(NAME)
 	@echo "$(G)----------------------------------- CUB3D Finished Compiling -----------------------------------$(NC)\n"
 
 build_libft:
@@ -75,6 +83,32 @@ fclean_libft:
 	@make fclean -C 42_Libft > /dev/null 2>&1
 	@echo "$(R)------------------------------------------ Libft Cleaned -------------------------------------------$(NC)"
 
+build_minilibx-linux:
+	@if [ ! -f minilibx-linux/libmlx.a ]; then \
+		echo "$(Y)----------------------------------------------------------------------------------------------------$(NC)"; \
+		echo "$(Y)------------------------------------- Compiling Minilibx-linux -------------------------------------$(NC)"; \
+		echo "$(Y)----------------------------------------------------------------------------------------------------\n$(NC)"; \
+		make -C minilibx-linux > /dev/null 2>&1; \
+		tput cuu1 && tput el; \
+		tput cuu1 && tput el; \
+		tput cuu1 && tput el; \
+		tput cuu1 && tput el; \
+		if [ -f minilibx-linux/libmlx.a ]; then \
+			echo "$(G)----------------------------------------------------------------------------------------------------$(NC)"; \
+			echo "$(G)------------------------------------- Minilibx-linux Compiled --------------------------------------$(NC)"; \
+			echo "$(G)----------------------------------------------------------------------------------------------------\n$(NC)"; \
+		else \
+			echo "$(R)----------------------------------------------------------------------------------------------------$(NC)"; \
+			echo "$(R)--------------------------------- Minilibx-linux Compilation Failed --------------------------------$(NC)"; \
+			echo "$(R)----------------------------------------------------------------------------------------------------\n$(NC)"; \
+		fi; \
+	fi
+
+fclean_minilibx-linux:
+	@echo "Cleaning Minilibx-linux..."
+	@make -C minilibx-linux clean > /dev/null 2>&1
+	@echo "Minilibx-linux cleaned!"
+
 $(OBJ_DIR):
 	@echo "$(Y)--------------------------------------- Compiling  CUB3D ---------------------------------------$(NC)"
 	@echo "$(R)---------------------------------- Object Directory Doesn't Exist ----------------------------------$(NC)"
@@ -84,14 +118,14 @@ $(OBJ_DIR):
 
 $(OBJ_DIR)/%.o: %.c | $(OBJ_DIR)
 	@mkdir -p $(dir $@)
-	@$(CC) $(CFLAGS) -I $(INCLUDE) -c -o $@ $<
+	@$(CC) $(CFLAGS) -c -o $@ $<
 
 clean: clear
 	@rm -rf $(OBJ_DIR)
 	@find src -type f -name '*.o' -delete
 	@echo "$(R)----------------------------------------- Objects  Cleaned -----------------------------------------$(NC)"
 
-fclean: clean fclean_libft
+fclean: clean fclean_libft fclean_minilibx-linux
 	@rm -f $(NAME)
 	@echo "$(R)------------------------------------------ CUB3D Is Clean ------------------------------------------\n$(NC)"
 
@@ -145,12 +179,6 @@ title_print:
 	@echo "$(G)----------------------------------------------------------------------------------------------------$(NC)\n"
 	@echo "	                                $(G)ide-dieg $(Y)/ $(R)ismherna$(NC)"
 	@echo "	                             $(Y)$(NC)\n"
-norm: clear
-	@norminette $(find src/) | grep -v OK\!
-	@cat _test_norm_output.txt
-
-.DEFAULT_GOAL= all
+norm: clearif
 
 .PHONY: all clean fclean re clear title_print
-
-
