@@ -1,0 +1,6 @@
+*.out
+*.a
+*.o
+.*
+cub_3d
+!.gitignore
