@@ -1,6 +1,6 @@
-[submodule "MLX42"]
-	path = MLX42
-	url = https://github.com/codam-coding-college/MLX42.git
 [submodule "42_Libft"]
 	path = 42_Libft
 	url = https://github.com/HormiDev/42_Libft.git
+[submodule "minilibx-linux"]
+	path = minilibx-linux
+	url = https://github.com/42paris/minilibx-linux.git
