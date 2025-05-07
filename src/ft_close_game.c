@@ -3,19 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_close_game.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid>       +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:25:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/03/12 18:54:07 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/05/08 01:12:16 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d.h"
 
-int	ft_close_game(void *param)
+void	ft_close_game(int exit_code)
 {
-	mlx_destroy_window(((t_cub_3d *)(param))->mlx, ((t_cub_3d *)(param))->win);
-	mlx_destroy_display(((t_cub_3d *)(param))->mlx);
-	ft_alloc_lst(0, 0);
-	exit(0);
+	ft_alloc_clear();
+	exit(exit_code);
 }

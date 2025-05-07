@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/05/07 03:15:13 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/05/08 01:42:48 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,8 @@ VPATH	=	src/:\
 
 SRC		=	src/main.c \
 			src/ft_check_args.c \
+			src/ft_loading_game.c \
+			src/parse/ft_parse_textures.c
 
 OBJ_DIR  = objects
 
@@ -34,7 +36,7 @@ LFLAGS = -lXext -lX11 -lm
 OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = #-Wall -Wextra -Werror -g
 
 all: clear $(NAME) title_print
 
