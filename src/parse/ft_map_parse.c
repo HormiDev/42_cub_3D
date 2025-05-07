@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_loading_game.c                                  :+:      :+:    :+:   */
+/*   ft_map_parse.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 18:17:36 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/05/07 03:15:13 by ide-dieg         ###   ########.fr       */
+/*   Created: 2025/05/07 02:28:28 by ismherna          #+#    #+#             */
+/*   Updated: 2025/05/07 03:15:56 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub_3d.h"
+#include "../../includes/cub_3d.h"
 
-t_map	*ft_init_cub3d(t_map *map)
+int ft_map_parse(t_map *map, int fd)
 {
+    t_file	*file;
+    
+	file = ft_create_file_from_fd(fd);
 	
-
-
 }

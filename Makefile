@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ide-dieg <ide-dieg@student.42madrid>       +#+  +:+       +#+         #
+#    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/03/12 19:03:27 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/05/07 03:15:13 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,8 +22,7 @@ VPATH	=	src/:\
 
 
 SRC		=	src/main.c \
-			src/ft_close_game.c \
-			src/ft_loading_game.c \
+			src/ft_check_args.c \
 
 OBJ_DIR  = objects
 
