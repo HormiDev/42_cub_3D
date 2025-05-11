@@ -30,7 +30,7 @@ int	ft_start_line_map(t_file *map_file)
 		}
 		i++;
 	}
-	ft_dprintf(2, "%sError: Failed to load map: start not found%s", RED, RESET);
+	ft_dprintf(2, "%sError: Failed to load map: start not found\n%s", RED, RESET);
 	ft_close_game(1);
 }
 
@@ -144,7 +144,7 @@ void	ft_check_map_valid_characters(char **map)
 				&& map[i][j] != 'S' && map[i][j] != 'E' && map[i][j] != 'W'
 				&& map[i][j] != ' ')
 			{
-				ft_dprintf(2, "%sError: %c Invalid character in map%s", RED, map[i][j], RESET);
+				ft_dprintf(2, "%sError: %c Invalid character in map\n%s", RED, map[i][j], RESET);
 				ft_close_game(1);
 			}
 			j++;
@@ -188,17 +188,17 @@ void	ft_check_map(t_game *game)
 			ft_dprintf(2, "%sError: No player found in map%s", RED, RESET);
 		else
 		{
-			ft_dprintf(2, "%sError: More than one player found in map", RED);
+			ft_dprintf(2, "%sError: More than one player found in map\n", RED);
 			ft_dprintf(2, RESET);
 		}
 		ft_close_game(1);
 	}
-	/*
-	if(ft_wall_algorithm(game->map))
-		ft_dprintf(2, "The map is closed and is valid");
-	else 
-		ft_dprintf(2, "The map is not closed and is not valid");
-	*/
+	
+	if(!ft_check_map_closed(game))
+	{
+		ft_dprintf(2, RED "Error: Map is not closed\n" RESET);
+		ft_close_game(1);
+	}	
 }
 
 void	ft_parse_map(t_game *game, t_file *map_file)
@@ -214,7 +214,7 @@ void	ft_parse_map(t_game *game, t_file *map_file)
 	game->width_height[0] = width_start_end[1] - width_start_end[0] + 1;
 	if (game->width_height[0] < 3 || game->width_height[1] < 3)
 	{
-		ft_dprintf(2, "%sError: Failed to load map: it's small%s", RED, RESET);
+		ft_dprintf(2, "%sError: Failed to load map: it's small\n%s", RED, RESET);
 		ft_close_game(1);
 	}
 	ft_create_game_map(game, map_file, height_start_end, width_start_end);

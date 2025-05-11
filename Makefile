@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/05/09 02:30:52 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/05/11 01:52:54 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC		=	src/main.c \
 			src/parse/ft_parse_textures.c \
 			src/parse/ft_parse_colors.c \
 			src/parse/ft_order.c \
+			src/parse/ft_check_map_closed.c \
 			src/ft_close_game.c \
 
 OBJ_DIR  = objects

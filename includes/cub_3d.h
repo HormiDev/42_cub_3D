@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/05/09 02:30:52 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/05/11 02:00:04 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ void 		ft_parse_colors(t_game *game, t_file *map_file);
 void		ft_parse_textures(t_game *game, t_file *map_file); 
 void		ft_debug_game(t_game *game);
 int			ft_get_map_start_index(t_file *map_file);
-void		ft_wall_algorithm(char **map);
+int			ft_check_map_closed(t_game *game);
 
 #endif

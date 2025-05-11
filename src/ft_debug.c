@@ -26,7 +26,7 @@ static void ft_print_map(char **map)
 
 void ft_debug_game(t_game *game)
 {
-    ft_dprintf(1, "--- DEBUG GAME STRUCT ---\n");
+    ft_dprintf(1, "\n--- DEBUG GAME STRUCT ---\n");
     if (!game)
     {
         ft_dprintf(1, "Error: game structure is NULL\n");
