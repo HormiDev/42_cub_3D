@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/05/11 02:00:04 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/05/12 01:53:49 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,11 @@
 # include <limits.h>
 #include <stdbool.h>
 #include <stdio.h>
+
+# define C_RED		0xFFFF0000
+# define C_WHITE	0xFFFFFF
+# define C_GREY		0x808080
+# define C_BLACK	0x000000
 
 # define ESC 		65307
 # define W 			119
@@ -52,6 +57,11 @@ enum e_texture
 	WEST,
 	EAST
 };
+
+typedef struct s_ray
+{
+	
+} t_ray; 
 /*
 typedef struct s_color
 {
@@ -61,16 +71,30 @@ typedef struct s_color
 	int	alpha;
 }	t_color;
 */
+
+typedef struct s_player
+{
+	double x; 
+	double y; 
+	double dir_x;
+	double dir_y;
+	double plane_x;
+	double plane_y;
+
+} t_player;
+
 typedef struct s_game 
 {
 	char	**map; 
 	int		width_height[2];
 	int     floor_color[3];
     int     ceiling_color[3];
-	char	*textures[4]; 
+	char	*textures[4];
+	void	*mlx; 
+	void	*window;
+	void	*img_frame;
+	t_player player;
 }	t_game;
-
-
 
 int			ft_check_args(int argc, char **argv);
 t_game		*ft_loading_game(char *path_map);
@@ -80,5 +104,7 @@ void		ft_parse_textures(t_game *game, t_file *map_file);
 void		ft_debug_game(t_game *game);
 int			ft_get_map_start_index(t_file *map_file);
 int			ft_check_map_closed(t_game *game);
-
+void		ft_configure_mlx(t_game *game);
+void		ft_draw_map(t_game *game);
+void		ft_handle_key(int keycode, t_game *game);
 #endif

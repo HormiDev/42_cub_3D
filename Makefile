@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/05/11 01:52:54 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/05/12 01:56:26 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,12 +24,15 @@ VPATH	=	src/:\
 SRC		=	src/main.c \
 			src/ft_check_args.c \
 			src/ft_loading_game.c \
+			src/game/ft_movement_2d.c \
 			src/ft_debug.c \
 			src/parse/ft_parse_textures.c \
 			src/parse/ft_parse_colors.c \
 			src/parse/ft_order.c \
 			src/parse/ft_check_map_closed.c \
 			src/ft_close_game.c \
+			src/ft_config_mlx.c \
+			src/render/ft_draw_map.c \
 
 OBJ_DIR  = objects
 
