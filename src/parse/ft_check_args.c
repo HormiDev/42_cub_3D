@@ -6,11 +6,11 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:13:40 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/05/07 03:15:56 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/05/12 13:46:04 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub_3d.h"
+#include "../../includes/cub_3d.h"
 
 int	ft_check_args(int argc, char **argv)
 {

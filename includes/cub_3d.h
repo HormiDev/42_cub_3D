@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/05/12 01:53:49 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/05/12 14:20:48 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,28 @@ typedef struct s_color
 }	t_color;
 */
 
+typedef struct s_vector2
+{
+	double x;
+	double y;
+} t_vector2;
+
 typedef struct s_player
 {
-	double x; 
-	double y; 
-	double dir_x;
-	double dir_y;
-	double plane_x;
+	t_vector2	position;
+	t_vector2	rotation;
 	double plane_y;
 
 } t_player;
+
+typedef struct s_image
+{
+	void	*img_map;
+	char	*img_data;
+	int		bits_pixel; 
+	int		image_len;
+	int		end; 
+} t_image;
 
 typedef struct s_game 
 {
@@ -92,7 +104,8 @@ typedef struct s_game
 	char	*textures[4];
 	void	*mlx; 
 	void	*window;
-	void	*img_frame;
+	
+	t_image  image; 
 	t_player player;
 }	t_game;
 
@@ -104,7 +117,8 @@ void		ft_parse_textures(t_game *game, t_file *map_file);
 void		ft_debug_game(t_game *game);
 int			ft_get_map_start_index(t_file *map_file);
 int			ft_check_map_closed(t_game *game);
-void		ft_configure_mlx(t_game *game);
+void		ft_config_mlx(t_game *game);
 void		ft_draw_map(t_game *game);
 void		ft_handle_key(int keycode, t_game *game);
+void		ft_config_player(t_game *game);
 #endif

@@ -1,5 +1,14 @@
 #include "../../includes/cub_3d.h"
 
+void ft_draw_pixel_in_img(int x, int y, int color)
+{
+    char *img_data;
+	
+
+	img_data = mlx_get_data_addr(game->img_map, &bpp, &size_line, &endian);
+	if (x >= 0 && x < game->width_height[0] * 30 && y >= 0 && y < game->width_height[1] * 30)
+		*(unsigned int *)(img_data + (y * size_line + x * (bpp / 8))) = color;
+}
 void ft_draw_sq(t_game *game, int x, int y, int color)
 {
     int i; 
@@ -14,7 +23,7 @@ void ft_draw_sq(t_game *game, int x, int y, int color)
         j = 0;
         while(j < size)
         {
-            mlx_pixel_put(game->mlx, game->window,  x + j, y + i, color);
+            ft_draw_pixel_in_img(game->mlx, game->window,  x + j, y + i, color);
             j++;
         }
         i++;
@@ -49,5 +58,4 @@ void    ft_draw_map(t_game *game)
         }
         y++;
     }
-    
 }
