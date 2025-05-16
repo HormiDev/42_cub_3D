@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/05/12 14:20:48 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/05/16 01:58:13 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
 # define R 			65363
 # define FLOOR  	0
 # define CEILING 	1
-
+# define PIXEL 		
 #define DIR_RIGHT 0
 #define DIR_DOWN  1
 #define DIR_LEFT  2
@@ -88,9 +88,9 @@ typedef struct s_player
 
 typedef struct s_image
 {
-	void	*img_map;
+	void	*img;
 	char	*img_data;
-	int		bits_pixel; 
+	int		bits_pixel;
 	int		image_len;
 	int		end; 
 } t_image;
@@ -102,16 +102,16 @@ typedef struct s_game
 	int     floor_color[3];
     int     ceiling_color[3];
 	char	*textures[4];
-	void	*mlx; 
+	void	*mlx;
 	void	*window;
-	
-	t_image  image; 
+	t_image  *img_map; 
 	t_player player;
 }	t_game;
 
 int			ft_check_args(int argc, char **argv);
 t_game		*ft_loading_game(char *path_map);
 void		ft_close_game(int exit_code);
+int			ft_close_game_for_mlx(void *parm);
 void 		ft_parse_colors(t_game *game, t_file *map_file);
 void		ft_parse_textures(t_game *game, t_file *map_file); 
 void		ft_debug_game(t_game *game);
@@ -119,6 +119,7 @@ int			ft_get_map_start_index(t_file *map_file);
 int			ft_check_map_closed(t_game *game);
 void		ft_config_mlx(t_game *game);
 void		ft_draw_map(t_game *game);
-void		ft_handle_key(int keycode, t_game *game);
+//int		 	ft_handle_key(void *parm);
+int		 	ft_handle_key(int keyhook, t_game *game);
 void		ft_config_player(t_game *game);
 #endif
