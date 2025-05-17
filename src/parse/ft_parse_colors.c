@@ -37,18 +37,11 @@ int ft_parse_rgb_values(t_game *game, char *color_str, int color_type)
 int ft_get_color_string(t_game *game, char *line, int color_type)
 {
     char *color_str;
-
-    if ((color_str = ft_strtrim(line + 2, " \t\n")) != NULL)
-    {
-        if (ft_parse_rgb_values(game, color_str, color_type))
-            return (1);
-        return (0);
-    }
-    else
-    {
-        ft_dprintf(2, RED "Error: Failed to trim color string.\n" RESET);
-        return (0);
-    }
+    
+    color_str = ft_add_to_alloc_lst_e(ft_strtrim(line + 2, " \t\n"));
+    if (ft_parse_rgb_values(game, color_str, color_type))
+        return (1);
+    return (0);
 }
 
 

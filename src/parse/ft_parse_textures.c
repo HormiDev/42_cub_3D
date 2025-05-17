@@ -4,7 +4,8 @@ int	ft_parse_single_texture(t_game *game, char *line, int texture_index)
 {
 	char *path;
 
-	if ((path = ft_strtrim(line + 3, " \t\n")) != NULL)
+    path = ft_add_to_alloc_lst_e(ft_strtrim(line + 3, " \t\n"));
+	if (path != NULL)
 	{
 		game->textures[texture_index] = path;
 		return (1);

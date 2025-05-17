@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/05/16 01:58:13 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/05/17 02:31:32 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,33 @@
 # include "../minilibx-linux/mlx_int.h"
 # include "../42_Libft/libft.h"
 # include <limits.h>
-#include <stdbool.h>
-#include <stdio.h>
+# include <stdbool.h>
+# include <stdio.h>
+ 
+# define C_RED			0xFFFF0000
+# define C_WHITE		0xFFFFFF
+# define C_GREY			0x808080
+# define C_BLUE 		0x0000FF
+# define C_BLACK		0x000000
 
-# define C_RED		0xFFFF0000
-# define C_WHITE	0xFFFFFF
-# define C_GREY		0x808080
-# define C_BLACK	0x000000
+# define TILE_MAP_SIZE  100
 
-# define ESC 		65307
-# define W 			119
-# define A 			97
-# define S 			115
-# define D 			100
-# define SPACE 		32
-# define UP 		65362
-# define DOWN 		65364
-# define L 			65361
-# define R 			65363
-# define FLOOR  	0
-# define CEILING 	1
-# define PIXEL 		
-#define DIR_RIGHT 0
-#define DIR_DOWN  1
-#define DIR_LEFT  2
-#define DIR_UP    3
+# define ESC 			65307
+# define W 				119
+# define A 				97
+# define S 				115
+# define D 				100
+# define SPACE 			32
+# define UP 			65362
+# define DOWN 			65364
+# define L 				65361
+# define R 				65363
+# define FLOOR  		0
+# define CEILING 		1
+# define DIR_RIGHT 		0
+# define DIR_DOWN  		1
+# define DIR_LEFT  		2
+# define DIR_UP    		3
 
 typedef struct s_cursor
 {
@@ -82,6 +84,7 @@ typedef struct s_player
 {
 	t_vector2	position;
 	t_vector2	rotation;
+	t_vector2	velocity;
 	double plane_y;
 
 } t_player;
@@ -111,7 +114,7 @@ typedef struct s_game
 int			ft_check_args(int argc, char **argv);
 t_game		*ft_loading_game(char *path_map);
 void		ft_close_game(int exit_code);
-int			ft_close_game_for_mlx(void *parm);
+int			ft_close_game_for_mlx(void);
 void 		ft_parse_colors(t_game *game, t_file *map_file);
 void		ft_parse_textures(t_game *game, t_file *map_file); 
 void		ft_debug_game(t_game *game);
@@ -122,4 +125,10 @@ void		ft_draw_map(t_game *game);
 //int		 	ft_handle_key(void *parm);
 int		 	ft_handle_key(int keyhook, t_game *game);
 void		ft_config_player(t_game *game);
+void		ft_check_map(t_game *game);
+void		ft_create_game_map(t_game *game, t_file *map_file, const int *height_start_end, const int *width_start_end);
+int			ft_end_column_map(t_file *map_file, const int *height_start_end);
+int			ft_start_column_map(t_file *map_file, const int *height_start_end);
+void		ft_parse_map(t_game *game, t_file *map_file);
+
 #endif

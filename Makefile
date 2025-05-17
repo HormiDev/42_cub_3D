@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/05/12 13:46:17 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/05/17 01:31:52 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRC		=	src/main.c \
 			src/parse/ft_parse_colors.c \
 			src/parse/ft_parse_map.c \
 			src/parse/ft_check_map.c \
+			src/parse/ft_create_game_map.c \
 			src/parse/ft_map_origin.c \
 			src/parse/ft_walls_closed.c \
 			src/render/ft_draw_map.c \
@@ -47,7 +48,7 @@ LFLAGS = -lXext -lX11 -lm
 OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 
 CC = cc
-CFLAGS = #-Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 
 all: clear $(NAME) title_print
 

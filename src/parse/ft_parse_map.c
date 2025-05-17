@@ -20,6 +20,7 @@ int	ft_start_line_map(t_file *map_file)
 	}
 	ft_dprintf(2, "%sError: Failed to load map: start not found\n%s", RED, RESET);
 	ft_close_game(1);
+	return (0);
 }
 
 int	ft_end_line_map(t_file *map_file, int start_line)
@@ -67,8 +68,7 @@ int	ft_start_column_map(t_file *map_file, const int *height_start_end)
 	return (start_column);
 }
 
-
-int	ft_end_column_map(t_file *map_file, const int *height_start_end, int start_column)
+int	ft_end_column_map(t_file *map_file, const int *height_start_end)
 {
 	int i;
 	int j;
@@ -95,24 +95,22 @@ int	ft_end_column_map(t_file *map_file, const int *height_start_end, int start_c
 	return (end_column);
 }
 
-void	ft_create_game_map(t_game *game, t_file *map_file, const int *height_start_end, const int *width_start_end)
+void	ft_parse_map(t_game *game, t_file *map_file)
 {
-	int i;
-	int j;
+	int height_start_end[2];
+	int width_start_end[2];
 
-	game->map = ft_alloc_lst(sizeof(char *) * (game->width_height[1] + 1), 4);
-	i = 0;
-	while (i < game->width_height[1])
+	height_start_end[0] = ft_start_line_map(map_file);
+	height_start_end[1] = ft_end_line_map(map_file, height_start_end[0]);
+	game->width_height[1] = height_start_end[1] - height_start_end[0] + 1;
+	width_start_end[0] = ft_start_column_map(map_file, height_start_end);
+	width_start_end[1] = ft_end_column_map(map_file, height_start_end);
+	game->width_height[0] = width_start_end[1] - width_start_end[0] + 1;
+	if (game->width_height[0] < 3 || game->width_height[1] < 3)
 	{
-		game->map[i] = ft_alloc_lst(sizeof(char) * (game->width_height[0] + 1), 4);
-		ft_strncpy(game->map[i], &(map_file->array_content)[height_start_end[0] + i][width_start_end[0]], game->width_height[0]);
-		j = 0;
-		while (j < game->width_height[0])
-		{
-			if (game->map[i][j] == '\n')
-				game->map[i][j] = '\0';
-			j++;
-		}
-		i++;
+		ft_dprintf(2, "%sError: Failed to load map: it's small\n%s", RED, RESET);
+		ft_close_game(1);
 	}
+	ft_create_game_map(game, map_file, height_start_end, width_start_end);
+	ft_check_map(game);
 }

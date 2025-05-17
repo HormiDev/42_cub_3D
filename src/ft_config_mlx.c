@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/05/16 01:42:04 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/05/17 01:44:47 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,14 @@ void	ft_config_mlx(t_game *game)
 		ft_dprintf(2, RED "Error:\n Failed to initialize mlx\n" RESET);
 		ft_close_game(1);
 	}
-	game->window = mlx_new_window(game->mlx, game->width_height[0] * 30, game->width_height[1] * 30, "Cub3D");
+	game->window = mlx_new_window(game->mlx, 1920, 1000, "Cub3D");
 	if (!game->window)
 	{
 		ft_dprintf(2, RED "Error:\n Failed to create window\n" RESET);
 		ft_close_game(1);
 	}
 	game->img_map = ft_alloc_lst(sizeof(t_image), 4);
-	game->img_map->img = mlx_new_image(game->mlx, game->width_height[0] * 30, game->width_height[1] * 30);
+	game->img_map->img = mlx_new_image(game->mlx, game->width_height[0] * TILE_MAP_SIZE, game->width_height[1] * TILE_MAP_SIZE);
 	if (!game->img_map->img)
 	{
 		ft_dprintf(2, RED "Error:\n Failed to create image\n" RESET);

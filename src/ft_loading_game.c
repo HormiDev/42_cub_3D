@@ -12,26 +12,6 @@
 
 #include "../includes/cub_3d.h"
 
-void	ft_parse_map(t_game *game, t_file *map_file)
-{
-	int height_start_end[2];
-	int width_start_end[2];
-
-	height_start_end[0] = ft_start_line_map(map_file);
-	height_start_end[1] = ft_end_line_map(map_file, height_start_end[0]);
-	game->width_height[1] = height_start_end[1] - height_start_end[0] + 1;
-	width_start_end[0] = ft_start_column_map(map_file, height_start_end);
-	width_start_end[1] = ft_end_column_map(map_file, height_start_end, width_start_end[0]);
-	game->width_height[0] = width_start_end[1] - width_start_end[0] + 1;
-	if (game->width_height[0] < 3 || game->width_height[1] < 3)
-	{
-		ft_dprintf(2, "%sError: Failed to load map: it's small\n%s", RED, RESET);
-		ft_close_game(1);
-	}
-	ft_create_game_map(game, map_file, height_start_end, width_start_end);
-	ft_check_map(game);
-}
-
 t_game	*ft_loading_game(char *path_map)
 {
 	t_game *game;
