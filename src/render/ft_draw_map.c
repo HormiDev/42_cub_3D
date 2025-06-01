@@ -1,32 +1,26 @@
 #include "../../includes/cub_3d.h"
 
-
-void ft_draw_ray()
+void ft_draw_pixel_in_img(t_game *game, int x, int y, int color)
 {
-
-}
-
-void ft_draw_pixel_in_img(t_game *game,int x, int y, int color)
-{
-    char *pixel; 
-    if(x >= 0 && (x < game->width_height[0] * TILE_MAP_SIZE) &&
+    char *pixel;
+    if (x >= 0 && (x < game->width_height[0] * TILE_MAP_SIZE) &&
         y >= 0 && (y < game->width_height[1] * TILE_MAP_SIZE))
     {
         pixel = game->img_map->img_data + (y * game->img_map->image_len + x * (game->img_map->bits_pixel / 8));
-        *(unsigned int *)pixel = color; 
+        *(unsigned int *)pixel = color;
     }
 }
 
-void ft_draw_circle(t_game *game , int cx, int cy , int color)
+void ft_draw_circle(t_game *game, int cx, int cy, int color)
 {
-    int x; 
-    int y; 
-    int radius; 
-    int aux_radius; 
+    int x;
+    int y;
+    int radius;
+    int aux_radius;
 
-    radius = TILE_MAP_SIZE / 6; 
-    aux_radius = radius * radius; 
-    y = -radius; 
+    radius = TILE_MAP_SIZE / 6;
+    aux_radius = radius * radius;
+    y = -radius;
     while (y <= radius)
     {
         x = -radius;
@@ -42,14 +36,14 @@ void ft_draw_circle(t_game *game , int cx, int cy , int color)
 
 void ft_draw_sq(t_game *game, int x, int y, int color)
 {
-    int i; 
-    int j; 
+    int i;
+    int j;
 
     i = 0;
-    while(i < TILE_MAP_SIZE)
+    while (i < TILE_MAP_SIZE)
     {
         j = 0;
-        while(j < TILE_MAP_SIZE)
+        while (j < TILE_MAP_SIZE)
         {
             ft_draw_pixel_in_img(game, x + j, y + i, color);
             j++;
@@ -60,16 +54,16 @@ void ft_draw_sq(t_game *game, int x, int y, int color)
 
 void ft_draw_grid(t_game *game, int color)
 {
-    int i; 
+    int i;
     int y;
     int x;
     int aux_w;
     int aux_h;
 
-    aux_h = game->width_height[1] * TILE_MAP_SIZE; 
+    aux_h = game->width_height[1] * TILE_MAP_SIZE;
     aux_w = game->width_height[0] * TILE_MAP_SIZE;
     i = 0;
-    while(i <= aux_w)
+    while (i <= aux_w)
     {
         y = 0;
         while (y < aux_h)
@@ -80,7 +74,7 @@ void ft_draw_grid(t_game *game, int color)
         i += TILE_MAP_SIZE;
     }
     i = 0;
-    while(i <= aux_h)
+    while (i <= aux_h)
     {
         x = 0;
         while (x < aux_w)
@@ -90,36 +84,89 @@ void ft_draw_grid(t_game *game, int color)
         }
         i += TILE_MAP_SIZE;
     }
-
 }
 
-void    ft_draw_map(t_game *game)
+int ft_int_diff(int a, int b)
 {
-    int x; 
+    if (a > b)
+        return (a - b);
+    return (b - a);
+}
+
+void ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color)
+{
+    int dx;
+    int dy;
+    int steps;
+    double x_increment;
+    double y_increment;
+    int i;
+
+    dx = end.x - start.x;
+    dy = end.y - start.y;
+    steps = ft_int_diff(dx, dy);
+    x_increment = (double)dx / steps;
+    y_increment = (double)dy / steps;
+
+    double x = start.x;
+    double y = start.y;
+    i = 0;
+    while (i <= steps)
+    {
+        ft_draw_pixel_in_img(game, (int)x, (int)y, color);
+        x += x_increment;
+        y += y_increment;
+        i++;
+    }
+}
+
+double ft_angle_rad(double degrees)
+{
+    return degrees * M_PI / 180.0; 
+}
+void ft_draw_ray(t_game *game, t_vector2 rotation, int longitud, int color)
+{
+    t_vector2 start;
+    t_vector2 end;
+    double angle_rad; 
+
+    start.x = game->player.position.x;
+    start.y = game->player.position.y;
+
+    angle_rad = ft_angle_rad(rotation.x); 
+    end.x = start.x + cos(angle_rad) * longitud ;
+    end.y = start.y - sin(angle_rad) * longitud ;
+
+    ft_draw_line_in_image(game, start, end, color);
+}
+void ft_draw_map(t_game *game)
+{
+    int x;
     int px;
     int py;
-    int y; 
+    int y;
 
-    y = 0; 
-    while(y < game->width_height[1])
+    y = 0;
+    while (y < game->width_height[1])
     {
-        x = 0; 
-        while(x < game->width_height[0])
+        x = 0;
+        while (x < game->width_height[0])
         {
-            if(game->map[y][x] == '1')
+            if (game->map[y][x] == '1')
                 ft_draw_sq(game, x * TILE_MAP_SIZE, y * TILE_MAP_SIZE, C_WHITE);
-            else if(game->map[y][x] == '0')
-                ft_draw_sq(game,  x * TILE_MAP_SIZE, y * TILE_MAP_SIZE, C_GREY);
-			else if(game->map[y][x] == ' ')
-				ft_draw_sq(game, x * TILE_MAP_SIZE, y * TILE_MAP_SIZE, C_BLACK);
-			x++;
+            else if (game->map[y][x] == '0')
+                ft_draw_sq(game, x * TILE_MAP_SIZE, y * TILE_MAP_SIZE, C_GREY);
+            else if (game->map[y][x] == ' ')
+                ft_draw_sq(game, x * TILE_MAP_SIZE, y * TILE_MAP_SIZE, C_BLACK);
+            x++;
         }
         y++;
     }
     px = (int)game->player.position.x;
     py = (int)game->player.position.y;
-    //ft_draw_sq(game, px - 5, py - 5, C_RED);
+    ft_draw_ray(game, game->player.rotation, 40, C_RED);
+    // ft_draw_sq(game, px - 5, py - 5, C_RED);
     ft_draw_circle(game, px, py, C_RED);
     ft_draw_grid(game, C_BLUE);
-    mlx_put_image_to_window(game->mlx, game->window, game->img_map->img, 0, 0); 
+    mlx_put_image_to_window(game->mlx, game->window, game->img_map->img, 0, 0);
 }

@@ -57,6 +57,19 @@ int ft_handle_key(int keycode, t_game *game)
 		ft_right_left(game, -2);
 	if(keycode == D)
 		ft_right_left(game, 2);
+	if(keycode == E)
+	{
+		game->player.rotation.x -= 5.0;
+		if (game->player.rotation.x >= 360.0)
+			game->player.rotation.x -= 360.0;
+	}
+	if(keycode == Q)
+	{
+		game->player.rotation.x += 5.0;
+		if (game->player.rotation.x < 0.0)
+			game->player.rotation.x += 360.0;
+	}
+
 	mlx_clear_window(game->mlx, game->window);
 	ft_draw_map(game);
 	return (0);

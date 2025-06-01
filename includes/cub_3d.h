@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/05/17 02:31:32 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/06/02 01:12:02 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <limits.h>
 # include <stdbool.h>
 # include <stdio.h>
+#include <math.h>
  
 # define C_RED			0xFFFF0000
 # define C_WHITE		0xFFFFFF
@@ -33,6 +34,8 @@
 # define A 				97
 # define S 				115
 # define D 				100
+# define E 				101
+# define Q 				113
 # define SPACE 			32
 # define UP 			65362
 # define DOWN 			65364
@@ -130,5 +133,9 @@ void		ft_create_game_map(t_game *game, t_file *map_file, const int *height_start
 int			ft_end_column_map(t_file *map_file, const int *height_start_end);
 int			ft_start_column_map(t_file *map_file, const int *height_start_end);
 void		ft_parse_map(t_game *game, t_file *map_file);
+
+//rays
+void		ft_draw_ray(t_game *game, t_vector2 rotation, int longitud, int color);
+void		ft_draw_line_in_image(t_game *game, t_vector2 vertex1, t_vector2 vertex2, int color);
 
 #endif

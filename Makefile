@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/05/17 01:31:52 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/06/02 00:01:05 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,10 +16,6 @@ R = \033[0;31m
 NC = \033[0m
 
 NAME = cub3D
-
-VPATH	=	src/:\
-			src/render/:\
-
 
 SRC		=	src/main.c \
 			DEBUG/ft_debug.c \
@@ -48,7 +44,7 @@ LFLAGS = -lXext -lX11 -lm
 OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror# -g -fsanitize=address
 
 all: clear $(NAME) title_print
 
