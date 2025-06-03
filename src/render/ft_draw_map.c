@@ -123,6 +123,8 @@ double ft_angle_rad(double degrees)
 {
     return degrees * M_PI / 180.0; 
 }
+
+
 void ft_draw_ray(t_game *game, t_vector2 rotation, int longitud, int color)
 {
     t_vector2 start;
