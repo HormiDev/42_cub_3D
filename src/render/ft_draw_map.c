@@ -95,18 +95,17 @@ int ft_int_diff(int a, int b)
 
 void ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color)
 {
-    int dx;
-    int dy;
-    int steps;
-    double x_increment;
-    double y_increment;
-    int i;
+    int         dx;
+    int         dy;
+    int         steps;
+    t_vector2   increment;
+    int         i;
 
     dx = end.x - start.x;
     dy = end.y - start.y;
     steps = ft_int_diff(dx, dy);
-    x_increment = (double)dx / steps;
-    y_increment = (double)dy / steps;
+    increment.x = (double)dx / steps;
+    increment.y = (double)dy / steps;
 
     double x = start.x;
     double y = start.y;
@@ -114,8 +113,8 @@ void ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int col
     while (i <= steps)
     {
         ft_draw_pixel_in_img(game, (int)x, (int)y, color);
-        x += x_increment;
-        y += y_increment;
+        x += increment.x;
+        y += increment.y;
         i++;
     }
 }

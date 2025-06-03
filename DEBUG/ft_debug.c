@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_debug.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/02 14:06:20 by ide-dieg          #+#    #+#             */
+/*   Updated: 2025/06/02 14:09:36 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 # include <stdio.h>
 # include "../includes/cub_3d.h"
 
@@ -35,33 +47,20 @@ void ft_debug_game(t_game *game)
 
     ft_dprintf(1, "Map size: width=%d, height=%d\n", game->width_height[0], game->width_height[1]);
 
-    if (game->floor_color)
-        ft_print_color("Floor color", game->floor_color);
-    else
-        ft_dprintf(1, "Floor color: (null)\n");
-
-    if (game->ceiling_color)
-        ft_print_color("Ceiling color", game->ceiling_color);
-    else
-        ft_dprintf(1, "Ceiling color: (null)\n");
+    ft_print_color("Floor color", game->floor_color);
+    ft_print_color("Ceiling color", game->ceiling_color);
 
     ft_dprintf(1, "Textures:\n");
-    if (game->textures)
+    const char *labels[] = {"NORTH", "SOUTH", "WEST", "EAST"};
+    int i = 0;
+    while (i < 4)
     {
-        const char *labels[] = {"NORTH", "SOUTH", "WEST", "EAST"};
-        for (int i = 0; i < 4; i++)
-        {
-            if (game->textures[i])
-                ft_dprintf(1, " %s: %s\n", labels[i], game->textures[i]);
-            else
-                ft_dprintf(1, " %s: (null)\n", labels[i]);
-        }
+        if (game->textures[i])
+            ft_dprintf(1, " %s: %s\n", labels[i], game->textures[i]);
+        else
+            ft_dprintf(1, " %s: (null)\n", labels[i]);
+        i++;
     }
-    else
-    {
-        ft_dprintf(1, " Textures array is NULL or uninitialized\n");
-    }
-
     if (game->map)
     {
         ft_print_map(game->map);

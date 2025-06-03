@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/02 01:12:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:31:53 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,14 @@
 # define DIR_DOWN  		1
 # define DIR_LEFT  		2
 # define DIR_UP    		3
+
+# ifndef WINDOW_WIDTH
+#  define WINDOW_WIDTH 1920
+# endif
+
+# ifndef WINDOW_HEIGHT
+#  define WINDOW_HEIGHT 1000
+# endif
 
 typedef struct s_cursor
 {
@@ -137,5 +145,6 @@ void		ft_parse_map(t_game *game, t_file *map_file);
 //rays
 void		ft_draw_ray(t_game *game, t_vector2 rotation, int longitud, int color);
 void		ft_draw_line_in_image(t_game *game, t_vector2 vertex1, t_vector2 vertex2, int color);
+int			ft_mouse_move(t_game *game);
 
 #endif

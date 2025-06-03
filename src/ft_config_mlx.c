@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/02 01:31:30 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:32:44 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@ void	ft_free_mlx(t_game *game)
 	}
 }
 
+int ft_update_game(t_game *game)
+{
+	ft_mouse_move(game);
+    ft_draw_map(game);
+    return (0);
+}
+
+
 void	ft_config_mlx(t_game *game)
 {
 	game->mlx = mlx_init();
@@ -32,7 +40,7 @@ void	ft_config_mlx(t_game *game)
 		ft_dprintf(2, RED "Error:\n Failed to initialize mlx\n" RESET);
 		ft_close_game(1);
 	}
-	game->window = mlx_new_window(game->mlx, 1920, 1000, "Cub3D");
+	game->window = mlx_new_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
 	if (!game->window)
 	{
 		ft_dprintf(2, RED "Error:\n Failed to create window\n" RESET);
@@ -45,10 +53,14 @@ void	ft_config_mlx(t_game *game)
 		ft_dprintf(2, RED "Error:\n Failed to create image\n" RESET);
 		ft_close_game(1);
 	}
-	
 	game->img_map->img_data = mlx_get_data_addr(game->img_map->img, &game->img_map->bits_pixel, &game->img_map->image_len, &game->img_map->end);
 	mlx_hook(game->window, 17, 0, ft_close_game_for_mlx, 0);//close window
 	mlx_key_hook(game->window, ft_handle_key, game);
+	
+	
+	mlx_loop_hook(game->mlx, ft_update_game, game);         
+	mlx_mouse_move(game->mlx, game->window, 1920 / 2, 1000 / 2); 
+
 	//mlx_loop_hook(game->mlx, ft_update_game, game);//loop
     ft_draw_map(game); 
 }
