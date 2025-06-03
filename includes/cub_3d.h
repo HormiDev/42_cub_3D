@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/03 16:53:30 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:58:33 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define C_WHITE		0xFFFFFF
 # define C_GREY			0x808080
 # define C_BLUE 		0x0000FF
+# define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 
 # define TILE_MAP_SIZE  100
@@ -143,7 +144,7 @@ int			ft_start_column_map(t_file *map_file, const int *height_start_end);
 void		ft_parse_map(t_game *game, t_file *map_file);
 
 //rays
-void		ft_draw_ray(t_game *game, t_vector2 rotation, int longitud, int color);
+void		ft_draw_ray(t_game *game, t_vector2 rotation, int color);
 void		ft_draw_line_in_image(t_game *game, t_vector2 vertex1, t_vector2 vertex2, int color);
 int			ft_mouse_move(int x, int y, t_game *game);
 

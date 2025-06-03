@@ -93,28 +93,31 @@ int ft_int_diff(int a, int b)
     return (b - a);
 }
 
+int ft_int_max(int a, int b)
+{
+    if (a > b)
+        return a;
+    return b;
+}
+
 void ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color)
 {
-    int         dx;
-    int         dy;
+    t_vector2	pixel;
     int         steps;
-    t_vector2   increment;
     int         i;
+	t_vector2	increment;
 
-    dx = end.x - start.x;
-    dy = end.y - start.y;
-    steps = ft_int_diff(dx, dy);
-    increment.x = (double)dx / steps;
-    increment.y = (double)dy / steps;
-
-    double x = start.x;
-    double y = start.y;
+    steps = ft_int_max(ft_int_diff(start.x, end.x), ft_int_diff(start.y, end.y));
     i = 0;
+    pixel.x = start.x;
+    pixel.y = start.y;
+    increment.x = (start.x - end.x) / steps;
+    increment.y = (start.y - end.y) / steps;
     while (i <= steps)
     {
-        ft_draw_pixel_in_img(game, (int)x, (int)y, color);
-        x += increment.x;
-        y += increment.y;
+        ft_draw_pixel_in_img(game, (int)pixel.x, (int)pixel.y, color);
+        pixel.x += increment.x;
+        pixel.y += increment.y;
         i++;
     }
 }
@@ -124,22 +127,55 @@ double ft_angle_rad(double degrees)
     return degrees * M_PI / 180.0; 
 }
 
+char ft_get_cell_at(t_game *game, int x, int y)
+{
+    int map_x;
+    int map_y;
 
-void ft_draw_ray(t_game *game, t_vector2 rotation, int longitud, int color)
+    map_x = x / TILE_MAP_SIZE;
+    map_y = y / TILE_MAP_SIZE;
+
+    return game->map[map_y][map_x];
+}
+
+void ft_draw_ray(t_game *game, t_vector2 rotation, int color)
 {
     t_vector2 start;
     t_vector2 end;
-    double angle_rad; 
+    double angle_rad;
+    double dx;
+    double dy;
+    double x;
+    double y;
+    char cell;
 
     start.x = game->player.position.x;
     start.y = game->player.position.y;
 
-    angle_rad = ft_angle_rad(rotation.x); 
-    end.x = start.x + cos(angle_rad) * longitud ;
-    end.y = start.y - sin(angle_rad) * longitud ;
+    angle_rad = ft_angle_rad(rotation.x);
+    dx = cos(angle_rad) * 0.5;
+    dy = -sin(angle_rad) * 0.5;
 
+    x = start.x;
+    y = start.y;
+
+    while (1)
+    {
+        cell = ft_get_cell_at(game, (int)x, (int)y);
+        if (cell == '1')
+            break;
+
+        x += dx;
+        y += dy;
+    }
+
+    end.x = x;
+    end.y = y;
+
+    ft_dprintf(2, "Colisión con pared en coordenadas (%.2f, %.2f)\n", x, y);
     ft_draw_line_in_image(game, start, end, color);
 }
+
 void ft_draw_map(t_game *game)
 {
     int x;
@@ -165,7 +201,7 @@ void ft_draw_map(t_game *game)
     }
     px = (int)game->player.position.x;
     py = (int)game->player.position.y;
-    ft_draw_ray(game, game->player.rotation, 40, C_RED);
+    ft_draw_ray(game, game->player.rotation, C_YELLOW);
     // ft_draw_sq(game, px - 5, py - 5, C_RED);
     ft_draw_circle(game, px, py, C_RED);
     ft_draw_grid(game, C_BLUE);
