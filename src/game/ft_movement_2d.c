@@ -10,8 +10,8 @@ void ft_forwad_back(t_game *game, double move_speed)
 	new_x = game->player.position.x;
 	new_y = game->player.position.y + move_speed;
 
-	map_x = (int)(new_x / TILE_MAP_SIZE);
-	map_y = (int)(new_y / TILE_MAP_SIZE);
+	map_x = (int)(new_x);
+	map_y = (int)(new_y);
 
 	if (map_x >= 0 && map_x < game->width_height[0] &&
 		map_y >= 0 && map_y < game->width_height[1] &&
@@ -31,8 +31,8 @@ void ft_right_left(t_game *game, double move_speed)
 	new_x = game->player.position.x + move_speed;
 	new_y = game->player.position.y;
 
-	map_x = (int)(new_x / TILE_MAP_SIZE);
-	map_y = (int)(new_y / TILE_MAP_SIZE);
+	map_x = (int)(new_x);
+	map_y = (int)(new_y);
 
 	if(map_x >= 0 && map_x < game->width_height[0] &&
 	   map_y >= 0 && map_y < game->width_height[1] &&
@@ -50,24 +50,24 @@ int ft_handle_key(int keycode, t_game *game)
 	if(keycode == ESC)
 		ft_close_game(0);
 	if(keycode == W)
-		ft_forwad_back(game, -2); 
+		ft_forwad_back(game, -0.02); 
 	if(keycode == S)
-		ft_forwad_back(game, 2);
+		ft_forwad_back(game, 0.02);
 	if(keycode == A)
-		ft_right_left(game, -2);
+		ft_right_left(game, -0.02);
 	if(keycode == D)
-		ft_right_left(game, 2);
+		ft_right_left(game, 0.02);
 	if(keycode == E)
 	{
 		game->player.rotation.x -= 5.0;
-		if (game->player.rotation.x >= 360.0)
-			game->player.rotation.x -= 360.0;
+		if (game->player.rotation.x < 0.0)
+			game->player.rotation.x += 360.0;
 	}
 	if(keycode == Q)
 	{
 		game->player.rotation.x += 5.0;
-		if (game->player.rotation.x < 0.0)
-			game->player.rotation.x += 360.0;
+		if (game->player.rotation.x >= 360.0)
+			game->player.rotation.x -= 360.0;
 	}
 
 	mlx_clear_window(game->mlx, game->window);

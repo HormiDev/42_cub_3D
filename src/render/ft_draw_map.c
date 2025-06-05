@@ -107,6 +107,7 @@ void ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int col
     int         i;
 	t_vector2	increment;
 
+	printf("Dibujando línea desde (%.2f, %.2f) hasta (%.2f, %.2f)\n", start.x, start.y, end.x, end.y);
     steps = ft_int_max(ft_int_diff(start.x, end.x), ft_int_diff(start.y, end.y));
     i = 0;
     pixel.x = start.x;
@@ -138,72 +139,67 @@ char ft_get_cell_at(t_game *game, int x, int y)
     return game->map[map_y][map_x];
 }
 
-void ft_draw_ray(t_game *game, t_vector2 rotation, int color)
+void ft_raycast(t_game *game, int color)
 {
-    t_vector2 start;
-    t_vector2 end;
-    double angle_rad;
-    double dx;
-    double dy;
-    double x;
-    double y;
-    char cell;
-
-    start.x = game->player.position.x;
-    start.y = game->player.position.y;
-
-    angle_rad = ft_angle_rad(rotation.x);
-    dx = cos(angle_rad) * 0.5;
-    dy = -sin(angle_rad) * 0.5;
-
-    x = start.x;
-    y = start.y;
-
-    while (1)
-    {
-        cell = ft_get_cell_at(game, (int)x, (int)y);
-        if (cell == '1')
-            break;
-
-        x += dx;
-        y += dy;
-    }
-
-    end.x = x;
-    end.y = y;
-
-    ft_dprintf(2, "Colisión con pared en coordenadas (%.2f, %.2f)\n", x, y);
-    ft_draw_line_in_image(game, start, end, color);
+    double		angle_rad;
+    t_vector2	distance;
+	int			tile_xy[2];
+	
+	tile_xy[0] = (int)game->player.position.x ;
+	tile_xy[1] = (int)game->player.position.y ;
+	printf("posicion del jugador: (%.2f, %.2f)\n", game->player.position.x, game->player.position.y);
+	printf("Coordenadas del jugador: (%.d, %.d)\n", tile_xy[0], tile_xy[1]);
+	angle_rad = ft_angle_rad(game->player.rotation.x);
+	printf("entro a la funcion"); 
+	if (game->player.rotation.x > 0 && game->player.rotation.x <= 90)
+	{
+		distance.x = game->player.position.y - -cos(angle_rad) * (double)(tile_xy[1] + 1);
+		if (distance.x < tile_xy[0] + 1)
+		{
+			printf("Colisión cos con pared en coordenadas (%.2f, %.d)\n", distance.x, tile_xy[1] + 1);
+			printf("Colisión cos con pared en coordenadas (%.2f, %.d)\n", distance.x * + game->player.position.x, tile_xy[1] + 1);
+			ft_draw_line_in_image(game, (t_vector2){game->player.position.x * TILE_MAP_SIZE, game->player.position.y * TILE_MAP_SIZE}, (t_vector2){(distance.x + game->player.position.x) * TILE_MAP_SIZE, (tile_xy[1] + 1) * TILE_MAP_SIZE}, color);
+		}
+		else
+		{
+			distance.y = sin(angle_rad) * (double)(tile_xy[0] + 1) - game->player.position.x;
+			printf("Colisión sin con pared en coordenadas (%.d, %.2f)\n", tile_xy[0] + 1, distance.y);
+			ft_draw_line_in_image(game, (t_vector2){game->player.position.x * TILE_MAP_SIZE, game->player.position.y * TILE_MAP_SIZE}, (t_vector2){(tile_xy[0] + 1) * TILE_MAP_SIZE, distance.y * TILE_MAP_SIZE}, color);
+		}
+	}
 }
+
 
 void ft_draw_map(t_game *game)
 {
-    int x;
+	int x;
     int px;
     int py;
     int y;
-
+	
     y = 0;
     while (y < game->width_height[1])
     {
-        x = 0;
+		x = 0;
         while (x < game->width_height[0])
         {
-            if (game->map[y][x] == '1')
-                ft_draw_sq(game, x * TILE_MAP_SIZE, y * TILE_MAP_SIZE, C_WHITE);
-            else if (game->map[y][x] == '0')
-                ft_draw_sq(game, x * TILE_MAP_SIZE, y * TILE_MAP_SIZE, C_GREY);
-            else if (game->map[y][x] == ' ')
-                ft_draw_sq(game, x * TILE_MAP_SIZE, y * TILE_MAP_SIZE, C_BLACK);
-            x++;
-        }
-        y++;
-    }
-    px = (int)game->player.position.x;
-    py = (int)game->player.position.y;
-    ft_draw_ray(game, game->player.rotation, C_YELLOW);
-    // ft_draw_sq(game, px - 5, py - 5, C_RED);
+			if (game->map[y][x] == '1')
+			ft_draw_sq(game, x * TILE_MAP_SIZE, y * TILE_MAP_SIZE, C_WHITE);
+		else if (game->map[y][x] == '0')
+			ft_draw_sq(game, x * TILE_MAP_SIZE, y * TILE_MAP_SIZE, C_GREY);
+		else if (game->map[y][x] == ' ')
+			ft_draw_sq(game, x * TILE_MAP_SIZE, y * TILE_MAP_SIZE, C_BLACK);
+		x++;
+	}
+	y++;
+	}
+	printf("Rotación del jugador: (%.2f)\n", game->player.rotation.x);
+	px = (int)(game->player.position.x * TILE_MAP_SIZE);
+	py = (int)(game->player.position.y * TILE_MAP_SIZE);
+	ft_raycast(game, C_YELLOW);
+	// ft_draw_sq(game, px - 5, py - 5, C_RED);
     ft_draw_circle(game, px, py, C_RED);
+	ft_draw_circle(game, 0, 0, C_RED);
     ft_draw_grid(game, C_BLUE);
     mlx_put_image_to_window(game->mlx, game->window, game->img_map->img, 0, 0);
 }
