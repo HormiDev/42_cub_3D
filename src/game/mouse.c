@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2025/06/03 17:21:52 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:48:05 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,9 @@ int ft_mouse_move(int x, int y, t_game *game)
 
 int ft_mouse_move(int x, int y, t_game *game)
 {
-    x = x - (WINDOW_WIDTH / 2);
-    game->player.rotation.x = (float)((180 / (float)(WINDOW_WIDTH / 2)) * x);
+	game->mouse_xy[0] = x;
+	game->mouse_xy[1] = y;
+    game->player.rotation.x = (double)(360 / (double)WINDOW_WIDTH) * (double)x;
     if (y < 0)
         game->player.rotation.y += 1; // Adjust this value for vertical sensitivity
     else if (y > 0)

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/04 16:55:48 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:52:24 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ typedef struct s_game
 	void	*window;
 	t_image  *img_map; 
 	t_player player;
+	int		mouse_xy[2]; // [0] = x, [1] = y
 }	t_game;
 
 int			ft_check_args(int argc, char **argv);
