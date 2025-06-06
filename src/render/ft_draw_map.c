@@ -123,11 +123,6 @@ void ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int col
     }
 }
 
-double ft_angle_rad(double degrees)
-{
-    return (degrees) * M_PI / 180.0;
-}
-
 void ft_raycast(t_game *game, int color)
 {
     t_vector2 	distance;
@@ -163,11 +158,10 @@ void ft_raycast(t_game *game, int color)
 			ft_draw_line_in_image(game, (t_vector2){game->player.position.x * TILE_MAP_SIZE, game->player.position.y * TILE_MAP_SIZE}, (t_vector2){next_x * TILE_MAP_SIZE, (-raydir.y + game->player.position.y) * TILE_MAP_SIZE}, color);
 			printf("draw line end (%.2d, %.2f)\n", (int)game->player.position.x * TILE_MAP_SIZE, (raydir.y + game->player.position.y) * TILE_MAP_SIZE);
 		}
-
-		
 	}
-	else {
-		printf("fuera de los limites");
+	else
+	{
+		printf("fuera de los límites\n");
 	}
 }
 

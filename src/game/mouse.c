@@ -34,7 +34,7 @@ int ft_mouse_move(int x, int y, t_game *game)
 {
 	game->mouse_xy[0] = x;
 	game->mouse_xy[1] = y;
-    game->player.rotation.x = (double)(360 / (double)WINDOW_WIDTH) * (double)x;
+    game->player.rotation.x = 360 - (double)(360 / (double)WINDOW_WIDTH) * (double)x;
     if (y < 0)
         game->player.rotation.y += 1; // Adjust this value for vertical sensitivity
     else if (y > 0)

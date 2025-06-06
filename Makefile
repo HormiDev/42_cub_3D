@@ -19,6 +19,7 @@ NAME = cub3D
 
 SRC		=	src/main.c \
 			DEBUG/ft_debug.c \
+			src/ft_angle_rad.c \
 			src/ft_loading_game.c \
 			src/ft_close_game.c \
 			src/ft_config_player.c \
