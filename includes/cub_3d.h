@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/05 16:52:24 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/06/06 19:09:44 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # define C_BLUE 		0x0000FF
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
+# define C_GREEN		0x008f39
 
 # define TILE_MAP_SIZE  100
 
@@ -95,6 +96,7 @@ typedef struct s_vector2
 typedef struct s_player
 {
 	t_vector2	position;
+	double		reverse_y_position;
 	t_vector2	rotation;
 	t_vector2	velocity;
 	double plane_y;
@@ -146,7 +148,6 @@ int			ft_check_map_closed(t_game *game);
 void		ft_config_mlx(t_game *game);
 void		ft_draw_map(t_game *game);
 //int		 	ft_handle_key(void *parm);
-int		 	ft_handle_key(int keyhook, t_game *game);
 void		ft_config_player(t_game *game);
 void		ft_check_map(t_game *game);
 void		ft_create_game_map(t_game *game, t_file *map_file, const int *height_start_end, const int *width_start_end);
@@ -162,5 +163,10 @@ double		ft_angle_rad(double degrees);
 int			ft_update(void *param);
 int 		ft_key_release(int keycode, t_game *game);
 int 		ft_key_press(int keycode, t_game *game);
+int			ft_start_line_map(t_file *map_file);
+int			ft_end_line_map(t_file *map_file, int start_line);
+int			ft_start_column_map(t_file *map_file, const int *height_start_end);
+int			ft_end_column_map(t_file *map_file, const int *height_start_end);
+void		ft_rotate_map_y(t_game *game);
 
 #endif

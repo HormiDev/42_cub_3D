@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:30:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/04 17:00:05 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/06/06 18:45:29 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_config_player(t_game *game)
 			{
 				game->player.position.x = j + 0.5;
 				game->player.position.y = i + 0.5;
+				game->player.reverse_y_position = -game->player.position.y + game->width_height[1];
 				if (game->map[i][j] == 'N')
 					game->player.rotation.x = 90.0;
 				else if (game->map[i][j] == 'S')

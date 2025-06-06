@@ -1,46 +1,48 @@
 #include "../../includes/cub_3d.h"
 
-void ft_right_left(t_game *game, double move_speed)
-{
-	double angle = ft_angle_rad(game->player.rotation.x);
-	double dx = cos(angle) * move_speed; 
-	double dy = sin(angle) * move_speed;
-
-	double new_x = game->player.position.x + dx;
-	double new_y = game->player.position.y + dy;
-
-	int map_x = (int)(new_x);
-	int map_y = (int)(new_y);
-
-	if (map_x >= 0 && map_x < game->width_height[0] &&
-		map_y >= 0 && map_y < game->width_height[1] &&
-		game->map[map_y][map_x] != '1')
-	{
-		game->player.position.x = new_x;
-		game->player.position.y = new_y;
-	}
-}
-
 void ft_forwad_back(t_game *game, double move_speed)
 {
-	double angle = ft_angle_rad(game->player.rotation.x + 90.0);
-	double dx = cos(angle) * move_speed; 
-	double dy = sin(angle) * move_speed; 
+	double new_x;
+	double new_y;
+	int map_x;
+	int map_y;
 
-	double new_x = game->player.position.x + dx;
-	double new_y = game->player.position.y + dy;
+	new_x = game->player.position.x;
+	new_y = game->player.position.y - move_speed;
 
-	int map_x = (int)(new_x);
-	int map_y = (int)(new_y);
+	map_x = (int)(new_x);
+	map_y = (int)(new_y);
 
 	if (map_x >= 0 && map_x < game->width_height[0] &&
 		map_y >= 0 && map_y < game->width_height[1] &&
 		game->map[map_y][map_x] != '1')
 	{
-		game->player.position.x = new_x;
 		game->player.position.y = new_y;
+		game->player.reverse_y_position = -new_y + game->width_height[1];
 	}
 }
+
+void ft_right_left(t_game *game, double move_speed)
+{	
+	double new_x;
+	double new_y;
+	int map_x;
+	int map_y;
+
+	new_x = game->player.position.x + move_speed;
+	new_y = game->player.position.y;
+
+	map_x = (int)(new_x);
+	map_y = (int)(new_y);
+
+	if(map_x >= 0 && map_x < game->width_height[0] &&
+	   map_y >= 0 && map_y < game->width_height[1] &&
+	    game->map[map_y][map_x] != '1')
+	{
+		game->player.position.x = new_x;
+	}
+}
+
 
 int ft_key_press(int keycode, t_game *game)
 {
@@ -102,7 +104,6 @@ int ft_update(void *param)
 		if (game->player.rotation.x < 0.0)
 			game->player.rotation.x += 360.0;
 	}
-
 	mlx_clear_window(game->mlx, game->window);
 	ft_draw_map(game);
 	return (0);
