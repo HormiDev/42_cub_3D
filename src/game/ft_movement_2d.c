@@ -59,13 +59,13 @@ int ft_handle_key(int keycode, t_game *game)
 		ft_right_left(game, 0.02);
 	if(keycode == E)
 	{
-		game->player.rotation.x -= 5.0;
+		game->player.rotation.x -= 1.0;
 		if (game->player.rotation.x < 0.0)
 			game->player.rotation.x += 360.0;
 	}
 	if(keycode == Q)
 	{
-		game->player.rotation.x += 5.0;
+		game->player.rotation.x += 1.0;
 		if (game->player.rotation.x >= 360.0)
 			game->player.rotation.x -= 360.0;
 	}

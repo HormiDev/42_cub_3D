@@ -146,15 +146,25 @@ void ft_raycast(t_game *game, int color)
 	if (game->player.rotation.x >= 0 && game->player.rotation.x < 90)
 	{
 
-		raydir.x = cos(ft_angle_rad(game->player.rotation.x)) * distance.y;
+		raydir.x = cos(ft_angle_rad(game->player.rotation.x)) * 1;
 		printf("Raydir X: %.2f\n", raydir.x);
-		raydir.y = sin(ft_angle_rad(game->player.rotation.x)) * distance.x;
+		raydir.y = sin(ft_angle_rad(game->player.rotation.x)) * 1;
+		raydir.x = raydir.x * (distance.y / raydir.y);
 		printf("Raydir Y: %.2f\n", raydir.y);
 		if (raydir.x + game->player.position.x <= next_x)
 		{
-			ft_draw_line_in_image(game, (t_vector2){game->player.position.x * TILE_MAP_SIZE, game->player.position.y * TILE_MAP_SIZE}, (t_vector2){(raydir.x + game->player.position.x) * TILE_MAP_SIZE, (double)((int)game->player.position.y * TILE_MAP_SIZE)}, color);
+			ft_draw_line_in_image(game, (t_vector2){game->player.position.x * TILE_MAP_SIZE, game->player.position.y * TILE_MAP_SIZE}, (t_vector2){(raydir.x + game->player.position.x) * TILE_MAP_SIZE, (int)game->player.position.y * TILE_MAP_SIZE}, color);
 			printf("draw line end (%.2f, %.2f)\n", (raydir.x + game->player.position.x) * TILE_MAP_SIZE, (double)((int)game->player.position.y * TILE_MAP_SIZE));
 		}
+		else
+		{
+			raydir.x = cos(ft_angle_rad(game->player.rotation.x)) * 1;
+			raydir.y = raydir.y * (distance.x / raydir.x);
+			ft_draw_line_in_image(game, (t_vector2){game->player.position.x * TILE_MAP_SIZE, game->player.position.y * TILE_MAP_SIZE}, (t_vector2){next_x * TILE_MAP_SIZE, (-raydir.y + game->player.position.y) * TILE_MAP_SIZE}, color);
+			printf("draw line end (%.2d, %.2f)\n", (int)game->player.position.x * TILE_MAP_SIZE, (raydir.y + game->player.position.y) * TILE_MAP_SIZE);
+		}
+
+		
 	}
 	else {
 		printf("fuera de los limites");
