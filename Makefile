@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/06/06 12:56:30 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/06/06 18:23:40 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ SRC		=	src/main.c \
 			src/parse/ft_check_args.c \
 			src/parse/ft_parse_colors.c \
 			src/parse/ft_parse_map.c \
+			src/parse/ft_parse_map_utils.c \
 			src/parse/ft_check_map.c \
 			src/parse/ft_create_game_map.c \
 			src/parse/ft_map_origin.c \

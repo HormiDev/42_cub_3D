@@ -8,7 +8,7 @@ void ft_forwad_back(t_game *game, double move_speed)
 	int map_y;
 
 	new_x = game->player.position.x;
-	new_y = game->player.position.y + move_speed;
+	new_y = game->player.position.y - move_speed;
 
 	map_x = (int)(new_x);
 	map_y = (int)(new_y);
@@ -18,6 +18,7 @@ void ft_forwad_back(t_game *game, double move_speed)
 		game->map[map_y][map_x] != '1')
 	{
 		game->player.position.y = new_y;
+		game->player.reverse_y_position = -new_y + game->width_height[1];
 	}
 }
 
