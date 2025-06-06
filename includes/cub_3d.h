@@ -110,6 +110,15 @@ typedef struct s_image
 	int		end; 
 } t_image;
 
+typedef struct s_input {
+	int w;
+	int a;
+	int s;
+	int d;
+	int q;
+	int e;
+} t_input;
+
 typedef struct s_game 
 {
 	char	**map; 
@@ -121,6 +130,7 @@ typedef struct s_game
 	void	*window;
 	t_image  *img_map; 
 	t_player player;
+	t_input	keys;
 	int		mouse_xy[2]; // [0] = x, [1] = y
 }	t_game;
 
@@ -148,5 +158,9 @@ void		ft_parse_map(t_game *game, t_file *map_file);
 void		ft_raycast(t_game *game, int color);
 void		ft_draw_line_in_image(t_game *game, t_vector2 vertex1, t_vector2 vertex2, int color);
 int			ft_mouse_move(int x, int y, t_game *game);
+double		ft_angle_rad(double degrees);
+int			ft_update(void *param);
+int 		ft_key_release(int keycode, t_game *game);
+int 		ft_key_press(int keycode, t_game *game);
 
 #endif
