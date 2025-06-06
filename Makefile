@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/06/06 18:23:40 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/06/06 19:42:46 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,6 @@ NAME = cub3D
 
 SRC		=	src/main.c \
 			DEBUG/ft_debug.c \
-			src/ft_angle_rad.c \
 			src/ft_loading_game.c \
 			src/ft_close_game.c \
 			src/ft_config_player.c \
