@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/06/02 14:37:19 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/06/06 12:56:30 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,9 +117,7 @@ build_minilibx-linux:
 	fi
 
 fclean_minilibx-linux:
-	@echo "Cleaning Minilibx-linux..."
 	@make -C minilibx-linux clean > /dev/null 2>&1
-	@echo "Minilibx-linux cleaned!"
 
 $(OBJ_DIR):
 	@echo "$(Y)--------------------------------------- Compiling  CUB3D ---------------------------------------$(NC)"
