@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/06 20:20:48 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/06/08 18:43:01 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,5 +169,10 @@ int			ft_start_column_map(t_file *map_file, const int *height_start_end);
 int			ft_end_column_map(t_file *map_file, const int *height_start_end);
 void		ft_rotate_map_y(t_game *game);
 void		ft_draw_player(t_game *game);
+
+//math
+double		ft_cos(double angle);
+double		ft_sin(double angle);
+
 
 #endif

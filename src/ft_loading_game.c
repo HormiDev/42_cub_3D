@@ -29,6 +29,8 @@ t_game	*ft_loading_game(char *path_map)
     ft_parse_colors(game, map_file); 
 	ft_parse_map(game, map_file);
 	ft_config_player(game);
+	ft_sin(0);
+	ft_cos(0);
 	ft_debug_game(game);
 	ft_file_clear(&map_file);
 	ft_printf("Map loaded successfully\n");
