@@ -1,5 +1,6 @@
 #include "../../includes/cub_3d.h"
 
+
 void ft_forwad_back(t_game *game, double move_speed)
 {
 	double new_x;

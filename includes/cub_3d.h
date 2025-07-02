@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/08 18:43:01 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/03 01:09:45 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../minilibx-linux/mlx_int.h"
 # include "../42_Libft/libft.h"
 # include <limits.h>
+# include <sys/time.h>
 # include <stdbool.h>
 # include <stdio.h>
 #include <math.h>
@@ -58,6 +59,21 @@
 #  define WINDOW_HEIGHT 1000
 # endif
 
+typedef struct s_texture
+{
+	int				width;
+	int				height;
+	int				size_colors;
+	int				**pixels; 
+	unsigned int	*colors;
+} t_texture;
+
+typedef struct s_xpm_color
+{
+    char            *chars;
+    unsigned int    value;
+} t_xpm_color;
+
 typedef struct s_cursor
 {
 	int x; 
@@ -65,18 +81,11 @@ typedef struct s_cursor
 	int dir; 
 } t_cursor; 
 
-enum e_texture
-{
-	NORTH, 
-	SOUTH, 
-	WEST,
-	EAST
-};
-
 typedef struct s_ray
 {
 	
 } t_ray; 
+
 /*
 typedef struct s_color
 {
@@ -92,6 +101,12 @@ typedef struct s_vector2
 	double x;
 	double y;
 } t_vector2;
+
+typedef struct s_raycast
+{
+	double		distance;
+	t_vector2	impact;
+} t_raycast;
 
 typedef struct s_player
 {
@@ -156,7 +171,7 @@ int			ft_start_column_map(t_file *map_file, const int *height_start_end);
 void		ft_parse_map(t_game *game, t_file *map_file);
 
 //rays
-void		ft_raycast(t_game *game, double angle, int color);
+void 		ft_raycast(t_game *game, double angle, double ray_length);
 void		ft_draw_line_in_image(t_game *game, t_vector2 vertex1, t_vector2 vertex2, int color);
 int			ft_mouse_move(int x, int y, t_game *game);
 double		ft_angle_rad(double degrees);
@@ -169,6 +184,7 @@ int			ft_start_column_map(t_file *map_file, const int *height_start_end);
 int			ft_end_column_map(t_file *map_file, const int *height_start_end);
 void		ft_rotate_map_y(t_game *game);
 void		ft_draw_player(t_game *game);
+int			get_pixel_color_from_game(t_game *game, int x, int y);
 
 //math
 double		ft_cos(double angle);
