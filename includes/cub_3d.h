@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/07/07 22:05:51 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/08 01:19:01 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ typedef struct s_game
     int     ceiling_color[3];
 	char	*textures[4];
 	void	*mlx;
-	void	*raycasts; 
+	t_raycast	*raycasts; 
 	void	*window;
 	t_image  *img_map; 
 	t_player player;
@@ -185,7 +185,7 @@ void			ft_parse_map(t_game *game, t_file *map_file);
 //int		 	ft_handle_key(void *parm);
 
 //rays
-void 			ft_raycast(t_game *game, double angle, double ray_length);
+void 			ft_raycast(t_game *game, double angle, t_raycast *ray);
 void			ft_draw_line_in_image(t_game *game, t_vector2 vertex1, t_vector2 vertex2, int color);
 int				ft_mouse_move(int x, int y, t_game *game);
 double			ft_angle_rad(double degrees);

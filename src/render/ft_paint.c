@@ -49,11 +49,14 @@ static double	get_tex_x(const t_raycast *ray, const t_texture *tex)
  */
 static void	draw_texture_column(t_image *screen, t_texture *tex, int x, int draw_start, int draw_end, double tex_x, int wall_height, int win_height)
 {
-	double	step = (double)tex->height / wall_height;
-	double	tex_pos = (draw_start - win_height / 2 + wall_height / 2) * step;
 	int		y;
-
-	for (y = draw_start; y < draw_end; y++)
+	double  step; 
+	double	tex_pos;
+	
+	step = (double)tex->height / wall_height;
+	tex_pos = (draw_start - win_height / 2 + wall_height / 2) * step;
+	y = draw_start;
+	while (y < draw_end)
 	{
 		int tex_y = (int)tex_pos;
 		tex_pos += step;
@@ -63,6 +66,7 @@ static void	draw_texture_column(t_image *screen, t_texture *tex, int x, int draw
 			tex_y = tex->height - 1;
 		int color = tex->pixels[tex_y][(int)tex_x];
 		put_pixel(screen, x, y, color);
+		y++; 
 	}
 }
 /**
