@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:54:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/08 20:34:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/07 21:27:49 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,3 @@ int main(int argc, char **argv)
 	mlx_loop(game->mlx);
 	return (0);
 }
-
-
-

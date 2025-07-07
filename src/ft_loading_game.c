@@ -28,6 +28,12 @@ t_game	*ft_loading_game(char *path_map)
 	ft_parse_textures(game, map_file);
     ft_parse_colors(game, map_file); 
 	ft_parse_map(game, map_file);
+	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * game->width_height[0], 4);
+	if (!game->raycasts)
+	{
+		ft_dprintf(2, "Error: Failed to allocate raycast array\n");
+		return (0);
+	}
 	ft_config_player(game);
 	ft_sin(0);
 	ft_cos(0);

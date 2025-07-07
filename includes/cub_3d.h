@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/07/06 23:50:29 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/07 22:05:51 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
+
+# define NORTH			0
+# define SOUTH			1
+# define EAST			2
+# define WEST			3
 
 # define TILE_MAP_SIZE  100
 
@@ -102,10 +107,18 @@ typedef struct s_vector2
 	double y;
 } t_vector2;
 
+/**
+ * @brief Structure to hold s_raycast information.
+ * 
+ * This structure is used to store the result of a raycast operation,
+ * including the distance to the impact point, the coordinates of the impact,
+ * and the type of impact (0 North, 1 South, 2 East, 3 West).
+ */
 typedef struct s_raycast
 {
 	double		distance;
 	t_vector2	impact;
+	int			type;
 } t_raycast;
 
 typedef struct s_player
@@ -144,51 +157,56 @@ typedef struct s_game
     int     ceiling_color[3];
 	char	*textures[4];
 	void	*mlx;
+	void	*raycasts; 
 	void	*window;
 	t_image  *img_map; 
 	t_player player;
 	t_input	keys;
-	int		mouse_xy[2]; // [0] = x, [1] = y
+	int		mouse_xy[2];
 }	t_game;
 
-int			ft_check_args(int argc, char **argv);
-t_game		*ft_loading_game(char *path_map);
-void		ft_close_game(int exit_code);
-int			ft_close_game_for_mlx(void);
-void 		ft_parse_colors(t_game *game, t_file *map_file);
-void		ft_parse_textures(t_game *game, t_file *map_file); 
-void		ft_debug_game(t_game *game);
-int			ft_get_map_start_index(t_file *map_file);
-int			ft_check_map_closed(t_game *game);
-void		ft_config_mlx(t_game *game);
-void		ft_draw_map(t_game *game);
+int				ft_check_args(int argc, char **argv);
+t_game			*ft_loading_game(char *path_map);
+void			ft_close_game(int exit_code);
+int				ft_close_game_for_mlx(void);
+void 			ft_parse_colors(t_game *game, t_file *map_file);
+void			ft_parse_textures(t_game *game, t_file *map_file); 
+void			ft_debug_game(t_game *game);
+int				ft_get_map_start_index(t_file *map_file);
+int				ft_check_map_closed(t_game *game);
+void			ft_config_mlx(t_game *game);
+void			ft_draw_map(t_game *game);
+void			ft_config_player(t_game *game);
+void			ft_check_map(t_game *game);
+void			ft_create_game_map(t_game *game, t_file *map_file, const int *height_start_end, const int *width_start_end);
+int				ft_end_column_map(t_file *map_file, const int *height_start_end);
+int				ft_start_column_map(t_file *map_file, const int *height_start_end);
+void			ft_parse_map(t_game *game, t_file *map_file);
 //int		 	ft_handle_key(void *parm);
-void		ft_config_player(t_game *game);
-void		ft_check_map(t_game *game);
-void		ft_create_game_map(t_game *game, t_file *map_file, const int *height_start_end, const int *width_start_end);
-int			ft_end_column_map(t_file *map_file, const int *height_start_end);
-int			ft_start_column_map(t_file *map_file, const int *height_start_end);
-void		ft_parse_map(t_game *game, t_file *map_file);
 
 //rays
-void 		ft_raycast(t_game *game, double angle, double ray_length);
-void		ft_draw_line_in_image(t_game *game, t_vector2 vertex1, t_vector2 vertex2, int color);
-int			ft_mouse_move(int x, int y, t_game *game);
-double		ft_angle_rad(double degrees);
-int			ft_update(void *param);
-int 		ft_key_release(int keycode, t_game *game);
-int 		ft_key_press(int keycode, t_game *game);
-int			ft_start_line_map(t_file *map_file);
-int			ft_end_line_map(t_file *map_file, int start_line);
-int			ft_start_column_map(t_file *map_file, const int *height_start_end);
-int			ft_end_column_map(t_file *map_file, const int *height_start_end);
-void		ft_rotate_map_y(t_game *game);
-void		ft_draw_player(t_game *game);
-int			get_pixel_color_from_game(t_game *game, int x, int y);
+void 			ft_raycast(t_game *game, double angle, double ray_length);
+void			ft_draw_line_in_image(t_game *game, t_vector2 vertex1, t_vector2 vertex2, int color);
+int				ft_mouse_move(int x, int y, t_game *game);
+double			ft_angle_rad(double degrees);
+int				ft_update(void *param);
+int 			ft_key_release(int keycode, t_game *game);
+int 			ft_key_press(int keycode, t_game *game);
+int				ft_start_line_map(t_file *map_file);
+int				ft_end_line_map(t_file *map_file, int start_line);
+int				ft_start_column_map(t_file *map_file, const int *height_start_end);
+int				ft_end_column_map(t_file *map_file, const int *height_start_end);
+void			ft_rotate_map_y(t_game *game);
+void			ft_draw_player(t_game *game);
+int				get_pixel_color_from_game(t_game *game, int x, int y);
+
+//textures 
+int				extract_texture_from_xpm(const char *xpm_path, t_texture *texture);
+unsigned int 	get_texture_pixel(const t_texture *texture, const double coord[2]);
 
 //math
-double		ft_cos(double angle);
-double		ft_sin(double angle);
+double			ft_cos(double angle);
+double			ft_sin(double angle);
 
 
 #endif
