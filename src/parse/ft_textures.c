@@ -205,13 +205,17 @@ int	extract_texture_from_xpm(const char *xpm_path, t_texture *texture)
 	return ret;
 }
 
-unsigned int get_texture_pixel(const t_texture *texture, int x, int y)
+unsigned int get_texture_pixel(const t_texture *texture, const double coord[2])
 {
-	if (!texture || !texture->colors)
-		return 0;
-	if (x < 0 || x >= texture->width || y < 0 || y >= texture->height)
-		return 0;
-	return texture->colors[y * texture->width + x];
+    unsigned int x = (unsigned int)coord[0];
+    unsigned int y = (unsigned int)coord[1];
+
+    if (!texture || !texture->colors)
+        return 0;
+    if (x >= (unsigned int)texture->width || y >= (unsigned int)texture->height)
+        return 0;
+
+    return texture->colors[y * texture->width + x];
 }
 
 int main()

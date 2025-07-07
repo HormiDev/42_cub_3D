@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/07/03 01:09:45 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/06 23:50:29 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 1000
+#  define WINDOW_HEIGHT 1080
 # endif
 
 typedef struct s_texture

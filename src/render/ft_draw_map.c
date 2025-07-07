@@ -123,9 +123,20 @@ void ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int col
 	}
 }
 
+double ft_double_diff(double a, double b)
+{
+	if (a > b)
+		return (a - b);
+	return (b - a);
+}
+
 double ft_vector_distance(t_vector2 a, t_vector2 b)
 {
-	return sqrt(pow(a.x - b.x, 2) + pow(a.y - b.y, 2));
+	t_vector2 diff;
+
+	diff.x = ft_double_diff(a.x, b.x);
+	diff.y = ft_double_diff(a.y, b.y);
+	return sqrt(pow(diff.x, 2) + pow(diff.y, 2));
 }
 
 void ft_raycast(t_game *game, double angle, double ray_length)
@@ -166,10 +177,12 @@ void ft_raycast(t_game *game, double angle, double ray_length)
 						raydir.x = ft_cos(angle) * ray_length;
 						raydir.y = ft_sin(angle) * ray_length;
 						ft_draw_line_in_image(game, (t_vector2){game->player.position.x * TILE_MAP_SIZE, game->player.reverse_y_position * TILE_MAP_SIZE}, (t_vector2){(raydir.x + game->player.position.x) * TILE_MAP_SIZE, (game->player.reverse_y_position - raydir.y) * TILE_MAP_SIZE}, color);
+						printf("Ray distance: %.2f\n", ray_length);
 						break;
 					}
 					//printf("Ray hit wall at (%d, %d)\n", next_x, next_y);
 					ft_draw_line_in_image(game, (t_vector2){game->player.position.x * TILE_MAP_SIZE, game->player.reverse_y_position * TILE_MAP_SIZE}, (t_vector2){(raydir.x + game->player.position.x) * TILE_MAP_SIZE, (-next_y + game->width_height[1]) * TILE_MAP_SIZE}, color);
+					printf("Ray distance: %.2f\n", ft_vector_distance(game->player.position, (t_vector2){(raydir.x + game->player.position.x), next_y}));
 					break;
 				}
 				else
@@ -355,7 +368,7 @@ void ft_draw_map(t_game *game)
 	int ry;
 	int i;
 	double fov = 45.0;
-	int ray_count = 3200;
+	int ray_count = 1;
 	double angle_step = fov / ray_count;
 	double start_angle = game->player.rotation.x - (fov / 2);
 
