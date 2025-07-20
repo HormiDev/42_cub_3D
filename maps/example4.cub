@@ -1,12 +1,11 @@
-NO textures/wolfenstein/grey_stone.xpm
-SO textures/wolfenstein/purple_stone.xpm
-
-EA textures/wolfenstein/wood.xpm
+NO textures/ladrillos.xpm
+SO textures/ladrillos.xpm
+EA textures/ladrillos.xpm
+WE textures/ladrillos.xpm
 
 F 220,100,0
 C 225,30,0
 
-WE textures/wolfenstein/red_brick.xpm
                                                 1111111111111111111111111
                                                 1000000000110000000000001
                                                 1011000001110000000000001

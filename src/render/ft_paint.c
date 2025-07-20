@@ -26,7 +26,7 @@ static double	get_tex_x(const t_raycast *ray, const t_texture *tex)
 {
 	double	tex_x;
 
-	if (ray->type == 0 || ray->type == 1)
+	if (->type == 0 || ray->type == 1)
 		tex_x = ray->impact.x - floor(ray->impact.x);
 	else
 		tex_x = ray->impact.y - floor(ray->impact.y);
@@ -52,7 +52,7 @@ static void	draw_texture_column(t_image *screen, t_texture *tex, int x, int draw
 	int		y;
 	double  step; 
 	double	tex_pos;
-	
+
 	step = (double)tex->height / wall_height;
 	tex_pos = (draw_start - win_height / 2 + wall_height / 2) * step;
 	y = draw_start;
@@ -65,10 +65,11 @@ static void	draw_texture_column(t_image *screen, t_texture *tex, int x, int draw
 		if (tex_y >= tex->height)
 			tex_y = tex->height - 1;
 		int color = tex->pixels[tex_y][(int)tex_x];
-		put_pixel(screen, x, y, color);
-		y++; 
+		ft_draw_pixel_in_img(screen->game, x, y, color);
+		y++;
 	}
 }
+
 /**
  * @brief draw_column - Dibuja una columna de pared en la pantalla usando datos de raycasting.
  * @param screen: Puntero al buffer de imagen de la pantalla.

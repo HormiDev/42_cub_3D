@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/07/08 01:19:01 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/20 21:20:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,6 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
-
-# define NORTH			0
-# define SOUTH			1
-# define EAST			2
-# define WEST			3
 
 # define TILE_MAP_SIZE  100
 
@@ -64,8 +59,17 @@
 #  define WINDOW_HEIGHT 1080
 # endif
 
+typedef enum e_wall_direction
+{
+	WALL_NO = 0,
+	WALL_SO = 1,
+	WALL_EA = 2,
+	WALL_WE = 3
+} t_wall_direction;
+
 typedef struct s_texture
 {
+	char			*path;
 	int				width;
 	int				height;
 	int				size_colors;
@@ -75,7 +79,7 @@ typedef struct s_texture
 
 typedef struct s_xpm_color
 {
-    char            *chars;
+	char            *chars;
     unsigned int    value;
 } t_xpm_color;
 
@@ -84,12 +88,7 @@ typedef struct s_cursor
 	int x; 
 	int y;
 	int dir; 
-} t_cursor; 
-
-typedef struct s_ray
-{
-	
-} t_ray; 
+} t_cursor;
 
 /*
 typedef struct s_color
@@ -120,6 +119,8 @@ typedef struct s_raycast
 	t_vector2	impact;
 	int			type;
 } t_raycast;
+
+
 
 typedef struct s_player
 {
@@ -155,7 +156,9 @@ typedef struct s_game
 	int		width_height[2];
 	int     floor_color[3];
     int     ceiling_color[3];
-	char	*textures[4];
+	t_list	*textures[4]; // Array of textures for North, South, East, West
+	t_texture floor_tex;
+	t_texture ceiling_tex; 
 	void	*mlx;
 	t_raycast	*raycasts; 
 	void	*window;
@@ -208,5 +211,7 @@ unsigned int 	get_texture_pixel(const t_texture *texture, const double coord[2])
 double			ft_cos(double angle);
 double			ft_sin(double angle);
 
+//debug 
+void			ft_print_map(char **map);
 
 #endif

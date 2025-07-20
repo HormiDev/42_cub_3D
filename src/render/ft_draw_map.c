@@ -139,6 +139,79 @@ double ft_vector_distance(t_vector2 a, t_vector2 b)
 	return sqrt(pow(diff.x, 2) + pow(diff.y, 2));
 }
 
+void ft_ray_iter_up(int *position_y, int cuadrant, int iter)
+{
+	if (cuadrant < 2)
+		*position_y += iter;
+	else
+		*position_y -= iter;
+}
+
+void ft_ray_iter_right(int *position_x, int cuadrant, int iter)
+{
+	if (cuadrant == 0 || cuadrant == 3)
+		*position_x += iter;
+	else
+		*position_x -= iter;
+}
+
+void ft_calc_distance(int cuadrant, int *tile_ray_xy, t_vector2 player_position, t_vector2 *distance)
+{
+	if (cuadrant == 0)
+	{
+		distance->x = tile_ray_xy[0] + 1 - player_position.x;
+		distance->y = tile_ray_xy[1] + 1 - player_position.y;
+	}
+	else if (cuadrant == 1)
+	{
+		distance->x = tile_ray_xy[1] + 1 - player_position.y;
+		distance->y = player_position.x - tile_ray_xy[0];
+	}
+	else if (cuadrant == 2)
+	{
+		distance->x = player_position.x - tile_ray_xy[0];
+		distance->y = player_position.y - tile_ray_xy[1];
+	}
+	else
+	{
+		distance->x = player_position.y - tile_ray_xy[1];
+		distance->y = tile_ray_xy[0] + 1 - player_position.x;
+	}
+}
+/*
+void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
+{
+	double	ray_angle;
+	int		tile_ray_xy[2];
+	t_vector2	distance;
+	double		sin_cos[2];
+	int		cuadrant = 0;
+
+	ray_angle = angle;
+	while (ray_angle > 90)
+	{
+		ray_angle -= 90;
+		cuadrant++;
+	}
+	ft_bzero(ray, sizeof(t_raycast));
+	tile_ray_xy[0] = (int)game->player.position.x;
+	tile_ray_xy[1] = (int)game->player.position.y;
+	ft_calc_distance(cuadrant, tile_ray_xy, game->player.position, &distance);
+	sin_cos[0] = ft_cos(ft_angle_rad(ray_angle));
+	sin_cos[1] = ft_sin(ft_angle_rad(ray_angle));
+	while(1)
+	{
+		if (sin_cos[1] * (distance.y / sin_cos[0]) < distance.x)// si el rayo toca el tile superior
+		{
+
+		}
+		else // si el rayo toca el tile derecho
+		{
+			
+		}
+	}
+}*/
+
 void ft_raycast(t_game *game, double angle, t_raycast *ray)
 {
 	t_vector2 distance;
@@ -411,7 +484,7 @@ void ft_draw_map(t_game *game)
 	i = 0;
 	while (i < ray_count)
 	{
-	double current_angle = start_angle + i * angle_step;
+		double current_angle = start_angle + i * angle_step;
 		ft_raycast(game, current_angle, &game->raycasts[i]);
 		i++;
 	}
