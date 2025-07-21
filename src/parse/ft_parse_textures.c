@@ -9,71 +9,72 @@ static unsigned int parse_color_hex(const char *str)
 }
 int	extract_texture_from_xpm(const char *path, t_texture *tex)
 {
-	FILE	*fp;
-	char	buffer[1024];
+	t_file	*file;
+	char	**lines;
 	char	*line, *end;
 	int		w, h, n_colors, cpp;
 	int		i = 0, x = 0, y = 0;
+	char	symbols[256] = {0};
 
-	fp = fopen(path, "r");
-	if (!fp)
+	file = ft_create_file_from_filename((char *)path);
+	if (!file || !file->array_content)
 		return (-1);
+	lines = file->array_content;
 
-	while (fgets(buffer, sizeof(buffer), fp)) {
-		if (buffer[0] == '"')
+	while (lines[i])
+	{
+		if (lines[i][0] == '"')
 			break;
+		i++;
 	}
-	if (buffer[0] != '"')
-		return (fclose(fp), -1);
+	if (!lines[i] || lines[i][0] != '"')
+		return (ft_file_clear(&file), -1);
 
-	line = strchr(buffer, '"') + 1;
-	end = strrchr(line, '"');
+	line = ft_strchr(lines[i], '"') + 1;
+	end = ft_strrchr(line, '"');
 	if (end)
 		*end = '\0';
 	if (sscanf(line, "%d %d %d %d", &w, &h, &n_colors, &cpp) != 4 || cpp != 1)
-		return (fclose(fp), -1);
+		return (ft_file_clear(&file), -1);
 
 	tex->width = w;
 	tex->height = h;
 	tex->size_colors = n_colors;
-	tex->colors = malloc(sizeof(unsigned int) * n_colors);
-	tex->pixels = malloc(sizeof(int *) * h);
+	tex->colors = ft_alloc_lst(sizeof(unsigned int) * n_colors, 4);
+	tex->pixels = ft_alloc_lst(sizeof(int *) * h, 4);
 	if (!tex->colors || !tex->pixels)
-		return (fclose(fp), -1);
+		return (ft_file_clear(&file), -1);
 
-	char symbols[256] = {0};
-	i = 0;
-	while (i < n_colors)
+	i++; // Pasamos a las líneas de colores
+	int color_idx = 0;
+	while (color_idx < n_colors && lines[i])
 	{
-		if (!fgets(buffer, sizeof(buffer), fp))
-			return (fclose(fp), -1);
-		line = strchr(buffer, '"') + 1;
-		end = strrchr(line, '"');
+		line = ft_strchr(lines[i], '"') + 1;
+		end = ft_strrchr(line, '"');
 		if (end)
 			*end = '\0';
 
 		char sym;
 		char hexcode[16];
 		if (sscanf(line, "%c c #%s", &sym, hexcode) != 2)
-			return (fclose(fp), -1);
-		symbols[(unsigned char)sym] = i;
-		tex->colors[i] = parse_color_hex(hexcode);
+			return (ft_file_clear(&file), -1);
+		symbols[(unsigned char)sym] = color_idx;
+		tex->colors[color_idx] = parse_color_hex(hexcode);
 		i++;
+		color_idx++;
 	}
 
 	y = 0;
-	while (y < h)
+	while (y < h && lines[i])
 	{
-		if (!fgets(buffer, sizeof(buffer), fp))
-			return (fclose(fp), -1);
-		line = strchr(buffer, '"') + 1;
-		end = strrchr(line, '"');
+		line = ft_strchr(lines[i], '"') + 1;
+		end = ft_strrchr(line, '"');
 		if (end)
 			*end = '\0';
 
-		tex->pixels[y] = malloc(sizeof(int) * w);
+		tex->pixels[y] = ft_alloc_lst(sizeof(int) * w, 4);
 		if (!tex->pixels[y])
-			return (fclose(fp), -1);
+			return (ft_file_clear(&file), -1);
 		x = 0;
 		while (x < w)
 		{
@@ -81,11 +82,12 @@ int	extract_texture_from_xpm(const char *path, t_texture *tex)
 			x++;
 		}
 		y++;
+		i++;
 	}
-	fclose(fp);
+
+	ft_file_clear(&file);
 	return (0);
 }
-
 
 int	ft_parse_single_texture(t_game *game, char *line, int texture_index)
 {

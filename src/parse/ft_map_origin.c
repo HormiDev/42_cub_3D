@@ -2,61 +2,72 @@
 #include "../../includes/cub_3d.h"
 #include <stdbool.h>
 
-int ft_directives(char *line, const char *directive, bool *found_flag)
+bool is_directive_line(char *line)
 {
-    if (ft_strncmp_p(line, directive, ft_strlen(directive)) == 0 && !(*found_flag))
+	int i;
+
+	i = 0;
+    const char *dirs[6] = {"NO ", "SO ", "EA ", "WE ", "F ", "C "};
+    while (i < 6)
     {
-        *found_flag = true;
-        return 1;
+        if (ft_strncmp_p(line, dirs[i], ft_strlen(dirs[i])) == 0)
+            return true;
+		i++;
     }
-    return 0;
+    return false;
 }
 
-int ft_check_all_directives(t_file *map_file, bool *found_flags)
+static bool is_only_spaces(const char *line)
 {
-    int i = 0;
-    int count = 0;
-    const char *dirs[6] = {"NO ", "SO ", "EA ", "WE ", "F ", "C "};
-    char **array = map_file->array_content;
+	int j = 0;
+	while (line[j])
+	{
+		if (line[j] != ' ' && line[j] != '\t' && line[j] != '\n')
+			return false;
+		j++;
+	}
+	return true;
+}
 
-    while (map_file->array_content[i])
-    {
-        count += ft_directives(array[i], dirs[0], &found_flags[0]);
-        count += ft_directives(array[i], dirs[1], &found_flags[1]);
-        count += ft_directives(array[i], dirs[2], &found_flags[2]);
-        count += ft_directives(array[i], dirs[3], &found_flags[3]);
-        count += ft_directives(array[i], dirs[4], &found_flags[4]);
-        count += ft_directives(array[i], dirs[5], &found_flags[5]);
-
-        if (count == 6)
-            return i + 1;
-        i++;
-    }
-    return -1;
+static void check_all_directives_found(bool found[6], const char *dirs[6])
+{
+	int k = 0;
+	while (k < 6)
+	{
+		if (!found[k])
+		{
+			ft_dprintf(2, RED "Error: Missing texture or color definition: %s\n" RESET, dirs[k]);
+			exit(1);
+		}
+		k++;
+	}
 }
 
 int ft_get_map_start_index(t_file *map_file)
 {
-    int i;
-    bool found[6] = {false, false, false, false, false, false};
+	int i = 0, k;
+	bool found[6] = {false, false, false, false, false, false};
+	const char *dirs[6] = {"NO ", "SO ", "EA ", "WE ", "F ", "C "};
 
-    i = ft_check_all_directives(map_file, found);
-    if (i == -1)
-    {
-        ft_dprintf(2, RED "Error: Missing texture or color definition.\n" RESET);
-        exit (1);
-    }
-
-    while (map_file->array_content[i])
-    {
-        int j = 0;
-        while (map_file->array_content[i][j])
-        {
-            if (map_file->array_content[i][j] != ' ' && map_file->array_content[i][j] != '\t' && map_file->array_content[i][j] != '\n')
-                return i;
-            j++;
-        }
-        i++;
-    }
-    return i;
+	while (map_file->array_content[i])
+	{
+		if (!is_only_spaces(map_file->array_content[i]))
+		{
+			k = 0;
+			while (k < 6)
+			{
+				if (ft_strncmp_p(map_file->array_content[i], dirs[k], ft_strlen(dirs[k])) == 0)
+				{
+					found[k] = true;
+					break;
+				}
+				k++;
+			}
+			if (k == 6)
+				break;
+		}
+		i++;
+	}
+	check_all_directives_found(found, dirs);
+	return i;
 }

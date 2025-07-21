@@ -1,14 +1,60 @@
-
-F 220,216,0
 C 225,30,0
+F 220,216,0
 
 NO ./textures/ladrillos1.xpm
+NO ./textures/ladrillos2.xpm
 SO ./textures/ladrillos1.xpm
 WE ./textures/ladrillos1.xpm
 EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
 
 
-   
+
+NO ./textures/ladrillos2.xpm
+
+
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+
+NO ./textures/ladrillos2.xpm
+SO ./textures/ladrillos1.xpm
+
+NO ./textures/ladrillos2.xpm
+SO ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+
+WE ./textures/ladrillos1.xpm
+
+WE ./textures/ladrillos1.xpm
+
+WE ./textures/ladrillos1.xpm
+
+WE ./textures/ladrillos1.xpm
+
+NO ./textures/ladrillos2.xpm
+SO ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+EA ./textures/ladrillos1.xpm
+
+
+
+
     1111111111
     10000001 1
     1011111111
@@ -16,4 +62,3 @@ EA ./textures/ladrillos1.xpm
     1001000101
     101 100S01
     1111111111
-

@@ -178,34 +178,40 @@ void ft_calc_distance(int cuadrant, int *tile_ray_xy, t_vector2 player_position,
 		distance->y = tile_ray_xy[0] + 1 - player_position.x;
 	}
 }
+
 /*
 void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
 {
-	double	ray_angle;
 	int		tile_ray_xy[2];
 	t_vector2	distance;
 	double		sin_cos[2];
 	int		cuadrant = 0;
+	double		aux_distance;
 
-	ray_angle = angle;
-	while (ray_angle > 90)
+	while (angle > 90)
 	{
-		ray_angle -= 90;
+		angle -= 90;
 		cuadrant++;
 	}
 	ft_bzero(ray, sizeof(t_raycast));
 	tile_ray_xy[0] = (int)game->player.position.x;
 	tile_ray_xy[1] = (int)game->player.position.y;
+	sin_cos[0] = ft_cos(ft_angle_rad(angle));
+	sin_cos[1] = ft_sin(ft_angle_rad(angle));
 	ft_calc_distance(cuadrant, tile_ray_xy, game->player.position, &distance);
-	sin_cos[0] = ft_cos(ft_angle_rad(ray_angle));
-	sin_cos[1] = ft_sin(ft_angle_rad(ray_angle));
 	while(1)
 	{
-		if (sin_cos[1] * (distance.y / sin_cos[0]) < distance.x)// si el rayo toca el tile superior
+		aux_distance = sin_cos[1] * (distance.y / sin_cos[0]);
+		if (aux_distance < distance.x)// si el rayo toca el tile superior
 		{
-
+			ft_ray_iter_up(&tile_ray_xy[1], cuadrant, 1);
+			if (game->map[tile_ray_xy[1]][tile_ray_xy[0]] == '1')// si el tile superior es una pared
+			{
+				ft_calc_ray(ray, game->player.position, (t_vector2){aux_distance, distance.y}, cuadrant, 0 /*up_right); //crear funcion
+				break ;
+			}
 		}
-		else // si el rayo toca el tile derecho
+		else if (aux_distance > distance.x) // si el rayo toca el tile izquierdo
 		{
 			
 		}
