@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 18:02:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/08 18:59:45 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/22 19:57:37 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ double ft_sin(double angle)
 	if (sin_table == NULL)
 	{
 		i = 0;
-		sin_table = ft_alloc_lst(sizeof(double) * 36000, 3);
-		while (i < 36000)
+		sin_table = ft_alloc_lst(sizeof(double) * 9000, 3);
+		while (i < 9000)
 		{
 			sin_table[i] = sin(ft_angle_rad(i / 100.0));
 			i++;
@@ -34,10 +34,10 @@ double ft_sin(double angle)
 	}
 	angle = angle * 100;
 	if (angle < 0)
-		angle += 36000;
-	if (angle >= 36000)
-		angle -= 36000;
-	return sin_table[(int)(angle) % 36000];
+		angle += 9000;
+	if (angle >= 9000)
+		angle -= 9000;
+	return sin_table[(int)(angle) % 9000];
 }
 
 double ft_cos(double angle)
@@ -46,10 +46,10 @@ double ft_cos(double angle)
 	int i; 
 	if (cos_table == NULL)
 	{
-		i = 0; 
-		
-		cos_table = ft_alloc_lst(sizeof(double) * 36000, 3);
-		while(i < 36000)
+		i = 0;
+
+		cos_table = ft_alloc_lst(sizeof(double) * 9000, 3);
+		while(i < 9000)
 		{
 			cos_table[i] = cos(ft_angle_rad(i / 100.0));
 			i++;
@@ -57,8 +57,8 @@ double ft_cos(double angle)
 	}
 	angle = angle * 100;
 	if (angle < 0)
-		angle += 36000;
-	if (angle >= 36000)
-		angle -= 36000;
-	return cos_table[(int)(angle) % 36000];
+		angle += 9000;
+	if (angle >= 9000)
+		angle -= 9000;
+	return cos_table[(int)(angle) % 9000];
 }

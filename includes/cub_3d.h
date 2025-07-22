@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/07/20 21:20:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/22 19:22:35 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
+# define MAX_RAY_SIZE	20
 
-# define TILE_MAP_SIZE  100
+# define TILE_MAP_SIZE  50
 
 # define ESC 			65307
 # define W 				119
@@ -188,7 +189,7 @@ void			ft_parse_map(t_game *game, t_file *map_file);
 //int		 	ft_handle_key(void *parm);
 
 //rays
-void 			ft_raycast(t_game *game, double angle, t_raycast *ray);
+void			ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size);
 void			ft_draw_line_in_image(t_game *game, t_vector2 vertex1, t_vector2 vertex2, int color);
 int				ft_mouse_move(int x, int y, t_game *game);
 double			ft_angle_rad(double degrees);
@@ -202,10 +203,13 @@ int				ft_end_column_map(t_file *map_file, const int *height_start_end);
 void			ft_rotate_map_y(t_game *game);
 void			ft_draw_player(t_game *game);
 int				get_pixel_color_from_game(t_game *game, int x, int y);
+void			ft_draw_pixel_in_img(t_game *game, int x, int y, int color);
+void			ft_draw_circle(t_game *game, int cx, int cy, int color);
+void			ft_draw_sq(t_game *game, int x, int y, int color);
+void			ft_draw_grid(t_game *game, int color); 
 
 //textures 
-int				extract_texture_from_xpm(const char *xpm_path, t_texture *texture);
-unsigned int 	get_texture_pixel(const t_texture *texture, const double coord[2]);
+int				extract_texture_from_xpm(const char *path, t_texture *tex);
 
 //math
 double			ft_cos(double angle);
@@ -213,5 +217,12 @@ double			ft_sin(double angle);
 
 //debug 
 void			ft_print_map(char **map);
+
+// xpm
+unsigned int 	parse_color_hex(const char *str);
+int				parse_xpm_header(char *line, int *w, int *h, int *n_colors, int *cpp);
+int				parse_xpm_colors(char **lines, int *i, int n_colors, unsigned int *colors, char *symbols);
+int				parse_xpm_pixels(char **lines, int *i, int w, int h, int **pixels, char *symbols);
+int				parse_xpm_file_header_and_alloc(const char **lines, int *i, t_texture *tex, char *symbols);
 
 #endif

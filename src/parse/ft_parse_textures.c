@@ -1,19 +1,10 @@
 #include "../../includes/cub_3d.h"
 
-static unsigned int parse_color_hex(const char *str)
-{
-	unsigned int color = 0;
-	if (str[0] == '#')
-		sscanf(str + 1, "%x", &color);
-	return color;
-}
 int	extract_texture_from_xpm(const char *path, t_texture *tex)
 {
 	t_file	*file;
 	char	**lines;
-	char	*line, *end;
-	int		w, h, n_colors, cpp;
-	int		i = 0, x = 0, y = 0;
+	int		i = 0;
 	char	symbols[256] = {0};
 
 	file = ft_create_file_from_filename((char *)path);
@@ -21,69 +12,14 @@ int	extract_texture_from_xpm(const char *path, t_texture *tex)
 		return (-1);
 	lines = file->array_content;
 
-	while (lines[i])
-	{
-		if (lines[i][0] == '"')
-			break;
-		i++;
-	}
-	if (!lines[i] || lines[i][0] != '"')
+	if (parse_xpm_file_header_and_alloc((const char **)lines, &i, tex, symbols) < 0)
 		return (ft_file_clear(&file), -1);
 
-	line = ft_strchr(lines[i], '"') + 1;
-	end = ft_strrchr(line, '"');
-	if (end)
-		*end = '\0';
-	if (sscanf(line, "%d %d %d %d", &w, &h, &n_colors, &cpp) != 4 || cpp != 1)
+	i++;
+	if (parse_xpm_colors(lines, &i, tex->size_colors, tex->colors, symbols) < 0)
 		return (ft_file_clear(&file), -1);
-
-	tex->width = w;
-	tex->height = h;
-	tex->size_colors = n_colors;
-	tex->colors = ft_alloc_lst(sizeof(unsigned int) * n_colors, 4);
-	tex->pixels = ft_alloc_lst(sizeof(int *) * h, 4);
-	if (!tex->colors || !tex->pixels)
+	if (parse_xpm_pixels(lines, &i, tex->width, tex->height, tex->pixels, symbols) < 0)
 		return (ft_file_clear(&file), -1);
-
-	i++; // Pasamos a las líneas de colores
-	int color_idx = 0;
-	while (color_idx < n_colors && lines[i])
-	{
-		line = ft_strchr(lines[i], '"') + 1;
-		end = ft_strrchr(line, '"');
-		if (end)
-			*end = '\0';
-
-		char sym;
-		char hexcode[16];
-		if (sscanf(line, "%c c #%s", &sym, hexcode) != 2)
-			return (ft_file_clear(&file), -1);
-		symbols[(unsigned char)sym] = color_idx;
-		tex->colors[color_idx] = parse_color_hex(hexcode);
-		i++;
-		color_idx++;
-	}
-
-	y = 0;
-	while (y < h && lines[i])
-	{
-		line = ft_strchr(lines[i], '"') + 1;
-		end = ft_strrchr(line, '"');
-		if (end)
-			*end = '\0';
-
-		tex->pixels[y] = ft_alloc_lst(sizeof(int) * w, 4);
-		if (!tex->pixels[y])
-			return (ft_file_clear(&file), -1);
-		x = 0;
-		while (x < w)
-		{
-			tex->pixels[y][x] = symbols[(unsigned char)line[x]];
-			x++;
-		}
-		y++;
-		i++;
-	}
 
 	ft_file_clear(&file);
 	return (0);
