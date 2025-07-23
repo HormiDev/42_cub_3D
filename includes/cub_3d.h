@@ -206,7 +206,8 @@ int				get_pixel_color_from_game(t_game *game, int x, int y);
 void			ft_draw_pixel_in_img(t_game *game, int x, int y, int color);
 void			ft_draw_circle(t_game *game, int cx, int cy, int color);
 void			ft_draw_sq(t_game *game, int x, int y, int color);
-void			ft_draw_grid(t_game *game, int color); 
+void			ft_draw_grid_horizontal(t_game *game, int color);
+void			ft_draw_grid_vertical(t_game *game, int color);
 
 //textures 
 int				extract_texture_from_xpm(const char *path, t_texture *tex);

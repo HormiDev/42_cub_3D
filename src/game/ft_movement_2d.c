@@ -105,6 +105,7 @@ int ft_update(void *param)
 			game->player.rotation.x += 360.0;
 	}
 	mlx_clear_window(game->mlx, game->window);
+	
 	ft_draw_map(game);
 	return (0);
 }
