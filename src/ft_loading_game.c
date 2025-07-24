@@ -28,7 +28,7 @@ t_game	*ft_loading_game(char *path_map)
 	ft_parse_textures(game, map_file);
     ft_parse_colors(game, map_file); 
 	ft_parse_map(game, map_file);
-	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * WINDOW_HEIGHT, 4);
+	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * WINDOW_WIDTH, 4);
 	if (!game->raycasts)
 	{
 		ft_dprintf(2, "Error: Failed to allocate raycast array\n");
@@ -37,8 +37,10 @@ t_game	*ft_loading_game(char *path_map)
 	ft_config_player(game);
 	ft_sin(0);
 	ft_cos(0);
+	ft_sqrt(0);
 	ft_debug_game(game);
 	ft_file_clear(&map_file);
 	ft_printf("Map loaded successfully\n");
 	return (game);
 }
+

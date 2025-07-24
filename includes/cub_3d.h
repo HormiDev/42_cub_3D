@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/07/24 18:15:12 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/25 01:19:44 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
-# define MAX_RAY_SIZE	2
+# define MAX_RAY_SIZE	20  // Aumentado para permitir distancias mayores
 
 # define TILE_MAP_SIZE  100
 
@@ -153,20 +153,20 @@ typedef struct s_input {
 
 typedef struct s_game 
 {
-	char	**map; 
-	int		width_height[2];
-	int     floor_color[3];
-    int     ceiling_color[3];
-	t_list	*textures[4]; // Array of textures for North, South, East, West
-	t_texture floor_tex;
-	t_texture ceiling_tex; 
-	void	*mlx;
+	char		**map; 
+	int			width_height[2];
+	int     	floor_color[3];
+    int     	ceiling_color[3];
+	t_list		*textures[4]; // Array of textures for North, South, East, West
+	t_texture 	floor_tex;
+	t_texture 	ceiling_tex; 
+	void		*mlx;
 	t_raycast	*raycasts; 
-	void	*window;
-	t_image  *img_map; 
-	t_player player;
-	t_input	keys;
-	int		mouse_xy[2];
+	void		*window;
+	t_image 	*img_map; 
+	t_player 	player;
+	t_input		keys;
+	int			mouse_xy[2];
 }	t_game;
 
 int				ft_check_args(int argc, char **argv);
@@ -203,7 +203,7 @@ int				ft_end_column_map(t_file *map_file, const int *height_start_end);
 void			ft_rotate_map_y(t_game *game);
 void			ft_draw_player(t_game *game);
 int				get_pixel_color_from_game(t_game *game, int x, int y);
-void			ft_draw_pixel_in_img(t_game *game, int x, int y, int color);
+void			ft_draw_pixel_in_img(t_img *img, int x, int y, int color);
 void			ft_draw_circle(t_game *game, int cx, int cy, int color);
 void			ft_draw_sq(t_game *game, int x, int y, int color);
 void			ft_draw_grid_horizontal(t_game *game, int color);

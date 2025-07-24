@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/08 20:42:24 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/24 19:13:50 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	ft_config_mlx(t_game *game)
 		ft_close_game(1);
 	}
 	game->img_map = ft_alloc_lst(sizeof(t_image), 4);
-	game->img_map->img = mlx_new_image(game->mlx, game->width_height[0] * TILE_MAP_SIZE, game->width_height[1] * TILE_MAP_SIZE);
+	game->img_map->img = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT); // Tamaño de ventana para 3D
 	if (!game->img_map->img)
 	{
 		ft_dprintf(2, RED "Error:\n Failed to create image\n" RESET);

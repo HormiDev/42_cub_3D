@@ -29,7 +29,7 @@ void ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int col
 	increment.y = (start.y - end.y) / steps;
 	while (i <= steps)
 	{
-		ft_draw_pixel_in_img(game, (int)pixel.x, (int)pixel.y, color);
+		ft_draw_pixel_in_img(game->img_map->img, (int)pixel.x, (int)pixel.y, color);
 		pixel.x -= increment.x;
 		pixel.y -= increment.y;
 		i++;

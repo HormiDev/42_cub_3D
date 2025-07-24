@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:57:27 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/07/24 17:23:16 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/25 00:41:10 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@ double ft_sqrt(double value)
 	static double *sqrt_table;
 	int i;
 	static int table_size;
-	
+
 	if (sqrt_table == NULL)
 	{
 		i = 0;
 		table_size = MAX_RAY_SIZE * MAX_RAY_SIZE * 2 * 100;
+		printf("Creating sqrt table with size: %d\n", table_size);
 		sqrt_table = ft_alloc_lst(sizeof(double) * table_size, 3);
 		while (i < table_size)
 		{
@@ -30,5 +31,7 @@ double ft_sqrt(double value)
 		}
 	}
 	value = value * 100;
+	if (value < 0 || (int)(value) >= table_size)
+		return 0.0;
 	return sqrt_table[(int)(value) % table_size];
 }
