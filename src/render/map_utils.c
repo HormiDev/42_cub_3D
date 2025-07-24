@@ -51,3 +51,65 @@ void ft_draw_sq(t_game *game, int x, int y, int color)
 		i++;
 	}
 }
+
+
+void ft_draw_grid_vertical(t_game *game, int color)
+{
+	int i;
+	int y;
+	int aux_w;
+	int aux_h;
+
+	aux_h = game->width_height[1] * TILE_MAP_SIZE;
+	aux_w = game->width_height[0] * TILE_MAP_SIZE;
+	i = 0;
+	while (i <= aux_w)
+	{
+		y = 0;
+		while (y < aux_h)
+		{
+			ft_draw_pixel_in_img(game, i, y, color);
+			y++;
+		}
+		i += TILE_MAP_SIZE;
+	}
+}
+
+void ft_draw_grid_horizontal(t_game *game, int color)
+{
+	int i;
+	int x;
+	int aux_w;
+	int aux_h;
+
+	aux_h = game->width_height[1] * TILE_MAP_SIZE;
+	aux_w = game->width_height[0] * TILE_MAP_SIZE;
+	i = 0;
+	while (i <= aux_h)
+	{
+		x = 0;
+		while (x < aux_w)
+		{
+			ft_draw_pixel_in_img(game, x, i, color);
+			x++;
+		}
+		i += TILE_MAP_SIZE;
+	}
+}
+
+void ft_draw_minimap_tile(t_game *game, int x, int y, int size, int color)
+{
+	int i, j;
+	
+	i = 0;
+	while (i < size)
+	{
+		j = 0;
+		while (j < size)
+		{
+			ft_draw_pixel_in_img(game, x + j, y + i, color);
+			j++;
+		}
+		i++;
+	}
+}

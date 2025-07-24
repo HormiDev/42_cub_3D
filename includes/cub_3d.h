@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/07/22 19:22:35 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/24 18:15:12 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
-# define MAX_RAY_SIZE	20
+# define MAX_RAY_SIZE	2
 
-# define TILE_MAP_SIZE  50
+# define TILE_MAP_SIZE  100
 
 # define ESC 			65307
 # define W 				119
@@ -206,18 +206,29 @@ int				get_pixel_color_from_game(t_game *game, int x, int y);
 void			ft_draw_pixel_in_img(t_game *game, int x, int y, int color);
 void			ft_draw_circle(t_game *game, int cx, int cy, int color);
 void			ft_draw_sq(t_game *game, int x, int y, int color);
-void			ft_draw_grid(t_game *game, int color); 
-
+void			ft_draw_grid_horizontal(t_game *game, int color);
+void			ft_draw_grid_vertical(t_game *game, int color);
+void			ft_calculate_raycasts(t_game *game);
 //textures 
 int				extract_texture_from_xpm(const char *path, t_texture *tex);
+
+// movement
+void ft_movement_2d(t_game *game); 
+
+// render 
+int				ft_int_diff(int a, int b);
+int				ft_int_max(int a, int b);
+void			ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color);
+double			ft_double_diff(double a, double b);
+double			ft_vector_distance(t_vector2 a, t_vector2 b);
 
 //math
 double			ft_cos(double angle);
 double			ft_sin(double angle);
-
+double			ft_sqrt(double value);
 //debug 
 void			ft_print_map(char **map);
-
+void			ft_render_3d(t_game *game); 
 // xpm
 unsigned int 	parse_color_hex(const char *str);
 int				parse_xpm_header(char *line, int *w, int *h, int *n_colors, int *cpp);
@@ -225,4 +236,6 @@ int				parse_xpm_colors(char **lines, int *i, int n_colors, unsigned int *colors
 int				parse_xpm_pixels(char **lines, int *i, int w, int h, int **pixels, char *symbols);
 int				parse_xpm_file_header_and_alloc(const char **lines, int *i, t_texture *tex, char *symbols);
 
+
+void draw_column(t_game *game, int x, t_raycast ray, double ray_angle);
 #endif

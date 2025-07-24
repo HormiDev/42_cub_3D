@@ -1,92 +1,5 @@
 #include "../../includes/cub_3d.h"
 
-void ft_draw_grid(t_game *game, int color)
-{
-	int i;
-	int y;
-	int x;
-	int aux_w;
-	int aux_h;
-
-	aux_h = game->width_height[1] * TILE_MAP_SIZE;
-	aux_w = game->width_height[0] * TILE_MAP_SIZE;
-	i = 0;
-	while (i <= aux_w)
-	{
-		y = 0;
-		while (y < aux_h)
-		{
-			ft_draw_pixel_in_img(game, i, y, color);
-			y++;
-		}
-		i += TILE_MAP_SIZE;
-	}
-	i = 0;
-	while (i <= aux_h)
-	{
-		x = 0;
-		while (x < aux_w)
-		{
-			ft_draw_pixel_in_img(game, x, i, color);
-			x++;
-		}
-		i += TILE_MAP_SIZE;
-	}
-}
-
-int ft_int_diff(int a, int b)
-{
-	if (a > b)
-		return (a - b);
-	return (b - a);
-}
-
-int ft_int_max(int a, int b)
-{
-	if (a > b)
-		return a;
-	return b;
-}
-
-void ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color)
-{
-	t_vector2 pixel;
-	int steps;
-	int i;
-	t_vector2 increment;
-
-	// printf("Dibujando línea desde (%.2f, %.2f) hasta (%.2f, %.2f)\n", start.x, start.y, end.x, end.y);
-	steps = ft_int_max(ft_int_diff(start.x, end.x), ft_int_diff(start.y, end.y));
-	i = 0;
-	pixel.x = start.x;
-	pixel.y = start.y;
-	increment.x = (start.x - end.x) / steps;
-	increment.y = (start.y - end.y) / steps;
-	while (i <= steps)
-	{
-		ft_draw_pixel_in_img(game, (int)pixel.x, (int)pixel.y, color);
-		pixel.x -= increment.x;
-		pixel.y -= increment.y;
-		i++;
-	}
-}
-
-double ft_double_diff(double a, double b)
-{
-	if (a > b)
-		return (a - b);
-	return (b - a);
-}
-
-double ft_vector_distance(t_vector2 a, t_vector2 b)
-{
-	t_vector2 diff;
-
-	diff.x = ft_double_diff(a.x, b.x);
-	diff.y = ft_double_diff(a.y, b.y);
-	return sqrt(pow(diff.x, 2) + pow(diff.y, 2));
-}
-
 void ft_ray_iter_up(int *position_xy, int cuadrant, int iter)
 {
 	if (cuadrant == 0)
@@ -237,7 +150,7 @@ void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
 		aux_distance = sin_cos[1] * (distance.y / sin_cos[0]); // calcular la distancia de x al tocar el tile superior
 		if (aux_distance < distance.x)// si el rayo toca el tile superior
 		{
-			if (distance.y > max_size)// si se supera la distancia maxima del rayo
+			if (distance.y > max_size)// si se supera la distancia maxima del rayo ¡¡¡formula milagrosa, comparar distancias de senos y cosenos!!!
 			{
 				ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
 				break;
@@ -332,10 +245,6 @@ void ft_draw_map(t_game *game)
 	int y;
 	int ry;
 	int i;
-	double fov = 45.0;
-	int ray_count = WINDOW_WIDTH; // Number of rays to cast
-	double angle_step = fov / ray_count;
-	double start_angle = game->player.rotation.x - (fov / 2);
 
 	y = 0;
 	ry = game->width_height[1] - 1;
@@ -355,24 +264,23 @@ void ft_draw_map(t_game *game)
 	y++;
 	ry--;
 	}
-
+	
 	i = 0;
-	while (i < ray_count)
+	while (i < WINDOW_HEIGHT)
 	{
-		double current_angle = start_angle + i * angle_step;
-		ft_raycast(game, current_angle, &game->raycasts[i], MAX_RAY_SIZE);
-		ft_draw_raycast(game, &game->raycasts[i]);
+		if (i % 10 == 0)
+			ft_draw_raycast(game, &game->raycasts[i]);
 		i++;
 	}
 	ft_draw_player(game);
-	ft_draw_grid(game, C_BLUE);
+	ft_draw_grid_horizontal(game, C_BLUE);
+	ft_draw_grid_vertical(game, C_BLUE);
 	ft_draw_line_in_image(game, (t_vector2){0, 0}, (t_vector2){game->mouse_xy[0], game->mouse_xy[1]}, C_RED);
 	ft_draw_line_in_image(game, (t_vector2){0, game->width_height[1] * TILE_MAP_SIZE}, (t_vector2){game->mouse_xy[0], game->mouse_xy[1]}, C_RED);
 	ft_draw_line_in_image(game, (t_vector2){game->width_height[0] * TILE_MAP_SIZE, 0}, (t_vector2){game->mouse_xy[0], game->mouse_xy[1]}, C_RED);
 	ft_draw_line_in_image(game, (t_vector2){game->width_height[0] * TILE_MAP_SIZE, game->width_height[1] * TILE_MAP_SIZE}, (t_vector2){game->mouse_xy[0], game->mouse_xy[1]}, C_RED);
 	mlx_put_image_to_window(game->mlx, game->window, game->img_map->img, 0, 0);
 }
-
 
 /*void ft_raycast(t_game *game, double angle, t_raycast *ray)
 {

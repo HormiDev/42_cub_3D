@@ -80,10 +80,8 @@ int ft_key_release(int keycode, t_game *game)
 	return (0);
 }
 
-int ft_update(void *param)
+void ft_movement_2d(t_game *game)
 {
-	t_game *game = (t_game *)param;
-
 	if (game->keys.w)
 		ft_forwad_back(game, -0.02);
 	if (game->keys.s)
@@ -104,7 +102,4 @@ int ft_update(void *param)
 		if (game->player.rotation.x < 0.0)
 			game->player.rotation.x += 360.0;
 	}
-	mlx_clear_window(game->mlx, game->window);
-	ft_draw_map(game);
-	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/07/22 18:59:19 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/07/24 18:17:42 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,10 +34,15 @@ SRC		=	src/main.c \
 			src/parse/ft_read_textures.c \
 			src/parse/ft_map_origin.c \
 			src/parse/ft_walls_closed.c \
-			src/render/render_utils.c \
+			src/render/map_utils.c \
+			src/render/raycast_utils.c \
+			src/render/ft_paint.c \
 			src/render/ft_draw_map.c \
 			src/game/ft_movement_2d.c \
 			src/game/mouse.c \
+			src/ft_sqrt.c \
+			src/ft_update.c \
+			src/raycast/ft_calculate_raycasts.c \
 
 OBJ_DIR  = objects
 
