@@ -18,8 +18,10 @@ void	ft_close_game(int exit_code)
 	exit(exit_code);
 }
 
-int	ft_close_game_for_mlx(void)
+int	ft_close_game_for_mlx(t_game *game)
 {
+	if (game)
+		ft_free_gamepad(game);
 	ft_alloc_clear();
 	exit(0);
 }

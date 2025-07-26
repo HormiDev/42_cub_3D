@@ -47,7 +47,10 @@ void ft_right_left(t_game *game, double move_speed)
 int ft_key_press(int keycode, t_game *game)
 {
 	if (keycode == ESC)
+	{
+		ft_free_gamepad(game);
 		ft_close_game(0);
+	}
 	if (keycode == W)
 		game->keys.w = 1;
 	if (keycode == A)
@@ -82,6 +85,13 @@ int ft_key_release(int keycode, t_game *game)
 
 void ft_movement_2d(t_game *game)
 {
+	// Actualizar estado del gamepad
+	ft_update_gamepad(game);
+	
+	// Procesamiento de movimiento con gamepad
+	ft_gamepad_movement(game);
+	
+	// Procesamiento de movimiento con teclado (se mantiene igual)
 	if (game->keys.w)
 		ft_forwad_back(game, -0.02);
 	if (game->keys.s)

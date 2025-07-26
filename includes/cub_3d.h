@@ -20,7 +20,8 @@
 # include <sys/time.h>
 # include <stdbool.h>
 # include <stdio.h>
-#include <math.h>
+# include <math.h>
+# include <errno.h>
  
 # define C_RED			0xFFFF0000
 # define C_WHITE		0xFFFFFF
@@ -151,6 +152,21 @@ typedef struct s_input {
 	int e;
 } t_input;
 
+typedef struct s_gamepad {
+	int	fd;
+	int	connected;
+	int	a;
+	int	b;
+	int	x;
+	int	y;
+	int	lb;
+	int	rb;
+	int	left_stick_x;
+	int	left_stick_y;
+	int	right_stick_x;
+	int	right_stick_y;
+} t_gamepad;
+
 typedef struct s_game 
 {
 	char		**map; 
@@ -166,13 +182,14 @@ typedef struct s_game
 	t_image 	*img_map; 
 	t_player 	player;
 	t_input		keys;
+	t_gamepad	gamepad;
 	int			mouse_xy[2];
 }	t_game;
 
 int				ft_check_args(int argc, char **argv);
 t_game			*ft_loading_game(char *path_map);
 void			ft_close_game(int exit_code);
-int				ft_close_game_for_mlx(void);
+int				ft_close_game_for_mlx(t_game *game);
 void 			ft_parse_colors(t_game *game, t_file *map_file);
 void			ft_parse_textures(t_game *game, t_file *map_file); 
 void			ft_debug_game(t_game *game);
@@ -215,6 +232,12 @@ int				extract_texture_from_xpm(const char *path, t_texture *tex);
 // movement
 void ft_movement_2d(t_game *game); 
 
+// gamepad
+void	ft_init_gamepad(t_game *game);
+void	ft_free_gamepad(t_game *game);
+void	ft_update_gamepad(t_game *game);
+void	ft_gamepad_movement(t_game *game); 
+
 // render 
 int				ft_int_diff(int a, int b);
 int				ft_int_max(int a, int b);
@@ -235,6 +258,9 @@ int				parse_xpm_header(char *line, int *w, int *h, int *n_colors, int *cpp);
 int				parse_xpm_colors(char **lines, int *i, int n_colors, unsigned int *colors, char *symbols);
 int				parse_xpm_pixels(char **lines, int *i, int w, int h, int **pixels, char *symbols);
 int				parse_xpm_file_header_and_alloc(const char **lines, int *i, t_texture *tex, char *symbols);
+
+void ft_forwad_back(t_game *game, double move_speed);
+void ft_right_left(t_game *game, double move_speed);
 
 
 void draw_column(t_game *game, int x, t_raycast ray, double ray_angle);
