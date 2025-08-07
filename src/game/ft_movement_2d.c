@@ -91,7 +91,6 @@ void ft_movement_2d(t_game *game)
 	// Procesamiento de movimiento con gamepad
 	ft_gamepad_movement(game);
 	
-	// Procesamiento de movimiento con teclado (se mantiene igual)
 	if (game->keys.w)
 		ft_forwad_back(game, -0.02);
 	if (game->keys.s)
