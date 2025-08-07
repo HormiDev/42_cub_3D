@@ -93,7 +93,7 @@ void draw_column(t_game *game, int x, t_raycast ray, double ray_angle)
 	double fov = 45.0; 
 	double column_angle = ((double)x / (double)WINDOW_WIDTH - 0.5) * fov;
 	double angle_rad = column_angle * M_PI / 180.0;
-	
+
 	double corrected_dist = ray.distance * cos(angle_rad);
 	
 	if (corrected_dist <= 0.01)
@@ -108,6 +108,7 @@ void draw_column(t_game *game, int x, t_raycast ray, double ray_angle)
 
 	get_draw_limits(wall_height, win_height, &draw_start, &draw_end);
 	
+	//intensidad dependiendo distancia
 	if (ray.type == WALL_NO)
 		wall_color = 0xFF0000;
 	else if (ray.type == WALL_SO)

@@ -145,12 +145,11 @@ void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
 	sin_cos[1] = ft_cos(angle);
 	while(1)
 	{
-		
 		ft_calc_distance(cuadrant, tile_ray_xy, game->player.position, &distance);
 		aux_distance = sin_cos[1] * (distance.y / sin_cos[0]); // calcular la distancia de x al tocar el tile superior
 		if (aux_distance < distance.x)// si el rayo toca el tile superior
 		{
-			if (aux_distance > sin_cos[1] * (max_size / sin_cos[0]))// si se supera la distancia maxima del rayo ¡¡¡formula milagrosa, comparar distancias de senos y cosenos!!!
+			if (distance.x > max_size + 1)// si se supera la distancia maxima del rayo ¡¡¡formula milagrosa, comparar distancias de senos y cosenos!!!
 			{
 				ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
 				break;
@@ -161,15 +160,15 @@ void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
 				ft_rotate_to_cuadrant(cuadrant, &aux_distance, &distance.y);
 				ft_calc_ray_position(ray, &(game->player.position), aux_distance, distance.y);
 				ft_ray_type(ray, cuadrant, 0);
-				//if (ray->distance > max_size) // si la distancia es mayor que la maxima, se sale del bucle
-				//	ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
+				if (ray->distance > max_size) // si la distancia es mayor que la maxima, se sale del bucle
+					ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
 				break ;
 			}
 		}
 		else // si el rayo toca el tile izquierdo
 		{
 			aux_distance = sin_cos[0] * (distance.x / sin_cos[1]); // calcular la distancia de y al tocar el tile izquierdo
-			if (aux_distance > sin_cos[0] * (distance.x / sin_cos[1])) // si se supera la distancia maxima del rayo
+			if (distance.y > max_size + 1) // si se supera la distancia maxima del rayo
 			{
 				ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
 				break;
@@ -181,8 +180,8 @@ void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
 				ft_rotate_to_cuadrant(cuadrant, &distance.x, &distance.y);
 				ft_calc_ray_position(ray, &(game->player.position), distance.x, distance.y);
 				ft_ray_type(ray, cuadrant, 1);
-				//if (ray->distance > max_size) // si la distancia es mayor que la maxima, se sale del bucle
-				//	ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
+				if (ray->distance > max_size) // si la distancia es mayor que la maxima, se sale del bucle
+					ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
 				break ;
 			}
 		}

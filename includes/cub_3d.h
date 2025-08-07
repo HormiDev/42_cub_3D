@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/07/25 01:19:44 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/07 18:55:56 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
-# define MAX_RAY_SIZE	20  // Aumentado para permitir distancias mayores
+# define MAX_RAY_SIZE	4  // Aumentado para permitir distancias mayores
 
 # define TILE_MAP_SIZE  100
 

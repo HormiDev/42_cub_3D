@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:57:27 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/07/25 00:41:10 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/25 01:48:38 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ double ft_sqrt(double value)
 		}
 	}
 	value = value * 100;
-	if (value < 0 || (int)(value) >= table_size)
-		return 0.0;
+	if (value < 0)
+		value = -value;
+	if (value >= table_size)
+		value = table_size - 1;
 	return sqrt_table[(int)(value) % table_size];
 }
