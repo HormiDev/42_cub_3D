@@ -39,6 +39,7 @@ SRC		=	src/main.c \
 			src/render/ft_paint.c \
 			src/render/ft_draw_map.c \
 			src/game/ft_movement_2d.c \
+			src/game/ft_gamepad.c \
 			src/game/mouse.c \
 			src/ft_sqrt.c \
 			src/ft_update.c \

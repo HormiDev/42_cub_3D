@@ -48,11 +48,14 @@ void	ft_config_mlx(t_game *game)
 	}
 	
 	game->img_map->img_data = mlx_get_data_addr(game->img_map->img, &game->img_map->bits_pixel, &game->img_map->image_len, &game->img_map->end);
-	mlx_hook(game->window, 17, 0, ft_close_game_for_mlx, 0);//close window
+	mlx_hook(game->window, 17, 0, ft_close_game_for_mlx, game);//close window
 	mlx_hook(game->window, 6, 1L << 6, ft_mouse_move, game); //mouse hook	
 	mlx_hook(game->window, 2, 1L<<0, ft_key_press, game);     // key down
 	mlx_hook(game->window, 3, 1L<<1, ft_key_release, game);   // key up
 	mlx_loop_hook(game->mlx, ft_update, game);               // frame update
+
+	// Inicializar gamepad
+	ft_init_gamepad(game);
 
 	//mlx_loop_hook(game->mlx, ft_update_game, game);//loop
 }
