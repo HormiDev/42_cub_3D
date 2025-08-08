@@ -1,14 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub_3d.h                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 18:09:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/07 18:55:56 by ide-dieg         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #ifndef CUB_3D_H
 # define CUB_3D_H
@@ -30,7 +19,7 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
-# define MAX_RAY_SIZE	4  // Aumentado para permitir distancias mayores
+# define MAX_RAY_SIZE	20  // Aumentado para permitir distancias mayores
 
 # define TILE_MAP_SIZE  100
 
@@ -184,6 +173,8 @@ typedef struct s_game
 	t_input		keys;
 	t_gamepad	gamepad;
 	int			mouse_xy[2];
+	double		delta_time;
+	long		last_frame_time;
 }	t_game;
 
 int				ft_check_args(int argc, char **argv);
@@ -238,7 +229,10 @@ void	ft_free_gamepad(t_game *game);
 void	ft_update_gamepad(t_game *game);
 void	ft_gamepad_movement(t_game *game); 
 
+void debug_print_textures(t_game *game);
+
 // render 
+long			ft_long_diff(long a, long b);
 int				ft_int_diff(int a, int b);
 int				ft_int_max(int a, int b);
 void			ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color);
@@ -262,6 +256,7 @@ int				parse_xpm_file_header_and_alloc(const char **lines, int *i, t_texture *te
 void ft_forwad_back(t_game *game, double move_speed);
 void ft_right_left(t_game *game, double move_speed);
 
+long			ft_get_time(void);
 
 void draw_column(t_game *game, int x, t_raycast ray, double ray_angle);
 #endif

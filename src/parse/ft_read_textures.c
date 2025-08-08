@@ -3,8 +3,8 @@
 unsigned int parse_color_hex(const char *str)
 {
 	unsigned int color = 0;
-	if (str[0] == '#')
-		sscanf(str + 1, "%x", &color);
+	sscanf(str, "%x", &color);
+	printf("DEBUG: Parsing color '%s' -> 0x%08X\n", str, color);
 	return color;
 }
 int	parse_xpm_header(char *line, int *w, int *h, int *n_colors, int *cpp)
@@ -23,6 +23,7 @@ int	parse_xpm_colors(char **lines, int *i, int n_colors, unsigned int *colors, c
 	char	*end;
 	char	sym;
 	char	hexcode[16];
+	char	*color_start;
 
 	while (color_idx < n_colors && lines[*i])
 	{
@@ -30,10 +31,34 @@ int	parse_xpm_colors(char **lines, int *i, int n_colors, unsigned int *colors, c
 		end = ft_strrchr(line, '"');
 		if (end)
 			*end = '\0';
-		if (sscanf(line, "%c c #%s", &sym, hexcode) != 2)
+		
+		// Obtener el símbolo (primer carácter)
+		sym = line[0];
+		
+		// Buscar 'c ' en la línea
+		color_start = line;
+		while (*color_start && !(*color_start == 'c' && *(color_start + 1) == ' '))
+			color_start++;
+		
+		if (!*color_start)
+		{
+			printf("ERROR: No 'c ' found in color line: '%s'\n", line);
 			return (-1);
+		}
+		color_start += 2; // Saltar 'c '
+		
+		// Saltar espacios en blanco
+		while (*color_start == ' ' || *color_start == '\t')
+			color_start++;
+		
+		if (*color_start == '#')
+			color_start++; // Saltar '#'
+		
+		ft_strlcpy(hexcode, color_start, sizeof(hexcode));
+		
 		symbols[(unsigned char)sym] = color_idx;
 		colors[color_idx] = parse_color_hex(hexcode);
+		
 		(*i)++;
 		color_idx++;
 	}

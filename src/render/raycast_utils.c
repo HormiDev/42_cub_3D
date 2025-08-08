@@ -1,5 +1,12 @@
 #include "../../includes/cub_3d.h"
 
+long ft_long_diff(long a, long b) // llevar a la libft
+{
+	if (a > b)
+		return (a - b);
+	return (b - a);
+}
+
 int ft_int_diff(int a, int b) // llevar a la libft
 {
 	if (a > b)
