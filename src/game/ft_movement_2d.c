@@ -52,34 +52,35 @@ int ft_key_press(int keycode, t_game *game)
 		ft_close_game(0);
 	}
 	if (keycode == W)
-		game->keys.w = 1;
+		game->input.front = 1;
 	if (keycode == A)
-		game->keys.a = 1;
+		game->input.left = 1;
 	if (keycode == S)
-		game->keys.s = 1;
+		game->input.back = 1;
 	if (keycode == D)
-		game->keys.d = 1;
+		game->input.right = 1;
 	if (keycode == Q)
-		game->keys.q = 1;
+		game->input.rotate_left = 1;
 	if (keycode == E)
-		game->keys.e = 1;
+		game->input.rotate_right = 1;
 	return (0);
 }
 
 int ft_key_release(int keycode, t_game *game)
 {
+	//ft_bzero(&game->input, sizeof(t_input));
 	if (keycode == W)
-		game->keys.w = 0;
+		game->input.front = 0;
 	if (keycode == A)
-		game->keys.a = 0;
+		game->input.left = 0;
 	if (keycode == S)
-		game->keys.s = 0;
+		game->input.back = 0;
 	if (keycode == D)
-		game->keys.d = 0;
+		game->input.right = 0;
 	if (keycode == Q)
-		game->keys.q = 0;
+		game->input.rotate_left = 0;
 	if (keycode == E)
-		game->keys.e = 0;
+		game->input.rotate_right = 0;
 	return (0);
 }
 
@@ -105,29 +106,39 @@ void ft_move_direction(t_game *game, double angle, double move_speed)
 
 void ft_movement_2d(t_game *game)
 {
-	// Actualizar estado del gamepad
-	//ft_update_gamepad(game);
-	
-	// Procesamiento de movimiento con gamepad
-	//ft_gamepad_movement(game);
-	
-	if (game->keys.w)
-		ft_move_direction(game, game->player.rotation.x, 1);
-	if (game->keys.s)
-		ft_move_direction(game, game->player.rotation.x + 180, 1);
-	if (game->keys.a)
-		ft_move_direction(game, game->player.rotation.x + 270, 1);
-	if (game->keys.d)
-		ft_move_direction(game, game->player.rotation.x + 90, 1);
-	if (game->keys.q)
+	ft_update_gamepad(game);
+	ft_gamepad_movement(game);
+	if (game->input.front && !game->input.back)
 	{
-		game->player.rotation.x -= 2.0;
+		if (game->input.left && !game->input.right)
+			ft_move_direction(game, game->player.rotation.x + 45, 1);
+		else if (game->input.right && !game->input.left)
+			ft_move_direction(game, game->player.rotation.x - 45, 1);
+		else
+			ft_move_direction(game, game->player.rotation.x, 1);
+	}
+	if (game->input.back && !game->input.front)		
+	{
+		if (game->input.left && !game->input.right)
+			ft_move_direction(game, game->player.rotation.x + 115, 1);
+		else if (game->input.right && !game->input.left)
+			ft_move_direction(game, game->player.rotation.x - 115, 1);
+		else
+			ft_move_direction(game, game->player.rotation.x + 180, 1);
+	}
+	if (game->input.left && !game->input.front && !game->input.back)
+		ft_move_direction(game, game->player.rotation.x + 90, 1);
+	if (game->input.right && !game->input.front && !game->input.back)
+		ft_move_direction(game, game->player.rotation.x - 90, 1);
+	if (game->input.rotate_left)
+	{
+		game->player.rotation.x += 45.0 * game->delta_time;
 		if (game->player.rotation.x >= 360.0)
 			game->player.rotation.x -= 360.0;
 	}
-	if (game->keys.e)
+	if (game->input.rotate_right)
 	{
-		game->player.rotation.x += 2.0;
+		game->player.rotation.x -= 45.0 * game->delta_time;
 		if (game->player.rotation.x < 0.0)
 			game->player.rotation.x += 360.0;
 	}

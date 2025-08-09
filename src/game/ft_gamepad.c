@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/08 19:42:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/09 19:11:50 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@
 
 static int	ft_normalize_axis_value(int raw_value)
 {
-	// Normalizar valores del eje (-32768 a 32767) a rango más manejable
-	if (raw_value > 8000)
+	if (raw_value > 16000)
 		return (1);
-	else if (raw_value < -8000)
+	else if (raw_value < -16000)
 		return (-1);
 	return (0);
 }
@@ -29,7 +28,6 @@ static void	ft_process_gamepad_event(t_game *game, struct js_event event)
 {
 	if (event.type == JS_EVENT_BUTTON)
 	{
-		// Botones del mando Xbox
 		if (event.number == 0) // A
 			game->gamepad.a = event.value;
 		else if (event.number == 1) // B
@@ -45,7 +43,6 @@ static void	ft_process_gamepad_event(t_game *game, struct js_event event)
 	}
 	else if (event.type == JS_EVENT_AXIS)
 	{
-		// Ejes del mando Xbox
 		if (event.number == 0) // Stick izquierdo X
 			game->gamepad.left_stick_x = ft_normalize_axis_value(event.value);
 		else if (event.number == 1) // Stick izquierdo Y
@@ -59,7 +56,6 @@ static void	ft_process_gamepad_event(t_game *game, struct js_event event)
 
 void	ft_init_gamepad(t_game *game)
 {
-	// Inicializar valores por defecto
 	game->gamepad.connected = 0;
 	game->gamepad.fd = -1;
 	game->gamepad.a = 0;
@@ -73,7 +69,6 @@ void	ft_init_gamepad(t_game *game)
 	game->gamepad.right_stick_x = 0;
 	game->gamepad.right_stick_y = 0;
 
-	// Intentar abrir diferentes rutas de gamepad para WSL
 	const char *gamepad_paths[] = {
 		"/dev/input/js0",
 		"/dev/input/js1",
@@ -144,15 +139,20 @@ void	ft_gamepad_movement(t_game *game)
 	// Si hay gamepad conectado, usarlo
 	if (game->gamepad.connected)
 	{
+		game->input.front = 0;
+		game->input.back = 0;
+		game->input.left = 0;
+		game->input.right = 0;
+		
 		// Movimiento con stick izquierdo
 		if (game->gamepad.left_stick_y == -1) // Stick arriba (forward)
-			game->keys.w = 1;
+			game->input.front = 1;
 		else if (game->gamepad.left_stick_y == 1) // Stick abajo (backward)
-			game->keys.s = 1;
+			game->input.back = 1;
 		if (game->gamepad.left_stick_x == -1) // Stick izquierda
-			game->keys.a = 1;
+			game->input.left = 1;
 		else if (game->gamepad.left_stick_x == 1) // Stick derecha
-			game->keys.d = 1;
+			game->input.right = 1;
 
 		// Rotación con stick derecho o botones LB/RB
 		if (game->gamepad.right_stick_x == -1 || game->gamepad.lb)

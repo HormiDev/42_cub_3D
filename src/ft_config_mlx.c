@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/08 18:40:19 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/09 18:49:49 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	ft_free_mlx(t_game *game)
 
 void	ft_config_mlx(t_game *game)
 {
-	
 	game->mlx = mlx_init();
 	if (!game->mlx)
 	{
@@ -46,17 +45,12 @@ void	ft_config_mlx(t_game *game)
 		ft_dprintf(2, RED "Error:\n Failed to create image\n" RESET);
 		ft_close_game(1);
 	}
-	
 	game->img_map->img_data = mlx_get_data_addr(game->img_map->img, &game->img_map->bits_pixel, &game->img_map->image_len, &game->img_map->end);
 	mlx_hook(game->window, 17, 0, ft_close_game_for_mlx, game);//close window
 	mlx_hook(game->window, 6, 1L << 6, ft_mouse_move, game); //mouse hook	
 	mlx_hook(game->window, 2, 1L<<0, ft_key_press, game);     // key down
 	mlx_hook(game->window, 3, 1L<<1, ft_key_release, game);   // key up
 	game->last_frame_time = ft_get_time();
-	mlx_loop_hook(game->mlx, ft_update, game);               // frame update
-
-	// Inicializar gamepad
+	mlx_loop_hook(game->mlx, ft_update, game);               
 	ft_init_gamepad(game);
-
-	//mlx_loop_hook(game->mlx, ft_update_game, game);//loop
 }

@@ -271,7 +271,6 @@ void ft_render_3d(t_game *game)
 		return;
 
 	draw_background(game);
-
 	i = 0;
 	while (i < ray_count)
 	{

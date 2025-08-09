@@ -133,12 +133,13 @@ typedef struct s_image
 } t_image;
 
 typedef struct s_input {
-	int w;
-	int a;
-	int s;
-	int d;
-	int q;
-	int e;
+	int front;
+	int back;
+	int left;
+	int right;
+	int rotate_left;
+	int rotate_right;
+	int run;
 } t_input;
 
 typedef struct s_gamepad {
@@ -170,7 +171,7 @@ typedef struct s_game
 	void		*window;
 	t_image 	*img_map; 
 	t_player 	player;
-	t_input		keys;
+	t_input		input;
 	t_gamepad	gamepad;
 	int			mouse_xy[2];
 	double		delta_time;
