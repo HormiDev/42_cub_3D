@@ -50,6 +50,8 @@
 #  define WINDOW_HEIGHT 1080
 # endif
 
+# define FOV 45.0
+
 typedef enum e_wall_direction
 {
 	WALL_NO = 0,

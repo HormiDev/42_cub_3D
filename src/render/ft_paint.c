@@ -161,9 +161,7 @@ void draw_column(t_game *game, int x, t_raycast ray, double ray_angle)
 	win_height = WINDOW_HEIGHT;
 	if (win_height <= 0)
 		return;
-
-	double fov = 45.0; 
-	double column_angle = ((double)x / (double)WINDOW_WIDTH - 0.5) * fov;
+	double column_angle = ((double)x / (double)WINDOW_WIDTH - 0.5) * FOV;
 	double angle_rad = column_angle * M_PI / 180.0;
 	
 	double corrected_dist = ray.distance * cos(angle_rad);
@@ -263,35 +261,20 @@ void draw_column(t_game *game, int x, t_raycast ray, double ray_angle)
 
 void ft_render_3d(t_game *game)
 {
-	int ray_count = WINDOW_HEIGHT;
-	double fov = 45.0; 
 	int i;
+	double angle_step = FOV / WINDOW_WIDTH;
+	double start_angle =  -(FOV / 2);
+	double current_angle;
 
 	if (!game || !game->raycasts)
 		return;
 
 	draw_background(game);
 	i = 0;
-	while (i < ray_count)
+	while (i < WINDOW_WIDTH)
 	{
-		double angle_offset = ((double)i / (double)ray_count - 0.5) * fov;
-		double current_angle = game->player.rotation.x + angle_offset;
-		
-		int screen_x = (i * WINDOW_WIDTH) / ray_count;
-	
-		if (game->raycasts[i].distance > 0.0 && game->raycasts[i].type >= 0)
-		{
-			draw_column(game, screen_x, game->raycasts[i], current_angle);
-			
-			int next_x = ((i + 1) * WINDOW_WIDTH) / ray_count;
-			int x = screen_x + 1;
-			while (x < next_x && x < WINDOW_WIDTH)
-			{
-				draw_column(game, x, game->raycasts[i], current_angle);
-				x++;
-			}
-		}
-		
+		current_angle = start_angle + i * angle_step;
+		draw_column(game, -i + WINDOW_WIDTH, game->raycasts[i], current_angle);
 		i++;
 	}
 }
