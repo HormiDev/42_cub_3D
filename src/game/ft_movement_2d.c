@@ -53,34 +53,37 @@ int ft_key_press(int keycode, t_game *game)
 	}
 	if (keycode == W)
 		game->input.front = 1;
-	if (keycode == A)
+	else if (keycode == A)
 		game->input.left = 1;
-	if (keycode == S)
+	else if (keycode == S)
 		game->input.back = 1;
-	if (keycode == D)
+	else if (keycode == D)
 		game->input.right = 1;
-	if (keycode == Q)
+	else if (keycode == Q)
 		game->input.rotate_left = 1;
-	if (keycode == E)
+	else if (keycode == E)
 		game->input.rotate_right = 1;
+	else if (keycode == LSHIFT)
+		game->input.run = 1;
 	return (0);
 }
 
 int ft_key_release(int keycode, t_game *game)
 {
-	//ft_bzero(&game->input, sizeof(t_input));
 	if (keycode == W)
 		game->input.front = 0;
-	if (keycode == A)
+	else if (keycode == A)
 		game->input.left = 0;
-	if (keycode == S)
+	else if (keycode == S)
 		game->input.back = 0;
-	if (keycode == D)
+	else if (keycode == D)
 		game->input.right = 0;
-	if (keycode == Q)
+	else if (keycode == Q)
 		game->input.rotate_left = 0;
-	if (keycode == E)
+	else if (keycode == E)
 		game->input.rotate_right = 0;
+	else if (keycode == LSHIFT)
+		game->input.run = 0;
 	return (0);
 }
 
@@ -101,44 +104,51 @@ void ft_move_direction(t_game *game, double angle, double move_speed)
 		angle -= 360.0;
 	ft_raycast(game, angle, &ray, move_speed * game->delta_time);
 	if (ray.type == -1)
-		ft_move_player(game, move_speed * ray.impact.x, ray.impact.y);
+		ft_move_player(game, ray.impact.x, ray.impact.y);
 }
 
 void ft_movement_2d(t_game *game)
 {
+	double move_speed;
+
 	ft_update_gamepad(game);
 	ft_gamepad_movement(game);
+	if (game->input.run)
+		move_speed = RUN_SPEED;
+	else
+		move_speed = MOVE_SPEED;
+	printf("move_speed: %f\n", move_speed);
 	if (game->input.front && !game->input.back)
 	{
 		if (game->input.left && !game->input.right)
-			ft_move_direction(game, game->player.rotation.x + 45, 1);
+			ft_move_direction(game, game->player.rotation.x + 45, move_speed);
 		else if (game->input.right && !game->input.left)
-			ft_move_direction(game, game->player.rotation.x - 45, 1);
+			ft_move_direction(game, game->player.rotation.x - 45, move_speed);
 		else
-			ft_move_direction(game, game->player.rotation.x, 1);
+			ft_move_direction(game, game->player.rotation.x, move_speed);
 	}
 	if (game->input.back && !game->input.front)		
 	{
 		if (game->input.left && !game->input.right)
-			ft_move_direction(game, game->player.rotation.x + 115, 1);
+			ft_move_direction(game, game->player.rotation.x + 115, move_speed);
 		else if (game->input.right && !game->input.left)
-			ft_move_direction(game, game->player.rotation.x - 115, 1);
+			ft_move_direction(game, game->player.rotation.x - 115, move_speed);
 		else
-			ft_move_direction(game, game->player.rotation.x + 180, 1);
+			ft_move_direction(game, game->player.rotation.x + 180, move_speed);
 	}
 	if (game->input.left && !game->input.front && !game->input.back)
-		ft_move_direction(game, game->player.rotation.x + 90, 1);
+		ft_move_direction(game, game->player.rotation.x + 90, move_speed);
 	if (game->input.right && !game->input.front && !game->input.back)
-		ft_move_direction(game, game->player.rotation.x - 90, 1);
+		ft_move_direction(game, game->player.rotation.x - 90, move_speed);
 	if (game->input.rotate_left)
 	{
-		game->player.rotation.x += 45.0 * game->delta_time;
+		game->player.rotation.x += ROTATION_SPEED * game->delta_time;
 		if (game->player.rotation.x >= 360.0)
 			game->player.rotation.x -= 360.0;
 	}
 	if (game->input.rotate_right)
 	{
-		game->player.rotation.x -= 45.0 * game->delta_time;
+		game->player.rotation.x -= ROTATION_SPEED * game->delta_time;
 		if (game->player.rotation.x < 0.0)
 			game->player.rotation.x += 360.0;
 	}

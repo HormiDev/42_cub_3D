@@ -41,6 +41,8 @@
 # define DIR_DOWN  		1
 # define DIR_LEFT  		2
 # define DIR_UP    		3
+# define LSHIFT			65505
+# define RSHIFT			65506
 
 # ifndef WINDOW_WIDTH
 #  define WINDOW_WIDTH 1920
@@ -51,6 +53,10 @@
 # endif
 
 # define FOV 45.0
+
+# define MOVE_SPEED		1.0
+# define ROTATION_SPEED	45.0
+# define RUN_SPEED		3.0
 
 typedef enum e_wall_direction
 {
