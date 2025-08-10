@@ -111,13 +111,12 @@ void ft_movement_2d(t_game *game)
 {
 	double move_speed;
 
-	ft_update_gamepad(game);
-	ft_gamepad_movement(game);
+	//ft_update_gamepad(game);
+	//ft_gamepad_movement(game);
 	if (game->input.run)
 		move_speed = RUN_SPEED;
 	else
 		move_speed = MOVE_SPEED;
-	printf("move_speed: %f\n", move_speed);
 	if (game->input.front && !game->input.back)
 	{
 		if (game->input.left && !game->input.right)

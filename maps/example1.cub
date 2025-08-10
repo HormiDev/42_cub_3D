@@ -46,7 +46,7 @@ WE ./textures/ladrillos1.xpm
 
 WE ./textures/ladrillos1.xpm
 
-NO ./textures/ladrillos2.xpm
+NO ./textures/ladrillos1.xpm
 SO ./textures/ladrillos1.xpm
 EA ./textures/ladrillos1.xpm
 EA ./textures/ladrillos1.xpm

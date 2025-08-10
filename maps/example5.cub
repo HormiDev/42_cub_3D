@@ -1,10 +1,10 @@
 C 225,30,0
 F 220,216,0
 
-NO ./textures/ladrillos1.xpm
-SO ./textures/ladrillos1.xpm
-WE ./textures/ladrillos1.xpm
-EA ./textures/ladrillos1.xpm
+NO textures/ladrillos_norte.xpm
+SO textures/ladrillos_sur.xpm
+EA textures/ladrillos_este.xpm
+WE textures/ladrillos_oeste.xpm
 
 
     1111111111111111111

@@ -164,12 +164,14 @@ void draw_column(t_game *game, int x, t_raycast ray, double ray_angle)
 	double column_angle = ((double)x / (double)WINDOW_WIDTH - 0.5) * FOV;
 	double angle_rad = column_angle * M_PI / 180.0;
 	
-	double corrected_dist = ray.distance * cos(angle_rad);
+	if (angle_rad < 0.0)
+		angle_rad = -angle_rad; // Asegurar que el ángulo sea positivo para el coseno
+	double corrected_dist = ray.distance * ft_cos(angle_rad);
 	
 	if (corrected_dist <= 0.01)
 		corrected_dist = 0.01;
 
-	wall_height = (int)(win_height / corrected_dist);
+	wall_height = (int)(win_height / corrected_dist) * 2;
 	
 	if (wall_height > win_height * 3)
 		wall_height = win_height * 3;
