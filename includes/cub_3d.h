@@ -66,6 +66,12 @@ typedef enum e_wall_direction
 	WALL_WE = 3
 } t_wall_direction;
 
+typedef struct s_color
+{
+	unsigned int 	color;
+	unsigned char	*rgba;
+}	t_color;
+
 typedef struct s_texture
 {
 	char			*path;
@@ -76,12 +82,6 @@ typedef struct s_texture
 	unsigned int	*colors;
 } t_texture;
 
-typedef struct s_xpm_color
-{
-	char            *chars;
-    unsigned int    value;
-} t_xpm_color;
-
 typedef struct s_cursor
 {
 	int x; 
@@ -89,15 +89,6 @@ typedef struct s_cursor
 	int dir; 
 } t_cursor;
 
-/*
-typedef struct s_color
-{
-	int	red;
-	int	green;
-	int	blue;
-	int	alpha;
-}	t_color;
-*/
 
 typedef struct s_vector2
 {
@@ -268,4 +259,8 @@ void ft_right_left(t_game *game, double move_speed);
 long			ft_get_time(void);
 
 void draw_column(t_game *game, int x, t_raycast ray, double ray_angle);
+
+// t_color
+void ft_init_t_color(t_color *color);
+
 #endif

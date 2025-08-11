@@ -113,4 +113,3 @@ int	parse_xpm_file_header_and_alloc(const char **lines, int *i, t_texture *tex, 
 		return (-1);
 	return 0;
 }
-
