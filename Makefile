@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/08/08 18:58:55 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/08/12 01:46:37 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,7 @@ SRC		=	src/main.c \
 			src/game/ft_gamepad.c \
 			src/game/mouse.c \
 			src/ft_sqrt.c \
+			src/ft_t_color.c \
 			src/ft_update.c \
 			src/raycast/ft_calculate_raycasts.c \
 			src/ft_get_time.c \

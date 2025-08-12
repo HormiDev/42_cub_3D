@@ -41,6 +41,7 @@ t_game	*ft_loading_game(char *path_map)
 	ft_debug_game(game);
 	ft_file_clear(&map_file);
 	ft_printf("Map loaded successfully\n");
+	
 	return (game);
 }
 

@@ -1,4 +1,3 @@
-
 #ifndef CUB_3D_H
 # define CUB_3D_H
 
@@ -11,6 +10,10 @@
 # include <stdio.h>
 # include <math.h>
 # include <errno.h>
+# include <limits.h>
+# include <stdbool.h>
+# include <stdio.h>
+# include <math.h>
  
 # define C_RED			0xFFFF0000
 # define C_WHITE		0xFFFFFF
@@ -78,7 +81,7 @@ typedef struct s_texture
 	int				width;
 	int				height;
 	int				size_colors;
-	int				**pixels; 
+	t_color			*pixels; 
 	unsigned int	*colors;
 } t_texture;
 
@@ -250,7 +253,7 @@ void			ft_render_3d(t_game *game);
 unsigned int 	parse_color_hex(const char *str);
 int				parse_xpm_header(char *line, int *w, int *h, int *n_colors, int *cpp);
 int				parse_xpm_colors(char **lines, int *i, int n_colors, unsigned int *colors, char *symbols);
-int				parse_xpm_pixels(char **lines, int *i, int w, int h, int **pixels, char *symbols);
+int				parse_xpm_pixels(char **lines, int *i, int w, int h, t_color *pixels, char *symbols, unsigned int *colors);
 int				parse_xpm_file_header_and_alloc(const char **lines, int *i, t_texture *tex, char *symbols);
 
 void ft_forwad_back(t_game *game, double move_speed);
@@ -262,5 +265,6 @@ void draw_column(t_game *game, int x, t_raycast ray, double ray_angle);
 
 // t_color
 void ft_init_t_color(t_color *color);
+void ft_mix_t_color(t_color *color, t_color *mix_color, int percent);
 
 #endif

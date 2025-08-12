@@ -98,9 +98,6 @@ static t_texture *get_texture_for_wall(t_game *game, int wall_type)
  */
 static unsigned int get_texture_color(t_texture *texture, int tex_x, int tex_y)
 {
-	int color_index;
-	static int call_count = 0;
-	
 	if (!texture || !texture->pixels || !texture->colors)
 	{
 		return (0xFFFF00); // Amarillo por defecto si no hay textura
@@ -111,31 +108,10 @@ static unsigned int get_texture_color(t_texture *texture, int tex_x, int tex_y)
 		return (0xFFFF00);
 	}
 		
-	if (!texture->pixels[tex_y])
-	{
-		printf("DEBUG: pixels[%d] is null\n", tex_y);
-		return (0xFFFF00);
-	}
-		
-	color_index = texture->pixels[tex_y][tex_x];
-	if (color_index < 0 || color_index >= texture->size_colors)
-	{
-		printf("DEBUG: color_index out of bounds - color_index=%d, size_colors=%d\n", 
-			color_index, texture->size_colors);
-		return (0xFFFF00);
-	}
+	int pixel_index = tex_y * texture->width + tex_x;
+	t_color *pixel_color = &texture->pixels[pixel_index];
 	
-	unsigned int final_color = texture->colors[color_index];
-	
-	// Debug para las primeras 5 llamadas solamente
-	if (call_count < 5)
-	{
-		printf("TEXTURE_COLOR %d: tex_pos=(%d,%d), color_idx=%d, final_color=0x%08X\n", 
-			call_count, tex_x, tex_y, color_index, final_color);
-		call_count++;
-	}
-		
-	return (final_color);
+	return (pixel_color->color);
 }
 
 void draw_column(t_game *game, int x, t_raycast ray, double ray_angle)

@@ -65,7 +65,7 @@ int	parse_xpm_colors(char **lines, int *i, int n_colors, unsigned int *colors, c
 	return (0);
 }
 
-int	parse_xpm_pixels(char **lines, int *i, int w, int h, int **pixels, char *symbols)
+int	parse_xpm_pixels(char **lines, int *i, int w, int h, t_color *pixels, char *symbols, unsigned int *colors)
 {
 	int		y = 0, x;
 	char	*line;
@@ -77,13 +77,12 @@ int	parse_xpm_pixels(char **lines, int *i, int w, int h, int **pixels, char *sym
 		end = ft_strrchr(line, '"');
 		if (end)
 			*end = '\0';
-		pixels[y] = ft_alloc_lst(sizeof(int) * w, 4);
-		if (!pixels[y])
-			return (-1);
 		x = 0;
 		while (x < w)
 		{
-			pixels[y][x] = symbols[(unsigned char)line[x]];
+			int color_index = symbols[(unsigned char)line[x]];
+			int pixel_index = y * w + x;
+			pixels[pixel_index].color = colors[color_index];
 			x++;
 		}
 		y++;
@@ -108,7 +107,7 @@ int	parse_xpm_file_header_and_alloc(const char **lines, int *i, t_texture *tex, 
 	tex->height = h;
 	tex->size_colors = n_colors;
 	tex->colors = ft_alloc_lst(sizeof(unsigned int) * n_colors, 4);
-	tex->pixels = ft_alloc_lst(sizeof(int *) * h, 4);
+	tex->pixels = ft_alloc_lst(sizeof(t_color) * w * h, 4);
 	if (!tex->colors || !tex->pixels)
 		return (-1);
 	return 0;

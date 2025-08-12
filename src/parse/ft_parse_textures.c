@@ -11,16 +11,13 @@ int	extract_texture_from_xpm(const char *path, t_texture *tex)
 	if (!file || !file->array_content)
 		return (-1);
 	lines = file->array_content;
-
 	if (parse_xpm_file_header_and_alloc((const char **)lines, &i, tex, symbols) < 0)
 		return (ft_file_clear(&file), -1);
-
 	i++;
 	if (parse_xpm_colors(lines, &i, tex->size_colors, tex->colors, symbols) < 0)
 		return (ft_file_clear(&file), -1);
-	if (parse_xpm_pixels(lines, &i, tex->width, tex->height, tex->pixels, symbols) < 0)
+	if (parse_xpm_pixels(lines, &i, tex->width, tex->height, tex->pixels, symbols, tex->colors) < 0)
 		return (ft_file_clear(&file), -1);
-
 	ft_file_clear(&file);
 	return (0);
 }
