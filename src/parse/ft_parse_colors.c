@@ -1,108 +1,74 @@
 #include "../../includes/cub_3d.h"
 
 /**
- * @brief Establece el color en el arreglo destino.
- *
- * Esta función asigna los valores RGB en el arreglo target_color.
- *
- * @param target_color Puntero al arreglo donde se establecerá el color.
- * @param r Componente rojo (0-255).
- * @param g Componente verde (0-255).
- * @param b Componente azul (0-255).
+ * @brief Parsea una cadena de color RGB y la convierte a un valor entero sin signo
+ * @param color_str Cadena con formato "R,G,B" donde R, G, B son valores entre 0-255
+ * @return Valor entero sin signo que representa el color en formato RGBA
  */
-static void ft_set_color(int *target_color, int r, int g, int b)
+unsigned int	ft_parse_color_rgb(char *color_str)
 {
-    target_color[0] = r;
-    target_color[1] = g;
-    target_color[2] = b;
+	char			**rgb_values;
+	unsigned int	color;
+
+	rgb_values = ft_split_ae(color_str, ',');
+	color = ft_atoi(rgb_values[0]);
+	color = (color << 8) + ft_atoi(rgb_values[1]);
+	color = (color << 8) + ft_atoi(rgb_values[2]);
+	color = (color << 8) + 0xFF;
+	return (color);
 }
 
 /**
- * @brief Parsea los valores RGB de una cadena de texto.
- *
- * Esta función toma una cadena de texto que representa un color en formato R,G,B,
- * la divide en sus componentes y verifica que estén dentro del rango válido (0-255).
- * Luego, establece el color correspondiente en el juego.
- *
- * @param game Puntero a la estructura del juego donde se almacenará el color.
- * @param color_str Cadena de texto que contiene los valores RGB.
- * @param color_type Tipo de color (FLOOR o CEILING).
- * @return int 1 si el parsing fue exitoso, 0 si hubo un error.
+ * @brief Verifica si una cadena contiene únicamente dígitos numéricos
+ * @param str Cadena a verificar
+ * @return 1 si la cadena contiene solo dígitos, 0 en caso contrario
+ * @note Esta función debería moverse a la libft en el futuro
  */
-int ft_parse_rgb_values(t_game *game, char *color_str, int color_type)
+int ft_str_isnumber(char *str) // para pasar a la libft
 {
-    char **rgb_values;
-    int r, g, b;
-    int i;
-
-    rgb_values = ft_split_ae(color_str, ',');
-    if (!rgb_values)
-        return (ft_dprintf(2, RED "Error: Failed to split color values.\n" RESET), 0);
-    i = 0;
-    while (rgb_values[i])
-        i++;
-    if (i != 3)
-        return (ft_dprintf(2, RED "Error: Invalid color format. Expected R,G,B.\n" RESET), 0);
-    r = ft_atoi(rgb_values[0]);
-    g = ft_atoi(rgb_values[1]);
-    b = ft_atoi(rgb_values[2]);
-    if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255)
-        return (ft_dprintf(2, RED "Error: Color values must be between 0 and 255.\n" RESET), 0);
-
-    if (color_type == FLOOR)
-        ft_set_color(game->floor_color, r, g, b);
-    else if (color_type == CEILING)
-        ft_set_color(game->ceiling_color, r, g, b);
-    return (1);
-}
-
-/**
- * @brief Obtiene la cadena de color de una línea y la procesa.
- *
- * Esta función toma una línea del archivo, extrae la cadena de color,
- * la limpia de espacios y tabulaciones, y luego llama a ft_parse_rgb_values
- * para procesar los valores RGB.
- *
- * @param game Puntero a la estructura del juego donde se almacenará el color.
- * @param line Línea del archivo que contiene el color.
- * @param color_type Tipo de color (FLOOR o CEILING).
- * @return int 1 si el parsing fue exitoso, 0 si hubo un error.
- */
-int ft_get_color_string(t_game *game, char *line, int color_type)
-{
-    char *color_str;
-    
-    color_str = ft_add_to_alloc_lst_e(ft_strtrim(line + 2, " \t\n"));
-    if (ft_parse_rgb_values(game, color_str, color_type))
-        return (1);
-    return (0);
-}
-
-/**
- * @brief Parsea los colores del mapa.
- *
- * Esta función recorre el contenido del archivo del mapa y busca las líneas
- * que definen los colores del suelo (F) y del techo (C). Llama a ft_get_color_string
- * para procesar cada línea de color.
- *
- * @param game Puntero a la estructura del juego donde se almacenarán los colores.
- * @param map_file Puntero a la estructura del archivo que contiene el mapa.
- */
-void ft_parse_colors(t_game *game, t_file *map_file)
-{
-    int i; 
-    int count; 
-
-    i = 0; 
-    count = 0; 
-    while (map_file->array_content[i] && count < 2)
+	while (*str)
 	{
-		if (ft_strncmp_p(map_file->array_content[i], "F ", 1) == 0)
-			count += ft_get_color_string(game, map_file->array_content[i], FLOOR);
-		else if (ft_strncmp_p(map_file->array_content[i], "C", 1) == 0)
-			count += ft_get_color_string(game, map_file->array_content[i], CEILING);
-		i++;
+		if (!ft_isdigit(*str))
+		{
+			ft_dprintf(2, "Error: character '%c' is not a digit.\n", *str);
+			return (0);
+		}
+		str++;
 	}
-	if (count != 2)
-		ft_dprintf(2, RED "Error: Failed to load colors: missing elements \n" RESET);
+	return (1);
+}
+
+/**
+ * @brief Determina si una cadena es una ruta de archivo o un color RGB
+ * @param str Cadena a analizar
+ * @return 1 si es una ruta de archivo, 2 si es un color RGB válido, 0 si es inválido
+ * @note Detecta rutas por la presencia del carácter '/'
+ * @note Valida colores RGB verificando que sean 3 valores entre 0-255
+ */
+int ft_path_or_color(char *str)
+{
+	char	**split;
+	int		rgb[3];
+
+	if (ft_strchr(str, '/'))
+		return (1);
+	split = ft_split_chars_ae(str, ",\n\t");
+	if (ft_splitlen(split) == 3)
+	{
+		rgb[0] = ft_atoi(split[0]);
+		rgb[1] = ft_atoi(split[1]);
+		rgb[2] = ft_atoi(split[2]);
+		if (rgb[0] < 0 || rgb[0] > 255 || rgb[1] < 0
+			|| rgb[1] > 255 || rgb[2] < 0 || rgb[2] > 255
+			|| !ft_str_isnumber(split[0]) || !ft_str_isnumber(split[1])
+			|| !ft_str_isnumber(split[2]))
+		{
+			ft_dprintf(2, RED "Error: Invalid color format. Expected R,G,B. %s\n" RESET, str); 
+			return (0);
+		}
+		else
+			return (2);
+	}
+    ft_dprintf(2, RED "Error: Invalid color format. Expected R,G,B.\n" RESET);
+	return (0); 
 }

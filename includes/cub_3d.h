@@ -9,6 +9,7 @@
 # include <sys/time.h>
 # include <stdbool.h>
 # include <stdio.h>
+#include <fcntl.h>
 # include <math.h>
 # include <errno.h>
  
@@ -52,6 +53,14 @@
 #  define WINDOW_HEIGHT 1080
 # endif
 
+# ifndef RENDER_WIDTH
+#  define RENDER_WIDTH 1920
+# endif
+
+# ifndef RENDER_HEIGHT
+#  define RENDER_HEIGHT 1080
+# endif
+
 # define FOV 45.0
 
 # define MOVE_SPEED		1.0
@@ -66,14 +75,14 @@ typedef enum e_wall_direction
 	WALL_WE = 3
 } t_wall_direction;
 
-typedef struct s_texture
+typedef struct s_texture // cambiar nombre a t image
 {
 	t_img			*img;
 	char			*path;
 	unsigned int	texture_color;
 	int				width;
 	int				height;
-	unsigned int	*colors_matrix;
+	unsigned int	**colors_matrix;
 } t_texture;
 
 typedef struct s_cursor
@@ -141,7 +150,7 @@ typedef struct s_gamepad {
 	int	right_stick_y;
 } t_gamepad;
 
-typedef struct s_image
+typedef struct s_image // eliminar
 {
 	void	*img;
 	char	*img_data;
@@ -154,8 +163,6 @@ typedef struct s_game
 {
 	char		**map;
 	int			width_height[2];
-	int     	floor_color[3];
-    int     	ceiling_color[3];
 	t_list		*textures[4]; // Array of textures for North, South, East, West
 	t_texture 	*floor_tex;
 	t_texture 	*ceiling_tex; 
@@ -163,6 +170,7 @@ typedef struct s_game
 	t_raycast	*raycasts; 
 	void		*window;
 	t_image		*img_map;
+	t_texture	*render;
 	t_player 	player;
 	t_input		input;
 	t_gamepad	gamepad;
@@ -218,12 +226,15 @@ long			ft_get_time(void);
 // ============================================================================
 // MOVEMENT & INPUT FUNCTIONS
 // ============================================================================
-void			ft_movement_2d(t_game *game);
+void			ft_controls(t_game *game);
 void 			ft_forwad_back(t_game *game, double move_speed);
 void 			ft_right_left(t_game *game, double move_speed);
 int 			ft_key_press(int keycode, t_game *game);
 int 			ft_key_release(int keycode, t_game *game);
 int				ft_mouse_move(int x, int y, t_game *game);
+void			ft_move_direction(t_game *game, double angle, double move_speed);
+void			ft_move_player(t_game *game, double move_x, double move_y);
+
 
 // Gamepad functions
 void			ft_init_gamepad(t_game *game);
@@ -269,6 +280,9 @@ double			ft_sqrt(double value);
 // COLOR FUNCTIONS
 // ============================================================================
 void			ft_mix_color(unsigned int *color, unsigned int  *mix_color, int percent);
+unsigned int	ft_parse_color_rgb(char *color_str);
+int				ft_path_or_color(char *str);
+int				ft_str_isnumber(char *str);
 
 // ============================================================================
 // DEBUG FUNCTIONS

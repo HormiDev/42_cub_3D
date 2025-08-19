@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_paint.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
+/*   Updated: 2025/08/20 00:34:39 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub_3d.h"
 
 /**
@@ -6,45 +18,21 @@
 */ 
 void draw_background(t_game *game)
 {
-	int x, y;
-	int ceiling_color, floor_color;
+	int					x;
+	int					y;
+	unsigned int		floor_color;
+	unsigned int		ceiling_color;
 	
-	if (!game)
-		return;
-	
-	// Valores por defecto si los colores no están configurados
-	if (game->ceiling_color[0] == 0 && game->ceiling_color[1] == 0 && game->ceiling_color[2] == 0)
-	{
-		game->ceiling_color[0] = 135; // Azul cielo
-		game->ceiling_color[1] = 206;
-		game->ceiling_color[2] = 235;
-	}
-	if (game->floor_color[0] == 0 && game->floor_color[1] == 0 && game->floor_color[2] == 0)
-	{
-		game->floor_color[0] = 139; // Marrón tierra
-		game->floor_color[1] = 69;
-		game->floor_color[2] = 19;
-	}
-	
-	// Convertir colores RGB a formato de pixel
-	ceiling_color = (game->ceiling_color[0] << 16) | 
-					(game->ceiling_color[1] << 8) | 
-					game->ceiling_color[2];
-	floor_color = (game->floor_color[0] << 16) | 
-				  (game->floor_color[1] << 8) | 
-				  game->floor_color[2];
-	
-	// Dibujar el fondo píxel por píxel
 	y = 0;
-	while (y < WINDOW_HEIGHT)
+	while (y < RENDER_HEIGHT)
 	{
 		x = 0;
-		while (x < WINDOW_WIDTH)
+		while (x < RENDER_WIDTH)
 		{
-			if (y < WINDOW_HEIGHT / 2)
-				ft_draw_pixel_in_img(game->img_map->img, x, y, ceiling_color);
+			if (y < RENDER_HEIGHT / 2)
+				game->render->colors_matrix[y][x] = game->ceiling_tex->texture_color;
 			else
-				ft_draw_pixel_in_img(game->img_map->img, x, y, floor_color);
+				game->render->colors_matrix[y][x] = game->floor_tex->texture_color;
 			x++;
 		}
 		y++;
@@ -77,7 +65,7 @@ static void	get_draw_limits(int wall_height, int win_height, int *draw_start, in
  */
 static t_texture *get_texture_for_wall(t_game *game, int wall_type)
 {
-	t_list *texture_list;
+	t_list		*texture_list;
 	
 	if (!game || wall_type < 0 || wall_type > 3)
 		return (NULL);
@@ -89,170 +77,68 @@ static t_texture *get_texture_for_wall(t_game *game, int wall_type)
 	return ((t_texture *)texture_list->content);
 }
 
-/**
- * @brief get_texture_color - Obtiene el color de un píxel específico de la textura
- * @param texture: Puntero a la textura
- * @param tex_x: Coordenada X en la textura
- * @param tex_y: Coordenada Y en la textura
- * @return Color del píxel o color por defecto si hay error
- */
-static unsigned int get_texture_color(t_texture *texture, int tex_x, int tex_y)
+int ft_calculate_wall_height(t_game *game, t_raycast ray, int x)//pal ojo de pez <--
 {
-	if (!texture || !texture->pixels || !texture->colors)
-	{
-		return (0xFFFF00); // Amarillo por defecto si no hay textura
-	}
-		
-	if (tex_x < 0 || tex_x >= texture->width || tex_y < 0 || tex_y >= texture->height)
-	{
-		return (0xFFFF00);
-	}
-		
-	int pixel_index = tex_y * texture->width + tex_x;
-	t_color *pixel_color = &texture->pixels[pixel_index];
-	
-	return (pixel_color->color);
+	double	column_angle;
+	double	angle_rad;
+	double	corrected_dist;
+	int		wall_height;
+
+	if (ray.type < 0 || ray.distance <= 0.0)
+		return;
+
+	column_angle = ((double)x / (double)RENDER_WIDTH - 0.5) * FOV;
+	angle_rad = column_angle * M_PI / 180.0;
+	if (angle_rad < 0.0)
+		angle_rad = -angle_rad; // Asegurar que el ángulo sea positivo para el coseno
+	corrected_dist = ray.distance * ft_cos(angle_rad);
+	if (corrected_dist <= 0.01)
+		corrected_dist = 0.01;
+	wall_height = (int)(RENDER_HEIGHT / corrected_dist) * 2;
+	if (wall_height > RENDER_HEIGHT * 3)
+		wall_height = RENDER_HEIGHT * 3;
+	if (wall_height < 1)
+		wall_height = 1;
+	return wall_height;
 }
 
 void draw_column(t_game *game, int x, t_raycast ray, double ray_angle)
 {
 	int         wall_height;
-	int         draw_start;
-	int         draw_end;
-	int         win_height;
 	int         y;
-	t_texture   *texture;
-	int         tex_x;
-	unsigned int pixel_color;
-	static int debug_count = 0;
+	double		texture_iteration;
+	int			render_start;
+	double		texture_start;
 
-	(void)ray_angle;
-
-	if (!game || x < 0 || x >= WINDOW_WIDTH)
-		return;
-	
 	if (ray.type < 0 || ray.distance <= 0.0)
 		return;
-
-	win_height = WINDOW_HEIGHT;
-	if (win_height <= 0)
+	wall_height = ft_calculate_wall_height(game, ray, x);
+	if (wall_height <= 0)
 		return;
-	double column_angle = ((double)x / (double)WINDOW_WIDTH - 0.5) * FOV;
-	double angle_rad = column_angle * M_PI / 180.0;
-	
-	if (angle_rad < 0.0)
-		angle_rad = -angle_rad; // Asegurar que el ángulo sea positivo para el coseno
-	double corrected_dist = ray.distance * ft_cos(angle_rad);
-	
-	if (corrected_dist <= 0.01)
-		corrected_dist = 0.01;
+	texture_iteration = RENDER_HEIGHT / (double)wall_height;
 
-	wall_height = (int)(win_height / corrected_dist) * 2;
-	
-	if (wall_height > win_height * 3)
-		wall_height = win_height * 3;
-	if (wall_height < 1)
-		wall_height = 1;
-
-	get_draw_limits(wall_height, win_height, &draw_start, &draw_end);
-	
-	// Obtener la textura correspondiente al tipo de pared
-	texture = get_texture_for_wall(game, ray.type);
-	
-	// Calcular coordenada X en la textura basada en la posición del impacto del rayo
-	tex_x = 0; // Valor por defecto
-	if (texture)
-	{
-		// Usar la posición fraccionaria del impacto para mapear a la textura
-		double wall_hit;
-		
-		// Dependiendo de la orientación de la pared, usar X o Y
-		if (ray.type == WALL_NO || ray.type == WALL_SO)
-		{
-			// Paredes horizontales - usar coordenada X
-			wall_hit = ray.impact.x - floor(ray.impact.x);
-		}
-		else
-		{
-			// Paredes verticales - usar coordenada Y
-			wall_hit = ray.impact.y - floor(ray.impact.y);
-		}
-		
-		tex_x = (int)(wall_hit * texture->width);
-		
-		// Asegurar que tex_x esté en rango válido
-		if (tex_x >= texture->width)
-			tex_x = texture->width - 1;
-		if (tex_x < 0)
-			tex_x = 0;
-			
-		// Debug para las primeras llamadas
-		if (debug_count < 5)
-		{
-			printf("DEBUG %d: wall_type=%d, impact=(%.2f,%.2f), wall_hit=%.2f, tex_x=%d, texture_size=%dx%d\n", 
-				debug_count, ray.type, ray.impact.x, ray.impact.y, wall_hit, tex_x, texture->width, texture->height);
-			debug_count++;
-		}
-	}
-
-	y = draw_start;
-	while (y <= draw_end && y < WINDOW_HEIGHT)
-	{
-		if (y >= 0)
-		{
-			if (texture)
-			{
-				// Calcular coordenada Y en la textura
-				double d = y - win_height / 2 + wall_height / 2;
-				int tex_y = (int)((d * texture->height) / wall_height);
-				
-				// Asegurar que tex_y esté en rango válido
-				if (tex_y >= texture->height)
-					tex_y = texture->height - 1;
-				if (tex_y < 0)
-					tex_y = 0;
-					
-				// TEMPORAL: get_texture_color retorna color fijo para testing
-				pixel_color = get_texture_color(texture, tex_x, tex_y);
-			}
-			else
-			{
-				// Colores por defecto si no hay textura cargada
-				if (ray.type == WALL_NO)
-					pixel_color = 0xFF0000;
-				else if (ray.type == WALL_SO)
-					pixel_color = 0x00FF00;
-				else if (ray.type == WALL_EA)
-					pixel_color = 0x0000FF;
-				else if (ray.type == WALL_WE)
-					pixel_color = 0xFFFFFF;
-				else
-					pixel_color = 0xFFFF00;
-			}
-			
-			ft_draw_pixel_in_img(game->img_map->img, x, y, pixel_color);
-		}
-		y++;
-	}
+	if (wall_height > RENDER_HEIGHT)
+		render_start = 0;
+	else 
 }
 
 
 void ft_render_3d(t_game *game)
 {
-	int i;
-	double angle_step = FOV / WINDOW_WIDTH;
-	double start_angle =  -(FOV / 2);
-	double current_angle;
+	int			i;
+	double		angle_step;
+	double		start_angle;
+	double		current_angle;
 
-	if (!game || !game->raycasts)
-		return;
+	angle_step = FOV / RENDER_WIDTH;
+	start_angle =  -(FOV / 2);
 
 	draw_background(game);
 	i = 0;
-	while (i < WINDOW_WIDTH)
+	while (i < RENDER_WIDTH)
 	{
 		current_angle = start_angle + i * angle_step;
-		draw_column(game, -i + WINDOW_WIDTH, game->raycasts[i], current_angle);
+		draw_column(game, RENDER_WIDTH - i, game->raycasts[i], current_angle);
 		i++;
 	}
 }

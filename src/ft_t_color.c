@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 19:52:57 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/19 01:34:31 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/20 00:20:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,3 @@ void ft_mix_color(unsigned int *color, unsigned int  *mix_color, int percent)
 	rgba_c[2] = (rgba_c[2] * inv_percent + rgba_m[2] * percent) / 100;
 	rgba_c[3] = (rgba_c[3] * inv_percent + rgba_m[3] * percent) / 100;// revisar comportamiento real de mezcla alpha
 }
-

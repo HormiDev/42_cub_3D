@@ -73,43 +73,47 @@ static void check_all_directives_found(bool found[6], const char *dirs[6])
 	}
 }
 
-/**
- * @brief Encuentra el índice de inicio del mapa en el contenido del archivo.
- *
- * Esta función recorre el contenido del archivo para encontrar la primera línea que
- * contiene un carácter distinto de espacio y verifica la presencia de todas las directivas requeridas.
- * Devuelve el índice de la primera línea del mapa.
- *
- * @param map_file Puntero a la estructura de archivo que contiene el contenido del mapa.
- * @return int El índice de la primera línea del mapa.
- */
-int ft_get_map_start_index(t_file *map_file)
+static void update_found_directive(char *line, bool found[6], const char *dirs[6])
 {
-	int i; 
-	int	k;
-	bool found[6] = {false, false, false, false, false, false};
-	const char *dirs[6] = {"NO ", "SO ", "EA ", "WE ", "F ", "C "};
-	
-	i = 0; 
+	int k;
+
+	k = 0;
+	while (k < 6)
+	{
+		if (ft_strncmp_p(line, dirs[k], ft_strlen(dirs[k])) == 0)
+		{
+			found[k] = true;
+			break;
+		}
+		k++;
+	}
+}
+
+static int find_map_start_index(t_file *map_file, bool found[6], const char *dirs[6])
+{
+	int		i;
+
+	i = 0;
 	while (map_file->array_content[i])
 	{
 		if (!is_only_spaces(map_file->array_content[i]))
 		{
-			k = 0;
-			while (k < 6)
-			{
-				if (ft_strncmp_p(map_file->array_content[i], dirs[k], ft_strlen(dirs[k])) == 0)
-				{
-					found[k] = true;
-					break;
-				}
-				k++;
-			}
-			if (k == 6)
+			update_found_directive(map_file->array_content[i], found, dirs);
+			if (!is_directive_line(map_file->array_content[i]))
 				break;
 		}
 		i++;
 	}
+	return i;
+}
+
+int ft_get_map_start_index(t_file *map_file)
+{
+	bool		found[6] = {false, false, false, false, false, false};
+	const char	*dirs[6] = {"NO ", "SO ", "EA ", "WE ", "F ", "C "};
+	int				i;
+
+	i = find_map_start_index(map_file, found, dirs);
 	check_all_directives_found(found, dirs);
 	return i;
 }

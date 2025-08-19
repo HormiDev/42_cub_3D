@@ -5,12 +5,34 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 18:17:36 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/05/09 01:36:556 by ide-dieg         ###   ########.fr       */
+/*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
+/*   Updated: 2025/08/19 18:59:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d.h"
+
+void ft_create_render(t_game *game)
+{
+	int i;
+
+	game->render = ft_alloc_lst(sizeof(t_texture), 4);
+	game->render->img = mlx_new_image(game->mlx, RENDER_WIDTH, RENDER_HEIGHT);
+	if (!game->render->img)
+	{
+		ft_dprintf(2, "Error: Failed to create render image\n");
+		ft_close_game(1);
+	}
+	game->render->width = RENDER_WIDTH;
+	game->render->height = RENDER_HEIGHT;
+	game->render->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * RENDER_HEIGHT, 4);
+	i = 0;
+	while (i < RENDER_HEIGHT)
+	{
+		game->render->colors_matrix[i] = game->render->img->data + (i * sizeof(unsigned int) * RENDER_WIDTH);
+		i++;
+	}
+}
 
 /**
  * @brief Carga el juego desde un archivo de mapa.
@@ -31,27 +53,19 @@ t_game	*ft_loading_game(char *path_map)
 	map_file = ft_create_file_from_filename(path_map);
 	if (!map_file)
 	{
-		ft_dprintf(2, "Error\n");
+		ft_dprintf(2, "Error: Failed to create map\n");
 		return (0);
 	}
-	//ft_file_print(map_file);
-
 	ft_parse_map(game, map_file);
 	ft_read_textures_in_map(game, map_file);
-	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * WINDOW_WIDTH, 4);
-	if (!game->raycasts)
-	{
-		ft_dprintf(2, "Error: Failed to allocate raycast array\n");
-		return (0);
-	}
+	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * RENDER_WIDTH, 4);
 	ft_config_player(game);
+	ft_create_render(game);
 	ft_sin(0);
 	ft_cos(0);
 	ft_sqrt(0);
 	ft_debug_game(game);
 	ft_file_clear(&map_file);
-	ft_printf("Map loaded successfully\n");
-	
 	return (game);
 }
 

@@ -135,6 +135,15 @@ int	ft_end_column_map(t_file *map_file, const int *height_start_end)
 	return (end_column);
 }
 
+/**
+ * @brief Rota el mapa en el eje Y, invirtiendo el orden de las líneas.
+ *
+ * Intercambia las líneas del mapa desde la primera hasta la última,
+ * invirtiendo su orden para que la primera línea se convierta en la última
+ * y viceversa.
+ *
+ * @param game Puntero a la estructura del juego que contiene el mapa.
+ */
 void	ft_rotate_map_y(t_game *game)
 {
 	char	*tmp;
