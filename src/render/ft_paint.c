@@ -1,9 +1,9 @@
 #include "../../includes/cub_3d.h"
+
 /**
  * @brief draw_background - Dibuja el fondo (techo y suelo) de la pantalla
  * @param game: Puntero a la estructura del juego
-*/
- 
+*/ 
 void draw_background(t_game *game)
 {
 	int x, y;

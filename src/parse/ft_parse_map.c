@@ -6,12 +6,22 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:15 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/06/06 18:24:31 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/13 20:29:34 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d.h"
 
+/**
+ * @brief Parsea el mapa del juego.
+ *
+ * Esta función determina las dimensiones del mapa (ancho y alto) y crea el mapa
+ * en la estructura del juego. También verifica que el mapa sea válido y lo rota
+ * si es necesario.
+ *
+ * @param game Puntero a la estructura del juego donde se almacenará el mapa.
+ * @param map_file Puntero a la estructura del archivo que contiene el mapa.
+ */
 void	ft_parse_map(t_game *game, t_file *map_file)
 {
 	int height_start_end[2];

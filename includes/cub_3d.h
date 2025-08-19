@@ -1,3 +1,4 @@
+
 #ifndef CUB_3D_H
 # define CUB_3D_H
 
@@ -10,10 +11,6 @@
 # include <stdio.h>
 # include <math.h>
 # include <errno.h>
-# include <limits.h>
-# include <stdbool.h>
-# include <stdio.h>
-# include <math.h>
  
 # define C_RED			0xFFFF0000
 # define C_WHITE		0xFFFFFF
@@ -69,20 +66,14 @@ typedef enum e_wall_direction
 	WALL_WE = 3
 } t_wall_direction;
 
-typedef struct s_color
-{
-	unsigned int 	color;
-	unsigned char	*rgba;
-}	t_color;
-
 typedef struct s_texture
 {
+	t_img			*img;
 	char			*path;
+	unsigned int	texture_color;
 	int				width;
 	int				height;
-	int				size_colors;
-	t_color			*pixels; 
-	unsigned int	*colors;
+	unsigned int	*colors_matrix;
 } t_texture;
 
 typedef struct s_cursor
@@ -125,15 +116,6 @@ typedef struct s_player
 
 } t_player;
 
-typedef struct s_image
-{
-	void	*img;
-	char	*img_data;
-	int		bits_pixel;
-	int		image_len;
-	int		end; 
-} t_image;
-
 typedef struct s_input {
 	int front;
 	int back;
@@ -159,19 +141,28 @@ typedef struct s_gamepad {
 	int	right_stick_y;
 } t_gamepad;
 
+typedef struct s_image
+{
+	void	*img;
+	char	*img_data;
+	int		bits_pixel;
+	int		image_len;
+	int		end; 
+} t_image;
+
 typedef struct s_game 
 {
-	char		**map; 
+	char		**map;
 	int			width_height[2];
 	int     	floor_color[3];
     int     	ceiling_color[3];
 	t_list		*textures[4]; // Array of textures for North, South, East, West
-	t_texture 	floor_tex;
-	t_texture 	ceiling_tex; 
+	t_texture 	*floor_tex;
+	t_texture 	*ceiling_tex; 
 	void		*mlx;
 	t_raycast	*raycasts; 
 	void		*window;
-	t_image 	*img_map; 
+	t_image		*img_map;
 	t_player 	player;
 	t_input		input;
 	t_gamepad	gamepad;
@@ -180,91 +171,110 @@ typedef struct s_game
 	long		last_frame_time;
 }	t_game;
 
+// ============================================================================
+// MAIN FUNCTIONS
+// ============================================================================
 int				ft_check_args(int argc, char **argv);
 t_game			*ft_loading_game(char *path_map);
 void			ft_close_game(int exit_code);
 int				ft_close_game_for_mlx(t_game *game);
-void 			ft_parse_colors(t_game *game, t_file *map_file);
-void			ft_parse_textures(t_game *game, t_file *map_file); 
-void			ft_debug_game(t_game *game);
-int				ft_get_map_start_index(t_file *map_file);
-int				ft_check_map_closed(t_game *game);
-void			ft_config_mlx(t_game *game);
-void			ft_draw_map(t_game *game);
-void			ft_config_player(t_game *game);
-void			ft_check_map(t_game *game);
-void			ft_create_game_map(t_game *game, t_file *map_file, const int *height_start_end, const int *width_start_end);
-int				ft_end_column_map(t_file *map_file, const int *height_start_end);
-int				ft_start_column_map(t_file *map_file, const int *height_start_end);
-void			ft_parse_map(t_game *game, t_file *map_file);
-//int		 	ft_handle_key(void *parm);
 
-//rays
-void			ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size);
-void			ft_draw_line_in_image(t_game *game, t_vector2 vertex1, t_vector2 vertex2, int color);
-int				ft_mouse_move(int x, int y, t_game *game);
-double			ft_angle_rad(double degrees);
-int				ft_update(void *param);
-int 			ft_key_release(int keycode, t_game *game);
-int 			ft_key_press(int keycode, t_game *game);
+// ============================================================================
+// CONFIGURATION FUNCTIONS
+// ============================================================================
+void			ft_config_mlx(t_game *game);
+void			ft_config_player(t_game *game);
+
+// ============================================================================
+// PARSING FUNCTIONS
+// ============================================================================
+void			ft_parse_map(t_game *game, t_file *map_file);
+void 			ft_parse_colors(t_game *game, t_file *map_file);
+void			ft_read_textures_in_map(t_game *game, t_file *map_file);
+int				ft_path_or_color(char *str);
+
+// Map parsing utilities
+int				ft_get_map_start_index(t_file *map_file);
 int				ft_start_line_map(t_file *map_file);
 int				ft_end_line_map(t_file *map_file, int start_line);
 int				ft_start_column_map(t_file *map_file, const int *height_start_end);
 int				ft_end_column_map(t_file *map_file, const int *height_start_end);
+void			ft_create_game_map(t_game *game, t_file *map_file, const int *height_start_end, const int *width_start_end);
 void			ft_rotate_map_y(t_game *game);
+
+// Map validation
+void			ft_check_map(t_game *game);
+int				ft_check_map_closed(t_game *game);
+
+// XPM parsing
+void			check_arguments_xpm(char *path);
+
+// ============================================================================
+// GAME LOOP & UPDATE FUNCTIONS
+// ============================================================================
+int				ft_update(void *param);
+long			ft_get_time(void);
+
+// ============================================================================
+// MOVEMENT & INPUT FUNCTIONS
+// ============================================================================
+void			ft_movement_2d(t_game *game);
+void 			ft_forwad_back(t_game *game, double move_speed);
+void 			ft_right_left(t_game *game, double move_speed);
+int 			ft_key_press(int keycode, t_game *game);
+int 			ft_key_release(int keycode, t_game *game);
+int				ft_mouse_move(int x, int y, t_game *game);
+
+// Gamepad functions
+void			ft_init_gamepad(t_game *game);
+void			ft_free_gamepad(t_game *game);
+void			ft_update_gamepad(t_game *game);
+void			ft_gamepad_movement(t_game *game);
+
+// ============================================================================
+// RAYCAST FUNCTIONS
+// ============================================================================
+void			ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size);
+void			ft_calculate_raycasts(t_game *game);
+
+// ============================================================================
+// RENDER FUNCTIONS
+// ============================================================================
+void			ft_render_3d(t_game *game);
+void			ft_draw_map(t_game *game);
+void			draw_column(t_game *game, int x, t_raycast ray, double ray_angle);
 void			ft_draw_player(t_game *game);
-int				get_pixel_color_from_game(t_game *game, int x, int y);
+
+// Drawing utilities
+void			ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color);
 void			ft_draw_pixel_in_img(t_img *img, int x, int y, int color);
 void			ft_draw_circle(t_game *game, int cx, int cy, int color);
 void			ft_draw_sq(t_game *game, int x, int y, int color);
 void			ft_draw_grid_horizontal(t_game *game, int color);
 void			ft_draw_grid_vertical(t_game *game, int color);
-void			ft_calculate_raycasts(t_game *game);
-//textures 
-int				extract_texture_from_xpm(const char *path, t_texture *tex);
 
-// movement
-void ft_movement_2d(t_game *game); 
-
-// gamepad
-void	ft_init_gamepad(t_game *game);
-void	ft_free_gamepad(t_game *game);
-void	ft_update_gamepad(t_game *game);
-void	ft_gamepad_movement(t_game *game); 
-
-void debug_print_textures(t_game *game);
-
-// render 
-long			ft_long_diff(long a, long b);
-int				ft_int_diff(int a, int b);
-int				ft_int_max(int a, int b);
-void			ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color);
+// Utility functions
 double			ft_double_diff(double a, double b);
 double			ft_vector_distance(t_vector2 a, t_vector2 b);
 
-//math
+// ============================================================================
+// MATH FUNCTIONS
+// ============================================================================
+double			ft_angle_rad(double degrees);
 double			ft_cos(double angle);
 double			ft_sin(double angle);
 double			ft_sqrt(double value);
-//debug 
+
+// ============================================================================
+// COLOR FUNCTIONS
+// ============================================================================
+void			ft_mix_color(unsigned int *color, unsigned int  *mix_color, int percent);
+
+// ============================================================================
+// DEBUG FUNCTIONS
+// ============================================================================
+void			ft_debug_game(t_game *game);
 void			ft_print_map(char **map);
-void			ft_render_3d(t_game *game); 
-// xpm
-unsigned int 	parse_color_hex(const char *str);
-int				parse_xpm_header(char *line, int *w, int *h, int *n_colors, int *cpp);
-int				parse_xpm_colors(char **lines, int *i, int n_colors, unsigned int *colors, char *symbols);
-int				parse_xpm_pixels(char **lines, int *i, int w, int h, t_color *pixels, char *symbols, unsigned int *colors);
-int				parse_xpm_file_header_and_alloc(const char **lines, int *i, t_texture *tex, char *symbols);
-
-void ft_forwad_back(t_game *game, double move_speed);
-void ft_right_left(t_game *game, double move_speed);
-
-long			ft_get_time(void);
-
-void draw_column(t_game *game, int x, t_raycast ray, double ray_angle);
-
-// t_color
-void ft_init_t_color(t_color *color);
-void ft_mix_t_color(t_color *color, t_color *mix_color, int percent);
+void			debug_print_textures(t_game *game);
 
 #endif

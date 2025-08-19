@@ -21,6 +21,17 @@ int ft_int_max(int a, int b) // llevar a la libft
 	return b;
 }
 
+/**
+ * @brief Dibuja una línea en la imagen del mapa.
+ *
+ * Esta función dibuja una línea entre dos puntos en la imagen del mapa utilizando el algoritmo de Bresenham.
+ * Se utiliza para representar rayos o líneas de visión en el mapa.
+ *
+ * @param game Puntero a la estructura del juego que contiene la imagen del mapa.
+ * @param start Punto de inicio de la línea.
+ * @param end Punto final de la línea.
+ * @param color Color de la línea a dibujar.
+ */
 void ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color)
 {
 	t_vector2 pixel;
@@ -43,6 +54,16 @@ void ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int col
 	}
 }
 
+/**
+ * @brief Calcula la diferencia absoluta entre dos números de tipo double.
+ *
+ * Esta función devuelve la diferencia absoluta entre dos números de tipo double.
+ * Se utiliza para calcular distancias y diferencias en coordenadas.
+ *
+ * @param a Primer número.
+ * @param b Segundo número.
+ * @return La diferencia absoluta entre a y b.
+ */
 double ft_double_diff(double a, double b)
 {
 	if (a > b)
@@ -50,6 +71,16 @@ double ft_double_diff(double a, double b)
 	return (b - a);
 }
 
+/**
+ * @brief Calcula la distancia entre dos puntos en un espacio bidimensional.
+ *
+ * Esta función calcula la distancia euclidiana entre dos puntos representados por estructuras t_vector2.
+ * Se utiliza para determinar la distancia entre el jugador y un impacto de rayo.
+ *
+ * @param a Primer punto (vector).
+ * @param b Segundo punto (vector).
+ * @return La distancia entre los puntos a y b.
+ */
 double ft_vector_distance(t_vector2 a, t_vector2 b)
 {
 	t_vector2 diff;

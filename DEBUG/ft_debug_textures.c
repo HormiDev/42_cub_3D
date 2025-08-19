@@ -6,13 +6,13 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:06:20 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/17 16:54:12 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/07/20 20:59:35 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <stdio.h>
 # include "../includes/cub_3d.h"
-       
+
 static void ft_print_color(const char *label, int color[3])
 {
     ft_dprintf(1, "%s: R:%d, G:%d, B=%d\n", label, color[0], color[1], color[2]);

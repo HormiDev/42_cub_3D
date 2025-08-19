@@ -1,5 +1,15 @@
 #include "../../includes/cub_3d.h"
 
+/**
+ * @brief Itera la posición del rayo hacia arriba o abajo según el cuadrante.
+ *
+ * Esta función ajusta la posición del rayo en el eje Y dependiendo del cuadrante
+ * en el que se encuentre. Se utiliza para avanzar el rayo en la dirección correcta.
+ *
+ * @param position_xy Puntero a un array que contiene las coordenadas X e Y del rayo.
+ * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
+ * @param iter Valor de iteración para avanzar el rayo.
+ */
 void ft_ray_iter_up(int *position_xy, int cuadrant, int iter)
 {
 	if (cuadrant == 0)
@@ -12,6 +22,16 @@ void ft_ray_iter_up(int *position_xy, int cuadrant, int iter)
 		position_xy[0] += iter;
 }
 
+/**
+ * @brief Itera la posición del rayo hacia la derecha o izquierda según el cuadrante.
+ *
+ * Esta función ajusta la posición del rayo en el eje X dependiendo del cuadrante
+ * en el que se encuentre. Se utiliza para avanzar el rayo en la dirección correcta.
+ *
+ * @param position_xy Puntero a un array que contiene las coordenadas X e Y del rayo.
+ * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
+ * @param iter Valor de iteración para avanzar el rayo.
+ */
 void ft_ray_iter_right(int *position_xy, int cuadrant, int iter)
 {
 	if (cuadrant == 0)
@@ -24,6 +44,17 @@ void ft_ray_iter_right(int *position_xy, int cuadrant, int iter)
 		position_xy[1] -= iter;
 }
 
+/**
+ * @brief Calcula la distancia desde la posición del jugador hasta el tile del rayo.
+ *
+ * Esta función calcula la distancia en los ejes X e Y desde la posición del jugador
+ * hasta el tile donde impacta el rayo, dependiendo del cuadrante en el que se encuentre.
+ *
+ * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
+ * @param tile_ray_xy Array que contiene las coordenadas X e Y del tile del rayo.
+ * @param player_position Posición actual del jugador.
+ * @param distance Puntero a una estructura t_vector2 donde se almacenarán las distancias calculadas.
+ */
 void ft_calc_distance(int cuadrant, int *tile_ray_xy, t_vector2 player_position, t_vector2 *distance)
 {
 	if (cuadrant == 0)
@@ -48,6 +79,16 @@ void ft_calc_distance(int cuadrant, int *tile_ray_xy, t_vector2 player_position,
 	}
 }
 
+/**
+ * @brief Rota las distancias del rayo al cuadrante correspondiente.
+ *
+ * Esta función ajusta las distancias en los ejes X e Y según el cuadrante en el que se encuentre el rayo.
+ * Se utiliza para asegurar que las distancias se calculen correctamente en función de la dirección del rayo.
+ *
+ * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
+ * @param distance_x Puntero a la distancia en el eje X.
+ * @param distance_y Puntero a la distancia en el eje Y.
+ */
 void ft_rotate_to_cuadrant(int cuadrant, double *distance_x, double *distance_y)
 {
 	double aux_distance_x;
@@ -72,6 +113,18 @@ void ft_rotate_to_cuadrant(int cuadrant, double *distance_x, double *distance_y)
 	}
 }
 
+/**
+ * @brief Calcula la posición del impacto del rayo.
+ *
+ * Esta función calcula la posición del impacto del rayo en el mapa, sumando las distancias
+ * calculadas a la posición del jugador. También calcula la distancia total desde el jugador
+ * hasta el impacto.
+ *
+ * @param ray Puntero a la estructura t_raycast donde se almacenará el resultado.
+ * @param player_position Posición actual del jugador.
+ * @param distance_x Distancia en el eje X al impacto.
+ * @param distance_y Distancia en el eje Y al impacto.
+ */
 void ft_calc_ray_position(t_raycast *ray, t_vector2 *player_position, double distance_x, double distance_y)
 {
 	ray->impact.x = player_position->x + distance_x;
@@ -79,6 +132,16 @@ void ft_calc_ray_position(t_raycast *ray, t_vector2 *player_position, double dis
 	ray->distance = ft_vector_distance(*player_position, ray->impact);
 }
 
+/**
+ * @brief Asigna el tipo de pared al rayo según el cuadrante y la dirección.
+ *
+ * Esta función determina el tipo de pared (Norte, Sur, Este, Oeste) en función del cuadrante
+ * y si el rayo se mueve hacia arriba/derecha o hacia abajo/izquierda.
+ *
+ * @param ray Puntero a la estructura t_raycast donde se almacenará el tipo de pared.
+ * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
+ * @param up_right Indica si el rayo se mueve hacia arriba/derecha (0) o hacia abajo/izquierda (1).
+ */
 void ft_ray_type(t_raycast *ray, int cuadrant, int up_right)
 {
 	if (up_right == 0)
@@ -105,6 +168,19 @@ void ft_ray_type(t_raycast *ray, int cuadrant, int up_right)
 	}
 }
 
+/**
+ * @brief Calcula el impacto del rayo cuando se alcanza el tamaño máximo.
+ *
+ * Esta función calcula la posición de impacto del rayo en el mapa cuando se alcanza
+ * el tamaño máximo permitido. Se utiliza para evitar que el rayo se extienda más allá
+ * de los límites establecidos.
+ *
+ * @param game Puntero a la estructura del juego que contiene la información del jugador.
+ * @param angle Ángulo del rayo.
+ * @param ray Puntero a la estructura t_raycast donde se almacenará el resultado.
+ * @param max_size Tamaño máximo permitido para el rayo.
+ * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
+ */
 void ft_raycast_max_size(t_game *game, double angle, t_raycast *ray, double max_size, int cuadrant)
 {
 	t_vector2	distance;
@@ -121,6 +197,18 @@ void ft_raycast_max_size(t_game *game, double angle, t_raycast *ray, double max_
 	ray->type = -1;
 }
 
+/**
+ * @brief Realiza el raycasting para detectar colisiones con paredes en el mapa.
+ *
+ * Esta función calcula la trayectoria del rayo desde la posición del jugador
+ * en una dirección específica (ángulo) y determina el primer impacto con una pared.
+ * Si el rayo supera el tamaño máximo permitido, se ajusta su posición de impacto.
+ *
+ * @param game Puntero a la estructura del juego que contiene la información del jugador y el mapa.
+ * @param angle Ángulo en el que se dispara el rayo.
+ * @param ray Puntero a la estructura t_raycast donde se almacenará el resultado del raycasting.
+ * @param max_size Tamaño máximo permitido para el rayo.
+ */
 void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
 {
 	int		tile_ray_xy[2];
@@ -187,6 +275,16 @@ void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
 		}
 	}
 }
+
+/**
+ * @brief Dibuja el jugador en el mapa.
+ *
+ * Esta función dibuja un círculo rojo en la posición del jugador en el mapa.
+ * También puede dibujar líneas que representan la dirección del jugador, aunque
+ * esta funcionalidad está comentada actualmente.
+ *
+ * @param game Puntero a la estructura del juego que contiene la información del jugador.
+ */
 void ft_draw_player(t_game *game)
 {
 	int px;
@@ -220,6 +318,15 @@ void ft_draw_player(t_game *game)
 	ft_draw_line_in_image(game, (t_vector2){px, py}, front, C_RED);*/
 }
 
+/**
+ * @brief Dibuja un rayo en el mapa.
+ *
+ * Esta función dibuja una línea en el mapa que representa el rayo lanzado desde la posición del jugador.
+ * El color del rayo depende del tipo de pared con la que impacta.
+ *
+ * @param game Puntero a la estructura del juego que contiene la información del jugador y los raycasts.
+ * @param ray Puntero a la estructura t_raycast que contiene la información del rayo.
+ */
 void ft_draw_raycast(t_game *game, t_raycast *ray)
 {
 	int color;
@@ -239,6 +346,15 @@ void ft_draw_raycast(t_game *game, t_raycast *ray)
 		(t_vector2){ray->impact.x * TILE_MAP_SIZE, (-ray->impact.y + game->width_height[1]) * TILE_MAP_SIZE}, color);
 }
 
+/**
+ * @brief Dibuja el mapa del juego.
+ *
+ * Esta función recorre el mapa y dibuja cada tile según su tipo (pared, espacio vacío, etc.).
+ * También dibuja los raycasts y el jugador en el mapa, así como líneas que representan
+ * los bordes del mapa y la posición del ratón.
+ *
+ * @param game Puntero a la estructura del juego que contiene la información del mapa y el jugador.
+ */
 void ft_draw_map(t_game *game)
 {
 	int x;

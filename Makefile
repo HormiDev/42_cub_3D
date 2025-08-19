@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/08/12 01:46:37 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/08/18 19:01:18 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,25 +18,24 @@ NC = \033[0m
 NAME = cub3D
 
 SRC		=	src/main.c \
-			DEBUG/ft_debug.c \
+			DEBUG/ft_debug_textures.c \
 			src/ft_loading_game.c \
 			src/ft_close_game.c \
 			src/ft_sin_cos.c \
 			src/ft_config_player.c \
 			src/ft_config_mlx.c \
-			src/parse/ft_parse_textures.c \
 			src/parse/ft_check_args.c \
-			src/parse/ft_parse_colors.c \
 			src/parse/ft_parse_map.c \
+			src/parse/ft_parse_colors.c \
 			src/parse/ft_parse_map_utils.c \
 			src/parse/ft_check_map.c \
 			src/parse/ft_create_game_map.c \
-			src/parse/ft_read_textures.c \
 			src/parse/ft_map_origin.c \
 			src/parse/ft_walls_closed.c \
+			src/parse/ft_read_textures.c \
+			src/parse/ft_parse_textures.c \
 			src/render/map_utils.c \
 			src/render/raycast_utils.c \
-			src/render/ft_paint.c \
 			src/render/ft_draw_map.c \
 			src/game/ft_movement_2d.c \
 			src/game/ft_gamepad.c \
@@ -57,7 +56,7 @@ LFLAGS = -lXext -lX11 -lm
 OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror# -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g3 # -fsanitize=address
 
 all: clear $(NAME) title_print
 

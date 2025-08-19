@@ -1,114 +1,56 @@
 #include "../../includes/cub_3d.h"
+#include <errno.h>
+#include <fcntl.h>
 
-unsigned int parse_color_hex(const char *str)
+size_t	ft_count_char(const char *str, char c) // añadir a la libft
 {
-	unsigned int color = 0;
-	sscanf(str, "%x", &color);
-	printf("DEBUG: Parsing color '%s' -> 0x%08X\n", str, color);
-	return color;
-}
-int	parse_xpm_header(char *line, int *w, int *h, int *n_colors, int *cpp)
-{
-	char	*end = ft_strrchr(line, '"');
-	if (end)
-		*end = '\0';
-	if (sscanf(line, "%d %d %d %d", w, h, n_colors, cpp) != 4 || *cpp != 1)
-		return (-1);
-	return (0);
-}
-int	parse_xpm_colors(char **lines, int *i, int n_colors, unsigned int *colors, char *symbols)
-{
-	int		color_idx = 0;
-	char	*line;
-	char	*end;
-	char	sym;
-	char	hexcode[16];
-	char	*color_start;
+	size_t count;
+	size_t i;
 
-	while (color_idx < n_colors && lines[*i])
+	count = 0;
+	i = 0;
+	while (str[i])
 	{
-		line = ft_strchr(lines[*i], '"') + 1;
-		end = ft_strrchr(line, '"');
-		if (end)
-			*end = '\0';
-		
-		// Obtener el símbolo (primer carácter)
-		sym = line[0];
-		
-		// Buscar 'c ' en la línea
-		color_start = line;
-		while (*color_start && !(*color_start == 'c' && *(color_start + 1) == ' '))
-			color_start++;
-		
-		if (!*color_start)
-		{
-			printf("ERROR: No 'c ' found in color line: '%s'\n", line);
-			return (-1);
-		}
-		color_start += 2; // Saltar 'c '
-		
-		// Saltar espacios en blanco
-		while (*color_start == ' ' || *color_start == '\t')
-			color_start++;
-		
-		if (*color_start == '#')
-			color_start++; // Saltar '#'
-		
-		ft_strlcpy(hexcode, color_start, sizeof(hexcode));
-		
-		symbols[(unsigned char)sym] = color_idx;
-		colors[color_idx] = parse_color_hex(hexcode);
-		
-		(*i)++;
-		color_idx++;
+		if (str[i] == c)
+			count++;
+		i++;
 	}
-	return (0);
+	return (count);
 }
 
-int	parse_xpm_pixels(char **lines, int *i, int w, int h, t_color *pixels, char *symbols, unsigned int *colors)
+void		check_arguments_xpm(char *path)
 {
-	int		y = 0, x;
-	char	*line;
-	char	*end;
+	t_file			*file;
+	t_strlist		*current;
+	char			*start_quote;
+	char			*sub_str;
 
-	while (y < h && lines[*i])
+	file = ft_create_file_from_filename(path);
+	if (!file)
 	{
-		line = ft_strchr(lines[*i], '"') + 1;
-		end = ft_strrchr(line, '"');
-		if (end)
-			*end = '\0';
-		x = 0;
-		while (x < w)
-		{
-			int color_index = symbols[(unsigned char)line[x]];
-			int pixel_index = y * w + x;
-			pixels[pixel_index].color = colors[color_index];
-			x++;
-		}
-		y++;
-		(*i)++;
+		ft_dprintf(2, RED "Error: Failed to open XPM file: %s\n" RESET, path);
+		ft_close_game(1);
 	}
-	return (0);
-}
+	current = file->list_content;
+	while (current)
+	{
+		start_quote = ft_strchr(current->str, '\"');
+		if (start_quote)
+		{
+			if (!ft_strchr(start_quote + 1, '\"'))
+			{
+				ft_dprintf(2, RED "Error: Invalid XPM: The quote is not closed: %s\n" RESET, current->str);
+				ft_close_game(1);
+			}
+			sub_str = ft_substr_ae(start_quote + 1, 0, ft_strchr(start_quote + 1, '\"') - start_quote - 1);
+			if (ft_splitlen(ft_split_ae(sub_str,' ')) < 4 || ft_splitlen(ft_split_ae(sub_str,' ')) > 4)
 
-int	parse_xpm_file_header_and_alloc(const char **lines, int *i, t_texture *tex, char *symbols)
-{
-	(void)symbols; //para futuro 
-	int	w, h, n_colors, cpp;
-
-	while (lines[*i] && lines[*i][0] != '"')
-		(*i)++;
-	if (!lines[*i] || lines[*i][0] != '"')
-		return (-1);
-	if (parse_xpm_header(ft_strchr(lines[*i], '"') + 1, &w, &h, &n_colors, &cpp) < 0)
-		return (-1);
-
-	tex->width = w;
-	tex->height = h;
-	tex->size_colors = n_colors;
-	tex->colors = ft_alloc_lst(sizeof(unsigned int) * n_colors, 4);
-	tex->pixels = ft_alloc_lst(sizeof(t_color) * w * h, 4);
-	if (!tex->colors || !tex->pixels)
-		return (-1);
-	return 0;
+			{
+				ft_dprintf(2, "Error: Invalid XPM file format in line: %s\n", current->str);
+				ft_close_game(1);
+			}
+			return ;
+		}
+		current = current->next;
+	}
 }

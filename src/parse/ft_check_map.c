@@ -1,5 +1,11 @@
 #include "../../includes/cub_3d.h"
 
+/**
+ * @brief Realiza la operación principal de la función seleccionada.
+ * 
+ * @param parametro1 Descripción del primer parámetro.
+ * @param parametro2 Descripción del segundo parámetro.
+ */
 void	ft_check_map_valid_characters(char **map)
 {
 	int i;
@@ -24,6 +30,15 @@ void	ft_check_map_valid_characters(char **map)
 	}
 }
 
+/**
+ * @brief Cuenta el número de jugadores en el mapa.
+ * 
+ * Recorre el mapa y cuenta cuántas veces aparecen los caracteres que representan
+ * a los jugadores ('N', 'S', 'E', 'W'). Debe haber exactamente un jugador.
+ * 
+ * @param game Puntero a la estructura del juego que contiene el mapa.
+ * @return int Número de jugadores encontrados en el mapa.
+ */
 int	ft_check_map_count_player(t_game *game)
 {
 	int i;
@@ -47,6 +62,16 @@ int	ft_check_map_count_player(t_game *game)
 	return (player_count);
 }
 
+/**
+ * @brief Verifica si el mapa está cerrado.
+ * 
+ * Comprueba si el mapa está cerrado, es decir, si todas las áreas accesibles
+ * están rodeadas por paredes ('1'). Si el mapa no está cerrado, se imprime un
+ * mensaje de error y se cierra el juego.
+ * 
+ * @param game Puntero a la estructura del juego que contiene el mapa.
+ * @return int 1 si el mapa está cerrado, 0 si no lo está.
+ */
 void	ft_check_map(t_game *game)
 {
 	int player_count;

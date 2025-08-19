@@ -1,10 +1,3 @@
-C 225,0,0
-F 220,216,0
-
-NO textures/ladrillos_norte.xpm
-SO textures/ladrillos_sur.xpm
-EA textures/ladrillos_este.xpm
-WE textures/ladrillos_oeste.xpm
 
 
     1111111111111111111
@@ -18,3 +11,52 @@ WE textures/ladrillos_oeste.xpm
     1000000000000000001
     1000000000000000001
     1111111111111111111
+
+
+SO textures/ladrillos_sur.xpm
+SO textures/ladrillos_sur.xpm
+EA textures/ladrillos_este.xpm
+WE textures/ladrillos_oeste.xpm
+
+NO textures/ladrillos_norte.xpm
+EA textures/ladrillos_este.xpm
+WE textures/ladrillos_oeste.xpm
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+C 225,0,0
+F 0,255,0

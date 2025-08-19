@@ -6,13 +6,20 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/09 18:49:49 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/13 20:29:34 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d.h"
 
-
+/**
+ * @brief Libera la memoria asignada a la estructura mlx y cierra la ventana.
+ *
+ * Esta función libera la memoria asignada a la estructura mlx y cierra la ventana del juego.
+ * Se utiliza para limpiar los recursos antes de cerrar el juego.
+ *
+ * @param game Puntero a la estructura del juego que contiene la información de mlx.
+ */
 void	ft_free_mlx(t_game *game)
 {
 	if (game->mlx)
@@ -24,6 +31,15 @@ void	ft_free_mlx(t_game *game)
 	}
 }
 
+/**
+ * @brief Configura la biblioteca mlx y crea una ventana para el juego.
+ *
+ * Esta función inicializa la biblioteca mlx, crea una nueva ventana y una imagen
+ * para el mapa del juego. También configura los hooks para eventos de teclado y ratón.
+ * Si ocurre algún error durante la inicialización, se imprime un mensaje de error y se cierra el juego.
+ *
+ * @param game Puntero a la estructura del juego que contiene la información de mlx y la ventana.
+ */
 void	ft_config_mlx(t_game *game)
 {
 	game->mlx = mlx_init();

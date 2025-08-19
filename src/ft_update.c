@@ -6,12 +6,18 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/12 02:07:26 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/18 19:44:00 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d.h"
 
+/**
+ * @brief Calcula el tiempo transcurrido desde el último frame.
+ * Esta función obtiene el tiempo actual y calcula la diferencia con el tiempo del último frame.
+ * Luego, actualiza el tiempo del último frame y calcula el delta_time.
+ * @param game Puntero a la estructura del juego que contiene el tiempo del último frame y el delta_time.
+ */
 void ft_calc_delta_time(t_game *game)
 {
 	long current_time;
@@ -23,6 +29,14 @@ void ft_calc_delta_time(t_game *game)
 	game->last_frame_time = current_time;
 }
 
+/**
+ * @brief Actualiza el estado del juego y renderiza la escena.
+ * Esta función se llama en cada frame del juego. Calcula el tiempo delta,
+ * maneja los movimientos del jugador, limpia la ventana, realiza raycasts
+ * y renderiza la escena 3D. Finalmente, dibuja el mapa y actualiza la ventana.
+ * @param param Puntero a la estructura del juego que contiene toda la información necesaria.
+ * @return 0 para indicar que la actualización se realizó correctamente.
+ */
 int ft_update(void *param)
 {
 	t_game 	*game = (t_game *)param;
@@ -32,9 +46,9 @@ int ft_update(void *param)
 	ft_movement_2d(game);
 	mlx_clear_window(game->mlx, game->window);
 	ft_calculate_raycasts(game); 
-	ft_render_3d(game);
+	//ft_render_3d(game);
 	
-	//ft_draw_map(game);
+	ft_draw_map(game);
 	
 	mlx_put_image_to_window(game->mlx, game->window, game->img_map->img, 0, 0);
 	return (0);
