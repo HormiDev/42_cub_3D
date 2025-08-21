@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:54:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/18 19:43:22 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/21 01:12:27 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int main(int argc, char **argv)
 	ft_printf("Arguments are valid\n");
 	
 	game = ft_loading_game(argv[1]);
-	ft_config_mlx(game);
 	mlx_loop(game->mlx);
 	return (0);
 }

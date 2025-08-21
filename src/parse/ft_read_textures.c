@@ -37,8 +37,6 @@ static void	validate_xpm_line(char *line)
 	char	*sub_str;
 
 	start_quote = ft_strchr(line, '\"');
-	if (!start_quote)
-		return ;
 	if (!ft_strchr(start_quote + 1, '\"'))
 	{
 		ft_dprintf(2, RED "Error: Invalid XPM: The quote is not closed: %s\n" RESET, line);
@@ -46,7 +44,7 @@ static void	validate_xpm_line(char *line)
 	}
 	sub_str = ft_substr_ae(start_quote + 1, 0,
 			ft_strchr(start_quote + 1, '\"') - start_quote - 1);
-	if (ft_splitlen(ft_split_ae(sub_str, ' ')) != 4)
+	if (ft_splitlen(ft_split_ae(sub_str, ' ')) < 4)
 	{
 		ft_dprintf(2, "Error: Invalid XPM file format in line: %s\n", line);
 		ft_close_game(1);
@@ -75,7 +73,11 @@ void	check_arguments_xpm(char *path)
 	current = file->list_content;
 	while (current)
 	{
-		validate_xpm_line(current->str);
+		if (ft_strchr(current->str, '\"'))
+		{
+			validate_xpm_line(current->str);
+			return ;
+		}
 		current = current->next;
 	}
 }

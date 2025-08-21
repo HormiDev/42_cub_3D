@@ -6,24 +6,11 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 19:52:57 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/20 00:20:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/21 00:37:29 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d.h"
-
-/**
- * @brief Inicializa la estructura t_color.
- *
- * Esta función inicializa la estructura t_color asignando un puntero a su campo rgba.
- * Se utiliza para facilitar el acceso y manipulación del color en formato RGBA.
- *
- * @param color Puntero a la estructura t_color que se va a inicializar.
- */
-void ft_init_t_color(t_color *color)
-{
-	color->rgba = (unsigned char *)color->color;
-}
 
 /**
  * @brief Mezcla dos colores en un porcentaje dado.

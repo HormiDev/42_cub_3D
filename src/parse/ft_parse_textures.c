@@ -11,9 +11,10 @@ static void	ft_load_texture_from_path(t_game *game, t_texture *tex, char *path)
 {
 	int	i;
 
+	
 	check_arguments_xpm(path);
 	tex->path = ft_strdup(path);
-	tex->img = mlx_xpm_file_to_image(game->mlx, tex->path, &tex->width, &tex->height);
+	tex->img = (t_img *)mlx_xpm_file_to_image(game->mlx, tex->path, &tex->width, &tex->height);
 	if (!tex->img)
 	{
 		ft_dprintf(2, RED "Error: Failed to load texture from path: %s\n" RESET, tex->path);
@@ -23,7 +24,7 @@ static void	ft_load_texture_from_path(t_game *game, t_texture *tex, char *path)
 	i = 0;
 	while (i < tex->height)
 	{
-		tex->colors_matrix[i] = tex->img->data + (i * sizeof(unsigned int) * tex->width);
+		tex->colors_matrix[i] = (unsigned int *)(tex->img->data + (i * sizeof(char) * 4 * tex->width));
 		i++;
 	}
 }

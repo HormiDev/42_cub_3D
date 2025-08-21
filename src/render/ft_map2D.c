@@ -197,7 +197,72 @@ void ft_raycast_max_size(t_game *game, double angle, t_raycast *ray, double max_
 	ray->type = -1;
 }
 
+void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
+{
+	int		tile_ray_xy[2];
+	t_vector2	distance;
+	double		sin_cos[2];
+	int		cuadrant = 0;
+	double		aux_distance;
 
+	if (angle < 0)
+		angle += 360;
+	else if (angle >= 360)
+		angle -= 360;
+	while (angle >= 90)
+	{
+		angle -= 90;
+		cuadrant++;
+	}
+	ft_bzero(ray, sizeof(t_raycast));
+	tile_ray_xy[0] = (int)game->player.position.x;
+	tile_ray_xy[1] = (int)game->player.position.y;
+	sin_cos[0] = ft_sin(angle);
+	sin_cos[1] = ft_cos(angle);
+	while(1)
+	{
+		ft_calc_distance(cuadrant, tile_ray_xy, game->player.position, &distance);
+		aux_distance = sin_cos[1] * (distance.y / sin_cos[0]); // calcular la distancia de x al tocar el tile superior
+		if (aux_distance < distance.x)// si el rayo toca el tile superior
+		{
+			if (distance.x > max_size + 1)// si se supera la distancia maxima del rayo ¡¡¡formula milagrosa, comparar distancias de senos y cosenos!!!
+			{
+				ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
+				break;
+			}
+			ft_ray_iter_up(tile_ray_xy, cuadrant, 1);
+			if (game->map[tile_ray_xy[1]][tile_ray_xy[0]] == '1')// si el tile superior es una pared
+			{
+				ft_rotate_to_cuadrant(cuadrant, &aux_distance, &distance.y);
+				ft_calc_ray_position(ray, &(game->player.position), aux_distance, distance.y);
+				ft_ray_type(ray, cuadrant, 0);
+				if (ray->distance > max_size) // si la distancia es mayor que la maxima, se sale del bucle
+					ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
+				break ;
+			}
+		}
+		else // si el rayo toca el tile izquierdo
+		{
+			aux_distance = sin_cos[0] * (distance.x / sin_cos[1]); // calcular la distancia de y al tocar el tile izquierdo
+			if (distance.y > max_size + 1) // si se supera la distancia maxima del rayo
+			{
+				ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
+				break;
+			}
+			ft_ray_iter_right(tile_ray_xy, cuadrant, 1);
+			if (game->map[tile_ray_xy[1]][tile_ray_xy[0]] == '1') // si el tile izquierdo es una pared
+			{
+				distance.y = aux_distance; // calcular la distancia de y al tocar el tile izquierdo
+				ft_rotate_to_cuadrant(cuadrant, &distance.x, &distance.y);
+				ft_calc_ray_position(ray, &(game->player.position), distance.x, distance.y);
+				ft_ray_type(ray, cuadrant, 1);
+				if (ray->distance > max_size) // si la distancia es mayor que la maxima, se sale del bucle
+					ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
+				break ;
+			}
+		}
+	}
+}
 
 /**
  * @brief Dibuja el jugador en el mapa.
@@ -278,7 +343,7 @@ void ft_draw_raycast(t_game *game, t_raycast *ray)
  *
  * @param game Puntero a la estructura del juego que contiene la información del mapa y el jugador.
  */
-void ft_draw_map(t_game *game)
+void ft_map2D(t_game *game)
 {
 	int			x;
 	int			y;

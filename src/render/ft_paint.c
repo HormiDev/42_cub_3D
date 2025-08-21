@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/20 00:34:39 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/21 02:08:04 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ void draw_background(t_game *game)
 {
 	int					x;
 	int					y;
-	unsigned int		floor_color;
-	unsigned int		ceiling_color;
 	
 	y = 0;
 	while (y < RENDER_HEIGHT)
@@ -40,58 +38,34 @@ void draw_background(t_game *game)
 }
 
 /**
- * @brief get_draw_limits - Calcula las posiciones de inicio y fin para dibujar una columna de pared.
- * @param wall_height: Altura de la porción de pared a dibujar.
- * @param win_height: Altura de la ventana o pantalla.
- * @param draw_start: Puntero donde se almacena la coordenada y inicial de dibujo.
- * @param draw_end: Puntero donde se almacena la coordenada y final de dibujo.
- */
-static void	get_draw_limits(int wall_height, int win_height, int *draw_start, int *draw_end)
-{
-	*draw_start = -wall_height / 2 + win_height / 2;
-	if (*draw_start < 0)
-		*draw_start = 0;
-	*draw_end = wall_height / 2 + win_height / 2;
-	if (*draw_end >= win_height)
-		*draw_end = win_height - 1;
-}
-
- 
-/**
  * @brief get_texture_for_wall - Obtiene la textura correspondiente al tipo de pared
  * @param game: Puntero a la estructura del juego
  * @param wall_type: Tipo de pared (WALL_NO, WALL_SO, WALL_EA, WALL_WE)
  * @return Puntero a la textura o NULL si no se encuentra
  */
-static t_texture *get_texture_for_wall(t_game *game, int wall_type)
+static t_texture *get_texture_for_wall(t_game *game, t_raycast *ray)
 {
 	t_list		*texture_list;
-	
-	if (!game || wall_type < 0 || wall_type > 3)
-		return (NULL);
-		
-	texture_list = game->textures[wall_type];
+
+	texture_list = game->textures[ray->type];
 	if (!texture_list || !texture_list->content)
 		return (NULL);
 		
 	return ((t_texture *)texture_list->content);
 }
 
-int ft_calculate_wall_height(t_game *game, t_raycast ray, int x)//pal ojo de pez <--
+int ft_calculate_wall_height(t_raycast *ray, int x)
 {
 	double	column_angle;
 	double	angle_rad;
 	double	corrected_dist;
 	int		wall_height;
 
-	if (ray.type < 0 || ray.distance <= 0.0)
-		return;
-
 	column_angle = ((double)x / (double)RENDER_WIDTH - 0.5) * FOV;
 	angle_rad = column_angle * M_PI / 180.0;
 	if (angle_rad < 0.0)
 		angle_rad = -angle_rad; // Asegurar que el ángulo sea positivo para el coseno
-	corrected_dist = ray.distance * ft_cos(angle_rad);
+	corrected_dist = ray->distance * ft_cos(angle_rad);
 	if (corrected_dist <= 0.01)
 		corrected_dist = 0.01;
 	wall_height = (int)(RENDER_HEIGHT / corrected_dist) * 2;
@@ -102,43 +76,86 @@ int ft_calculate_wall_height(t_game *game, t_raycast ray, int x)//pal ojo de pez
 	return wall_height;
 }
 
-void draw_column(t_game *game, int x, t_raycast ray, double ray_angle)
+int ft_calc_texture_x(t_raycast *ray, t_texture *texture)
 {
-	int         wall_height;
-	int         y;
-	double		texture_iteration;
-	int			render_start;
-	double		texture_start;
+	int texture_x;
 
-	if (ray.type < 0 || ray.distance <= 0.0)
+	if (ray->type == WALL_NO || ray->type == WALL_SO)
+	{
+		texture_x = (int)((ray->impact.x - (int)ray->impact.x) * texture->width);
+		if (ray->type == WALL_SO)
+			texture_x = texture->width - texture_x - 1; // Invertir para el sur
+	}
+	else
+	{
+		texture_x = (int)((ray->impact.y - (int)ray->impact.y) * texture->width);
+		if (ray->type == WALL_EA)
+			texture_x = texture->width - texture_x - 1; // Invertir para el este
+	}
+	return texture_x;
+}
+
+void draw_column(t_game *game, int x, t_raycast *ray)
+{
+	int				wall_height;
+	int				y;
+	double			texture_iteration;
+	int				render_end;
+	double			texture_start;
+	int				texture_x;
+	t_texture		*texture;
+
+	if (ray->type < 0 || ray->type > 3 || ray->distance <= 0.0)
 		return;
-	wall_height = ft_calculate_wall_height(game, ray, x);
+	wall_height = ft_calculate_wall_height(ray, x);
 	if (wall_height <= 0)
 		return;
-	texture_iteration = RENDER_HEIGHT / (double)wall_height;
 
+	texture = get_texture_for_wall(game, ray);
+	texture_iteration = (double)texture->height / (double)wall_height;
 	if (wall_height > RENDER_HEIGHT)
-		render_start = 0;
-	else 
+	{
+		y = 0;
+		render_end = RENDER_HEIGHT - 1;
+		texture_start = (double)((wall_height - RENDER_HEIGHT) / 2.0) / (double)wall_height * (double)texture->height;
+	}
+	else
+	{
+		y = (RENDER_HEIGHT - wall_height) / 2;
+		render_end = y + wall_height - 1;
+		texture_start = 0.0;
+	}
+	if (texture->path == NULL) // Si la textura es un color sólido
+	{
+		while (y < render_end)
+		{
+			game->render->colors_matrix[y][x] = texture->texture_color;
+			y++;
+		}
+	}
+	else
+	{
+		texture_x = ft_calc_texture_x(ray, texture);
+		while (y < render_end)
+		{
+			game->render->colors_matrix[y][x] = texture->colors_matrix[(int)texture_start][texture_x];
+			texture_start += texture_iteration;
+			y++;
+		}
+	}
 }
 
 
 void ft_render_3d(t_game *game)
 {
 	int			i;
-	double		angle_step;
-	double		start_angle;
-	double		current_angle;
-
-	angle_step = FOV / RENDER_WIDTH;
-	start_angle =  -(FOV / 2);
 
 	draw_background(game);
 	i = 0;
 	while (i < RENDER_WIDTH)
 	{
-		current_angle = start_angle + i * angle_step;
-		draw_column(game, RENDER_WIDTH - i, game->raycasts[i], current_angle);
+		draw_column(game, RENDER_WIDTH - i - 1, &game->raycasts[i]);
 		i++;
 	}
+	
 }

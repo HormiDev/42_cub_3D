@@ -252,8 +252,8 @@ void			ft_calculate_raycasts(t_game *game);
 // RENDER FUNCTIONS
 // ============================================================================
 void			ft_render_3d(t_game *game);
-void			ft_draw_map(t_game *game);
-void			draw_column(t_game *game, int x, t_raycast ray, double ray_angle);
+void			ft_map2D(t_game *game);
+void			draw_column(t_game *game, int x, t_raycast *ray);
 void			ft_draw_player(t_game *game);
 
 // Drawing utilities
@@ -290,5 +290,6 @@ int				ft_str_isnumber(char *str);
 void			ft_debug_game(t_game *game);
 void			ft_print_map(char **map);
 void			debug_print_textures(t_game *game);
+long			ft_long_diff(long a, long b);
 
 #endif

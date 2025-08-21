@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/19 18:59:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/21 01:12:14 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void ft_create_render(t_game *game)
 	i = 0;
 	while (i < RENDER_HEIGHT)
 	{
-		game->render->colors_matrix[i] = game->render->img->data + (i * sizeof(unsigned int) * RENDER_WIDTH);
+		game->render->colors_matrix[i] = (unsigned int *)(game->render->img->data + (i * sizeof(unsigned int) * RENDER_WIDTH));
 		i++;
 	}
 }
@@ -50,6 +50,7 @@ t_game	*ft_loading_game(char *path_map)
 	t_file *map_file;
     
     game = ft_alloc_lst(sizeof(t_game), 4);
+	ft_config_mlx(game);
 	map_file = ft_create_file_from_filename(path_map);
 	if (!map_file)
 	{
@@ -64,7 +65,7 @@ t_game	*ft_loading_game(char *path_map)
 	ft_sin(0);
 	ft_cos(0);
 	ft_sqrt(0);
-	ft_debug_game(game);
+	//ft_debug_game(game);
 	ft_file_clear(&map_file);
 	return (game);
 }

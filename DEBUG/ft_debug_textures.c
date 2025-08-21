@@ -1,22 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_debug.c                                         :+:      :+:    :+:   */
+/*   ft_debug_textures.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:06:20 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/07/20 20:59:35 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/21 00:21:57 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <stdio.h>
 # include "../includes/cub_3d.h"
-
-static void ft_print_color(const char *label, int color[3])
-{
-    ft_dprintf(1, "%s: R:%d, G:%d, B=%d\n", label, color[0], color[1], color[2]);
-}
 
 void ft_print_map(char **map)
 {
@@ -79,9 +74,6 @@ void ft_debug_game(t_game *game)
     }
 
     ft_dprintf(1, "Map size: width=%d, height=%d\n", game->width_height[0], game->width_height[1]);
-
-    ft_print_color("Floor color", game->floor_color);
-    ft_print_color("Ceiling color", game->ceiling_color);
 
     if (game->map)
         ft_print_map(game->map);
