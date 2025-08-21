@@ -1,6 +1,6 @@
 	
-C 225,30,0
-F 220,216,0
+C 50,50,50
+F 50,50,50
 
 NO ./textures/ladrillos_este.xpm
 SO ./textures/ladrillos1.xpm

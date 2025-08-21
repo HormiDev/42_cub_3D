@@ -20,7 +20,7 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
-# define MAX_RAY_SIZE	20  // Aumentado para permitir distancias mayores
+# define MAX_RAY_SIZE	7  // Aumentado para permitir distancias mayores
 
 # define TILE_MAP_SIZE  100
 

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/21 02:08:04 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/21 02:20:57 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		texture_x = ft_calc_texture_x(ray, texture);
 		while (y < render_end)
 		{
-			game->render->colors_matrix[y][x] = texture->colors_matrix[(int)texture_start][texture_x];
+			ft_mix_color(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], -(ray->distance / MAX_RAY_SIZE * 100) + 100);
 			texture_start += texture_iteration;
 			y++;
 		}
