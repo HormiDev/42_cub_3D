@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:06:20 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/17 16:54:12 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/21 19:31:37 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void ft_debug_game(t_game *game)
     ft_print_color("Ceiling color", game->ceiling_color);
 
     if (game->map)
-        ft_print_map(game->map);
+        ft_print_map(game->map, -1, -1);
     else
         ft_dprintf(1, "Map: (null)\n");
 

@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/08/21 01:02:32 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/08/22 12:53:54 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,8 @@ SRC		=	src/main.c \
 			src/ft_t_color.c \
 			src/ft_update.c \
 			src/ft_get_time.c \
+			DEBUG/ft_debug_textures.c \
+			src/ft_scale_t_image.c \
 
 OBJ_DIR  = objects
 

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/21 02:05:46 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:04:41 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,14 @@ int ft_update(void *param)
 	char	string_fps[32];
 
 	ft_calc_delta_time(game);
-	printf("Fps: %d\n", (int)(1 / game->delta_time));
+	//printf("Fps: %d\n", (int)(1 / game->delta_time));
 	ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
 	ft_controls(game);
 	ft_calculate_raycasts(game); 
 	ft_render_3d(game);
 	mlx_clear_window(game->mlx, game->window);
-	mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
+	ft_scale_t_image(game->render, game->window_img);
+	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
 	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	//ft_map2D(game);
 	//mlx_put_image_to_window(game->mlx, game->window, game->img_map->img, 0, 0);

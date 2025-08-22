@@ -9,12 +9,14 @@ unsigned int	ft_parse_color_rgb(char *color_str)
 {
 	char			**rgb_values;
 	unsigned int	color;
+	unsigned char	*bgra;
 
 	rgb_values = ft_split_ae(color_str, ',');
-	color = ft_atoi(rgb_values[0]);
-	color = (color << 8) + ft_atoi(rgb_values[1]);
-	color = (color << 8) + ft_atoi(rgb_values[2]);
-	color = (color << 8) + 0xFF;
+	bgra = (unsigned char *)&color;
+	bgra[2] = ft_atoi(rgb_values[0]);
+	bgra[1] = ft_atoi(rgb_values[1]);
+	bgra[0] = ft_atoi(rgb_values[2]);
+	bgra[3] = 255;
 	return (color);
 }
 

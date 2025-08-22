@@ -21,7 +21,8 @@ void	ft_check_map_valid_characters(char **map)
 				&& map[i][j] != 'S' && map[i][j] != 'E' && map[i][j] != 'W'
 				&& map[i][j] != ' ')
 			{
-				ft_dprintf(2, "%sError: %c Invalid character in map\n%s", RED, map[i][j], RESET);
+				ft_print_map(map, j, i);
+				ft_dprintf(2, "%s%c Invalid character in map%s\n", RED, map[i][j], RESET);
 				ft_close_game(1);
 			}
 			j++;

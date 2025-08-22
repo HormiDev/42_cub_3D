@@ -1,10 +1,10 @@
 NO textures/ladrillos_norte.xpm
 SO textures/ladrillos_sur.xpm
 EA textures/ladrillos_este.xpm
-WE textures/ladrillos_oeste.xpm
+WE 255,0,0
 
-F 50,50,50
-C 50,50,50
+F 10,10,10
+C 10,10,10
 
                                                 1111111111111111111111111
                                                 1000000000110000000000001

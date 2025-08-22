@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/21 01:12:14 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:03:20 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,28 @@ void ft_create_render(t_game *game)
 	while (i < RENDER_HEIGHT)
 	{
 		game->render->colors_matrix[i] = (unsigned int *)(game->render->img->data + (i * sizeof(unsigned int) * RENDER_WIDTH));
+		i++;
+	}
+}
+
+void ft_create_window_img(t_game *game)
+{
+	int i;
+
+	game->window_img = ft_alloc_lst(sizeof(t_texture), 4);
+	game->window_img->img = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	if (!game->window_img->img)
+	{
+		ft_dprintf(2, "Error: Failed to create window image\n");
+		ft_close_game(1);
+	}
+	game->window_img->width = WINDOW_WIDTH;
+	game->window_img->height = WINDOW_HEIGHT;
+	game->window_img->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * WINDOW_HEIGHT, 4);
+	i = 0;
+	while (i < WINDOW_HEIGHT)
+	{
+		game->window_img->colors_matrix[i] = (unsigned int *)(game->window_img->img->data + (i * sizeof(unsigned int) * WINDOW_WIDTH));
 		i++;
 	}
 }
@@ -62,6 +84,7 @@ t_game	*ft_loading_game(char *path_map)
 	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * RENDER_WIDTH, 4);
 	ft_config_player(game);
 	ft_create_render(game);
+	ft_create_window_img(game);
 	ft_sin(0);
 	ft_cos(0);
 	ft_sqrt(0);

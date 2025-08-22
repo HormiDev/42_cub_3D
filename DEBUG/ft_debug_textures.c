@@ -6,27 +6,44 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 14:06:20 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/21 00:21:57 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/21 19:59:54 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include <stdio.h>
 # include "../includes/cub_3d.h"
 
-void ft_print_map(char **map)
+void ft_print_map(char **map, int error_x, int error_y)
 {
     int i;
+	int j;
 
-    i = 0;
+	if (error_x != -1 || error_y != -1)
+		ft_dprintf(2, "%sError: in %d, %d\n%s", RED, error_y + 1, error_x + 1, RESET);
     if(!map)
     {
-        ft_dprintf(1, "Map: (null)\n");
+        ft_dprintf(2, "Map: (null)\n");
         return ;
     }
-    ft_dprintf(1, "Map:\n");
+    ft_dprintf(2, "Map:\n");
+	i = 0;
     while(map[i])
     {
-        ft_dprintf(1, "%s\n", map[i]);
+		j = 0;
+		while (map[i][j])
+		{
+			if (i == error_y && j == error_x)
+			{
+				if (ft_isprint(map[i][j]))
+					ft_dprintf(2, "%s%c%s", RED, map[i][j], RESET);
+				else
+					ft_dprintf(2, "%s%c%s", RED, '?', RESET);
+			}
+			else
+				ft_dprintf(1, "%c", map[i][j]);
+			j++;
+		}
+		ft_dprintf(1, "\n");
         i++;
     }
 }
@@ -76,7 +93,7 @@ void ft_debug_game(t_game *game)
     ft_dprintf(1, "Map size: width=%d, height=%d\n", game->width_height[0], game->width_height[1]);
 
     if (game->map)
-        ft_print_map(game->map);
+        ft_print_map(game->map, -1, -1);
     else
         ft_dprintf(1, "Map: (null)\n");
 

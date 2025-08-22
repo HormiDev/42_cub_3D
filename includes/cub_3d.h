@@ -22,6 +22,12 @@
 # define C_GREEN		0x008f39
 # define MAX_RAY_SIZE	7  // Aumentado para permitir distancias mayores
 
+//minimap 
+#define MINIMAP_TILE_SIZE 8 //esto define el tamaño de cada tile en el minimapa
+#define MINIMAP_OFFSET_X 10 //  el margen que se deja entre el minimapa y el borde de la ventana x
+#define MINIMAP_OFFSET_Y 10 //  el margen que se deja entre el minimapa y el borde de la ventana y
+#define MINIMAP_SCALE 0.1 //  el factor de escala del minimapa, 0.1 significa que el minimapa sera 10 veces mas pequeño que la ventana
+
 # define TILE_MAP_SIZE  100
 
 # define ESC 			65307
@@ -54,11 +60,11 @@
 # endif
 
 # ifndef RENDER_WIDTH
-#  define RENDER_WIDTH 1920
+#  define RENDER_WIDTH 480
 # endif
 
 # ifndef RENDER_HEIGHT
-#  define RENDER_HEIGHT 1080
+#  define RENDER_HEIGHT 320
 # endif
 
 # define FOV 45.0
@@ -171,6 +177,7 @@ typedef struct s_game
 	void		*window;
 	t_image		*img_map;
 	t_texture	*render;
+	t_texture	*window_img;
 	t_player 	player;
 	t_input		input;
 	t_gamepad	gamepad;
@@ -255,6 +262,7 @@ void			ft_render_3d(t_game *game);
 void			ft_map2D(t_game *game);
 void			draw_column(t_game *game, int x, t_raycast *ray);
 void			ft_draw_player(t_game *game);
+void			ft_scale_t_image(t_texture *tex_origin, t_texture *text_destiny);
 
 // Drawing utilities
 void			ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color);
@@ -288,7 +296,7 @@ int				ft_str_isnumber(char *str);
 // DEBUG FUNCTIONS
 // ============================================================================
 void			ft_debug_game(t_game *game);
-void			ft_print_map(char **map);
+void			ft_print_map(char **map, int error_x, int error_y);
 void			debug_print_textures(t_game *game);
 long			ft_long_diff(long a, long b);
 

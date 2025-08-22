@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/21 02:20:57 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/21 18:34:48 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 	double			texture_start;
 	int				texture_x;
 	t_texture		*texture;
+	int				mist_density;
 
 	if (ray->type < 0 || ray->type > 3 || ray->distance <= 0.0)
 		return;
@@ -125,11 +126,12 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		render_end = y + wall_height - 1;
 		texture_start = 0.0;
 	}
+	mist_density = -(ray->distance / MAX_RAY_SIZE * 100) + 100;
 	if (texture->path == NULL) // Si la textura es un color sólido
 	{
 		while (y < render_end)
 		{
-			game->render->colors_matrix[y][x] = texture->texture_color;
+			ft_mix_color(&game->render->colors_matrix[y][x], &texture->texture_color, mist_density);
 			y++;
 		}
 	}
@@ -138,7 +140,7 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		texture_x = ft_calc_texture_x(ray, texture);
 		while (y < render_end)
 		{
-			ft_mix_color(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], -(ray->distance / MAX_RAY_SIZE * 100) + 100);
+			ft_mix_color(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], mist_density);
 			texture_start += texture_iteration;
 			y++;
 		}
