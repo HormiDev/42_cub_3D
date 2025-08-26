@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/22 13:04:41 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/26 19:34:55 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,9 @@ int ft_update(void *param)
 	ft_calculate_raycasts(game); 
 	ft_render_3d(game);
 	mlx_clear_window(game->mlx, game->window);
-	ft_scale_t_image(game->render, game->window_img);
+	ft_scale_t_image(game->render, game->window_img, game);
 	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
 	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	//ft_map2D(game);
-	//mlx_put_image_to_window(game->mlx, game->window, game->img_map->img, 0, 0);
 	return (0);
 }
