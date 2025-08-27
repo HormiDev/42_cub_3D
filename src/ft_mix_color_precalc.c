@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 19:52:57 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/26 00:41:07 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:55:05 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,11 @@ unsigned char ***ft_precalc_mixcolor(void)
  * @param mix_color Puntero al color con el que se va a mezclar.
  * @param percent Porcentaje de mezcla (0 a 100).
  */
-void ft_mix_color(unsigned int *color, unsigned int  *mix_color, int percent, t_game *game)
+void ft_mix_color_precalc(unsigned int *color, unsigned int  *mix_color, int percent, t_game *game)
 {
 	unsigned char *rgba_c;
 	unsigned char *rgba_m;
 
-	if (percent < 0)
-		return;
-	if (percent > 100)
-		percent = 100;
 	rgba_c = (unsigned char *)color;
 	rgba_m = (unsigned char *)mix_color;
 	rgba_c[0] = game->precalc.mix_colors[rgba_c[0]][rgba_m[0]][percent];

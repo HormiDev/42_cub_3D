@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:41:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/26 01:04:30 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:35:38 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	*ft_scale_precalc_x(void)
 	return scale_x_table;
 }
 
-void ft_scale_t_image(t_texture *tex_origin, t_texture *text_destiny, t_game *game)
+void ft_scale_t_image_precalc(t_texture *tex_origin, t_texture *text_destiny, t_game *game)
 {
 	int 	dest_x;
 	int 	dest_y;

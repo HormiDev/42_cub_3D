@@ -52,19 +52,19 @@
 # define RSHIFT			65506
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 1920
+#  define WINDOW_WIDTH 3840
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 1080
+#  define WINDOW_HEIGHT 2160
 # endif
 
 # ifndef RENDER_WIDTH
-#  define RENDER_WIDTH 1920
+#  define RENDER_WIDTH 960
 # endif
 
 # ifndef RENDER_HEIGHT
-#  define RENDER_HEIGHT 1080
+#  define RENDER_HEIGHT 540
 # endif
 
 # define FOV 45.0
@@ -270,7 +270,8 @@ void			ft_render_3d(t_game *game);
 void			ft_map2D(t_game *game);
 void			draw_column(t_game *game, int x, t_raycast *ray);
 void			ft_draw_player(t_game *game);
-void			ft_scale_t_image(t_texture *tex_origin, t_texture *text_destiny, t_game *game);
+void			ft_scale_t_image_precalc(t_texture *tex_origin, t_texture *text_destiny, t_game *game);
+void			ft_scale_t_image(t_texture *tex_origin, t_texture *text_destiny);
 
 // Drawing utilities
 void			ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color);
@@ -295,7 +296,8 @@ double			ft_sqrt(double value);
 // ============================================================================
 // COLOR FUNCTIONS
 // ============================================================================
-void			ft_mix_color(unsigned int *color, unsigned int  *mix_color, int percent, t_game *game);
+void			ft_mix_color_precalc(unsigned int *color, unsigned int  *mix_color, int percent, t_game *game);
+void			ft_mix_color(unsigned int *color, unsigned int  *mix_color, int percent);
 unsigned int	ft_parse_color_rgb(char *color_str);
 int				ft_path_or_color(char *str);
 int				ft_str_isnumber(char *str);
