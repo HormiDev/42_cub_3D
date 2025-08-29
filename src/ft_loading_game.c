@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/26 01:07:00 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/29 16:43:34 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_game	*ft_loading_game(char *path_map)
 	ft_sin(0);
 	ft_cos(0);
 	ft_sqrt(0);
-	game->precalc.mix_colors = ft_precalc_mixcolor();
+	//game->precalc.mix_colors = ft_precalc_mixcolor();
 	game->precalc.scale_x_table = ft_scale_precalc_x();
 	game->precalc.scale_y_table = ft_scale_precalc_y();
 	//ft_debug_game(game);

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/27 15:38:51 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/29 20:04:01 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,13 @@ int ft_update(void *param)
 	ft_calculate_raycasts(game); 
 	ft_render_3d(game);
 	mlx_clear_window(game->mlx, game->window);
-	ft_scale_t_image_precalc(game->render, game->window_img, game);
-	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
+	if (RENDER_HEIGHT != WINDOW_HEIGHT || RENDER_WIDTH != WINDOW_WIDTH)
+	{
+		ft_scale_t_image_precalc(game->render, game->window_img, game);
+		mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
+		mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
+	}
+	mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
 	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	//ft_map2D(game);
 	return (0);

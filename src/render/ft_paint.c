@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/27 15:49:07 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/29 20:02:02 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,13 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 	int				texture_x;
 	t_texture		*texture;
 	int				mist_density;
+	int				last_texture_pixel;
 
 	if (ray->type < 0 || ray->type > 3 || ray->distance <= 0.0)
 		return;
 	wall_height = ft_calculate_wall_height(ray, x);
 	if (wall_height <= 0)
 		return;
-
 	texture = get_texture_for_wall(game, ray);
 	texture_iteration = (double)texture->height / (double)wall_height;
 	if (wall_height > RENDER_HEIGHT)
@@ -127,12 +127,13 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		texture_start = 0.0;
 	}
 	mist_density = -(ray->distance / MAX_RAY_SIZE * 100) + 100;
+	last_texture_pixel = -1;
 	if (texture->path == NULL) // Si la textura es un color sólido
 	{
 		while (y < render_end)
 		{
-			ft_mix_color_precalc(&game->render->colors_matrix[y][x], &texture->texture_color, mist_density, game);
-			//ft_mix_color(&game->render->colors_matrix[y][x], &texture->texture_color, mist_density);
+			//ft_mix_color_precalc(&game->render->colors_matrix[y][x], &texture->texture_color, mist_density, game);
+			ft_mix_color(&game->render->colors_matrix[y][x], &texture->texture_color, mist_density);
 			y++;
 		}
 	}
@@ -141,8 +142,16 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		texture_x = ft_calc_texture_x(ray, texture);
 		while (y < render_end)
 		{
-			ft_mix_color_precalc(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], mist_density, game);
-			//ft_mix_color(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], mist_density);
+			if (last_texture_pixel == (int)texture_start)
+			{
+				game->render->colors_matrix[y][x] = game->render->colors_matrix[y - 1][x];
+			}
+			else
+			{
+				//ft_mix_color_precalc(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], mist_density, game);
+				ft_mix_color(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], mist_density);
+				last_texture_pixel = (int)texture_start;
+			}
 			texture_start += texture_iteration;
 			y++;
 		}

@@ -1,5 +1,9 @@
 #include  "../../includes/cub_3d.h"
 
+// Declaraciones de funciones auxiliares
+static int	ft_row_has_content(char *row);
+static int	ft_check_space_surrounded(char **map, int i, int j);
+
 /**
  * @brief Verifica si las filas superior e inferior del mapa están cerradas.
  *
@@ -13,20 +17,49 @@
 int ft_check_up_down(t_game *game)
 {
     int i;
+	int last_row;
 
 	i = 0;
-	while (game->map[0][i])
+	while (game->map[0] && game->map[0][i])
 	{
 		if (game->map[0][i] != '1' && game->map[0][i] != ' ')
 			return (ft_print_map(game->map, i, 0), 0);
 		i++;
 	}
-	i = 0;
-	while (game->map[game->width_height[1] - 1][i])
+	last_row = 0;
+	while (game->map[last_row])
+		last_row++;
+	last_row--; // Ajustar al índice de la última fila
+	
+	// Buscar hacia atrás hasta encontrar una fila con contenido real
+	while (last_row >= 0 && game->map[last_row])
 	{
-		if (game->map[game->width_height[1] - 1][i] != '1' 
-			&& game->map[game->width_height[1] - 1][i] != ' ')
-			return (ft_print_map(game->map, i, game->width_height[1] - 1), 0);
+		int has_content = 0;
+		int j = 0;
+		while (game->map[last_row][j])
+		{
+			if (game->map[last_row][j] != ' ' && game->map[last_row][j] != '\t')
+			{
+				has_content = 1;
+				break;
+			}
+			j++;
+		}
+		if (has_content)
+			break;
+		last_row--;
+	}
+	
+	// Verificar que last_row sea válido
+	if (last_row < 0 || !game->map[last_row])
+		return (ft_print_map(game->map, 0, 0), 0);
+	
+	i = 0;
+	while (game->map[last_row][i])
+	{
+		if (game->map[last_row][i] != '1' 
+			&& game->map[last_row][i] != ' ')
+			return (ft_print_map(game->map, i, last_row), 0);
 		i++;
 	}
     return (1); 
@@ -52,21 +85,70 @@ int ft_check_borders(char **map)
     i = 0; 
     while (map[i])
     {
-        len = ft_strlen_p(map[i]);
-        j = 0; 
-
-        while(map[i][j] == ' ')
-            j++; 
-        if(map[i][j] != '1')
-            return(ft_print_map(map, j, i), 0);
-        last = len - 1;
-        while (last > 0 && map[i][last] == ' ')
-            last--;
-        if (map[i][last] != '1')
-            return (ft_print_map(map, last, i), 0);
+        if (ft_row_has_content(map[i]))
+        {
+            len = ft_strlen_p(map[i]);
+            j = 0; 
+            while(map[i][j] == ' ')
+                j++; 
+            if(map[i][j] != '1')
+                return(ft_print_map(map, j, i), 0);
+            last = len - 1;
+            while (last > 0 && map[i][last] == ' ')
+                last--;
+            if (map[i][last] != '1')
+                return (ft_print_map(map, last, i), 0);
+        }
         i++;
     }
     return (1); 
+}
+
+/**
+ * @brief Verifica si una fila tiene contenido real (no solo espacios).
+ *
+ * Esta función auxiliar verifica si una fila contiene caracteres que no sean
+ * espacios o tabulaciones.
+ *
+ * @param row Fila del mapa a verificar.
+ * @return int 1 si tiene contenido real, 0 si solo tiene espacios.
+ */
+static int	ft_row_has_content(char *row)
+{
+	int	k;
+
+	k = 0;
+	while (row[k])
+	{
+		if (row[k] != ' ' && row[k] != '\t')
+			return (1);
+		k++;
+	}
+	return (0);
+}
+
+/**
+ * @brief Verifica si un espacio está correctamente cerrado.
+ *
+ * Esta función auxiliar verifica que un espacio vacío esté rodeado por
+ * paredes ('1') o por otros espacios vacíos.
+ *
+ * @param map Mapa a verificar.
+ * @param i Índice de fila del espacio.
+ * @param j Índice de columna del espacio.
+ * @return int 1 si está correctamente cerrado, 0 en caso contrario.
+ */
+static int	ft_check_space_surrounded(char **map, int i, int j)
+{
+	if (i > 0 && map[i - 1][j] != 0 && map[i - 1][j] != '1' && map[i - 1][j] != ' ')
+		return (ft_print_map(map, j, i - 1), 0);
+	if (map[i + 1] && map[i + 1][j] != 0 && map[i + 1][j] != '1' && map[i + 1][j] != ' ')
+		return (ft_print_map(map, j, i + 1), 0);
+	if (j > 0 && map[i][j - 1] != 0 && map[i][j - 1] != '1' && map[i][j - 1] != ' ')
+		return (ft_print_map(map, j - 1, i), 0);
+	if (map[i][j + 1] != 0 && map[i][j + 1] != '1' && map[i][j + 1] != ' ')
+		return (ft_print_map(map, j + 1, i), 0);
+	return (1);
 }
 
 /**
@@ -87,22 +169,19 @@ int	ft_check_map_closed_in(char **map)
 	i = 0;
 	while (map[i])
 	{
-		j = 0;
-		while (map[i][j])
+		if (ft_row_has_content(map[i]))
 		{
-			if (map[i][j] == ' ')
+			j = 0;
+			while (map[i][j])
 			{
-				if (map[i - 1][j] != 0 && map[i - 1][j] != '1' && map[i - 1][j] != ' ')
-					return (ft_print_map(map, j, i - 1), 0);
-				if (map[i + 1][j] != 0 && map[i + 1][j] != '1' && map[i + 1][j] != ' ')
-					return (ft_print_map(map, j, i + 1), 0);
-				if (map[i][j - 1] != 0 && map[i][j - 1] != '1' && map[i][j - 1] != ' ')
-					return (ft_print_map(map, j - 1, i), 0);
-				if (map[i][j + 1] != 0 && map[i][j + 1] != '1' && map[i][j + 1] != ' ')
-					return (ft_print_map(map, j + 1, i), 0);
+				if (map[i][j] == ' ')
+				{
+					if (!ft_check_space_surrounded(map, i, j))
+						return (0);
+				}
+				j++;
 			}
-			j++;
-		}	
+		}
 		i++;
 	}
 	return (1);
