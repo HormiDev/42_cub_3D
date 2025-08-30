@@ -2,6 +2,12 @@
 C 50,50,50
 F 50,50,50
 
+NO 255,0,0
+NO 255,255,0
+NO 255,0,255
+NO 0,255,0
+NO 0,0,255
+NO 0,255,255
 NO ./textures/ladrillos1.xpm
 SO ./textures/ladrillos1.xpm
 WE ./textures/ladrillos1.xpm

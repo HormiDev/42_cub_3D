@@ -60,11 +60,11 @@
 # endif
 
 # ifndef RENDER_WIDTH
-#  define RENDER_WIDTH 1920
+#  define RENDER_WIDTH 960
 # endif
 
 # ifndef RENDER_HEIGHT
-#  define RENDER_HEIGHT 1080
+#  define RENDER_HEIGHT 540
 # endif
 
 # define FOV 45.0
@@ -177,6 +177,8 @@ typedef struct s_game
 	char		**map;
 	int			width_height[2];
 	t_list		*textures[4]; // Array of textures for North, South, East, West
+	t_texture 	**arraytextures[4];
+	int			length_textures_array[4];
 	t_texture 	*floor_tex;
 	t_texture 	*ceiling_tex; 
 	void		*mlx;

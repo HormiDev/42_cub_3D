@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/29 20:02:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/30 02:38:14 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,7 @@ void draw_background(t_game *game)
  */
 static t_texture *get_texture_for_wall(t_game *game, t_raycast *ray)
 {
-	t_list		*texture_list;
-
-	texture_list = game->textures[ray->type];
-	if (!texture_list || !texture_list->content)
-		return (NULL);
-		
-	return ((t_texture *)texture_list->content);
+	return (game->arraytextures[ray->type][(int)(ray->impact.x) % game->length_textures_array[ray->type]]);
 }
 
 int ft_calculate_wall_height(t_raycast *ray, int x)
@@ -130,10 +124,11 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 	last_texture_pixel = -1;
 	if (texture->path == NULL) // Si la textura es un color sólido
 	{
+		ft_mix_color(&game->render->colors_matrix[y++][x], &texture->texture_color, mist_density);
 		while (y < render_end)
 		{
 			//ft_mix_color_precalc(&game->render->colors_matrix[y][x], &texture->texture_color, mist_density, game);
-			ft_mix_color(&game->render->colors_matrix[y][x], &texture->texture_color, mist_density);
+			game->render->colors_matrix[y][x] = game->render->colors_matrix[y - 1][x];
 			y++;
 		}
 	}

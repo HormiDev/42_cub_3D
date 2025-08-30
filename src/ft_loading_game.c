@@ -6,11 +6,37 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/29 16:43:34 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/08/30 02:30:07 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d.h"
+
+void ft_build_array_textures(t_game *game)
+{
+	int 	i;
+	t_list	*list;
+	int 	j;
+
+	i = 0;
+	while (i < 4)
+	{
+		list = game->textures[i];
+		game->length_textures_array[i] = ft_lstsize(list);
+		if (game->length_textures_array[i] > 0)
+		{
+			game->arraytextures[i] = ft_alloc_lst(sizeof(t_texture *) * game->length_textures_array[i], 4);
+			j = 0;
+			while (list)
+			{
+				game->arraytextures[i][j] = (t_texture *)list->content;
+				list = list->next;
+				j++;
+			}
+		}
+		i++;
+	}
+}
 
 void ft_create_render(t_game *game)
 {
@@ -81,6 +107,7 @@ t_game	*ft_loading_game(char *path_map)
 	}
 	ft_parse_map(game, map_file);
 	ft_read_textures_in_map(game, map_file);
+	ft_build_array_textures(game);
 	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * RENDER_WIDTH, 4);
 	ft_config_player(game);
 	ft_create_render(game);
