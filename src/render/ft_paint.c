@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/30 02:38:14 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/09/02 18:29:29 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,9 @@ void draw_background(t_game *game)
  */
 static t_texture *get_texture_for_wall(t_game *game, t_raycast *ray)
 {
-	return (game->arraytextures[ray->type][(int)(ray->impact.x) % game->length_textures_array[ray->type]]);
+	if (ray->type == 0 || ray->type == 3)
+		return (game->arraytextures[ray->type][((int)(ray->impact.x) + (int)(ray->impact.y)) % game->length_textures_array[ray->type]]);
+	return(game->arraytextures[ray->type][game->length_textures_array[ray->type] - 1 - (((int)(ray->impact.x) + (int)(ray->impact.y)) % game->length_textures_array[ray->type])]);
 }
 
 int ft_calculate_wall_height(t_raycast *ray, int x)

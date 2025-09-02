@@ -60,11 +60,11 @@
 # endif
 
 # ifndef RENDER_WIDTH
-#  define RENDER_WIDTH 960
+#  define RENDER_WIDTH 1920
 # endif
 
 # ifndef RENDER_HEIGHT
-#  define RENDER_HEIGHT 540
+#  define RENDER_HEIGHT 1080
 # endif
 
 # define FOV 45.0

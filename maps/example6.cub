@@ -2,16 +2,33 @@
 C 50,50,50
 F 50,50,50
 
-NO 255,0,0
-NO 255,255,0
-NO 255,0,255
-NO 0,255,0
-NO 0,0,255
-NO 0,255,255
-NO ./textures/ladrillos1.xpm
-SO ./textures/ladrillos1.xpm
-WE ./textures/ladrillos1.xpm
-EA ./textures/ladrillos1.xpm
+NO ./textures/muro_1.xpm
+NO ./textures/muro_2.xpm
+NO ./textures/muro_3.xpm
+NO ./textures/muro_4.xpm
+NO ./textures/muro_5.xpm
+NO ./textures/muro_6.xpm
+
+SO ./textures/muro_1.xpm
+SO ./textures/muro_2.xpm
+SO ./textures/muro_3.xpm
+SO ./textures/muro_4.xpm
+SO ./textures/muro_5.xpm
+SO ./textures/muro_6.xpm
+
+WE ./textures/muro_1.xpm
+WE ./textures/muro_2.xpm
+WE ./textures/muro_3.xpm
+WE ./textures/muro_4.xpm
+WE ./textures/muro_5.xpm
+WE ./textures/muro_6.xpm
+
+EA ./textures/muro_1.xpm
+EA ./textures/muro_2.xpm
+EA ./textures/muro_3.xpm
+EA ./textures/muro_4.xpm
+EA ./textures/muro_5.xpm
+EA ./textures/muro_6.xpm
 
      111111111 1111111111111111111111111111111111111111111111111
     100000011111000000000000000000001000000000000000000000000001
