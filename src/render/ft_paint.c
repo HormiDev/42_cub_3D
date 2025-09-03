@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/02 18:29:29 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/09/03 19:33:10 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,23 +52,24 @@ static t_texture *get_texture_for_wall(t_game *game, t_raycast *ray)
 
 int ft_calculate_wall_height(t_raycast *ray, int x)
 {
-	double	column_angle;
+	//double	column_angle;
 	double	angle_rad;
 	double	corrected_dist;
 	int		wall_height;
 
-	column_angle = ((double)x / (double)RENDER_WIDTH - 0.5) * FOV;
-	angle_rad = column_angle * M_PI / 180.0;
+	angle_rad = ((double)x / (double)RENDER_WIDTH * FOV) - (FOV / 2.0);
 	if (angle_rad < 0.0)
 		angle_rad = -angle_rad; // Asegurar que el ángulo sea positivo para el coseno
 	corrected_dist = ray->distance * ft_cos(angle_rad);
 	if (corrected_dist <= 0.01)
 		corrected_dist = 0.01;
-	wall_height = (int)(RENDER_HEIGHT / corrected_dist) * 2;
+	wall_height = (int)(RENDER_HEIGHT / corrected_dist) * RENDER_WIDTH / RENDER_HEIGHT;
+	/*
 	if (wall_height > RENDER_HEIGHT * 3)
 		wall_height = RENDER_HEIGHT * 3;
 	if (wall_height < 1)
 		wall_height = 1;
+	*/
 	return wall_height;
 }
 

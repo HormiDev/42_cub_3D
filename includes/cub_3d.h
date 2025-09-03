@@ -20,7 +20,7 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
-# define MAX_RAY_SIZE	7  // Aumentado para permitir distancias mayores
+# define MAX_RAY_SIZE	100  // Aumentado para permitir distancias mayores
 
 //minimap 
 #define MINIMAP_TILE_SIZE 8 //esto define el tamaño de cada tile en el minimapa
