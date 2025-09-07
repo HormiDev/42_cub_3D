@@ -48,14 +48,12 @@ static void	ft_handle_player_rotation(t_game *game)
 	if (game->input.rotate_left)
 	{
 		game->player.rotation.x += ROTATION_SPEED * game->delta_time;
-		if (game->player.rotation.x >= 360.0)
-			game->player.rotation.x -= 360.0;
+		game->player.rotation.x = ft_normalize_angle(game->player.rotation.x);
 	}
 	if (game->input.rotate_right)
 	{
 		game->player.rotation.x -= ROTATION_SPEED * game->delta_time;
-		if (game->player.rotation.x < 0.0)
-			game->player.rotation.x += 360.0;
+		game->player.rotation.x = ft_normalize_angle(game->player.rotation.x);
 	}
 }
 
@@ -66,6 +64,8 @@ int ft_key_press(int keycode, t_game *game)
 		ft_free_gamepad(game);
 		ft_close_game(0);
 	}
+	if (keycode == M)
+        ft_toggle_mouse_capture(game);
 	if (keycode == W)
 		game->input.front = 1;
 	else if (keycode == A)

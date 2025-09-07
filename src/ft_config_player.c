@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:30:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/20 00:20:03 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/09/07 20:45:02 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static void	ft_set_player_rotation(t_game *game, char direction_char)
 		game->player.rotation.x = 0.0;
 	else if (direction_char == 'W')
 		game->player.rotation.x = 180.0;
+	// Normalizar el ángulo por consistencia
+	game->player.rotation.x = ft_normalize_angle(game->player.rotation.x);
 }
 
 /**

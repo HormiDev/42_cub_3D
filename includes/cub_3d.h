@@ -20,7 +20,7 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
-# define MAX_RAY_SIZE	100  // Aumentado para permitir distancias mayores
+# define MAX_RAY_SIZE	10  // Aumentado para permitir distancias mayores
 
 //minimap 
 #define MINIMAP_TILE_SIZE 8 //esto define el tamaño de cada tile en el minimapa
@@ -31,6 +31,8 @@
 # define TILE_MAP_SIZE  100
 
 # define ESC 			65307
+# define M				109
+# define m				77
 # define W 				119
 # define A 				97
 # define S 				115
@@ -193,6 +195,7 @@ typedef struct s_game
 	int			mouse_xy[2];
 	double		delta_time;
 	long		last_frame_time;
+	int			mouse_captured;
 	t_precalc	precalc;
 }	t_game;
 
@@ -286,6 +289,7 @@ void			ft_draw_grid_vertical(t_game *game, int color);
 // Utility functions
 double			ft_double_diff(double a, double b);
 double			ft_vector_distance(t_vector2 a, t_vector2 b);
+double			ft_normalize_angle(double angle);
 
 // ============================================================================
 // MATH FUNCTIONS
@@ -316,5 +320,8 @@ unsigned char 	***ft_precalc_mixcolor(void);
 int				*ft_scale_precalc_x(void);
 int				*ft_scale_precalc_y(void);
 
+void			ft_toggle_mouse_capture(t_game *game);
+int				ft_mouse_move(int x, int y, t_game *game);
+void			ft_init_mouse(t_game *game);
 
 #endif

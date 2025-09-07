@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/21 00:23:19 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/09/07 20:44:50 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,7 @@ void ft_move_direction(t_game *game, double angle, double move_speed)
 {
 	t_raycast ray;
 
-	if (angle < 0.0)
-		angle += 360.0;
-	else if (angle >= 360.0)
-		angle -= 360.0;
+	angle = ft_normalize_angle(angle);
 	ft_raycast(game, angle, &ray, move_speed * game->delta_time);
 	if (ray.type == -1)
 		ft_move_player(game, ray.impact.x, ray.impact.y);

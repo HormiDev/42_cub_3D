@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/03 19:33:10 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/09/05 16:09:03 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int ft_calculate_wall_height(t_raycast *ray, int x)
 	if (wall_height < 1)
 		wall_height = 1;
 	*/
+	if (wall_height % 2 != 0)
+		wall_height--;
 	return wall_height;
 }
 

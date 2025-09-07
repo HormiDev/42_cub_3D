@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/20 00:19:05 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/09/07 20:36:52 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ static void	ft_setup_mlx_hooks(t_game *game)
 	}
 	game->img_map->img_data = mlx_get_data_addr(game->img_map->img, &game->img_map->bits_pixel, &game->img_map->image_len, &game->img_map->end);
 	mlx_hook(game->window, 17, 0, ft_close_game_for_mlx, game);
+	ft_init_mouse(game);
 	mlx_hook(game->window, 6, 1L << 6, ft_mouse_move, game);
 	mlx_hook(game->window, 2, 1L<<0, ft_key_press, game);
 	mlx_hook(game->window, 3, 1L<<1, ft_key_release, game);

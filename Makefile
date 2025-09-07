@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/08/30 01:14:41 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/09/07 20:45:19 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,6 +22,7 @@ SRC		=	src/main.c \
 			src/game/mouse.c \
 			src/game/ft_directions.c \
 			src/game/ft_gamepad.c \
+			src/utils/ft_angle_utils.c \
 			src/parse/ft_check_args.c \
 			src/parse/ft_parse_map.c \
 			src/parse/ft_parse_colors.c \
