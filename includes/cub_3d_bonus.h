@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
+/*   Updated: 2025/09/11 17:39:07 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-#ifndef CUB_3D_H
-# define CUB_3D_H
+
+#ifndef CUB_3D_BONUS_H
+# define CUB_3D_BONUS_H
 
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
@@ -9,7 +21,7 @@
 # include <sys/time.h>
 # include <stdbool.h>
 # include <stdio.h>
-#include <fcntl.h>
+# include <fcntl.h>
 # include <math.h>
 # include <errno.h>
  
@@ -20,7 +32,13 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
-# define MAX_RAY_SIZE	10  
+# define MAX_RAY_SIZE	10  // Aumentado para permitir distancias mayores
+
+//minimap 
+#define MINIMAP_TILE_SIZE 8 //esto define el tamaño de cada tile en el minimapa
+#define MINIMAP_OFFSET_X 10 //  el margen que se deja entre el minimapa y el borde de la ventana x
+#define MINIMAP_OFFSET_Y 10 //  el margen que se deja entre el minimapa y el borde de la ventana y
+#define MINIMAP_SCALE 0.1 //  el factor de escala del minimapa, 0.1 significa que el minimapa sera 10 veces mas pequeño que la ventana
 
 # define TILE_MAP_SIZE  100
 
@@ -68,6 +86,7 @@
 # define MOVE_SPEED		1.0
 # define ROTATION_SPEED	45.0
 # define RUN_SPEED		3.0
+# define MOUSE_SENSITIVITY 0.4
 
 typedef enum e_wall_direction
 {
@@ -101,12 +120,20 @@ typedef struct s_vector2
 	double y;
 } t_vector2;
 
+/**
+ * @brief Structure to hold s_raycast information.
+ * 
+ * This structure is used to store the result of a raycast operation,
+ * including the distance to the impact point, the coordinates of the impact,
+ * and the type of impact (0 North, 1 South, 2 East, 3 West).
+ */
 typedef struct s_raycast
 {
 	double		distance;
 	t_vector2	impact;
 	int			type;
 } t_raycast;
+
 
 
 typedef struct s_player
@@ -129,7 +156,22 @@ typedef struct s_input {
 	int run;
 } t_input;
 
-typedef struct s_image // ELIMINAR CUANDO TRANSICIONE A TTEXTURE
+typedef struct s_gamepad {
+	int	fd;
+	int	connected;
+	int	a;
+	int	b;
+	int	x;
+	int	y;
+	int	lb;
+	int	rb;
+	int	left_stick_x;
+	int	left_stick_y;
+	int	right_stick_x;
+	int	right_stick_y;
+} t_gamepad;
+
+typedef struct s_image // eliminar
 {
 	void	*img;
 	char	*img_data;
@@ -162,8 +204,11 @@ typedef struct s_game
 	t_texture	*window_img;
 	t_player 	player;
 	t_input		input;
+	t_gamepad	gamepad;
+	int			mouse_xy[2];
 	double		delta_time;
 	long		last_frame_time;
+	int			mouse_captured;
 	t_precalc	precalc;
 }	t_game;
 
@@ -219,7 +264,16 @@ void 			ft_forwad_back(t_game *game, double move_speed);
 void 			ft_right_left(t_game *game, double move_speed);
 int 			ft_key_press(int keycode, t_game *game);
 int 			ft_key_release(int keycode, t_game *game);
+int				ft_mouse_move(int x, int y, t_game *game);
 void			ft_move_direction(t_game *game, double angle, double move_speed);
+void			ft_move_player(t_game *game, double move_x, double move_y);
+
+
+// Gamepad functions
+void			ft_init_gamepad(t_game *game);
+void			ft_free_gamepad(t_game *game);
+void			ft_update_gamepad(t_game *game);
+void			ft_gamepad_movement(t_game *game);
 
 // ============================================================================
 // RAYCAST FUNCTIONS
@@ -231,6 +285,7 @@ void			ft_calculate_raycasts(t_game *game);
 // RENDER FUNCTIONS
 // ============================================================================
 void			ft_render_3d(t_game *game);
+void			ft_map2D(t_game *game);
 void			draw_column(t_game *game, int x, t_raycast *ray);
 void			ft_draw_player(t_game *game);
 void			ft_scale_t_image_precalc(t_texture *tex_origin, t_texture *text_destiny, t_game *game);
@@ -250,15 +305,12 @@ double			ft_vector_distance(t_vector2 a, t_vector2 b);
 double			ft_normalize_angle(double angle);
 
 // ============================================================================
-// MATH & PRECALC FUNCTIONS
+// MATH FUNCTIONS
 // ============================================================================
 double			ft_angle_rad(double degrees);
 double			ft_cos(double angle);
 double			ft_sin(double angle);
 double			ft_sqrt(double value);
-unsigned char 	***ft_precalc_mixcolor(void);
-int				*ft_scale_precalc_x(void);
-int				*ft_scale_precalc_y(void);
 
 // ============================================================================
 // COLOR FUNCTIONS
@@ -277,5 +329,12 @@ void			ft_print_map(char **map, int error_x, int error_y);
 void			debug_print_textures(t_game *game);
 long			ft_long_diff(long a, long b);
 
+unsigned char 	***ft_precalc_mixcolor(void);
+int				*ft_scale_precalc_x(void);
+int				*ft_scale_precalc_y(void);
+
+void			ft_toggle_mouse_capture(t_game *game);
+int				ft_mouse_move(int x, int y, t_game *game);
+void			ft_init_mouse(t_game *game);
 
 #endif

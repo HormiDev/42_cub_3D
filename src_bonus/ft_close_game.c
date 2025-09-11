@@ -6,11 +6,11 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:25:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/10 12:05:41 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:29:17 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub_3d.h"
+#include "../includes/cub_3d_bonus.h"
 
 /**
  * @brief Libera la memoria asignada y cierra el juego.
@@ -34,8 +34,10 @@ void	ft_close_game(int exit_code)
  *
  * @param game Puntero a la estructura del juego que contiene el gamepad.
  */
-int	ft_close_game_for_mlx()
+int	ft_close_game_for_mlx(t_game *game)
 {
+	if (game)
+		ft_free_gamepad(game);
 	ft_alloc_clear();
 	exit(0);
 }

@@ -6,11 +6,11 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2025/09/07 20:53:31 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:29:43 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub_3d.h"
+#include "../../includes/cub_3d_bonus.h"
 /*
 int ft_mouse_move(int x, int y, t_game *game)
 {
@@ -49,18 +49,16 @@ int ft_mouse_move(int x, int y, t_game *game)
     int center_x;
     int center_y; 
     int patata_x;
-    double sensitivity;
 	
 	center_x = WINDOW_WIDTH / 2;
 	center_y = WINDOW_HEIGHT / 2;
-	sensitivity = 0.020;
     (void)y;
 
     if (!game->mouse_captured)
         return (0);
 
     patata_x = x - center_x;
-    game->player.rotation.x -= patata_x * sensitivity;
+    game->player.rotation.x -= patata_x * MOUSE_SENSITIVITY * game->delta_time;
     game->player.rotation.x = ft_normalize_angle(game->player.rotation.x);
     mlx_mouse_move(game->mlx, game->window, center_x, center_y);
     return (0);

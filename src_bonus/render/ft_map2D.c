@@ -1,4 +1,4 @@
-#include "../../includes/cub_3d.h"
+#include "../../includes/cub_3d_bonus.h"
 
 /**
  * @brief Itera la posición del rayo hacia arriba o abajo según el cuadrante.
@@ -190,7 +190,7 @@ void ft_raycast_max_size(t_game *game, double angle, t_raycast *ray, double max_
 	sin_cos[1] = ft_sin(angle);
 	distance.x = sin_cos[0] * max_size;
 	distance.y = sin_cos[1] * max_size;
-	ft_rotate_to_cuadrant(cuadrant, &distance.x, &distance.y);//revisar y comentar
+	ft_rotate_to_cuadrant(cuadrant, &distance.x, &distance.y);
 	ray->impact.x = game->player.position.x + distance.x;
 	ray->impact.y = game->player.position.y + distance.y;
 	ray->distance = max_size;
@@ -332,4 +332,55 @@ void ft_draw_raycast(t_game *game, t_raycast *ray)
 
 	ft_draw_line_in_image(game, (t_vector2){game->player.position.x * TILE_MAP_SIZE, game->player.reverse_y_position * TILE_MAP_SIZE},
 		(t_vector2){ray->impact.x * TILE_MAP_SIZE, (-ray->impact.y + game->width_height[1]) * TILE_MAP_SIZE}, color);
+}
+
+/**
+ * @brief Dibuja el mapa del juego.
+ *
+ * Esta función recorre el mapa y dibuja cada tile según su tipo (pared, espacio vacío, etc.).
+ * También dibuja los raycasts y el jugador en el mapa, así como líneas que representan
+ * los bordes del mapa y la posición del ratón.
+ *
+ * @param game Puntero a la estructura del juego que contiene la información del mapa y el jugador.
+ */
+void ft_map2D(t_game *game)
+{
+	int			x;
+	int			y;
+	int			ry;
+	int			i;
+
+	y = 0;
+	ry = game->width_height[1] - 1;
+	while (y < game->width_height[1])
+	{
+		x = 0;
+		while (x < game->width_height[0])
+		{
+			if (game->map[y][x] == '1')
+				ft_draw_sq(game, x * TILE_MAP_SIZE, ry * TILE_MAP_SIZE, C_WHITE);
+			else if (game->map[y][x] == '0')
+				ft_draw_sq(game, x * TILE_MAP_SIZE, ry * TILE_MAP_SIZE, C_GREY);
+			else if (game->map[y][x] == ' ')
+				ft_draw_sq(game, x * TILE_MAP_SIZE, ry * TILE_MAP_SIZE, C_BLACK);
+			x++;
+		}
+		y++;
+		ry--;
+	}
+	
+	i = 0;
+	while (i < RENDER_WIDTH)
+	{
+		if (i % 10 == 0)
+			ft_draw_raycast(game, &game->raycasts[i]);
+		i++;
+	}
+	ft_draw_player(game);
+	ft_draw_grid_horizontal(game, C_BLUE);
+	ft_draw_grid_vertical(game, C_BLUE);
+	ft_draw_line_in_image(game, (t_vector2){0, 0}, (t_vector2){game->mouse_xy[0], game->mouse_xy[1]}, C_RED);
+	ft_draw_line_in_image(game, (t_vector2){0, game->width_height[1] * TILE_MAP_SIZE}, (t_vector2){game->mouse_xy[0], game->mouse_xy[1]}, C_RED);
+	ft_draw_line_in_image(game, (t_vector2){game->width_height[0] * TILE_MAP_SIZE, 0}, (t_vector2){game->mouse_xy[0], game->mouse_xy[1]}, C_RED);
+	ft_draw_line_in_image(game, (t_vector2){game->width_height[0] * TILE_MAP_SIZE, game->width_height[1] * TILE_MAP_SIZE}, (t_vector2){game->mouse_xy[0], game->mouse_xy[1]}, C_RED);
 }

@@ -6,11 +6,11 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/10 11:55:12 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:29:17 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub_3d.h"
+#include "../includes/cub_3d_bonus.h"
 
 /**
  * @brief Calcula el tiempo transcurrido desde el último frame.
@@ -43,6 +43,7 @@ int ft_update(void *param)
 	char	string_fps[32];
 
 	ft_calc_delta_time(game);
+	//printf("Fps: %d\n", (int)(1 / game->delta_time));
 	ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
 	ft_controls(game);
 	ft_calculate_raycasts(game); 
@@ -57,5 +58,6 @@ int ft_update(void *param)
 	else
 		mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
 	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
+	//ft_map2D(game);
 	return (0);
 }

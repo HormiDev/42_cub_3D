@@ -6,11 +6,11 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/10 11:54:41 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:29:17 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub_3d.h"
+#include "../includes/cub_3d_bonus.h"
 
 /**
  * @brief Libera la memoria asignada a la estructura mlx y cierra la ventana.
@@ -74,10 +74,13 @@ static void	ft_setup_mlx_hooks(t_game *game)
 	}
 	game->img_map->img_data = mlx_get_data_addr(game->img_map->img, &game->img_map->bits_pixel, &game->img_map->image_len, &game->img_map->end);
 	mlx_hook(game->window, 17, 0, ft_close_game_for_mlx, game);
+	ft_init_mouse(game);
+	mlx_hook(game->window, 6, 1L << 6, ft_mouse_move, game);
 	mlx_hook(game->window, 2, 1L<<0, ft_key_press, game);
 	mlx_hook(game->window, 3, 1L<<1, ft_key_release, game);
 	game->last_frame_time = ft_get_time();
 	mlx_loop_hook(game->mlx, ft_update, game);
+	ft_init_gamepad(game);
 }
 
 /**

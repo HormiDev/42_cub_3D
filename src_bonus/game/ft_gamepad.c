@@ -6,11 +6,11 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/10 09:48:04 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/09/11 17:24:45 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub_3d.h"
+#include "../../includes/cub_3d_bonus.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <linux/joystick.h>

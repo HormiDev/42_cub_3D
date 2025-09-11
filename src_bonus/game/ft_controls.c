@@ -1,4 +1,16 @@
-#include "../../includes/cub_3d.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_controls.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
+/*   Updated: 2025/09/11 17:40:42 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/cub_3d_bonus.h"
 
 /**
  * @brief Maneja el movimiento del jugador basado en las teclas presionadas.
@@ -60,7 +72,12 @@ static void	ft_handle_player_rotation(t_game *game)
 int ft_key_press(int keycode, t_game *game)
 {
 	if (keycode == ESC)
+	{
+		ft_free_gamepad(game);
 		ft_close_game(0);
+	}
+	if (keycode == M)
+        ft_toggle_mouse_capture(game);
 	if (keycode == W)
 		game->input.front = 1;
 	else if (keycode == A)
@@ -101,6 +118,8 @@ void ft_controls(t_game *game)
 {
 	double move_speed;
 
+	//ft_update_gamepad(game);
+	//ft_gamepad_movement(game);
 	if (game->input.run)
 		move_speed = RUN_SPEED;
 	else
