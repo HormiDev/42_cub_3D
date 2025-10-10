@@ -16,10 +16,18 @@
 int main(int argc, char **argv)
 {
 	t_game	*game;
+	void	*mlx;
 
 	if (!ft_check_args(argc, argv))
 		return (1);
 	ft_printf("Arguments are valid\n");
+	mlx = mlx_init();
+	if (!mlx)
+	{
+		ft_dprintf(2, "Error: Failed to initialize mlx\n");
+		return (1);
+	}
+	ft_show_menu(mlx);
 	game = ft_loading_game(argv[1]);
 	mlx_loop(game->mlx);
 	return (0);

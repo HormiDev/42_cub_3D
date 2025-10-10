@@ -32,13 +32,20 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
-# define MAX_RAY_SIZE	10  // Aumentado para permitir distancias mayores
+# define C_ALIEN_GREEN	0x00FF41
+# define C_ALIEN_DARK	0x001a0a
+# define C_ALIEN_GRID	0x00CC33
+# define C_ALIEN_PLAYER	0x00FFFF
+# define MAX_RAY_SIZE	10
 
 //minimap 
 #define MINIMAP_TILE_SIZE 8 //esto define el tamaño de cada tile en el minimapa
 #define MINIMAP_OFFSET_X 10 //  el margen que se deja entre el minimapa y el borde de la ventana x
 #define MINIMAP_OFFSET_Y 10 //  el margen que se deja entre el minimapa y el borde de la ventana y
 #define MINIMAP_SCALE 0.1 //  el factor de escala del minimapa, 0.1 significa que el minimapa sera 10 veces mas pequeño que la ventana
+
+//menu animation
+#define MENU_FRAME_MS 66  // 66ms = ~15 FPS, 100ms = 10 FPS, 33ms = ~30 FPS
 
 # define TILE_MAP_SIZE  100
 
@@ -120,6 +127,12 @@ typedef struct s_vector2
 	double y;
 } t_vector2;
 
+typedef struct s_vector_int
+{
+	int x;
+	int y;
+} t_vector_int;
+
 /**
  * @brief Structure to hold s_raycast information.
  * 
@@ -180,12 +193,30 @@ typedef struct s_image // eliminar
 	int		end; 
 } t_image;
 
+typedef struct s_rotated_square
+{
+	int			x[4];
+	int			y[4];
+} t_rotated_square;
+
 typedef struct s_precalc
 {
 	unsigned char	***mix_colors;
 	int 			*scale_x_table;
 	int 			*scale_y_table;
+	t_rotated_square *rotated_squares;
 } t_precalc;
+
+typedef struct s_menu
+{
+	void		*mlx;
+	void		*window;
+	void		*frames[200];
+	int			total_frames;
+	int			current_frame;
+	long		last_frame_time;
+	int			start_game;
+} t_menu;
 
 typedef struct s_game 
 {
@@ -219,6 +250,7 @@ int				ft_check_args(int argc, char **argv);
 t_game			*ft_loading_game(char *path_map);
 void			ft_close_game(int exit_code);
 int				ft_close_game_for_mlx();
+int				ft_show_menu(void *mlx);
 
 // ============================================================================
 // CONFIGURATION FUNCTIONS
@@ -280,6 +312,13 @@ void			ft_gamepad_movement(t_game *game);
 // ============================================================================
 void			ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size);
 void			ft_calculate_raycasts(t_game *game);
+void			ft_ray_iter_up(int *position_xy, int cuadrant, int iter);
+void			ft_ray_iter_right(int *position_xy, int cuadrant, int iter);
+void			ft_calc_distance(int cuadrant, int *tile_ray_xy, t_vector2 player_position, t_vector2 *distance);
+void			ft_rotate_to_cuadrant(int cuadrant, double *distance_x, double *distance_y);
+void			ft_calc_ray_position(t_raycast *ray, t_vector2 *player_position, double distance_x, double distance_y);
+void			ft_ray_type(t_raycast *ray, int cuadrant, int up_right);
+void			ft_raycast_max_size(t_game *game, double angle, t_raycast *ray, double max_size, int cuadrant);
 
 // ============================================================================
 // RENDER FUNCTIONS
@@ -313,6 +352,13 @@ double			ft_sin(double angle);
 double			ft_sqrt(double value);
 
 // ============================================================================
+// VECTOR UTILS
+// ============================================================================
+int				ft_abs(int n);
+void			ft_vector_int_abs(t_vector_int *v);
+int				ft_vector_int_max(t_vector_int v);
+
+// ============================================================================
 // COLOR FUNCTIONS
 // ============================================================================
 void			ft_mix_color_precalc(unsigned int *color, unsigned int  *mix_color, int percent, t_game *game);
@@ -332,6 +378,7 @@ long			ft_long_diff(long a, long b);
 unsigned char 	***ft_precalc_mixcolor(void);
 int				*ft_scale_precalc_x(void);
 int				*ft_scale_precalc_y(void);
+t_rotated_square *ft_precalc_rotated_squares(void);
 
 void			ft_toggle_mouse_capture(t_game *game);
 int				ft_mouse_move(int x, int y, t_game *game);
