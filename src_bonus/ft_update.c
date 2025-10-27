@@ -58,6 +58,6 @@ int ft_update(void *param)
 	else
 		mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
 	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
-	//ft_map2D(game);
+	ft_map2D(game);
 	return (0);
 }

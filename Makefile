@@ -56,6 +56,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/game/ft_gamepad.c \
 			src_bonus/game/mouse.c \
 			src_bonus/utils/ft_angle_utils.c \
+			src_bonus/utils/ft_vector_utils.c \
 			src_bonus/parse/ft_check_args.c \
 			src_bonus/parse/ft_parse_map.c \
 			src_bonus/parse/ft_parse_colors.c \
@@ -67,6 +68,8 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/parse/ft_read_textures.c \
 			src_bonus/parse/ft_parse_textures.c \
 			src_bonus/raycast/ft_calculate_raycasts.c \
+			src_bonus/raycast/ft_raycast.c \
+			src_bonus/raycast/ft_raycast_utils.c \
 			src_bonus/render/map_utils.c \
 			src_bonus/render/ft_paint.c \
 			src_bonus/render/raycast_utils.c \
@@ -84,6 +87,8 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_get_time.c \
 			src_bonus/ft_scale_t_image_precalc.c \
 			src_bonus/ft_scale_t_image.c \
+			src_bonus/ft_precalc_rotated_squares.c \
+			src_bonus/ft_menu.c \
 
 OBJ_DIR  = objects
 OBJ_DIR_BONUS  = objects_bonus

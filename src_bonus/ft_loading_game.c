@@ -118,6 +118,7 @@ t_game	*ft_loading_game(char *path_map)
 	//game->precalc.mix_colors = ft_precalc_mixcolor();
 	game->precalc.scale_x_table = ft_scale_precalc_x();
 	game->precalc.scale_y_table = ft_scale_precalc_y();
+	game->precalc.rotated_squares = ft_precalc_rotated_squares();
 	//ft_debug_game(game);
 	ft_file_clear(&map_file);
 	return (game);
