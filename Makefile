@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/09/11 18:24:37 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/10/29 15:04:02 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -229,6 +229,7 @@ $(OBJ_DIR_BONUS)/src_bonus/%.o: src_bonus/%.c | $(OBJ_DIR_BONUS)
 
 clean: clear
 	@rm -rf $(OBJ_DIR)
+	@rm -fr $(OBJ_DIR_BONUS)
 	@echo "$(R)----------------------------------------- Objects  Cleaned -----------------------------------------$(NC)"
 
 fclean: clean fclean_libft fclean_minilibx-linux
@@ -237,6 +238,8 @@ fclean: clean fclean_libft fclean_minilibx-linux
 	@echo "$(R)------------------------------------------ CUB3D Is Clean ------------------------------------------\n$(NC)"
 
 re: fclean $(NAME) title_print
+
+re_bonus: fclean bonus title_print
 
 title_print:                                                                                                                
 	@echo "$(G)                                         ..:-+**#*+:.                                              $(NC)"
