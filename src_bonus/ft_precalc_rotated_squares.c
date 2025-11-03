@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/10/07 00:00:00 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/03 17:35:43 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static void	ft_rotate_point(int *x, int *y, double angle)
 	sin_a = ft_sin(angle);
 	temp_x = *x * cos_a - *y * sin_a;
 	temp_y = *x * sin_a + *y * cos_a;
-	*x = (int)temp_x;
-	*y = (int)temp_y;
+	*x = (int)round(temp_x);
+	*y = (int)round(temp_y);
 }
 
 /**

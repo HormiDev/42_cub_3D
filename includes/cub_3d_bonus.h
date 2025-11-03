@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/11 17:39:07 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:38:24 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -383,5 +383,9 @@ t_rotated_square *ft_precalc_rotated_squares(void);
 void			ft_toggle_mouse_capture(t_game *game);
 int				ft_mouse_move(int x, int y, t_game *game);
 void			ft_init_mouse(t_game *game);
+
+double			ft_format_cos(double value); 
+double			ft_format_sin(double value);
+
 
 #endif

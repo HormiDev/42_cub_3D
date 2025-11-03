@@ -31,31 +31,17 @@ static void	ft_draw_line_minimap(t_game *game, t_vector2 p1,
 	}
 }
 
-static int	ft_get_angle_idx(double rotation)
-{
-	int		angle_idx;
-
-	angle_idx = (int)(rotation * 100.0);
-	while (angle_idx >= 36000)
-		angle_idx -= 36000;
-	while (angle_idx < 0)
-		angle_idx += 36000;
-	return (angle_idx);
-}
-
 static t_vector2	ft_world_corner_to_screen(t_game *game, double wx, double wy)
 {
 	t_vector2	relative;
 	t_vector2	screen;
-	int			angle_idx;
 	double		cos_a;
 	double		sin_a;
 
 	relative.x = wx - game->player.position.x;
-	relative.y = wy - game->player.position.y;
-	angle_idx = ft_get_angle_idx(game->player.rotation.x);
-	cos_a = ft_cos(angle_idx / 100.0);
-	sin_a = ft_sin(angle_idx / 100.0);
+	relative.y = -(wy - game->player.position.y);
+	cos_a = ft_format_cos(game->player.rotation.x - 90.0);
+	sin_a = ft_format_sin(game->player.rotation.x - 90.0);
 	screen.x = MINIMAP_OFFSET_X + 100 + (relative.x * cos_a - relative.y
 			* sin_a) * MINIMAP_TILE_SIZE;
 	screen.y = MINIMAP_OFFSET_Y + 100 + (relative.x * sin_a + relative.y
@@ -116,6 +102,7 @@ static void	ft_draw_player_indicator(t_game *game)
 	t_vector_int	p;
 	t_vector_int	d;
 	t_vector_int	center;
+	t_vector2		line_end;
 
 	center.x = MINIMAP_OFFSET_X + 100;
 	center.y = MINIMAP_OFFSET_Y + 100;
@@ -134,6 +121,10 @@ static void	ft_draw_player_indicator(t_game *game)
 		}
 		p.y++;
 	}
+	line_end.x = center.x;
+	line_end.y = center.y - 10;
+	ft_draw_line_minimap(game, (t_vector2){center.x, center.y}, line_end,
+		C_ALIEN_PLAYER);
 }
 
 static void	ft_draw_minimap_background(t_game *game)

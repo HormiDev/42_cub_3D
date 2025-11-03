@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/11 17:24:45 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/03 17:17:23 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,6 @@ void	ft_update_gamepad(t_game *game)
 
 void	ft_gamepad_movement(t_game *game)
 {
-	// Si hay gamepad conectado, usarlo
 	if (game->gamepad.connected)
 	{
 		game->input.front = 0;
@@ -142,7 +141,6 @@ void	ft_gamepad_movement(t_game *game)
 		game->input.left = 0;
 		game->input.right = 0;
 		
-		// Movimiento con stick izquierdo
 		if (game->gamepad.left_stick_y == -1) // Stick arriba (forward)
 			game->input.front = 1;
 		else if (game->gamepad.left_stick_y == 1) // Stick abajo (backward)
@@ -152,7 +150,6 @@ void	ft_gamepad_movement(t_game *game)
 		else if (game->gamepad.left_stick_x == 1) // Stick derecha
 			game->input.right = 1;
 
-		// Rotación con stick derecho o botones LB/RB
 		if (game->gamepad.right_stick_x == -1 || game->gamepad.lb)
 		{
 			game->player.rotation.x += ROTATION_SPEED * game->delta_time;

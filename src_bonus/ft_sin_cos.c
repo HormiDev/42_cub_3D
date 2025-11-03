@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 18:02:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/11 17:29:17 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/03 19:37:39 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,4 +91,41 @@ double ft_cos(double angle)
 	if (angle >= 9000)
 		angle -= 9000;
 	return cos_table[(int)(angle) % 9000];
+}
+/**
+	@brief Ajusta el valor del seno según el cuadrante del ángulo.
+	@param value Ángulo en grados.
+	@return El valor ajustado del seno.
+*/
+double ft_format_sin(double value)
+{
+	if (value < 0)
+		value += 360.0;
+	if (value < 90.0)
+		return (ft_sin(value));
+	else if (value < 180)
+		return (ft_cos(value));
+	else if (value < 270.0)
+		return (-ft_sin(value));
+	else
+		return (-ft_cos(value));
+}
+
+/**
+	@brief Ajusta el valor del coseno según el cuadrante del ángulo.
+	@param value Ángulo en grados.
+	@return El valor ajustado del coseno.
+*/
+double ft_format_cos(double value)
+{
+	if (value < 0)
+		value += 360.0;
+	if (value < 90.0)
+		return (ft_cos(value));
+	else if (value < 180)
+		return (-ft_sin(value));
+	else if (value < 270.0)
+		return (-ft_cos(value));
+	else
+		return (ft_sin(value));
 }
