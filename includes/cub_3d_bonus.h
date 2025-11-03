@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/03 19:38:24 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/03 20:10:55 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,6 +233,7 @@ typedef struct s_game
 	t_image		*img_map;
 	t_texture	*render;
 	t_texture	*window_img;
+	t_texture	*minimap;
 	t_player 	player;
 	t_input		input;
 	t_gamepad	gamepad;

@@ -21,9 +21,9 @@ static void	ft_draw_line_minimap(t_game *game, t_vector2 p1,
 	i = 0;
 	while (i <= steps)
 	{
-		if (current.x >= 0 && current.x < WINDOW_WIDTH
-			&& current.y >= 0 && current.y < WINDOW_HEIGHT)
-			ft_draw_pixel_in_img(game->render->img,
+		if (current.x >= 0 && current.x < 200
+			&& current.y >= 0 && current.y < 200)
+			ft_draw_pixel_in_img(game->minimap->img,
 				(int)current.x, (int)current.y, color);
 		current.x += delta.x;
 		current.y += delta.y;
@@ -42,9 +42,9 @@ static t_vector2	ft_world_corner_to_screen(t_game *game, double wx, double wy)
 	relative.y = -(wy - game->player.position.y);
 	cos_a = ft_format_cos(game->player.rotation.x - 90.0);
 	sin_a = ft_format_sin(game->player.rotation.x - 90.0);
-	screen.x = MINIMAP_OFFSET_X + 100 + (relative.x * cos_a - relative.y
+	screen.x = 100 + (relative.x * cos_a - relative.y
 			* sin_a) * MINIMAP_TILE_SIZE;
-	screen.y = MINIMAP_OFFSET_Y + 100 + (relative.x * sin_a + relative.y
+	screen.y = 100 + (relative.x * sin_a + relative.y
 			* cos_a) * MINIMAP_TILE_SIZE;
 	return (screen);
 }
@@ -104,8 +104,8 @@ static void	ft_draw_player_indicator(t_game *game)
 	t_vector_int	center;
 	t_vector2		line_end;
 
-	center.x = MINIMAP_OFFSET_X + 100;
-	center.y = MINIMAP_OFFSET_Y + 100;
+	center.x = 100;
+	center.y = 100;
 	p.y = center.y - 4;
 	while (p.y <= center.y + 4)
 	{
@@ -115,7 +115,7 @@ static void	ft_draw_player_indicator(t_game *game)
 			d.x = p.x - center.x;
 			d.y = p.y - center.y;
 			if (d.x * d.x + d.y * d.y <= 16)
-				ft_draw_pixel_in_img(game->render->img, p.x, p.y,
+				ft_draw_pixel_in_img(game->minimap->img, p.x, p.y,
 					C_ALIEN_PLAYER);
 			p.x++;
 		}
@@ -131,16 +131,14 @@ static void	ft_draw_minimap_background(t_game *game)
 {
 	t_vector_int	p;
 
-	p.y = MINIMAP_OFFSET_Y;
-	while (p.y < MINIMAP_OFFSET_Y + 200)
+	p.y = 0;
+	while (p.y < 200)
 	{
-		p.x = MINIMAP_OFFSET_X;
-		while (p.x < MINIMAP_OFFSET_X + 200)
+		p.x = 0;
+		while (p.x < 200)
 		{
-			if (p.x >= 0 && p.x < WINDOW_WIDTH && p.y >= 0
-				&& p.y < WINDOW_HEIGHT)
-				ft_draw_pixel_in_img(game->render->img, p.x, p.y,
-					C_ALIEN_DARK);
+			ft_draw_pixel_in_img(game->minimap->img, p.x, p.y,
+				C_ALIEN_DARK);
 			p.x++;
 		}
 		p.y++;
@@ -154,24 +152,24 @@ static void	ft_draw_minimap_border(t_game *game)
 	int				i;
 
 	i = 0;
-	offset.x = MINIMAP_OFFSET_X;
-	offset.y = MINIMAP_OFFSET_Y;
-	end.x = MINIMAP_OFFSET_X + 200;
-	end.y = MINIMAP_OFFSET_Y + 200;
+	offset.x = 0;
+	offset.y = 0;
+	end.x = 200;
+	end.y = 200;
 	while (i < 200)
 	{
 		if (i < 2 || i > 198)
 		{
-			ft_draw_pixel_in_img(game->render->img, offset.x + i,
+			ft_draw_pixel_in_img(game->minimap->img, offset.x + i,
 				offset.y, C_ALIEN_GRID);
-			ft_draw_pixel_in_img(game->render->img, offset.x + i,
+			ft_draw_pixel_in_img(game->minimap->img, offset.x + i,
 				end.y - 1, C_ALIEN_GRID);
 		}
 		if (i < 2 || i > 198)
 		{
-			ft_draw_pixel_in_img(game->render->img, offset.x,
+			ft_draw_pixel_in_img(game->minimap->img, offset.x,
 				offset.y + i, C_ALIEN_GRID);
-			ft_draw_pixel_in_img(game->render->img, end.x - 1,
+			ft_draw_pixel_in_img(game->minimap->img, end.x - 1,
 				offset.y + i, C_ALIEN_GRID);
 		}
 		i++;

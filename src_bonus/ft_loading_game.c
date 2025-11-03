@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/11 17:29:17 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/03 20:10:55 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,33 @@ void ft_create_window_img(t_game *game)
 }
 
 /**
+ * @brief Crea la imagen del minimapa.
+ * @param game Puntero a la estructura del juego.
+ * @details La función crea una imagen de 200x200 píxeles para el minimapa.
+ */
+void ft_create_minimap(t_game *game)
+{
+	int i;
+
+	game->minimap = ft_alloc_lst(sizeof(t_texture), 4);
+	game->minimap->img = mlx_new_image(game->mlx, 200, 200);
+	if (!game->minimap->img)
+	{
+		ft_dprintf(2, "Error: Failed to create minimap image\n");
+		ft_close_game(1);
+	}
+	game->minimap->width = 200;
+	game->minimap->height = 200;
+	game->minimap->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * 200, 4);
+	i = 0;
+	while (i < 200)
+	{
+		game->minimap->colors_matrix[i] = (unsigned int *)(game->minimap->img->data + (i * sizeof(unsigned int) * 200));
+		i++;
+	}
+}
+
+/**
  * @brief Carga el juego desde un archivo de mapa.
  *
  * Esta función crea una nueva estructura de juego, carga el mapa desde el archivo
@@ -112,6 +139,7 @@ t_game	*ft_loading_game(char *path_map)
 	ft_config_player(game);
 	ft_create_render(game);
 	ft_create_window_img(game);
+	ft_create_minimap(game);
 	ft_sin(0);
 	ft_cos(0);
 	ft_sqrt(0);
