@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/06 18:30:11 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/10 00:43:24 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int ft_key_press(int keycode, t_game *game)
 int ft_key_release(int keycode, t_game *game)
 {
 	if (keycode == W)
-		game->input.front = 0;
+		game->input.front = 1;
 	else if (keycode == A)
 		game->input.left = 0;
 	else if (keycode == S)
@@ -132,18 +132,44 @@ int ft_key_release(int keycode, t_game *game)
 		game->input.run = 0;
 	return (0);
 }
+void	ft_update_footsteps(t_game *game, double move_speed, int is_moving)
+{
+    double	interval;
+
+    if (!is_moving)
+    {
+        game->foot_timer = 0.0;
+        return ;
+    }
+    
+    interval = 0.5 * (MOVE_SPEED / move_speed);
+    game->foot_timer += game->delta_time;
+    
+    if (game->foot_timer >= interval)
+    {
+        ft_play_audio("music&sounds/Andar.wav", game->env);
+        game->foot_timer -= interval;
+    }
+}
 
 void ft_controls(t_game *game)
 {
 	double move_speed;
-
+    int is_moving;
+	
 	//ft_update_gamepad(game);
 	//ft_gamepad_movement(game);
-	if (game->input.run)
-		move_speed = RUN_SPEED;
-	else
-		move_speed = MOVE_SPEED;
-	
-	ft_handle_player_movement(game, move_speed);
-	ft_handle_player_rotation(game);
+    if (game->input.run)
+        move_speed = RUN_SPEED;
+    else
+        move_speed = MOVE_SPEED;
+    
+    is_moving = (game->input.front || game->input.back || 
+                 game->input.left || game->input.right);
+    
+    ft_handle_player_movement(game, move_speed);
+    ft_handle_player_rotation(game);
+    
+    if (!game->show_menu)
+        ft_update_footsteps(game, move_speed, is_moving);
 }

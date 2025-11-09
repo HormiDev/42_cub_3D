@@ -6,21 +6,22 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:54:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/06 18:06:26 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/10 00:40:12 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
 
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **env)
 {
 	t_game	*game;
 
 	if (!ft_check_args(argc, argv))
-		return (1);
+	return (1);
 	ft_printf("Arguments are valid\n");
 	game = ft_loading_game(argv[1]);
+	game->env = env; 
 	game->show_menu = 1;
 	ft_init_menu(game);
 	mlx_loop(game->mlx);

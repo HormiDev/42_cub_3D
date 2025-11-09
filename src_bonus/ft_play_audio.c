@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 13:18:06 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/09 18:07:09 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/10 00:17:50 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,10 @@ int ft_stop_audio(pid_t pid)
  * @return PID del proceso hijo que reproduce el audio, o -1 en caso de error
  * al crear el proceso.
  */
-pid_t ft_play_audio(const char *filename)
+pid_t ft_play_audio(const char *filename, char **env)
 {
 	pid_t		pid;
 	char		*argv[4];
-	extern char	**environ;
 
 	argv[0] = "aplay";
 	argv[1] = "-q";
@@ -58,11 +57,9 @@ pid_t ft_play_audio(const char *filename)
 	if (!filename)
 		return (-1);
 	pid = fork();
-	if (pid == -1)
-		return (-1);
-	else if (pid == 0)
+	if (pid == 0)
 	{
-		execve("/usr/bin/aplay", argv, environ);
+		execve("/usr/bin/aplay", argv, env);
 		exit(1);
 	}
 	return (pid);
