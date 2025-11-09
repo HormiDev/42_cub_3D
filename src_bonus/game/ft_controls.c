@@ -74,7 +74,10 @@ int ft_key_press(int keycode, t_game *game)
 	if (keycode == ESC)
 	{
 		if (game->show_menu)
+		{
+			ft_stop_audio(game->menu.menu_music_pid);
 			ft_close_game(0);
+		}
 		else
 			ft_close_game(0);
 	}
@@ -86,7 +89,10 @@ int ft_key_press(int keycode, t_game *game)
 	if (game->show_menu)
 	{
 		if (keycode == SPACE || keycode == 65293)
+		{
+			ft_stop_audio(game->menu.menu_music_pid);
 			game->show_menu = 0;
+		}
 		return (0);
 	}
 	if (keycode == M)

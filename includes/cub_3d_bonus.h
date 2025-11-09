@@ -21,6 +21,8 @@
 # include <limits.h>
 # include <sys/time.h>
 # include <stdbool.h>
+# include <sys/wait.h>
+# include <signal.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
@@ -217,6 +219,7 @@ typedef struct s_menu
 	int			current_frame;
 	long		last_frame_time;
 	t_texture	*scaled_frame;
+	pid_t		menu_music_pid;
 } t_menu;
 
 typedef struct s_game 
@@ -393,6 +396,7 @@ void			ft_init_mouse(t_game *game);
 
 double			ft_format_cos(double value); 
 double			ft_format_sin(double value);
-
+int				ft_stop_audio(pid_t pid);
+pid_t			ft_play_audio(const char *filename);
 
 #endif

@@ -15,17 +15,23 @@
 /**
  * @brief Detiene la reproducción de audio matando el proceso.
  *
- * Esta función envía una señal SIGKILL al proceso con el PID especificado
- * para detener la reproducción de audio.
+ * Esta función envía una señal SIGTERM al proceso con el PID especificado
+ * para detener la reproducción de audio, y luego espera a que el proceso
+ * termine para evitar procesos zombie.
  * 
  * @param pid PID del proceso que reproduce el audio.
  * @return 0 si la señal se envió correctamente, -1 en caso de error.
 */
 int ft_stop_audio(pid_t pid)
 {
+	int	status;
+
 	if (pid <= 0)
 		return (-1);
-	return (kill(pid, SIGKILL));
+	if (kill(pid, SIGTERM) == -1)
+		return (-1);
+	waitpid(pid, &status, 0);
+	return (0);
 }
 
 /**
@@ -41,22 +47,22 @@ int ft_stop_audio(pid_t pid)
  */
 pid_t ft_play_audio(const char *filename)
 {
-	pid_t pid;
-	char  *argv[4]; 
+	pid_t		pid;
+	char		*argv[4];
+	extern char	**environ;
 
 	argv[0] = "aplay";
 	argv[1] = "-q";
 	argv[2] = (char *)filename;
 	argv[3] = NULL;
-
-	if(!filename)
+	if (!filename)
 		return (-1);
 	pid = fork();
 	if (pid == -1)
 		return (-1);
 	else if (pid == 0)
 	{
-		execve("/usr/bin/aplay", argv, NULL);
+		execve("/usr/bin/aplay", argv, environ);
 		exit(1);
 	}
 	return (pid);
