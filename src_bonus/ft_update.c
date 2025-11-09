@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/03 19:51:04 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:05:43 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,13 @@ int ft_update(void *param)
 	char	string_fps[32];
 
 	ft_calc_delta_time(game);
+	
+	if (game->show_menu)
+	{
+		ft_update_menu(game);
+		return (0);
+	}
+	
 	//printf("Fps: %d\n", (int)(1 / game->delta_time));
 	ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
 	ft_controls(game);

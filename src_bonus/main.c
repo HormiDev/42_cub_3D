@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:54:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/10/27 13:18:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:06:26 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,13 @@
 int main(int argc, char **argv)
 {
 	t_game	*game;
-	void	*mlx;
 
 	if (!ft_check_args(argc, argv))
 		return (1);
 	ft_printf("Arguments are valid\n");
-	mlx = mlx_init();
-	if (!mlx)
-	{
-		ft_dprintf(2, "Error: Failed to initialize mlx\n");
-		return (1);
-	}
-	ft_show_menu(mlx);
 	game = ft_loading_game(argv[1]);
+	game->show_menu = 1;
+	ft_init_menu(game);
 	mlx_loop(game->mlx);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/03 20:10:55 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/08 14:23:43 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include "../minilibx-linux/mlx.h"
 # include "../minilibx-linux/mlx_int.h"
 # include "../42_Libft/libft.h"
+# include <sys/types.h>
 # include <limits.h>
 # include <sys/time.h>
 # include <stdbool.h>
@@ -58,6 +59,7 @@
 # define D 				100
 # define E 				101
 # define Q 				113
+# define P 				112
 # define SPACE 			32
 # define UP 			65362
 # define DOWN 			65364
@@ -209,13 +211,12 @@ typedef struct s_precalc
 
 typedef struct s_menu
 {
-	void		*mlx;
-	void		*window;
 	void		*frames[200];
+	t_texture	*frames_textures[200];
 	int			total_frames;
 	int			current_frame;
 	long		last_frame_time;
-	int			start_game;
+	t_texture	*scaled_frame;
 } t_menu;
 
 typedef struct s_game 
@@ -242,6 +243,8 @@ typedef struct s_game
 	long		last_frame_time;
 	int			mouse_captured;
 	t_precalc	precalc;
+	int			show_menu;
+	t_menu		menu;
 }	t_game;
 
 // ============================================================================
@@ -251,7 +254,10 @@ int				ft_check_args(int argc, char **argv);
 t_game			*ft_loading_game(char *path_map);
 void			ft_close_game(int exit_code);
 int				ft_close_game_for_mlx();
-int				ft_show_menu(void *mlx);
+void			ft_init_menu(t_game *game);
+void			ft_free_menu(t_game *game);
+void			ft_update_menu(t_game *game);
+void			ft_draw_menu_text(t_game *game);
 
 // ============================================================================
 // CONFIGURATION FUNCTIONS

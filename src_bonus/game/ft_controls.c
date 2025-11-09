@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/11 17:40:42 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/06 18:30:11 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,21 @@ int ft_key_press(int keycode, t_game *game)
 {
 	if (keycode == ESC)
 	{
-		ft_free_gamepad(game);
-		ft_close_game(0);
+		if (game->show_menu)
+			ft_close_game(0);
+		else
+			ft_close_game(0);
+	}
+	if (keycode == P)
+	{
+		if (!game->show_menu)
+			game->show_menu = 1;
+	}
+	if (game->show_menu)
+	{
+		if (keycode == SPACE || keycode == 65293)
+			game->show_menu = 0;
+		return (0);
 	}
 	if (keycode == M)
         ft_toggle_mouse_capture(game);
