@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/10 00:39:30 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/10 01:04:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,6 @@ typedef struct s_game
 	int			show_menu;
 	t_menu		menu;
 	char		**env;
-	double		foot_timer;
 }	t_game;
 
 // ============================================================================
@@ -400,6 +399,5 @@ double			ft_format_cos(double value);
 double			ft_format_sin(double value);
 int				ft_stop_audio(pid_t pid);
 pid_t			ft_play_audio(const char *filename, char **env);
-void			ft_update_footsteps(t_game *game, double move_speed, int is_moving);
 
 #endif

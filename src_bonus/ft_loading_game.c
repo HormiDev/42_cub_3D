@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/10 00:41:23 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/10 00:56:17 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,6 @@ t_game	*ft_loading_game(char *path_map)
 	ft_parse_map(game, map_file);
 	ft_read_textures_in_map(game, map_file);
 	ft_build_array_textures(game);
-	game->foot_timer = 0.0;
 	ft_create_render(game);
 	ft_create_window_img(game);
 	ft_create_minimap(game);
