@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/10 00:56:17 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/12 12:04:45 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,6 +147,7 @@ t_game	*ft_loading_game(char *path_map)
 	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * RENDER_WIDTH, 4);
 	ft_config_player(game);
 	ft_file_clear(&map_file);
+	ft_prec_fish_eye_correction(game);
 	return (game);
 }
 

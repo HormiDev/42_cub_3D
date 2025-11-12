@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/11 17:29:17 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/12 12:06:02 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,17 +50,13 @@ static t_texture *get_texture_for_wall(t_game *game, t_raycast *ray)
 	return(game->arraytextures[ray->type][game->length_textures_array[ray->type] - 1 - (((int)(ray->impact.x) + (int)(ray->impact.y)) % game->length_textures_array[ray->type])]);
 }
 
-int ft_calculate_wall_height(t_raycast *ray, int x)
+int ft_calculate_wall_height(t_raycast *ray, int x, t_game *game)
 {
 	//double	column_angle;
-	double	angle_rad;
 	double	corrected_dist;
 	int		wall_height;
 
-	angle_rad = ((double)x / (double)RENDER_WIDTH * FOV) - (FOV / 2.0);
-	if (angle_rad < 0.0)
-		angle_rad = -angle_rad; // Asegurar que el ángulo sea positivo para el coseno
-	corrected_dist = ray->distance * ft_cos(angle_rad);
+	corrected_dist = ray->distance * game->fish_eye_correction[x];
 	if (corrected_dist <= 0.01)
 		corrected_dist = 0.01;
 	wall_height = (int)(RENDER_HEIGHT / corrected_dist) * RENDER_WIDTH / RENDER_HEIGHT;
@@ -108,7 +104,7 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 
 	if (ray->type < 0 || ray->type > 3 || ray->distance <= 0.0)
 		return;
-	wall_height = ft_calculate_wall_height(ray, x);
+	wall_height = ft_calculate_wall_height(ray, x, game);
 	if (wall_height <= 0)
 		return;
 	texture = get_texture_for_wall(game, ray);

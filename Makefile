@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/11/09 18:08:48 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/11/12 12:05:00 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,6 +90,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_scale_t_image.c \
 			src_bonus/ft_precalc_rotated_squares.c \
 			src_bonus/ft_menu.c \
+			src_bonus/ft_prec_fish_eye_correction.c \
 
 OBJ_DIR  = objects
 OBJ_DIR_BONUS  = objects_bonus
@@ -240,7 +241,7 @@ fclean: clean fclean_libft fclean_minilibx-linux
 
 re: fclean $(NAME) title_print
 
-re_bonus: fclean bonus title_print
+rebonus: fclean bonus title_print
 
 title_print:                                                                                                                
 	@echo "$(G)                                         ..:-+**#*+:.                                              $(NC)"
@@ -300,4 +301,4 @@ title_print:
                                                 
 norm: clearif
 
-.PHONY: all clean fclean re clear title_print bonus
+.PHONY: all clean fclean re clear title_print bonus rebonus

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/06 18:05:43 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/12 11:33:53 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int ft_update(void *param)
 	}
 	else
 		mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
-	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	mlx_put_image_to_window(game->mlx, game->window, game->minimap->img, MINIMAP_OFFSET_X, MINIMAP_OFFSET_Y);
+	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	return (0);
 }
