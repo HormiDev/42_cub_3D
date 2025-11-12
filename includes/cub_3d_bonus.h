@@ -351,6 +351,8 @@ void			ft_draw_circle(t_game *game, int cx, int cy, int color);
 void			ft_draw_sq(t_game *game, int x, int y, int color);
 void			ft_draw_grid_horizontal(t_game *game, int color);
 void			ft_draw_grid_vertical(t_game *game, int color);
+void			ft_draw_transparent_image(t_texture *dst, t_texture *src,
+				int start_x, int start_y);
 
 // Utility functions
 double			ft_double_diff(double a, double b);
@@ -404,5 +406,6 @@ int				ft_stop_audio(pid_t pid);
 pid_t			ft_play_audio(const char *filename, char **env);
 
 void			ft_prec_fish_eye_correction(t_game *game);
-
+void	ft_draw_transparent_image(t_texture *dst, t_texture *src,
+			int start_x, int start_y);
 #endif

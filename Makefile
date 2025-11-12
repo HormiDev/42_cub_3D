@@ -75,6 +75,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/render/raycast_utils.c \
 			src_bonus/render/ft_map2D.c \
 			src_bonus/ft_sqrt.c \
+			src_bonus/ft_image_transparent.c \
 			src_bonus/ft_play_audio.c \
 			src_bonus/ft_sin_cos.c \
 			src_bonus/ft_loading_game.c \
