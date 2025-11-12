@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/11 17:25:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/12 12:27:59 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,8 @@ void ft_move_direction(t_game *game, double angle, double move_speed)
 	ft_raycast(game, angle, &ray, move_speed * game->delta_time);
 	if (ray.type == -1)
 		ft_move_player(game, ray.impact.x, ray.impact.y);
+	else if (ray.type == WALL_NO || ray.type == WALL_SO)
+		ft_move_player(game, ray.impact.x, game->player.position.y);
+	else if (ray.type == WALL_EA || ray.type == WALL_WE)
+		ft_move_player(game, game->player.position.x, ray.impact.y);
 }
