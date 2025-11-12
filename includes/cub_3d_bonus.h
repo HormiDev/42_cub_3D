@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/12 12:07:11 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/12 12:08:58 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@
 # endif
 
 # define FOV 45.0
+
+# define MAX_FPS 60
 
 # define MOVE_SPEED		1.0
 # define ROTATION_SPEED	45.0

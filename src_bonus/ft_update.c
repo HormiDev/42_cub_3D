@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/12 11:33:53 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/12 12:20:03 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * Luego, actualiza el tiempo del último frame y calcula el delta_time.
  * @param game Puntero a la estructura del juego que contiene el tiempo del último frame y el delta_time.
  */
-void ft_calc_delta_time(t_game *game)
+int ft_calc_delta_time(t_game *game)
 {
 	long current_time;
 	long time_diff;
@@ -26,7 +26,10 @@ void ft_calc_delta_time(t_game *game)
 	current_time = ft_get_time();
 	time_diff = ft_long_diff(game->last_frame_time, current_time);
 	game->delta_time = time_diff / 1000.0;
+	if (game->delta_time < (1.0 / (double)MAX_FPS))
+		return (0);
 	game->last_frame_time = current_time;
+	return (1);
 }
 
 /**
@@ -42,7 +45,8 @@ int ft_update(void *param)
 	t_game 	*game = (t_game *)param;
 	char	string_fps[32];
 
-	ft_calc_delta_time(game);
+	if (!ft_calc_delta_time(game))
+		return (0);
 	
 	if (game->show_menu)
 	{
