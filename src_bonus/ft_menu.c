@@ -12,6 +12,71 @@
 
 #include "../includes/cub_3d_bonus.h"
 
+/**
+ * @brief Crea una textura de prueba con transparencia.
+ * 
+ * @param game Puntero a la estructura del juego.
+ * @param width Ancho del cuadrado.
+ * @param height Alto del cuadrado.
+ * @param color Color base (RGB).
+ * @param alpha Nivel de transparencia (0-255).
+ * @return Puntero a la textura creada.
+ */
+static t_texture	*ft_create_transparent_box(t_game *game, int width,
+					int height, unsigned int color, int alpha)
+{
+	t_texture	*tex;
+	int			x;
+	int			y;
+	unsigned int full_color;
+
+	tex = ft_alloc_lst(sizeof(t_texture), 4);
+	tex->width = width;
+	tex->height = height;
+	tex->img = (t_img *)mlx_new_image(game->mlx, width, height);
+	if (!tex->img)
+		return (NULL);
+	full_color = (alpha << 24) | (color & 0xFFFFFF);
+	y = 0;
+	while (y < height)
+	{
+		x = 0;
+		while (x < width)
+		{
+			ft_draw_pixel_in_img(tex->img, x, y, full_color);
+			x++;
+		}
+		y++;
+	}
+	return (tex);
+}
+
+/**
+ * @brief Dibuja elementos transparentes sobre el menu.
+ * dibuja cuadrados transparentes sobre el menu.
+ * @param game Puntero a la estructura del juego.
+ */
+static void	ft_chuliguachis_squares(t_game *game)
+{
+	static t_texture	*box1 = NULL;
+	static t_texture	*box2 = NULL;
+	static t_texture	*box3 = NULL;
+
+	if (!box1)
+	{
+		box1 = ft_create_transparent_box(game, 200, 150, 0xFF0000, 255);
+		box2 = ft_create_transparent_box(game, 250, 100, 0x00FF00, 50);
+		box3 = ft_create_transparent_box(game, 300, 200, 0x0000FF, 100);
+	}
+	if (box1)
+		ft_draw_transparent_image(game->menu.scaled_frame, box1, 100, 200);
+	if (box2)
+		ft_draw_transparent_image(game->menu.scaled_frame, box2, 400, 350);
+	if (box3)
+		ft_draw_transparent_image(game->menu.scaled_frame, box3, 
+			WINDOW_WIDTH - 350, 100);
+}
+
 void	ft_draw_menu_text(t_game *game)
 {
 	int	x;
@@ -73,6 +138,7 @@ void	ft_update_menu(t_game *game)
 	{
 		ft_scale_t_image(game->menu.frames_textures[game->menu.current_frame], 
 			game->menu.scaled_frame);
+		ft_chuliguachis_squares(game);
 		mlx_put_image_to_window(game->mlx, game->window,
 			game->menu.scaled_frame->img, 0, 0);
 	}
