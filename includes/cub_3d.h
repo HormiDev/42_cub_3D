@@ -68,6 +68,7 @@
 # define MOVE_SPEED		1.0
 # define ROTATION_SPEED	45.0
 # define RUN_SPEED		3.0
+# define DCP 0.1 // dist player collision
 
 typedef enum e_wall_direction
 {

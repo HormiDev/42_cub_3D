@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/12 12:27:59 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:03:56 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ void ft_move_player(t_game *game, double move_x, double move_y)
 void ft_move_direction(t_game *game, double angle, double move_speed)
 {
 	t_raycast ray;
+	t_raycast colision_ray[4];
 
 	angle = ft_normalize_angle(angle);
 	ft_raycast(game, angle, &ray, move_speed * game->delta_time);
@@ -74,4 +75,16 @@ void ft_move_direction(t_game *game, double angle, double move_speed)
 		ft_move_player(game, ray.impact.x, game->player.position.y);
 	else if (ray.type == WALL_EA || ray.type == WALL_WE)
 		ft_move_player(game, game->player.position.x, ray.impact.y);
+	ft_raycast(game, 0.0, &colision_ray[0], DCP);
+	ft_raycast(game, 90.0, &colision_ray[1], DCP);
+	ft_raycast(game, 180.0, &colision_ray[2], DCP);
+	ft_raycast(game, 270.0, &colision_ray[3], DCP);
+	if (colision_ray[0].type != -1)
+		game->player.position.x = (int)(game->player.position.x) + 1.0 - DCP;
+	if (colision_ray[1].type != -1)
+		game->player.position.y = (int)(game->player.position.y) + 1.0 - DCP;
+	if (colision_ray[2].type != -1)
+		game->player.position.x = (int)(game->player.position.x) + DCP;
+	if (colision_ray[3].type != -1)
+		game->player.position.y = (int)(game->player.position.y) + DCP;
 }

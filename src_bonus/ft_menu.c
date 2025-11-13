@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/10 00:42:20 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/13 17:17:20 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ static t_texture	*ft_create_transparent_box(t_game *game, int width,
 }
 
 /**
- * @brief Dibuja elementos transparentes sobre el menu.
  * dibuja cuadrados transparentes sobre el menu.
  * @param game Puntero a la estructura del juego.
  */
@@ -69,7 +68,7 @@ static void	ft_chuliguachis_squares(t_game *game)
 		box3 = ft_create_transparent_box(game, 300, 200, 0x0000FF, 100);
 	}
 	if (box1)
-		ft_draw_transparent_image(game->menu.scaled_frame, box1, 100, 200);
+		ft_draw_transparent_image(game->menu.scaled_frame, box1, -100, 200);
 	if (box2)
 		ft_draw_transparent_image(game->menu.scaled_frame, box2, 400, 350);
 	if (box3)

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/12 12:08:58 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:04:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@
 # define ROTATION_SPEED	45.0
 # define RUN_SPEED		3.0
 # define MOUSE_SENSITIVITY 0.4
+# define DCP 0.1 // dist player collision
+
 
 typedef enum e_wall_direction
 {
