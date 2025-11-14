@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/12 00:00:00 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/14 01:37:54 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,23 +54,6 @@ static void	ft_put_pixel_color(t_img *img, int x, int y, unsigned int color)
 }
 
 /**
- * @brief Crea un color en formato ARGB a partir de componentes individuales.
- * 
- * Combina los valores de Alpha, Red, Green y Blue en un solo entero de 32 bits
- * usando desplazamiento de bits.
- * 
- * @param a Componente Alpha (0-255).
- * @param r Componente Red (0-255).
- * @param g Componente Green (0-255).
- * @param b Componente Blue (0-255).
- * @return Color combinado en formato ARGB (unsigned int).
- */
-static unsigned int	ft_create_argb(int a, int r, int g, int b)
-{
-	return ((a << 24) | (r << 16) | (g << 8) | b);
-}
-
-/**
  * @brief Aplica alpha blending entre dos colores.
  * 
  * Mezcla el color de origen (src_color) con el color de destino usando
@@ -82,33 +65,23 @@ static unsigned int	ft_create_argb(int a, int r, int g, int b)
  * @param dst_x Coordenada X en la imagen de destino.
  * @param dst_y Coordenada Y en la imagen de destino.
  */
-static void	ft_blend_alpha(t_img *dst, unsigned int src_color,
-				int dst_x, int dst_y)
+static void ft_blend_alpha(t_img *dst, unsigned int src_color,
+                           int dst_x, int dst_y)
 {
-	unsigned int	dst_color;
-	int				alpha;
-	double			factor;
-	int				components[6];
-	unsigned int	final_color;
+    unsigned int	dst_color;
+	int				alpha; 
 
-	dst_color = ft_get_pixel_color(dst, dst_x, dst_y);
-	alpha = (src_color >> 24) & 0xFF;
-	components[0] = (src_color >> 16) & 0xFF;
-	components[1] = (src_color >> 8) & 0xFF;
-	components[2] = src_color & 0xFF;
-	components[3] = (dst_color >> 16) & 0xFF;
-	components[4] = (dst_color >> 8) & 0xFF;
-	components[5] = dst_color & 0xFF;
-	factor = alpha / 255.0;
-	components[0] = (int)(components[0] * factor
-			+ components[3] * (1.0 - factor));
-	components[1] = (int)(components[1] * factor
-			+ components[4] * (1.0 - factor));
-	components[2] = (int)(components[2] * factor
-			+ components[5] * (1.0 - factor));
-	final_color = ft_create_argb(255, components[0],
-			components[1], components[2]);
-	ft_put_pixel_color(dst, dst_x, dst_y, final_color);
+    dst_color = ft_get_pixel_color(dst, dst_x, dst_y);
+    alpha = (src_color >> 24) & 0xFF;
+    if (alpha == 0)
+        return;
+    if (alpha == 255)
+    {
+        ft_put_pixel_color(dst, dst_x, dst_y, src_color);
+        return;
+    }
+    ft_mix_color_alpha(&dst_color, &src_color, alpha);
+    ft_put_pixel_color(dst, dst_x, dst_y, dst_color);
 }
 
 /**
@@ -124,25 +97,26 @@ static void	ft_blend_alpha(t_img *dst, unsigned int src_color,
  * @param y Coordenada Y en la imagen de origen.
  * @param start Array con coordenadas de inicio [start_x, start_y].
  */
-static void	ft_process_pixel(t_texture *dst, t_texture *src,
-				int x, int y, int start[2])
+static void ft_process_pixel(t_texture *dst, t_texture *src,
+                             int x, int y, int start[2])
 {
-	int				dst_xy[2];
+	int				dx; 
+	int				dy;
 	unsigned int	src_color;
 	int				alpha;
-
-	dst_xy[0] = start[0] + x;
-	dst_xy[1] = start[1] + y;
-	if (dst_xy[0] >= 0 && dst_xy[0] < dst->width
-		&& dst_xy[1] >= 0 && dst_xy[1] < dst->height)
-	{
-		src_color = ft_get_pixel_color(src->img, x, y);
-		alpha = (src_color >> 24) & 0xFF;
-		if (alpha == 255)
-			ft_put_pixel_color(dst->img, dst_xy[0], dst_xy[1], src_color);
-		else if (alpha != 0)
-			ft_blend_alpha(dst->img, src_color, dst_xy[0], dst_xy[1]);
-	}
+	
+    dx = start[0] + x;
+    dy = start[1] + y;
+    if (dx < 0 || dx >= dst->width || dy < 0 || dy >= dst->height)
+        return;
+    src_color = ft_get_pixel_color(src->img, x, y);
+    alpha = (src_color >> 24) & 0xFF;
+    if (alpha == 0)
+        return;
+    if (alpha == 255)
+        ft_put_pixel_color(dst->img, dx, dy, src_color);
+    else
+        ft_blend_alpha(dst->img, src_color, dx, dy);
 }
 
 /**

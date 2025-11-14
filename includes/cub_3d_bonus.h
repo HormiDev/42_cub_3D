@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/13 20:04:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/14 01:06:31 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,4 +410,6 @@ pid_t			ft_play_audio(const char *filename, char **env);
 void			ft_prec_fish_eye_correction(t_game *game);
 void	ft_draw_transparent_image(t_texture *dst, t_texture *src,
 			int start_x, int start_y);
+void ft_mix_color_alpha(unsigned int *color, unsigned int  *mix_color, int percent);
+
 #endif
