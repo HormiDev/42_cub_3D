@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 19:52:57 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/27 15:55:05 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/17 18:11:06 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 unsigned char ***ft_precalc_mixcolor(void)
 {
-	unsigned char ***preclac;
-	int i;
-	int j;
-	int k;
+	unsigned char	***preclac;
+	int				i;
+	int				j;
+	int				k;
 
 	preclac = ft_alloc_lst(sizeof(unsigned char **) * 256, 3);
 	i = 0;

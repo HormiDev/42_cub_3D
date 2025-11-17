@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/10 01:02:57 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/17 17:41:29 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@
  * @param game Puntero a la estructura del juego.
  * @param move_speed Velocidad de movimiento calculada.
  */
-static void	ft_handle_player_movement(t_game *game, double move_speed)
+static int	ft_handle_player_movement(t_game *game, double move_speed)
 {
+	int		moving; 
+
+	moving = 0; 
 	if (game->input.front && !game->input.back)
 	{
 		if (game->input.left && !game->input.right)
@@ -31,6 +34,7 @@ static void	ft_handle_player_movement(t_game *game, double move_speed)
 			ft_move_direction(game, game->player.rotation.x - 45, move_speed);
 		else
 			ft_move_direction(game, game->player.rotation.x, move_speed);
+		moving = 1; 
 	}
 	if (game->input.back && !game->input.front)
 	{
@@ -40,11 +44,19 @@ static void	ft_handle_player_movement(t_game *game, double move_speed)
 			ft_move_direction(game, game->player.rotation.x - 115, move_speed);
 		else
 			ft_move_direction(game, game->player.rotation.x + 180, move_speed);
+		moving = 1; 
 	}
-	if (game->input.left && !game->input.front && !game->input.back)
-		ft_move_direction(game, game->player.rotation.x + 90, move_speed);
-	if (game->input.right && !game->input.front && !game->input.back)
-		ft_move_direction(game, game->player.rotation.x - 90, move_speed);
+	if (game->input.left && !game->input.front && !game->input.back) 
+    {
+        ft_move_direction(game, game->player.rotation.x + 90, move_speed);
+        moving = 1;
+    }
+    if (game->input.right && !game->input.front && !game->input.back)
+    {
+        ft_move_direction(game, game->player.rotation.x - 90, move_speed);
+        moving = 1;
+    }
+	return (moving); 
 }
 
 /**
@@ -135,14 +147,46 @@ int ft_key_release(int keycode, t_game *game)
 
 void ft_controls(t_game *game)
 {
-	double move_speed;
+	double	move_speed;
+	int		is_moving; 
+	double  step_interval;
 	
 	//ft_update_gamepad(game);
 	//ft_gamepad_movement(game);
     if (game->input.run)
-        move_speed = RUN_SPEED;
+	{
+		move_speed = RUN_SPEED;
+		step_interval = T_STEPS_RUN;
+	}
     else
+	{
         move_speed = MOVE_SPEED;
-    ft_handle_player_movement(game, move_speed);
+		step_interval = T_STEPS_WALK;
+	}
+    is_moving = ft_handle_player_movement(game, move_speed);
     ft_handle_player_rotation(game);
+	if(is_moving)
+	{
+		game->time_since_last_step += game->delta_time;
+		if (game->time_since_last_step >= step_interval)
+		{
+			if (game->steps_audio_pid > 0)
+                ft_stop_audio(game->steps_audio_pid);
+			game->steps_audio_pid = ft_play_audio(AUDIO_WALK, game->env);
+			game->time_since_last_step = 0.0; 
+			game->is_walking = 1;
+		}
+	}
+	else
+	{
+		if(game->is_walking)
+		{
+			if (game->steps_audio_pid > 0)
+                ft_stop_audio(game->steps_audio_pid);
+			game->time_since_last_step = 0.0; 
+			game->steps_audio_pid = -1; // Limpiar PID
+			game->is_walking = 0; 
+		}
+	}
+
 }
