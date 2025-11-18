@@ -35,8 +35,8 @@
 # define MINIMAP_SCALE 0.1 //  el factor de escala del minimapa, 0.1 significa que el minimapa sera 10 veces mas pequeño que la ventana
 
 # define AUDIO_WALK "music&sounds/Andar.wav"
-# define T_STEPS_WALK 0.4
-# define T_STEPS_RUN  0.25 
+# define T_STEPS_WALK 0.75
+# define T_STEPS_RUN  0.4 
 
 //menu animation
 # define MENU_FRAME_MS 66  // 66ms = ~15 FPS, 100ms = 10 FPS, 33ms = ~30 FPS
@@ -68,19 +68,19 @@
 # define RSHIFT			65506
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 1920
+#  define WINDOW_WIDTH 3840
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 1080
+#  define WINDOW_HEIGHT 2160
 # endif
 
 # ifndef RENDER_WIDTH
-#  define RENDER_WIDTH 960
+#  define RENDER_WIDTH 1920
 # endif
 
 # ifndef RENDER_HEIGHT
-#  define RENDER_HEIGHT 540
+#  define RENDER_HEIGHT 1080
 # endif
 
 # define FOV 45.0

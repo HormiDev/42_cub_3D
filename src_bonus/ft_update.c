@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/12 12:20:03 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/18 14:10:52 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,18 @@ int ft_update(void *param)
 	ft_calculate_raycasts(game); 
 	ft_render_3d(game);
 	ft_map2D(game);
-	mlx_clear_window(game->mlx, game->window);
 	if (RENDER_HEIGHT != WINDOW_HEIGHT || RENDER_WIDTH != WINDOW_WIDTH)
 	{
 		ft_scale_t_image_precalc(game->render, game->window_img, game);
+		mlx_clear_window(game->mlx, game->window);
 		mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
 		mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	}
 	else
+	{
+		mlx_clear_window(game->mlx, game->window);
 		mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
+	}
 	mlx_put_image_to_window(game->mlx, game->window, game->minimap->img, MINIMAP_OFFSET_X, MINIMAP_OFFSET_Y);
 	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	return (0);
