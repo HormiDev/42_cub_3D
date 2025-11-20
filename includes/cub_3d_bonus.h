@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/17 21:22:50 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/20 00:53:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void			ft_parse_map(t_game *game, t_file *map_file);
 void 			ft_parse_colors(t_game *game, t_file *map_file);
 void			ft_read_textures_in_map(t_game *game, t_file *map_file);
 int				ft_path_or_color(char *str);
+
 
 // Map parsing utilities
 int				ft_get_map_start_index(t_file *map_file);
@@ -114,7 +115,7 @@ void			ft_draw_sq(t_game *game, int x, int y, int color);
 void			ft_draw_grid_horizontal(t_game *game, int color);
 void			ft_draw_grid_vertical(t_game *game, int color);
 void			ft_draw_transparent_image(t_texture *dst, t_texture *src,
-				int start_x, int start_y);
+						int start_x, int start_y);
 
 // Utility functions
 double			ft_double_diff(double a, double b);
@@ -146,6 +147,19 @@ int				ft_path_or_color(char *str);
 int				ft_str_isnumber(char *str);
 
 // ============================================================================
+// DOOR FUNCTIONS
+// ============================================================================
+void			ft_init_doors(t_game *game);
+void			ft_update_doors(t_game *game);
+void			ft_check_door_triggers(t_game *game);
+void			ft_animate_door(t_door *door, double delta_time);
+int				ft_is_door(t_game *game, int x, int y);
+t_door			*ft_get_door_at(t_game *game, int x, int y);
+void			ft_free_doors(t_game *game);
+double			ft_get_door_height(t_door *door);
+int				ft_is_wall_or_closed_door(t_game *game, int x, int y);
+
+// ============================================================================
 // DEBUG FUNCTIONS
 // ============================================================================
 void			ft_debug_game(t_game *game);
@@ -169,8 +183,9 @@ pid_t			ft_play_audio(const char *filename, char **env);
 
 void			ft_prec_fish_eye_correction(t_game *game);
 void			ft_draw_transparent_image(t_texture *dst, t_texture *src,
-					int start_x, int start_y);
-void			ft_mix_color_alpha(unsigned int *color, unsigned int  *mix_color, int percent);
-void			ft_prec_vector_cloud(t_game *game);
+		int start_x, int start_y);
+		void			ft_mix_color_alpha(unsigned int *color, unsigned int  *mix_color, int percent);
+		void			ft_prec_vector_cloud(t_game *game);
+		
 
 #endif

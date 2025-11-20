@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/15 13:16:41 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:54:11 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,7 @@ void draw_background(t_game *game)
 		x = 0;
 		while (x < RENDER_WIDTH)
 		{
-			if (y < RENDER_HEIGHT / 2)
-				game->render->colors_matrix[y][x] = game->ceiling_tex->texture_color;
-			else
-				game->render->colors_matrix[y][x] = game->floor_tex->texture_color;
+			game->render->colors_matrix[y][x] = MIST_COLOR;
 			x++;
 		}
 		y++;
@@ -121,6 +118,16 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		y = (RENDER_HEIGHT - wall_height) / 2;
 		render_end = y + wall_height - 1;
 		texture_start = 0.0;
+		/**  prueba de techo y suelo
+		int ys = 0;
+		int yf = RENDER_HEIGHT;
+		while (ys < y)
+		{
+			game->render->colors_matrix[ys][x] = (t_texture)(game->textures[3]->content)
+			ys++;
+			yf--;
+		}
+		// fin prueba de techo y suelo**/
 	}
 	mist_density = -(ray->distance / MAX_RAY_SIZE * 100) + 100;
 	last_texture_pixel = -1;

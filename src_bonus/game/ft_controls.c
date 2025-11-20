@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/17 17:41:29 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/20 00:50:25 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,6 @@ void ft_controls(t_game *game)
 		game->time_since_last_step += game->delta_time;
 		if (game->time_since_last_step >= step_interval)
 		{
-			if (game->steps_audio_pid > 0)
-                ft_stop_audio(game->steps_audio_pid);
 			game->steps_audio_pid = ft_play_audio(AUDIO_WALK, game->env);
 			game->time_since_last_step = 0.0; 
 			game->is_walking = 1;
@@ -181,8 +179,6 @@ void ft_controls(t_game *game)
 	{
 		if(game->is_walking)
 		{
-			if (game->steps_audio_pid > 0)
-                ft_stop_audio(game->steps_audio_pid);
 			game->time_since_last_step = 0.0; 
 			game->steps_audio_pid = -1; // Limpiar PID
 			game->is_walking = 0; 

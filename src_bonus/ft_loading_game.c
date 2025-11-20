@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/17 21:22:21 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:48:11 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void ft_build_array_textures(t_game *game)
 	int 	j;
 
 	i = 0;
-	while (i < 4)
+	while (i < 6)
 	{
 		list = game->textures[i];
 		game->length_textures_array[i] = ft_lstsize(list);
@@ -146,6 +146,7 @@ t_game	*ft_loading_game(char *path_map)
 	game->precalc.rotated_squares = ft_precalc_rotated_squares();
 	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * RENDER_WIDTH, 4);
 	ft_config_player(game);
+	ft_init_doors(game);
 	ft_file_clear(&map_file);
 	ft_prec_fish_eye_correction(game);
 	ft_prec_vector_cloud(game);

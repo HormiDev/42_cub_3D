@@ -76,23 +76,17 @@ t_texture	*ft_create_texture(t_game *game, char *line)
  */
 static void	ft_parse_floor_ceiling(t_game *game, char *line)
 {
+	t_texture *new_tex;
+
 	if (ft_strncmp_p(line, "F", 1) == 0)
 	{
-		game->floor_tex = ft_create_texture(game, line);
-		if (game->floor_tex->path)
-		{
-			ft_dprintf(2, "Floor texture path: %s is invalid.\n", game->floor_tex->path);
-			ft_close_game(1);
-		}
+		new_tex = ft_create_texture(game, line);
+		ft_lstadd_back(&game->textures[4], ft_lstnew_a(new_tex));
 	}
 	else if (ft_strncmp_p(line, "C", 1) == 0)
 	{
-		game->ceiling_tex = ft_create_texture(game, line);
-		if (game->ceiling_tex->path)
-		{
-			ft_dprintf(2, "Ceiling texture path: %s is invalid.\n", game->ceiling_tex->path);
-			ft_close_game(1);
-		}
+		new_tex = ft_create_texture(game, line);
+		ft_lstadd_back(&game->textures[5], ft_lstnew_a(new_tex));
 	}
 }
 

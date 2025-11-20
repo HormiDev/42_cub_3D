@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/10/07 00:00:00 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/20 00:50:25 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static int	ft_raycast_vertical(t_game *game, int *tile_ray_xy,
 		return (1);
 	}
 	ft_ray_iter_up(tile_ray_xy, cuadrant, 1);
-	if (game->map[tile_ray_xy[1]][tile_ray_xy[0]] == '1')
+	if (ft_is_wall_or_closed_door(game, tile_ray_xy[0], tile_ray_xy[1]))
 	{
 		ft_rotate_to_cuadrant(cuadrant, &aux_distance, &distance->y);
 		ft_calc_ray_position(ray, &(game->player.position),
@@ -104,7 +104,7 @@ static int	ft_raycast_horizontal(t_game *game, int *tile_ray_xy,
 		return (1);
 	}
 	ft_ray_iter_right(tile_ray_xy, cuadrant, 1);
-	if (game->map[tile_ray_xy[1]][tile_ray_xy[0]] == '1')
+	if (ft_is_wall_or_closed_door(game, tile_ray_xy[0], tile_ray_xy[1]))
 	{
 		distance->y = aux_distance;
 		ft_rotate_to_cuadrant(cuadrant, &distance->x, &distance->y);

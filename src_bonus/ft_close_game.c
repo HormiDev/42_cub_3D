@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:25:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/11 17:29:17 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/20 00:50:25 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,10 @@ void	ft_close_game(int exit_code)
 int	ft_close_game_for_mlx(t_game *game)
 {
 	if (game)
+	{
 		ft_free_gamepad(game);
+		ft_free_doors(game);
+	}
 	ft_alloc_clear();
 	exit(0);
 }

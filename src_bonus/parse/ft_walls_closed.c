@@ -140,13 +140,13 @@ static int	ft_row_has_content(char *row)
  */
 static int	ft_check_space_surrounded(char **map, int i, int j)
 {
-	if (i > 0 && map[i - 1][j] != 0 && map[i - 1][j] != '1' && map[i - 1][j] != ' ')
+	if (i > 0 && map[i - 1][j] != 0 && map[i - 1][j] != '1' && map[i - 1][j] != ' ' && map[i - 1][j] != 'D')
 		return (ft_print_map(map, j, i - 1), 0);
-	if (map[i + 1] && map[i + 1][j] != 0 && map[i + 1][j] != '1' && map[i + 1][j] != ' ')
+	if (map[i + 1] && map[i + 1][j] != 0 && map[i + 1][j] != '1' && map[i + 1][j] != ' ' && map[i + 1][j] != 'D')
 		return (ft_print_map(map, j, i + 1), 0);
-	if (j > 0 && map[i][j - 1] != 0 && map[i][j - 1] != '1' && map[i][j - 1] != ' ')
+	if (j > 0 && map[i][j - 1] != 0 && map[i][j - 1] != '1' && map[i][j - 1] != ' ' && map[i][j - 1] != 'D')
 		return (ft_print_map(map, j - 1, i), 0);
-	if (map[i][j + 1] != 0 && map[i][j + 1] != '1' && map[i][j + 1] != ' ')
+	if (map[i][j + 1] != 0 && map[i][j + 1] != '1' && map[i][j + 1] != ' ' && map[i][j + 1] != 'D')
 		return (ft_print_map(map, j + 1, i), 0);
 	return (1);
 }

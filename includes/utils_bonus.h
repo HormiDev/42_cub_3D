@@ -68,11 +68,11 @@
 # define RSHIFT			65506
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 3840
+#  define WINDOW_WIDTH 1920
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 2160
+#  define WINDOW_HEIGHT 1080
 # endif
 
 # ifndef RENDER_WIDTH
@@ -93,6 +93,7 @@
 # define MOUSE_SENSITIVITY 0.4
 # define DCP 0.1 // dist player collision
 
+# define MIST_COLOR 0x323232FF
 
 typedef enum e_wall_direction
 {
@@ -101,6 +102,15 @@ typedef enum e_wall_direction
 	WALL_EA = 2,
 	WALL_WE = 3
 } t_wall_direction;
+
+typedef enum e_door_state
+{
+	DOOR_CLOSED = 0,
+	DOOR_OPENING = 1,
+	DOOR_OPEN = 2,
+	DOOR_CLOSING = 3
+} t_door_state;
+
 
 typedef struct s_texture // cambiar nombre a t image
 {
@@ -132,13 +142,14 @@ typedef struct s_vector_int
 	int y;
 } t_vector_int;
 
+
 /**
- * @brief Structure to hold s_raycast information.
- * 
- * This structure is used to store the result of a raycast operation,
- * including the distance to the impact point, the coordinates of the impact,
- * and the type of impact (0 North, 1 South, 2 East, 3 West).
- */
+* @brief Structure to hold s_raycast information.
+* 
+* This structure is used to store the result of a raycast operation,
+* including the distance to the impact point, the coordinates of the impact,
+* and the type of impact (0 North, 1 South, 2 East, 3 West).
+*/
 typedef struct s_raycast
 {
 	double		distance;
@@ -155,7 +166,7 @@ typedef struct s_player
 	t_vector2	rotation;
 	t_vector2	velocity;
 	double plane_y;
-
+	
 } t_player;
 
 typedef struct s_input {
@@ -217,15 +228,25 @@ typedef struct s_menu
 	pid_t		menu_music_pid;
 } t_menu;
 
+typedef struct s_door
+{
+	t_vector_int	position;
+	t_door_state	state;
+	double			animation_progress;
+	double			trigger_distance;
+	int				texture_index;
+} t_door;
+
 typedef struct s_game 
 {
 	char		**map;
 	int			width_height[2];
-	t_list		*textures[4]; // Array of textures for North, South, East, West
-	t_texture 	**arraytextures[4];
-	int			length_textures_array[4];
-	t_texture 	*floor_tex;
-	t_texture 	*ceiling_tex;
+	t_list		*textures[6]; // Array of textures for North, South, East, West, Ceiling, floor
+	t_texture 	**arraytextures[6];
+	int			length_textures_array[6];
+	t_list		*doors;
+	t_texture	**door_textures;
+	int			door_texture_count;
 	void		*mlx;
 	t_raycast	*raycasts; 
 	void		*window;

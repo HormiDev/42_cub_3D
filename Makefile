@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/11/17 21:21:41 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/11/20 00:50:25 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,6 +93,9 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_menu.c \
 			src_bonus/ft_prec_fish_eye_correction.c \
 			src_bonus/ft_prec_vector_cloud.c \
+			src_bonus/objects/door.c \
+			src_bonus/objects/door_utils.c \
+			src_bonus/objects/door_raycast.c \
 
 OBJ_DIR  = objects
 OBJ_DIR_BONUS  = objects_bonus

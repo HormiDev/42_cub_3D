@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/18 14:10:52 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/20 00:50:25 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int ft_update(void *param)
 	//printf("Fps: %d\n", (int)(1 / game->delta_time));
 	ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
 	ft_controls(game);
+	ft_update_doors(game);
 	ft_calculate_raycasts(game); 
 	ft_render_3d(game);
 	ft_map2D(game);
