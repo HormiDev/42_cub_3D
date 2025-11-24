@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 16:17:05 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/20 00:53:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/25 00:21:22 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,26 @@ void	ft_prec_vector_cloud(t_game *game)
 	double	fov_y;
 	double	x;
 	double angle_step = FOV / RENDER_WIDTH;
-	double start_angle = game->player.rotation.x - (FOV / 2);
+	double start_angle = (FOV / 2);
 	double current_angle;
 
 	fov_y = FOV * ((double)RENDER_HEIGHT / (double)RENDER_WIDTH);
 	game->prec_vector_cloud = ft_alloc_lst(sizeof(t_vector2 *) * RENDER_HEIGHT / 2, 4);
+	game->render_cloud = ft_alloc_lst(sizeof(t_vector2 *) * RENDER_HEIGHT / 2, 4);
 	i = 0;
 	while (i < RENDER_HEIGHT / 2)
 	{
 		game->prec_vector_cloud[i] = ft_alloc_lst(sizeof(t_vector2) * RENDER_WIDTH, 4);
+		game->render_cloud[i] = ft_alloc_lst(sizeof(t_vector2) * RENDER_WIDTH, 4);
 		j = 0;
-		x = ft_cos((fov_y / 2.0) - i * (fov_y / (double)(RENDER_HEIGHT / 2))) / 2.0;
+		x = 0.5 / ft_sin((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT))) * ft_cos((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT)));
+		printf("Prec vector cloud row %d, angle %.8f, cos: %.8f, sin: %.8f, x factor: %.8f\n", i, ((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT))), ft_cos(((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT)))), ft_sin(((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT)))), x);
 		while (j < RENDER_WIDTH)
 		{
-			current_angle = start_angle + j * angle_step;
+			current_angle = start_angle - (j * angle_step);
 			game->prec_vector_cloud[i][j].x = x;
-			game->prec_vector_cloud[i][j].y = x * ft_cos(current_angle) / ft_sin(current_angle);
+			game->prec_vector_cloud[i][j].y = x / ft_format_cos(current_angle) * ft_format_sin(current_angle);
+			//ft_printf("Prec vector cloud [%d][%d]: (%.4f, %.4f)\n", i, j, game->prec_vector_cloud[i][j].x, game->prec_vector_cloud[i][j].y);
 			j++;
 		}
 		i++;

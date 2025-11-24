@@ -1,6 +1,10 @@
 	
-C 50,50,50
-F ./textures/ladrillos_este.xpm
+C 255,0,0
+C ./textures/muro_1.xpm
+C 255,255,255
+F 0,0,0
+F 255,0,0
+F 255,255,255
 
 NO ./textures/muro_1.xpm
 NO ./textures/muro_2.xpm

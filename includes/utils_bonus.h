@@ -271,6 +271,7 @@ typedef struct s_game
     int  		is_running;
 	double		time_since_last_step;
 	t_vector2   **prec_vector_cloud;
+	t_vector2   **render_cloud;
 }	t_game;
 
 #endif
