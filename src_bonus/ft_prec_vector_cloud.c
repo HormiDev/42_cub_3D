@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 16:17:05 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/25 00:21:22 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/25 00:55:31 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_prec_vector_cloud(t_game *game)
 	fov_y = FOV * ((double)RENDER_HEIGHT / (double)RENDER_WIDTH);
 	game->prec_vector_cloud = ft_alloc_lst(sizeof(t_vector2 *) * RENDER_HEIGHT / 2, 4);
 	game->render_cloud = ft_alloc_lst(sizeof(t_vector2 *) * RENDER_HEIGHT / 2, 4);
+	game->mist_density_fc = ft_alloc_lst(sizeof(int) * RENDER_HEIGHT / 2, 4);
 	i = 0;
 	while (i < RENDER_HEIGHT / 2)
 	{
@@ -32,7 +33,7 @@ void	ft_prec_vector_cloud(t_game *game)
 		game->render_cloud[i] = ft_alloc_lst(sizeof(t_vector2) * RENDER_WIDTH, 4);
 		j = 0;
 		x = 0.5 / ft_sin((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT))) * ft_cos((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT)));
-		printf("Prec vector cloud row %d, angle %.8f, cos: %.8f, sin: %.8f, x factor: %.8f\n", i, ((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT))), ft_cos(((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT)))), ft_sin(((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT)))), x);
+		game->mist_density_fc[i] = -(x / MAX_RAY_SIZE * 100) + 100;
 		while (j < RENDER_WIDTH)
 		{
 			current_angle = start_angle - (j * angle_step);

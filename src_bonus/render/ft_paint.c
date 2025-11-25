@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/25 00:30:13 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/25 00:58:31 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,9 +164,13 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 			ceiling_texture = get_texture_for_ceiling(game, &game->render_cloud[ys][x]);
 			floor_texture = get_texture_for_floor(game, &game->render_cloud[ys][x]);
 			//ft_printf("b");
-			game->render->colors_matrix[ys][x] = get_fc_color(ceiling_texture, &game->render_cloud[ys][x]);
+			//game->render->colors_matrix[ys][x] = get_fc_color(ceiling_texture, &game->render_cloud[ys][x]);
+			unsigned int ceiling_color = get_fc_color(ceiling_texture, &game->render_cloud[ys][x]);
+			ft_mix_color(&game->render->colors_matrix[ys][x], &ceiling_color, game->mist_density_fc[ys]);
 			//ft_printf("c");
-			game->render->colors_matrix[yf][x] = get_fc_color(floor_texture, &game->render_cloud[yf][x]);
+			//game->render->colors_matrix[yf][x] = get_fc_color(floor_texture, &game->render_cloud[yf][x]);
+			unsigned int floor_color = get_fc_color(floor_texture, &game->render_cloud[yf][x]);
+			ft_mix_color(&game->render->colors_matrix[yf][x], &floor_color, game->mist_density_fc[ys]);
 			//ft_printf("d\n");
 			ys++;
 			yf--;
