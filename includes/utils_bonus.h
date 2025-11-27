@@ -76,11 +76,11 @@
 # endif
 
 # ifndef RENDER_WIDTH
-#  define RENDER_WIDTH 960
+#  define RENDER_WIDTH 1920
 # endif
 
 # ifndef RENDER_HEIGHT
-#  define RENDER_HEIGHT 540
+#  define RENDER_HEIGHT 1080
 # endif
 
 # define FOV 45.0
@@ -271,8 +271,9 @@ typedef struct s_game
     int  		is_running;
 	double		time_since_last_step;
 	t_vector2   **prec_vector_cloud;
-	t_vector2   **render_cloud;
+	//t_vector2   **render_cloud;
 	int			*mist_density_fc;
+	int			mist_cloud_height;
 }	t_game;
 
 #endif

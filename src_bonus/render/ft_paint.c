@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/25 00:58:31 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/27 03:01:06 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ int ft_calculate_wall_height(t_raycast *ray, int x, t_game *game)
 		wall_height = 1;
 	*/
 	if (wall_height % 2 != 0)
-		wall_height--;
-	return wall_height;
+		wall_height++;
+	return (wall_height);
 }
 
 int ft_calc_texture_x(t_raycast *ray, t_texture *texture)
@@ -121,6 +121,45 @@ int ft_calc_texture_x(t_raycast *ray, t_texture *texture)
 	return texture_x;
 }
 
+t_vector2 ft_reposition_vector2(t_game *game, t_vector2 vec)
+{
+	t_vector2	result;
+	double		cos_angle;
+	double		sin_angle;
+
+	cos_angle = ft_format_cos(game->player.rotation.x);
+	sin_angle = ft_format_sin(game->player.rotation.x);
+	result.x = vec.x * cos_angle - vec.y * sin_angle + game->player.position.x;
+	result.y = vec.x * sin_angle + vec.y * cos_angle + game->player.position.y;
+	return (result);
+}
+
+void draw_ceiling_and_floor(t_game *game, int x, int wall_start)
+{
+	int				y;
+	t_texture		*ceiling_texture;
+	t_texture		*floor_texture;
+	t_vector2		ceiling_floor;
+	unsigned int	color;
+
+	y = 0;
+	while (y < wall_start)
+	{
+		//ft_printf("%d a", y);
+		ceiling_floor = ft_reposition_vector2(game, game->prec_vector_cloud[y][x]);
+		ceiling_texture = get_texture_for_ceiling(game, &ceiling_floor);
+		floor_texture = get_texture_for_floor(game, &ceiling_floor);
+		//ft_printf("b");
+		color = get_fc_color(ceiling_texture, &ceiling_floor);
+		ft_mix_color(&game->render->colors_matrix[y][x], &color, game->mist_density_fc[y]);
+		//ft_printf("c");
+		color = get_fc_color(floor_texture, &ceiling_floor);
+		ft_mix_color(&game->render->colors_matrix[RENDER_HEIGHT - 1 - y][x], &color, game->mist_density_fc[y]);
+		//ft_printf("d\n");
+		y++;
+	}
+}
+
 void draw_column(t_game *game, int x, t_raycast *ray)
 {
 	int				wall_height;
@@ -135,10 +174,10 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 	int				height_mid;
 
 	if (ray->type < 0 || ray->type > 3 || ray->distance <= 0.0)
-		return;
+		return (draw_ceiling_and_floor(game, x, game->mist_cloud_height));
 	wall_height = ft_calculate_wall_height(ray, x, game);
 	if (wall_height <= 0)
-		return;
+		return (draw_ceiling_and_floor(game, x, game->mist_cloud_height));
 	texture = get_texture_for_wall(game, ray);
 	texture_iteration = (double)texture->height / (double)wall_height;
 	if (wall_height > RENDER_HEIGHT)
@@ -152,30 +191,31 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		y = (RENDER_HEIGHT - wall_height) / 2;
 		render_end = y + wall_height - 1;
 		texture_start = 0.0;
-		
-		int ys = 0;
+		draw_ceiling_and_floor(game, x, y);
+		/*int ys = 0;
 		int yf = RENDER_HEIGHT - 1;
 		t_texture *ceiling_texture;
 		t_texture *floor_texture;
+		t_vector2 ceiling_floor;
 		//ft_printf("Drawing ceiling and floor for column %d\n", x);
 		while (ys < y)
 		{
 			//ft_printf("%d a", ys);
-			ceiling_texture = get_texture_for_ceiling(game, &game->render_cloud[ys][x]);
-			floor_texture = get_texture_for_floor(game, &game->render_cloud[ys][x]);
+			ceiling_floor = ft_reposition_vector2(game, game->prec_vector_cloud[ys][x]);
+			ceiling_texture = get_texture_for_ceiling(game, &ceiling_floor);
+			floor_texture = get_texture_for_floor(game, &ceiling_floor);
 			//ft_printf("b");
 			//game->render->colors_matrix[ys][x] = get_fc_color(ceiling_texture, &game->render_cloud[ys][x]);
-			unsigned int ceiling_color = get_fc_color(ceiling_texture, &game->render_cloud[ys][x]);
+			unsigned int ceiling_color = get_fc_color(ceiling_texture, &ceiling_floor);
 			ft_mix_color(&game->render->colors_matrix[ys][x], &ceiling_color, game->mist_density_fc[ys]);
 			//ft_printf("c");
 			//game->render->colors_matrix[yf][x] = get_fc_color(floor_texture, &game->render_cloud[yf][x]);
-			unsigned int floor_color = get_fc_color(floor_texture, &game->render_cloud[yf][x]);
+			unsigned int floor_color = get_fc_color(floor_texture, &ceiling_floor);
 			ft_mix_color(&game->render->colors_matrix[yf][x], &floor_color, game->mist_density_fc[ys]);
 			//ft_printf("d\n");
 			ys++;
 			yf--;
-		}
-		
+		}*/
 	}
 	mist_density = -(ray->distance / MAX_RAY_SIZE * 100) + 100;
 	last_texture_pixel = -1;
@@ -227,7 +267,7 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 	}
 }
 
-t_vector2 ft_rotate_vector2(t_vector2 *vec, double angle)
+/*t_vector2 ft_rotate_vector2(t_vector2 *vec, double angle)
 {
 	t_vector2	result;
 	double		cos_angle;
@@ -238,34 +278,41 @@ t_vector2 ft_rotate_vector2(t_vector2 *vec, double angle)
 	result.x = vec->x * cos_angle - vec->y * sin_angle;
 	result.y = vec->x * sin_angle + vec->y * cos_angle;
 	return (result);
-}
+}*/
 
-static void ft_render_cloud(t_game *game)
+/*static void ft_render_cloud(t_game *game)
 {
 	int		i;
 	int		j;
+	double  cos_angle;
+	double  sin_angle;
 
+	cos_angle = ft_format_cos(game->player.rotation.x);
+	sin_angle = ft_format_sin(game->player.rotation.x);
 	i = 0;
 	while (i < RENDER_HEIGHT / 2)
 	{
 		j = 0;
 		while (j < RENDER_WIDTH)
 		{
-			game->render_cloud[i][j] = ft_rotate_vector2(&game->prec_vector_cloud[i][j], game->player.rotation.x);
+			game->render_cloud[i][j].x = game->prec_vector_cloud[i][j].x
+				* cos_angle - game->prec_vector_cloud[i][j].y * sin_angle;
+			game->render_cloud[i][j].y = game->prec_vector_cloud[i][j].x
+				* sin_angle + game->prec_vector_cloud[i][j].y * cos_angle;
 			game->render_cloud[i][j].y += game->player.position.y;
 			game->render_cloud[i][j].x += game->player.position.x;
 			j++;
 		}
 		i++;
 	}
-}
+}*/
 
 void ft_render_3d(t_game *game)
 {
 	int			i;
 
 	draw_background(game);
-	ft_render_cloud(game);
+	//ft_render_cloud(game);
 	i = 0;
 	while (i < RENDER_WIDTH)
 	{
