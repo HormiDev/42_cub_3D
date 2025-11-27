@@ -93,7 +93,7 @@
 # define MOUSE_SENSITIVITY 0.4
 # define DCP 0.1 // dist player collision
 
-# define MIST_COLOR 0x323232FF
+# define MIST_COLOR 0x323232
 
 typedef enum e_wall_direction
 {

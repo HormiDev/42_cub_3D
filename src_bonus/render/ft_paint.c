@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/27 03:01:06 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/27 03:25:27 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int ft_calculate_wall_height(t_raycast *ray, int x, t_game *game)
 	*/
 	if (wall_height % 2 != 0)
 		wall_height++;
-	return (wall_height);
+	return (wall_height + 2);
 }
 
 int ft_calc_texture_x(t_raycast *ray, t_texture *texture)
@@ -189,7 +189,7 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 	else
 	{
 		y = (RENDER_HEIGHT - wall_height) / 2;
-		render_end = y + wall_height - 1;
+		render_end = y + wall_height;
 		texture_start = 0.0;
 		draw_ceiling_and_floor(game, x, y);
 		/*int ys = 0;
