@@ -68,19 +68,19 @@
 # define RSHIFT			65506
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 1920
+#  define WINDOW_WIDTH 3840
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 1080
+#  define WINDOW_HEIGHT 2160
 # endif
 
 # ifndef RENDER_WIDTH
-#  define RENDER_WIDTH 1920
+#  define RENDER_WIDTH 320
 # endif
 
 # ifndef RENDER_HEIGHT
-#  define RENDER_HEIGHT 1080
+#  define RENDER_HEIGHT 180
 # endif
 
 # define FOV 45.0
@@ -169,15 +169,6 @@ typedef struct s_player
 	
 } t_player;
 
-typedef struct s_input {
-	int front;
-	int back;
-	int left;
-	int right;
-	int rotate_left;
-	int rotate_right;
-	int run;
-} t_input;
 
 typedef struct s_gamepad {
 	int	fd;
@@ -192,7 +183,20 @@ typedef struct s_gamepad {
 	int	left_stick_y;
 	int	right_stick_x;
 	int	right_stick_y;
+	int right_stick_click;
+	int a_pressed;
+    int b_pressed;
 } t_gamepad;
+
+typedef struct s_input {
+	int front;
+	int back;
+	int left;
+	int right;
+	int rotate_left;
+	int rotate_right;
+	int run;
+} t_input;
 
 typedef struct s_image // eliminar
 {

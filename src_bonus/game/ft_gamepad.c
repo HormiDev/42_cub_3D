@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/03 17:17:23 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/30 20:13:58 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,25 @@ static void	ft_process_gamepad_event(t_game *game, struct js_event event)
 {
 	if (event.type == JS_EVENT_BUTTON)
 	{
+		
 		if (event.number == 0) // A
+		{
 			game->gamepad.a = event.value;
+			if (event.value == 1) 
+			{
+				game->gamepad.a_pressed = 1;
+				printf("a presionada\n");
+			}
+		}
 		else if (event.number == 1) // B
+		{
 			game->gamepad.b = event.value;
+			if (event.value == 1)
+			{
+				printf("a presionada\n");
+				game->gamepad.b_pressed = 1;
+			}
+		}
 		else if (event.number == 2) // X
 			game->gamepad.x = event.value;
 		else if (event.number == 3) // Y
@@ -40,6 +55,8 @@ static void	ft_process_gamepad_event(t_game *game, struct js_event event)
 			game->gamepad.lb = event.value;
 		else if (event.number == 5) // RB
 			game->gamepad.rb = event.value;
+		else if (event.number == 9)  
+            game->gamepad.right_stick_click = event.value;
 	}
 	else if (event.type == JS_EVENT_AXIS)
 	{
@@ -68,6 +85,9 @@ void	ft_init_gamepad(t_game *game)
 	game->gamepad.left_stick_y = 0;
 	game->gamepad.right_stick_x = 0;
 	game->gamepad.right_stick_y = 0;
+	game->gamepad.right_stick_click = 0;  
+	game->gamepad.a_pressed = 0;
+    game->gamepad.b_pressed = 0;
 
 	const char *gamepad_paths[] = {
 		"/dev/input/js0",
@@ -91,8 +111,6 @@ void	ft_init_gamepad(t_game *game)
 		}
 		i++;
 	}
-	
-	// Modo sin gamepad (silencioso para WSL)
 	ft_printf("Info: No gamepad detected (keyboard controls active)\n");
 }
 
@@ -120,7 +138,6 @@ void	ft_update_gamepad(t_game *game)
 		ft_process_gamepad_event(game, event);
 	}
 	
-	// Si hay error de lectura que no sea EAGAIN/EWOULDBLOCK, desconectar silenciosamente
 	if (bytes == -1 && errno != EAGAIN && errno != EWOULDBLOCK)
 	{
 		game->gamepad.connected = 0;
@@ -149,7 +166,6 @@ void	ft_gamepad_movement(t_game *game)
 			game->input.left = 1;
 		else if (game->gamepad.left_stick_x == 1) // Stick derecha
 			game->input.right = 1;
-
 		if (game->gamepad.right_stick_x == -1 || game->gamepad.lb)
 		{
 			game->player.rotation.x += ROTATION_SPEED * game->delta_time;
@@ -162,5 +178,9 @@ void	ft_gamepad_movement(t_game *game)
 			if (game->player.rotation.x < 0.0)
 				game->player.rotation.x += 360.0;
 		}
+		if (game->gamepad.right_stick_click || game->gamepad.rb)
+            game->input.run = 1;
+        else
+            game->input.run = 0;
 	}
 }

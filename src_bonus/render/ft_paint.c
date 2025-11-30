@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/27 03:25:27 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/11/30 19:34:32 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ static unsigned int get_fc_color(t_texture *texture, t_vector2 *pos)
     if (!texture->path) // Si la textura es un color sólido
         return (texture->texture_color);
 
-    tx = (int)((texture->width - 1) * (pos->x - (int)(pos->x)));
-    ty = (int)((texture->height - 1) * (pos->y - (int)(pos->y)));
+    tx = (int)((texture->width) * (pos->x - (int)(pos->x)));
+    ty = (int)((texture->height) * (pos->y - (int)(pos->y)));
     return (texture->colors_matrix[ty][tx]);
 }
 
