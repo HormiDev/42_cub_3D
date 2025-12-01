@@ -33,19 +33,13 @@ static void	ft_process_gamepad_event(t_game *game, struct js_event event)
 		{
 			game->gamepad.a = event.value;
 			if (event.value == 1) 
-			{
 				game->gamepad.a_pressed = 1;
-				printf("a presionada\n");
-			}
 		}
 		else if (event.number == 1) // B
 		{
 			game->gamepad.b = event.value;
 			if (event.value == 1)
-			{
-				printf("a presionada\n");
 				game->gamepad.b_pressed = 1;
-			}
 		}
 		else if (event.number == 2) // X
 			game->gamepad.x = event.value;
@@ -156,8 +150,32 @@ void	ft_gamepad_movement(t_game *game)
 		game->input.front = 0;
 		game->input.back = 0;
 		game->input.left = 0;
-		game->input.right = 0;
+		game->input.right = 0;	
 		
+
+		//uso del mando para el menu
+		if (game->show_menu)
+		{
+			if (game->gamepad.a_pressed)
+			{
+				ft_stop_audio(game->menu.menu_music_pid);
+				game->show_menu = 0;
+				game->gamepad.a_pressed = 0;
+			}
+		}
+		if (game->gamepad.b_pressed)
+		{
+			if (game->show_menu)
+			{
+				ft_stop_audio(game->menu.menu_music_pid);
+				ft_close_game(0);
+			}
+			else
+			{
+				game->show_menu = 1;
+			}
+			game->gamepad.b_pressed = 0;
+		}	
 		if (game->gamepad.left_stick_y == -1) // Stick arriba (forward)
 			game->input.front = 1;
 		else if (game->gamepad.left_stick_y == 1) // Stick abajo (backward)
