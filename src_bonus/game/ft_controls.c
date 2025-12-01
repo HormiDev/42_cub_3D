@@ -83,30 +83,6 @@ static void	ft_handle_player_rotation(t_game *game)
 
 int ft_key_press(int keycode, t_game *game)
 {
-	if (keycode == ESC)
-	{
-		if (game->show_menu)
-		{
-			ft_stop_audio(game->menu.menu_music_pid);
-			ft_close_game(0);
-		}
-		else
-			ft_close_game(0);
-	}
-	if (keycode == P)
-	{
-		if (!game->show_menu)
-			game->show_menu = 1;
-	}
-	if (game->show_menu)
-	{
-		if (keycode == SPACE || keycode == 65293)
-		{
-			ft_stop_audio(game->menu.menu_music_pid);
-			game->show_menu = 0;
-		}
-		return (0);
-	}
 	if (keycode == M)
         ft_toggle_mouse_capture(game);
 	if (keycode == W)
@@ -150,9 +126,9 @@ void ft_controls(t_game *game)
 	double	move_speed;
 	int		is_moving; 
 	double  step_interval;
-	
-	//ft_update_gamepad(game);
-	//ft_gamepad_movement(game);
+
+	ft_update_gamepad(game);
+	ft_gamepad_movement(game);
     if (game->input.run)
 	{
 		move_speed = RUN_SPEED;

@@ -47,33 +47,31 @@ int ft_update(void *param)
 
 	if (!ft_calc_delta_time(game))
 		return (0);
-	
-	if (game->show_menu)
-	{
-		ft_update_menu(game);
-		return (0);
-	}
-	
-	//printf("Fps: %d\n", (int)(1 / game->delta_time));
-	ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
 	ft_controls(game);
-	ft_update_doors(game);
-	ft_calculate_raycasts(game); 
-	ft_render_3d(game);
-	ft_map2D(game);
-	if (RENDER_HEIGHT != WINDOW_HEIGHT || RENDER_WIDTH != WINDOW_WIDTH)
-	{
-		ft_scale_t_image_precalc(game->render, game->window_img, game);
-		mlx_clear_window(game->mlx, game->window);
-		mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
-		mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
-	}
+	if (game->show_menu)
+		ft_update_menu(game);
 	else
 	{
-		mlx_clear_window(game->mlx, game->window);
-		mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
+			//printf("Fps: %d\n", (int)(1 / game->delta_time));
+			ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
+			ft_update_doors(game);
+			ft_calculate_raycasts(game); 
+			ft_render_3d(game);
+			ft_map2D(game);
+			if (RENDER_HEIGHT != WINDOW_HEIGHT || RENDER_WIDTH != WINDOW_WIDTH)
+			{
+				ft_scale_t_image_precalc(game->render, game->window_img, game);
+				mlx_clear_window(game->mlx, game->window);
+				mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
+				mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
+			}
+			else
+			{
+				mlx_clear_window(game->mlx, game->window);
+				mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
+			}
+			mlx_put_image_to_window(game->mlx, game->window, game->minimap->img, MINIMAP_OFFSET_X, MINIMAP_OFFSET_Y);
+			mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	}
-	mlx_put_image_to_window(game->mlx, game->window, game->minimap->img, MINIMAP_OFFSET_X, MINIMAP_OFFSET_Y);
-	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	return (0);
 }
