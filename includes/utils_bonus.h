@@ -241,6 +241,17 @@ typedef struct s_door
 	int				texture_index;
 } t_door;
 
+typedef struct s_config
+{
+	int	n_players;
+	int	render_width;
+	int	render_height;
+	int	render_celling;
+	int	render_floor;
+	int render_mist;
+	int	sound_effects;
+} t_config;
+
 typedef struct s_game 
 {
 	char		**map;
@@ -278,6 +289,7 @@ typedef struct s_game
 	//t_vector2   **render_cloud;
 	int			*mist_density_fc;
 	int			mist_cloud_height;
+	t_config	config;
 }	t_game;
 
 #endif
