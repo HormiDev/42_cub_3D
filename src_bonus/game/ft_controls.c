@@ -83,82 +83,74 @@ static void	ft_handle_player_rotation(t_game *game)
 
 int ft_key_press(int keycode, t_game *game)
 {
+	if (keycode == ESC)
+		input_handle_menu_b(game);
+	if (game->show_menu)
+	{
+		if (keycode == SPACE || keycode == E)
+			input_handle_menu_a(game);
+		return (0);
+	}
 	if (keycode == M)
-        ft_toggle_mouse_capture(game);
+		ft_toggle_mouse_capture(game);
 	if (keycode == W)
-		game->input.front = 1;
+		game->input.kb_front = 1;
 	else if (keycode == A)
-		game->input.left = 1;
+		game->input.kb_left = 1;
 	else if (keycode == S)
-		game->input.back = 1;
+		game->input.kb_back = 1;
 	else if (keycode == D)
-		game->input.right = 1;
+		game->input.kb_right = 1;
 	else if (keycode == L)
-		game->input.rotate_left = 1;
+		game->input.kb_rotate_left = 1;
 	else if (keycode == R)
-		game->input.rotate_right = 1;
+		game->input.kb_rotate_right = 1;
 	else if (keycode == LSHIFT)
-		game->input.run = 1;
+		game->input.kb_run = 1;
 	return (0);
 }
 
 int ft_key_release(int keycode, t_game *game)
 {
 	if (keycode == W)
-		game->input.front = 0;
+		game->input.kb_front = 0;
 	else if (keycode == A)
-		game->input.left = 0;
+		game->input.kb_left = 0;
 	else if (keycode == S)
-		game->input.back = 0;
+		game->input.kb_back = 0;
 	else if (keycode == D)
-		game->input.right = 0;
+		game->input.kb_right = 0;
 	else if (keycode == L)
-		game->input.rotate_left = 0;
+		game->input.kb_rotate_left = 0;
 	else if (keycode == R)
-		game->input.rotate_right = 0;
+		game->input.kb_rotate_right = 0;
 	else if (keycode == LSHIFT)
-		game->input.run = 0;
+		game->input.kb_run = 0;
 	return (0);
 }
 
 void ft_controls(t_game *game)
 {
 	double	move_speed;
-	int		is_moving; 
-	double  step_interval;
+	int		is_moving;
 
 	ft_update_gamepad(game);
 	ft_gamepad_movement(game);
-    if (game->input.run)
-	{
+	input_merge_sources(game);
+	if (game->input.run)
 		move_speed = RUN_SPEED;
-		step_interval = T_STEPS_RUN;
-	}
-    else
-	{
-        move_speed = MOVE_SPEED;
-		step_interval = T_STEPS_WALK;
-	}
-    is_moving = ft_handle_player_movement(game, move_speed);
-    ft_handle_player_rotation(game);
-	if(is_moving)
-	{
-		game->time_since_last_step += game->delta_time;
-		if (game->time_since_last_step >= step_interval)
-		{
-			game->steps_audio_pid = ft_play_audio(AUDIO_WALK, game->env);
-			game->time_since_last_step = 0.0; 
-			game->is_walking = 1;
-		}
-	}
 	else
+		move_speed = MOVE_SPEED;
+	is_moving = ft_handle_player_movement(game, move_speed);
+	ft_handle_player_rotation(game);
+	if (is_moving)
 	{
-		if(game->is_walking)
-		{
-			game->time_since_last_step = 0.0; 
-			game->steps_audio_pid = -1; // Limpiar PID
-			game->is_walking = 0; 
-		}
+		audio_play_steps(game, AUDIO_WALK);
+		game->is_walking = 1;
 	}
-
+	else if (game->is_walking)
+	{
+		audio_stop_steps(game);
+		game->is_walking = 0;
+	}
 }

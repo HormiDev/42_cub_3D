@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gamepad.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com>    +#+  +:+       +#+       */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/30 20:13:58 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/02 00:00:00 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,48 +24,53 @@ static int	ft_normalize_axis_value(int raw_value)
 	return (0);
 }
 
+static void	ft_process_button_event(t_game *game, struct js_event event)
+{
+	if (event.number == 0)
+	{
+		game->gamepad.a = event.value;
+		if (event.value == 1)
+			game->gamepad.a_pressed = 1;
+	}
+	else if (event.number == 1)
+	{
+		game->gamepad.b = event.value;
+		if (event.value == 1)
+			game->gamepad.b_pressed = 1;
+	}
+	else if (event.number == 2)
+		game->gamepad.x = event.value;
+	else if (event.number == 3)
+		game->gamepad.y = event.value;
+	else if (event.number == 4)
+		game->gamepad.lb = event.value;
+	else if (event.number == 5)
+		game->gamepad.rb = event.value;
+	else if (event.number == 9)
+		game->gamepad.right_stick_click = event.value;
+}
+
+static void	ft_process_axis_event(t_game *game, struct js_event event)
+{
+	if (event.number == 0)
+		game->gamepad.left_stick_x = ft_normalize_axis_value(event.value);
+	else if (event.number == 1)
+		game->gamepad.left_stick_y = ft_normalize_axis_value(event.value);
+	else if (event.number == 3)
+		game->gamepad.right_stick_x = ft_normalize_axis_value(event.value);
+	else if (event.number == 4)
+		game->gamepad.right_stick_y = ft_normalize_axis_value(event.value);
+}
+
 static void	ft_process_gamepad_event(t_game *game, struct js_event event)
 {
 	if (event.type == JS_EVENT_BUTTON)
-	{
-		
-		if (event.number == 0) // A
-		{
-			game->gamepad.a = event.value;
-			if (event.value == 1) 
-				game->gamepad.a_pressed = 1;
-		}
-		else if (event.number == 1) // B
-		{
-			game->gamepad.b = event.value;
-			if (event.value == 1)
-				game->gamepad.b_pressed = 1;
-		}
-		else if (event.number == 2) // X
-			game->gamepad.x = event.value;
-		else if (event.number == 3) // Y
-			game->gamepad.y = event.value;
-		else if (event.number == 4) // LB
-			game->gamepad.lb = event.value;
-		else if (event.number == 5) // RB
-			game->gamepad.rb = event.value;
-		else if (event.number == 9)  
-            game->gamepad.right_stick_click = event.value;
-	}
+		ft_process_button_event(game, event);
 	else if (event.type == JS_EVENT_AXIS)
-	{
-		if (event.number == 0) // Stick izquierdo X
-			game->gamepad.left_stick_x = ft_normalize_axis_value(event.value);
-		else if (event.number == 1) // Stick izquierdo Y
-			game->gamepad.left_stick_y = ft_normalize_axis_value(event.value);
-		else if (event.number == 3) // Stick derecho X
-			game->gamepad.right_stick_x = ft_normalize_axis_value(event.value);
-		else if (event.number == 4) // Stick derecho Y
-			game->gamepad.right_stick_y = ft_normalize_axis_value(event.value);
-	}
+		ft_process_axis_event(game, event);
 }
 
-void	ft_init_gamepad(t_game *game)
+static void	ft_reset_gamepad_state(t_game *game)
 {
 	game->gamepad.connected = 0;
 	game->gamepad.fd = -1;
@@ -79,30 +84,41 @@ void	ft_init_gamepad(t_game *game)
 	game->gamepad.left_stick_y = 0;
 	game->gamepad.right_stick_x = 0;
 	game->gamepad.right_stick_y = 0;
-	game->gamepad.right_stick_click = 0;  
+	game->gamepad.right_stick_click = 0;
 	game->gamepad.a_pressed = 0;
-    game->gamepad.b_pressed = 0;
+	game->gamepad.b_pressed = 0;
+}
 
-	const char *gamepad_paths[] = {
-		"/dev/input/js0",
-		"/dev/input/js1",
-		"/dev/input/event0",
-		"/dev/input/event1",
-		"/dev/input/event2",
-		"/dev/input/event3",
-		NULL
-	};
-	
-	int i = 0;
-	while (gamepad_paths[i] && game->gamepad.fd == -1)
+static int	ft_try_open_gamepad(t_game *game, const char *path)
+{
+	game->gamepad.fd = open(path, O_RDONLY | O_NONBLOCK);
+	if (game->gamepad.fd != -1)
 	{
-		game->gamepad.fd = open(gamepad_paths[i], O_RDONLY | O_NONBLOCK);
-		if (game->gamepad.fd != -1)
-		{
-			game->gamepad.connected = 1;
-			ft_printf("Gamepad found at %s\n", gamepad_paths[i]);
-			return;
-		}
+		game->gamepad.connected = 1;
+		ft_printf("Gamepad found at %s\n", path);
+		return (1);
+	}
+	return (0);
+}
+
+void	ft_init_gamepad(t_game *game)
+{
+	const char	*paths[7];
+	int			i;
+
+	ft_reset_gamepad_state(game);
+	paths[0] = "/dev/input/js0";
+	paths[1] = "/dev/input/js1";
+	paths[2] = "/dev/input/event0";
+	paths[3] = "/dev/input/event1";
+	paths[4] = "/dev/input/event2";
+	paths[5] = "/dev/input/event3";
+	paths[6] = NULL;
+	i = 0;
+	while (paths[i])
+	{
+		if (ft_try_open_gamepad(game, paths[i]))
+			return ;
 		i++;
 	}
 	ft_printf("Info: No gamepad detected (keyboard controls active)\n");
@@ -118,87 +134,84 @@ void	ft_free_gamepad(t_game *game)
 	game->gamepad.connected = 0;
 }
 
+static void	ft_handle_gamepad_error(t_game *game)
+{
+	game->gamepad.connected = 0;
+	if (game->gamepad.fd != -1)
+	{
+		close(game->gamepad.fd);
+		game->gamepad.fd = -1;
+	}
+}
+
 void	ft_update_gamepad(t_game *game)
 {
-	struct js_event event;
-	ssize_t bytes;
+	struct js_event	event;
+	ssize_t			bytes;
 
 	if (!game->gamepad.connected || game->gamepad.fd == -1)
 		return ;
-
-	// Leer todos los eventos disponibles sin bloquear
-	while ((bytes = read(game->gamepad.fd, &event, sizeof(event))) > 0)
+	bytes = read(game->gamepad.fd, &event, sizeof(event));
+	while (bytes > 0)
 	{
 		ft_process_gamepad_event(game, event);
+		bytes = read(game->gamepad.fd, &event, sizeof(event));
 	}
-	
 	if (bytes == -1 && errno != EAGAIN && errno != EWOULDBLOCK)
+		ft_handle_gamepad_error(game);
+}
+
+static void	ft_gamepad_move_input(t_game *game)
+{
+	if (game->gamepad.left_stick_y == -1)
+		game->input.gp_front = 1;
+	else if (game->gamepad.left_stick_y == 1)
+		game->input.gp_back = 1;
+	if (game->gamepad.left_stick_x == -1)
+		game->input.gp_left = 1;
+	else if (game->gamepad.left_stick_x == 1)
+		game->input.gp_right = 1;
+	if (game->gamepad.right_stick_click)
+		game->input.gp_run = 1;
+}
+
+static void	ft_gamepad_rotation(t_game *game)
+{
+	if (game->gamepad.right_stick_x == -1 || game->gamepad.lb)
+		game->input.gp_rotate_left = 1;
+	else if (game->gamepad.right_stick_x == 1 || game->gamepad.rb)
+		game->input.gp_rotate_right = 1;
+}
+
+static void	ft_gamepad_menu_input(t_game *game)
+{
+	if (game->gamepad.a_pressed)
 	{
-		game->gamepad.connected = 0;
-		if (game->gamepad.fd != -1)
-		{
-			close(game->gamepad.fd);
-			game->gamepad.fd = -1;
-		}
+		input_handle_menu_a(game);
+		game->gamepad.a_pressed = 0;
+	}
+	if (game->gamepad.b_pressed)
+	{
+		input_handle_menu_b(game);
+		game->gamepad.b_pressed = 0;
 	}
 }
 
 void	ft_gamepad_movement(t_game *game)
 {
-	if (game->gamepad.connected)
+	input_reset_gamepad(game);
+	if (!game->gamepad.connected)
+		return ;
+	if (game->show_menu)
 	{
-		game->input.front = 0;
-		game->input.back = 0;
-		game->input.left = 0;
-		game->input.right = 0;	
-		
-
-		//uso del mando para el menu
-		if (game->show_menu)
-		{
-			if (game->gamepad.a_pressed)
-			{
-				ft_stop_audio(game->menu.menu_music_pid);
-				game->show_menu = 0;
-				game->gamepad.a_pressed = 0;
-			}
-		}
-		if (game->gamepad.b_pressed)
-		{
-			if (game->show_menu)
-			{
-				ft_stop_audio(game->menu.menu_music_pid);
-				ft_close_game(0);
-			}
-			else
-			{
-				game->show_menu = 1;
-			}
-			game->gamepad.b_pressed = 0;
-		}	
-		if (game->gamepad.left_stick_y == -1) // Stick arriba (forward)
-			game->input.front = 1;
-		else if (game->gamepad.left_stick_y == 1) // Stick abajo (backward)
-			game->input.back = 1;
-		if (game->gamepad.left_stick_x == -1) // Stick izquierda
-			game->input.left = 1;
-		else if (game->gamepad.left_stick_x == 1) // Stick derecha
-			game->input.right = 1;
-		if (game->gamepad.right_stick_x == -1 || game->gamepad.lb)
-		{
-			game->player.rotation.x += ROTATION_SPEED * game->delta_time;
-			if (game->player.rotation.x >= 360.0)
-				game->player.rotation.x -= 360.0;
-		}
-		else if (game->gamepad.right_stick_x == 1 || game->gamepad.rb)
-		{
-			game->player.rotation.x -= ROTATION_SPEED * game->delta_time;
-			if (game->player.rotation.x < 0.0)
-				game->player.rotation.x += 360.0;
-		}
-		if (game->gamepad.right_stick_click || game->gamepad.rb)
-            game->input.run = 1;
-        else
-            game->input.run = 0;
+		ft_gamepad_menu_input(game);
+		return ;
 	}
+	if (game->gamepad.b_pressed)
+	{
+		input_handle_menu_b(game);
+		game->gamepad.b_pressed = 0;
+	}
+	ft_gamepad_move_input(game);
+	ft_gamepad_rotation(game);
 }

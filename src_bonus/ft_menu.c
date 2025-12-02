@@ -113,15 +113,8 @@ void	ft_update_menu(t_game *game)
 {
 	long	current_time;
 	long	time_diff;
-	int		status;
 
-	if (game->menu.menu_music_pid > 0)
-	{
-		if (waitpid(game->menu.menu_music_pid, &status, WNOHANG) != 0)
-			game->menu.menu_music_pid = ft_play_audio("music&sounds/menu.wav", game->env);
-	}
-	else
-		game->menu.menu_music_pid = ft_play_audio("music&sounds/menu.wav", game->env);
+	audio_play_menu(game, "music&sounds/menu.wav");
 	current_time = ft_get_time();
 	time_diff = ft_long_diff(game->menu.last_frame_time, current_time);
 	if (time_diff > MENU_FRAME_MS)
@@ -194,7 +187,8 @@ void	ft_init_menu(t_game *game)
 	game->menu.current_frame = 0;
 	game->menu.total_frames = 0;
 	game->menu.last_frame_time = ft_get_time();
-	game->menu.menu_music_pid = ft_play_audio("music&sounds/menu.wav", game->env);
+	game->menu.menu_music_pid = -1;
+	audio_play_menu(game, "music&sounds/menu.wav");
 	
 	game->menu.scaled_frame = ft_alloc_lst(sizeof(t_texture), 4);
 	game->menu.scaled_frame->img = (t_img *)mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);

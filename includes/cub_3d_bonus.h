@@ -83,6 +83,17 @@ void			ft_init_gamepad(t_game *game);
 void			ft_free_gamepad(t_game *game);
 void			ft_update_gamepad(t_game *game);
 void			ft_gamepad_movement(t_game *game);
+int			audio_play(t_game *game, const char *path, pid_t *pid_out);
+int			audio_stop(pid_t *pid);
+int			audio_play_steps(t_game *game, const char *path);
+int			audio_stop_steps(t_game *game);
+int			audio_play_menu(t_game *game, const char *path);
+int			audio_stop_menu(t_game *game);
+void		input_detect_device(t_game *game);
+void		input_merge_sources(t_game *game);
+void		input_reset_gamepad(t_game *game);
+int			input_handle_menu_a(t_game *game);
+int			input_handle_menu_b(t_game *game);
 
 // ============================================================================
 // RAYCAST FUNCTIONS
