@@ -55,6 +55,8 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/game/ft_directions.c \
 			src_bonus/game/ft_gamepad.c \
 			src_bonus/game/mouse.c \
+			src_bonus/game/audio_manager.c \
+			src_bonus/game/input_manager.c \
 			src_bonus/utils/ft_angle_utils.c \
 			src_bonus/utils/ft_vector_utils.c \
 			src_bonus/parse/ft_check_args.c \

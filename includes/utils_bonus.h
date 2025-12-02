@@ -35,8 +35,8 @@
 # define MINIMAP_SCALE 0.1 //  el factor de escala del minimapa, 0.1 significa que el minimapa sera 10 veces mas pequeño que la ventana
 
 # define AUDIO_WALK "music&sounds/Andar.wav"
-# define T_STEPS_WALK 0.75
-# define T_STEPS_RUN  0.4 
+# define T_STEPS_WALK 0.35
+# define T_STEPS_RUN  0.20 
 
 //menu animation
 # define MENU_FRAME_MS 66  // 66ms = ~15 FPS, 100ms = 10 FPS, 33ms = ~30 FPS
@@ -72,15 +72,15 @@
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 2160
+#  define WINDOW_HEIGHT 2560
 # endif
 
 # ifndef RENDER_WIDTH
-#  define RENDER_WIDTH 320
+#  define RENDER_WIDTH 960
 # endif
 
 # ifndef RENDER_HEIGHT
-#  define RENDER_HEIGHT 180
+#  define RENDER_HEIGHT 720
 # endif
 
 # define FOV 45.0
@@ -188,14 +188,35 @@ typedef struct s_gamepad {
     int b_pressed;
 } t_gamepad;
 
+typedef enum e_input_device
+{
+	INPUT_KEYBOARD = 0,
+	INPUT_GAMEPAD = 1
+}	t_input_device;
+
 typedef struct s_input {
-	int front;
-	int back;
-	int left;
-	int right;
-	int rotate_left;
-	int rotate_right;
-	int run;
+	int				front;
+	int				back;
+	int				left;
+	int				right;
+	int				rotate_left;
+	int				rotate_right;
+	int				run;
+	int				kb_front;
+	int				kb_back;
+	int				kb_left;
+	int				kb_right;
+	int				kb_rotate_left;
+	int				kb_rotate_right;
+	int				kb_run;
+	int				gp_front;
+	int				gp_back;
+	int				gp_left;
+	int				gp_right;
+	int				gp_rotate_left;
+	int				gp_rotate_right;
+	int				gp_run;
+	t_input_device	active_device;
 } t_input;
 
 typedef struct s_image // eliminar
