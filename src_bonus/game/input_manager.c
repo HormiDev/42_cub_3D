@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com>    +#+  +:+       +#+       */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 00:00:00 by ismherna          #+#    #+#             */
-/*   Updated: 2025/12/02 00:00:00 by ismherna         ###   ########.fr       */
+/*   Updated: 2025/12/16 01:37:34 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	input_handle_menu_a(t_game *game)
 		return (-1);
 	audio_stop_menu(game);
 	game->show_menu = 0;
+	ft_next_resolution(game);
 	return (0);
 }
 

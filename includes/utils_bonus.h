@@ -66,13 +66,14 @@
 # define DIR_UP    		3
 # define LSHIFT			65505
 # define RSHIFT			65506
+# define G				103
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 3840
+#  define WINDOW_WIDTH 1920
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 2560
+#  define WINDOW_HEIGHT 1080
 # endif
 
 # ifndef RENDER_WIDTH
@@ -80,7 +81,7 @@
 # endif
 
 # ifndef RENDER_HEIGHT
-#  define RENDER_HEIGHT 720
+#  define RENDER_HEIGHT 540
 # endif
 
 # define FOV 45.0
@@ -94,6 +95,12 @@
 # define DCP 0.1 // dist player collision
 
 # define MIST_COLOR 0x323232
+
+typedef struct s_resolution
+{
+	int width;
+	int height;
+} t_resolution;
 
 typedef enum e_wall_direction
 {
@@ -311,6 +318,9 @@ typedef struct s_game
 	int			*mist_density_fc;
 	int			mist_cloud_height;
 	t_config	config;
+	t_resolution	*resolutions;
+	int				resolutions_size;
+	int				resolution_index;
 }	t_game;
 
 #endif

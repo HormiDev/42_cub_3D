@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 16:17:05 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/27 03:03:46 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/12 20:15:26 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,26 @@ void	ft_prec_vector_cloud(t_game *game)
 	int		j;
 	double	fov_y;
 	double	x;
-	double angle_step = FOV / RENDER_WIDTH;
+	double angle_step = FOV / (game->config.render_width - 2); // el -2 es una micri correccion para que el ángulo final coincida bien
 	double start_angle = (FOV / 2);
 	double current_angle;
 
-	fov_y = FOV * ((double)RENDER_HEIGHT / (double)RENDER_WIDTH);
-	game->prec_vector_cloud = ft_alloc_lst(sizeof(t_vector2 *) * RENDER_HEIGHT / 2, 4);
-	//game->render_cloud = ft_alloc_lst(sizeof(t_vector2 *) * RENDER_HEIGHT / 2, 4);
-	game->mist_density_fc = ft_alloc_lst(sizeof(int) * RENDER_HEIGHT / 2, 4);
+	fov_y = FOV * ((double)game->config.render_height / (double)game->config.render_width);
+	// tas impementar hd_alloc para liberar game->prec_vector_cloud antes de reasignar teniendo en cuenta que es una matriz
+	game->prec_vector_cloud = ft_alloc_lst(sizeof(t_vector2 *) * game->config.render_height / 2, 4);
+	//game->render_cloud = ft_alloc_lst(sizeof(t_vector2 *) * game->config.render_height / 2, 4);
+	game->mist_density_fc = ft_alloc_lst(sizeof(int) * game->config.render_height / 2, 4);
 	i = 0;
-	while (i < RENDER_HEIGHT / 2)
+	while (i < game->config.render_height / 2)
 	{
-		game->prec_vector_cloud[i] = ft_alloc_lst(sizeof(t_vector2) * RENDER_WIDTH, 4);
-		//game->render_cloud[i] = ft_alloc_lst(sizeof(t_vector2) * RENDER_WIDTH, 4);
+		game->prec_vector_cloud[i] = ft_alloc_lst(sizeof(t_vector2) * game->config.render_width, 4);
+		//game->render_cloud[i] = ft_alloc_lst(sizeof(t_vector2) * game->config.render_width, 4);
 		j = 0;
-		x = 0.5 / ft_sin((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT))) * ft_cos((fov_y / 2.0) - (i * fov_y / (double)(RENDER_HEIGHT)));
+		x = 0.5 / ft_sin((fov_y / 2.0) - (i * fov_y / (double)(game->config.render_height))) * ft_cos((fov_y / 2.0) - (i * fov_y / (double)(game->config.render_height)));
 		if (x < MAX_RAY_SIZE)
 			game->mist_cloud_height = i;
 		game->mist_density_fc[i] = -(x / MAX_RAY_SIZE * 100) + 100;
-		while (j < RENDER_WIDTH)
+		while (j < game->config.render_width)
 		{
 			current_angle = start_angle - (j * angle_step);
 			game->prec_vector_cloud[i][j].x = x;

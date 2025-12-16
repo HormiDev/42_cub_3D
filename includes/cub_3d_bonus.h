@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/20 00:53:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/16 01:20:43 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,8 +179,8 @@ void			debug_print_textures(t_game *game);
 long			ft_long_diff(long a, long b);
 
 unsigned char 	***ft_precalc_mixcolor(void);
-int				*ft_scale_precalc_x(void);
-int				*ft_scale_precalc_y(void);
+int				*ft_scale_precalc_x(t_game *game);
+int				*ft_scale_precalc_y(t_game *game);
 t_rotated_square *ft_precalc_rotated_squares(void);
 
 void			ft_toggle_mouse_capture(t_game *game);
@@ -197,6 +197,9 @@ void			ft_draw_transparent_image(t_texture *dst, t_texture *src,
 		int start_x, int start_y);
 		void			ft_mix_color_alpha(unsigned int *color, unsigned int  *mix_color, int percent);
 		void			ft_prec_vector_cloud(t_game *game);
-		
+
+void			ft_init_resolutions(t_game *game);
+void			ft_next_resolution(t_game *game);
+void			ft_loading_render(t_game *game, int render_height, int render_width);
 
 #endif

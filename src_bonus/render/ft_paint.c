@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/30 19:34:32 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/16 00:44:05 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void draw_background(t_game *game)
 	int					y;
 	
 	y = 0;
-	while (y < RENDER_HEIGHT)
+	while (y < game->config.render_height)
 	{
 		x = 0;
-		while (x < RENDER_WIDTH)
+		while (x < game->config.render_width)
 		{
 			game->render->colors_matrix[y][x] = MIST_COLOR;
 			x++;
@@ -90,10 +90,10 @@ int ft_calculate_wall_height(t_raycast *ray, int x, t_game *game)
 	corrected_dist = ray->distance * game->fish_eye_correction[x];
 	if (corrected_dist <= 0.01)
 		corrected_dist = 0.01;
-	wall_height = (int)(RENDER_HEIGHT / corrected_dist) * RENDER_WIDTH / RENDER_HEIGHT * 1.275;
+	wall_height = (int)(game->config.render_height / corrected_dist) * game->config.render_width / game->config.render_height * 1.275;
 	/*
-	if (wall_height > RENDER_HEIGHT * 3)
-		wall_height = RENDER_HEIGHT * 3;
+	if (wall_height > game->config.render_height * 3)
+		wall_height = game->config.render_height * 3;
 	if (wall_height < 1)
 		wall_height = 1;
 	*/
@@ -154,7 +154,7 @@ void draw_ceiling_and_floor(t_game *game, int x, int wall_start)
 		ft_mix_color(&game->render->colors_matrix[y][x], &color, game->mist_density_fc[y]);
 		//ft_printf("c");
 		color = get_fc_color(floor_texture, &ceiling_floor);
-		ft_mix_color(&game->render->colors_matrix[RENDER_HEIGHT - 1 - y][x], &color, game->mist_density_fc[y]);
+		ft_mix_color(&game->render->colors_matrix[game->config.render_height - 1 - y][x], &color, game->mist_density_fc[y]);
 		//ft_printf("d\n");
 		y++;
 	}
@@ -180,20 +180,20 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		return (draw_ceiling_and_floor(game, x, game->mist_cloud_height));
 	texture = get_texture_for_wall(game, ray);
 	texture_iteration = (double)texture->height / (double)wall_height;
-	if (wall_height > RENDER_HEIGHT)
+	if (wall_height > game->config.render_height)
 	{
 		y = 0;
-		render_end = RENDER_HEIGHT - 1;
-		texture_start = (double)((wall_height - RENDER_HEIGHT) / 2.0) / (double)wall_height * (double)texture->height;
+		render_end = game->config.render_height - 1;
+		texture_start = (double)((wall_height - game->config.render_height) / 2.0) / (double)wall_height * (double)texture->height;
 	}
 	else
 	{
-		y = (RENDER_HEIGHT - wall_height) / 2;
+		y = (game->config.render_height - wall_height) / 2;
 		render_end = y + wall_height;
 		texture_start = 0.0;
 		draw_ceiling_and_floor(game, x, y);
 		/*int ys = 0;
-		int yf = RENDER_HEIGHT - 1;
+		int yf = game->config.render_height - 1;
 		t_texture *ceiling_texture;
 		t_texture *floor_texture;
 		t_vector2 ceiling_floor;
@@ -232,7 +232,7 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 	else
 	{
 		texture_x = ft_calc_texture_x(ray, texture);
-		height_mid = RENDER_HEIGHT / 2;
+		height_mid = game->config.render_height / 2;
 		while (y < height_mid)
 		{
 			if (last_texture_pixel == (int)texture_start)
@@ -290,10 +290,10 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 	cos_angle = ft_format_cos(game->player.rotation.x);
 	sin_angle = ft_format_sin(game->player.rotation.x);
 	i = 0;
-	while (i < RENDER_HEIGHT / 2)
+	while (i < game->config.render_height / 2)
 	{
 		j = 0;
-		while (j < RENDER_WIDTH)
+		while (j < game->config.render_width)
 		{
 			game->render_cloud[i][j].x = game->prec_vector_cloud[i][j].x
 				* cos_angle - game->prec_vector_cloud[i][j].y * sin_angle;
@@ -314,9 +314,9 @@ void ft_render_3d(t_game *game)
 	draw_background(game);
 	//ft_render_cloud(game);
 	i = 0;
-	while (i < RENDER_WIDTH)
+	while (i < game->config.render_width)
 	{
-		draw_column(game, RENDER_WIDTH - i - 1, &game->raycasts[i]);
+		draw_column(game, game->config.render_width - i - 1, &game->raycasts[i]);
 		i++;
 	}
 	

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/01 01:11:41 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/16 01:24:02 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,19 +43,20 @@ void ft_create_render(t_game *game)
 	int i;
 
 	game->render = ft_alloc_lst(sizeof(t_texture), 4);
-	game->render->img = mlx_new_image(game->mlx, RENDER_WIDTH, RENDER_HEIGHT);
+	// ¡¡¡¡ Al cambiar a hd_alloc, liberar game->render->img antes de reasignar !!!!
+	game->render->img = mlx_new_image(game->mlx, game->config.render_width, game->config.render_height);
 	if (!game->render->img)
 	{
 		ft_dprintf(2, "Error: Failed to create render image\n");
 		ft_close_game(1);
 	}
-	game->render->width = RENDER_WIDTH;
-	game->render->height = RENDER_HEIGHT;
-	game->render->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * RENDER_HEIGHT, 4);
+	game->render->width = game->config.render_width;
+	game->render->height = game->config.render_height;
+	game->render->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * game->config.render_height, 4);
 	i = 0;
-	while (i < RENDER_HEIGHT)
+	while (i < game->config.render_height)
 	{
-		game->render->colors_matrix[i] = (unsigned int *)(game->render->img->data + (i * sizeof(unsigned int) * RENDER_WIDTH));
+		game->render->colors_matrix[i] = (unsigned int *)(game->render->img->data + (i * sizeof(unsigned int) * game->config.render_width));
 		i++;
 	}
 }
@@ -109,6 +110,19 @@ void ft_create_minimap(t_game *game)
 	}
 }
 
+void ft_loading_render(t_game *game, int render_height, int render_width)
+{
+	game->config.render_width = render_width;
+	game->config.render_height = render_height;
+	ft_create_render(game);
+	game->precalc.scale_x_table = ft_scale_precalc_x(game);
+	game->precalc.scale_y_table = ft_scale_precalc_y(game);
+	// tas impementar hd_alloc para liberar game->raycasts antes de reasignar
+	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * render_width, 4);
+	ft_prec_fish_eye_correction(game);
+	ft_prec_vector_cloud(game);
+}
+
 /**
 * @brief Carga el juego desde un archivo de mapa.
 *
@@ -135,21 +149,20 @@ t_game	*ft_loading_game(char *path_map)
 	ft_parse_map(game, map_file);
 	ft_read_textures_in_map(game, map_file);
 	ft_build_array_textures(game);
-	ft_create_render(game);
+	////////////////////////////////////////////////////////////////////////
+	ft_init_resolutions(game);
+	game->resolution_index = 0;
+	////////////////////////////////////////////////////////////////////////
+	ft_loading_render(game, game->resolutions[game->resolution_index].height, game->resolutions[game->resolution_index].width);
 	ft_create_window_img(game);
 	ft_create_minimap(game);
 	ft_sin(0);
 	ft_cos(0);
 	ft_sqrt(0);
-	game->precalc.scale_x_table = ft_scale_precalc_x();
-	game->precalc.scale_y_table = ft_scale_precalc_y();
 	game->precalc.rotated_squares = ft_precalc_rotated_squares();
-	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * RENDER_WIDTH, 4);
 	ft_config_player(game);
 	ft_init_doors(game);
 	ft_file_clear(&map_file);
-	ft_prec_fish_eye_correction(game);
-	ft_prec_vector_cloud(game);
 	
 	return (game);
 }
