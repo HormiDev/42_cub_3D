@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 03:55:54 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 16:22:21 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,21 +91,23 @@ void ft_create_window_img(t_game *game)
 void ft_create_minimap(t_game *game)
 {
 	int i;
+	int size;
 
+	size = WINDOW_HEIGHT / 5;
 	game->minimap = ft_alloc_lst(sizeof(t_texture), 4);
-	game->minimap->img = mlx_new_image(game->mlx, 200, 200);
+	game->minimap->img = mlx_new_image(game->mlx, size, size);
 	if (!game->minimap->img)
 	{
 		ft_dprintf(2, "Error: Failed to create minimap image\n");
 		ft_close_game(1);
 	}
-	game->minimap->width = 200;
-	game->minimap->height = 200;
-	game->minimap->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * 200, 4);
+	game->minimap->width = size;
+	game->minimap->height = size;
+	game->minimap->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * size, 4);
 	i = 0;
-	while (i < 200)
+	while (i < size)
 	{
-		game->minimap->colors_matrix[i] = (unsigned int *)(game->minimap->img->data + (i * sizeof(unsigned int) * 200));
+		game->minimap->colors_matrix[i] = (unsigned int *)(game->minimap->img->data + (i * sizeof(unsigned int) * size));
 		i++;
 	}
 }

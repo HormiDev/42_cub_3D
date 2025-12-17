@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/12/16 01:21:55 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/12/17 13:36:49 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -123,6 +123,7 @@ update_submodules:
 	@echo "$(Y)-----------------------------------------Updating submodules----------------------------------------$(NC)"
 	@echo "$(Y)----------------------------------------------------------------------------------------------------$(NC)\n"
 	@git submodule update --init --recursive > /dev/null 2>&1
+	@tput cuu1 && tput el
 	@tput cuu1 && tput el
 	@tput cuu1 && tput el
 	@tput cuu1 && tput el

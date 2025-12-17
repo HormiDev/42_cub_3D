@@ -22,10 +22,10 @@
 # define C_YELLOW       0xFFFF00
 # define C_BLACK		0x000000
 # define C_GREEN		0x008f39
-# define C_ALIEN_GREEN	0x00FF41
-# define C_ALIEN_DARK	0x001a0a
-# define C_ALIEN_GRID	0x00CC33
-# define C_ALIEN_PLAYER	0x00FFFF
+# define C_ALIEN_GREEN	0xFF00FF41
+# define C_ALIEN_DARK	0x80001a0a
+# define C_ALIEN_GRID	0xFF00CC33
+# define C_ALIEN_PLAYER	0xFF00FFFF
 # define MAX_RAY_SIZE	10
 
 //minimap 
@@ -77,11 +77,11 @@
 # endif
 
 # ifndef RENDER_WIDTH
-#  define RENDER_WIDTH 960
+#  define RENDER_WIDTH 1920
 # endif
 
 # ifndef RENDER_HEIGHT
-#  define RENDER_HEIGHT 540
+#  define RENDER_HEIGHT 1080
 # endif
 
 # define FOV 45.0
@@ -214,6 +214,20 @@ typedef enum e_resolutions
 	RES_2k,
 	RES_4k
 }	t_resolutions;
+
+typedef struct s_alien
+{
+	t_vector2		position;
+	t_alien_state	state;
+	t_vector2		patrol_points[4];
+	int				current_patrol;
+	int				patrol_count;
+	double			speed;
+	double			chase_distance;
+	double			patrol_distance;
+	double			size;
+	t_texture		*texture;
+} t_alien;
 
 typedef struct s_input {
 	int				front;

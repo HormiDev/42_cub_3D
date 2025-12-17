@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 03:45:38 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 16:29:26 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,16 +42,17 @@ void ft_one_player(t_game *game)
 	if (game->config.render_height != WINDOW_HEIGHT || game->config.render_width != WINDOW_WIDTH)
 	{
 		ft_scale_t_image_precalc(game->render, game->window_img, game);
+		ft_draw_transparent_image(game->window_img, game->minimap, WINDOW_WIDTH / 100, WINDOW_HEIGHT / 100);
 		//ft_scale_t_image(game->render, game->window_img);
 		mlx_clear_window(game->mlx, game->window);
 		mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
 	}
 	else
 	{
+		ft_draw_transparent_image(game->render, game->minimap, WINDOW_WIDTH / 100, WINDOW_HEIGHT / 100);
 		mlx_clear_window(game->mlx, game->window);
 		mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
 	}
-	mlx_put_image_to_window(game->mlx, game->window, game->minimap->img, MINIMAP_OFFSET_X, MINIMAP_OFFSET_Y);
 }
 
 void ft_two_players(t_game *game)
@@ -67,16 +68,16 @@ void ft_two_players(t_game *game)
 		ft_calculate_raycasts(game); 
 		ft_render_3d(game);
 		ft_map2D(game);
-		ft_printf("Player %d Fps: %d\n", player_index + 1, (int)(1 / game->delta_time));
+		//ft_printf("Player %d Fps: %d\n", player_index + 1, (int)(1 / game->delta_time));
 		ft_scale_t_image_precalc_two(game->render, game->window_img, game, player_index);
-		ft_printf("Scaled image for player %d\n", player_index + 1);
+		ft_draw_transparent_image(game->window_img, game->minimap, WINDOW_WIDTH / 100, WINDOW_HEIGHT / 100 + (WINDOW_HEIGHT / 2 * (player_index)));
+		//ft_printf("Scaled image for player %d\n", player_index + 1);
 		//ft_scale_t_image(game->render, game->window_img);
 		player_index++;
 	}
 	game->player = &game->players[0];
 	mlx_clear_window(game->mlx, game->window);
 	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
-	mlx_put_image_to_window(game->mlx, game->window, game->minimap->img, MINIMAP_OFFSET_X, MINIMAP_OFFSET_Y);
 }
 
 /**
@@ -102,7 +103,6 @@ int ft_update(void *param)
 		ft_one_player(game);
 	else if (game->config.n_players == 2)
 		ft_two_players(game);
-
 	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	return (0);
 }

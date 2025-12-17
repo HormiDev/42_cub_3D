@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 03:30:04 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 16:32:25 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,16 @@ t_door			*ft_get_door_at(t_game *game, int x, int y);
 void			ft_free_doors(t_game *game);
 double			ft_get_door_height(t_door *door);
 int				ft_is_wall_or_closed_door(t_game *game, int x, int y);
+
+// ============================================================================
+// ALIEN FUNCTIONS
+// ============================================================================
+void			ft_init_aliens(t_game *game);
+void			ft_config_aliens(t_game *game);
+void			ft_update_aliens(t_game *game);
+void			ft_render_aliens(t_game *game);
+void			ft_free_aliens(t_game *game);
+//void			ft_calculate_patrol_points(t_game *game, t_alien *alien);
 
 // ============================================================================
 // DEBUG FUNCTIONS
