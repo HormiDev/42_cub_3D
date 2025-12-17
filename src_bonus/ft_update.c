@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/15 22:04:19 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:45:38 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,53 @@ int ft_calc_delta_time(t_game *game)
 	return (1);
 }
 
+void ft_one_player(t_game *game)
+{
+	//printf("Fps: %d\n", (int)(1 / game->delta_time));
+	ft_update_doors(game);
+	ft_calculate_raycasts(game); 
+	ft_render_3d(game);
+	ft_map2D(game);
+	if (game->config.render_height != WINDOW_HEIGHT || game->config.render_width != WINDOW_WIDTH)
+	{
+		ft_scale_t_image_precalc(game->render, game->window_img, game);
+		//ft_scale_t_image(game->render, game->window_img);
+		mlx_clear_window(game->mlx, game->window);
+		mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
+	}
+	else
+	{
+		mlx_clear_window(game->mlx, game->window);
+		mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
+	}
+	mlx_put_image_to_window(game->mlx, game->window, game->minimap->img, MINIMAP_OFFSET_X, MINIMAP_OFFSET_Y);
+}
+
+void ft_two_players(t_game *game)
+{
+	int player_index;
+
+	player_index = 0;
+	while (player_index < 2)
+	{
+		/* code */
+		game->player = &game->players[player_index];
+		ft_update_doors(game);
+		ft_calculate_raycasts(game); 
+		ft_render_3d(game);
+		ft_map2D(game);
+		ft_printf("Player %d Fps: %d\n", player_index + 1, (int)(1 / game->delta_time));
+		ft_scale_t_image_precalc_two(game->render, game->window_img, game, player_index);
+		ft_printf("Scaled image for player %d\n", player_index + 1);
+		//ft_scale_t_image(game->render, game->window_img);
+		player_index++;
+	}
+	game->player = &game->players[0];
+	mlx_clear_window(game->mlx, game->window);
+	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->window, game->minimap->img, MINIMAP_OFFSET_X, MINIMAP_OFFSET_Y);
+}
+
 /**
  * @brief Actualiza el estado del juego y renderiza la escena.
  * Esta función se llama en cada frame del juego. Calcula el tiempo delta,
@@ -47,31 +94,15 @@ int ft_update(void *param)
 
 	if (!ft_calc_delta_time(game))
 		return (0);
+	ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
 	ft_controls(game);
 	if (game->show_menu)
 		ft_update_menu(game);
-	else
-	{
-			//printf("Fps: %d\n", (int)(1 / game->delta_time));
-			ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
-			ft_update_doors(game);
-			ft_calculate_raycasts(game); 
-			ft_render_3d(game);
-			ft_map2D(game);
-			if (game->config.render_height != WINDOW_HEIGHT || game->config.render_width != WINDOW_WIDTH)
-			{
-				ft_scale_t_image_precalc(game->render, game->window_img, game);
-				//ft_scale_t_image(game->render, game->window_img);
-				mlx_clear_window(game->mlx, game->window);
-				mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
-			}
-			else
-			{
-				mlx_clear_window(game->mlx, game->window);
-				mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
-			}
-			mlx_put_image_to_window(game->mlx, game->window, game->minimap->img, MINIMAP_OFFSET_X, MINIMAP_OFFSET_Y);
-			mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
-	}
+	else if (game->config.n_players == 1)
+		ft_one_player(game);
+	else if (game->config.n_players == 2)
+		ft_two_players(game);
+
+	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	return (0);
 }

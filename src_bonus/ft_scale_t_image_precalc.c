@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:41:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/12 19:23:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:52:24 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,36 @@ void ft_scale_t_image_precalc(t_texture *tex_origin, t_texture *text_destiny, t_
 			dest_x++;
 		}
 		dest_y++;
+	}
+}
+
+void ft_scale_t_image_precalc_two(t_texture *tex_origin, t_texture *text_destiny, t_game *game, int player)
+{
+	int 	dest_x;
+	int 	dest_y;
+	int		dest_end_y;
+	int		ori_y;
+
+	dest_y = 0;
+	ori_y = 0;
+	if (player == 0)
+		dest_end_y = text_destiny->height / 2;
+	else
+	{
+		dest_end_y = text_destiny->height;
+		dest_y = text_destiny->height / 2;
+	}
+	while (dest_y < dest_end_y)
+	{
+		dest_x = 0;
+		while (dest_x < text_destiny->width)
+		{
+			text_destiny->colors_matrix[dest_y][dest_x] = tex_origin->colors_matrix
+				[game->precalc.scale_y_table[ori_y]]
+				[game->precalc.scale_x_table[dest_x]];
+			dest_x++;
+		}
+		dest_y++;
+		ori_y++;
 	}
 }

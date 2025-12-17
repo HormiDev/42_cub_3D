@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/16 01:24:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:55:54 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,9 +114,13 @@ void ft_loading_render(t_game *game, int render_height, int render_width)
 {
 	game->config.render_width = render_width;
 	game->config.render_height = render_height;
-	ft_create_render(game);
 	game->precalc.scale_x_table = ft_scale_precalc_x(game);
 	game->precalc.scale_y_table = ft_scale_precalc_y(game);
+	if (game->config.n_players > 1)
+		game->config.render_height /= 2;
+	if (game->config.n_players > 2)
+		game->config.render_width /= 2;
+	ft_create_render(game);
 	// tas impementar hd_alloc para liberar game->raycasts antes de reasignar
 	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * render_width, 4);
 	ft_prec_fish_eye_correction(game);
@@ -149,10 +153,9 @@ t_game	*ft_loading_game(char *path_map)
 	ft_parse_map(game, map_file);
 	ft_read_textures_in_map(game, map_file);
 	ft_build_array_textures(game);
-	////////////////////////////////////////////////////////////////////////
+	game->config.n_players = 2;
 	ft_init_resolutions(game);
-	game->resolution_index = 0;
-	////////////////////////////////////////////////////////////////////////
+	game->resolution_index = RES_540; // Valor por defecto
 	ft_loading_render(game, game->resolutions[game->resolution_index].height, game->resolutions[game->resolution_index].width);
 	ft_create_window_img(game);
 	ft_create_minimap(game);

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/16 00:44:05 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:33:35 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,10 +127,10 @@ t_vector2 ft_reposition_vector2(t_game *game, t_vector2 vec)
 	double		cos_angle;
 	double		sin_angle;
 
-	cos_angle = ft_format_cos(game->player.rotation.x);
-	sin_angle = ft_format_sin(game->player.rotation.x);
-	result.x = vec.x * cos_angle - vec.y * sin_angle + game->player.position.x;
-	result.y = vec.x * sin_angle + vec.y * cos_angle + game->player.position.y;
+	cos_angle = ft_format_cos(game->player->rotation.x);
+	sin_angle = ft_format_sin(game->player->rotation.x);
+	result.x = vec.x * cos_angle - vec.y * sin_angle + game->player->position.x;
+	result.y = vec.x * sin_angle + vec.y * cos_angle + game->player->position.y;
 	return (result);
 }
 
@@ -287,8 +287,8 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 	double  cos_angle;
 	double  sin_angle;
 
-	cos_angle = ft_format_cos(game->player.rotation.x);
-	sin_angle = ft_format_sin(game->player.rotation.x);
+	cos_angle = ft_format_cos(game->player->rotation.x);
+	sin_angle = ft_format_sin(game->player->rotation.x);
 	i = 0;
 	while (i < game->config.render_height / 2)
 	{
@@ -299,8 +299,8 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 				* cos_angle - game->prec_vector_cloud[i][j].y * sin_angle;
 			game->render_cloud[i][j].y = game->prec_vector_cloud[i][j].x
 				* sin_angle + game->prec_vector_cloud[i][j].y * cos_angle;
-			game->render_cloud[i][j].y += game->player.position.y;
-			game->render_cloud[i][j].x += game->player.position.x;
+			game->render_cloud[i][j].y += game->player->position.y;
+			game->render_cloud[i][j].x += game->player->position.x;
 			j++;
 		}
 		i++;

@@ -38,10 +38,10 @@ static t_vector2	ft_world_corner_to_screen(t_game *game, double wx, double wy)
 	double		cos_a;
 	double		sin_a;
 
-	relative.x = wx - game->player.position.x;
-	relative.y = -(wy - game->player.position.y);
-	cos_a = ft_format_cos(game->player.rotation.x - 90.0);
-	sin_a = ft_format_sin(game->player.rotation.x - 90.0);
+	relative.x = wx - game->player->position.x;
+	relative.y = -(wy - game->player->position.y);
+	cos_a = ft_format_cos(game->player->rotation.x - 90.0);
+	sin_a = ft_format_sin(game->player->rotation.x - 90.0);
 	screen.x = 100 + (relative.x * cos_a - relative.y
 			* sin_a) * MINIMAP_TILE_SIZE;
 	screen.y = 100 + (relative.x * sin_a + relative.y
@@ -87,8 +87,8 @@ static void	ft_draw_minimap_row(t_game *game, int my)
 	int	visible_range;
 
 	visible_range = 10;
-	mx = (int)game->player.position.x - visible_range;
-	while (mx <= (int)game->player.position.x + visible_range)
+	mx = (int)game->player->position.x - visible_range;
+	while (mx <= (int)game->player->position.x + visible_range)
 	{
 		if (mx >= 0 && mx < game->width_height[0]
 			&& my >= 0 && my < game->width_height[1])
@@ -183,8 +183,8 @@ void	ft_map2D(t_game *game)
 
 	ft_draw_minimap_background(game);
 	visible_range = 10;
-	my = (int)game->player.position.y - visible_range;
-	while (my <= (int)game->player.position.y + visible_range)
+	my = (int)game->player->position.y - visible_range;
+	while (my <= (int)game->player->position.y + visible_range)
 	{
 		if (my >= 0 && my < game->width_height[1])
 			ft_draw_minimap_row(game, my);

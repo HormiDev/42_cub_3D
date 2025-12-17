@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/16 01:20:43 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 03:30:04 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,11 +195,14 @@ pid_t			ft_play_audio(const char *filename, char **env);
 void			ft_prec_fish_eye_correction(t_game *game);
 void			ft_draw_transparent_image(t_texture *dst, t_texture *src,
 		int start_x, int start_y);
-		void			ft_mix_color_alpha(unsigned int *color, unsigned int  *mix_color, int percent);
-		void			ft_prec_vector_cloud(t_game *game);
+void			ft_mix_color_alpha(unsigned int *color, unsigned int  *mix_color, int percent);
+void			ft_prec_vector_cloud(t_game *game);
 
 void			ft_init_resolutions(t_game *game);
 void			ft_next_resolution(t_game *game);
 void			ft_loading_render(t_game *game, int render_height, int render_width);
+
+void			ft_scale_t_image_precalc_two(t_texture *tex_origin,
+		t_texture *text_destiny, t_game *game, int player);
 
 #endif

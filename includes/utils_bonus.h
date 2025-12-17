@@ -201,6 +201,20 @@ typedef enum e_input_device
 	INPUT_GAMEPAD = 1
 }	t_input_device;
 
+typedef enum e_resolutions
+{
+	RES_90,
+	RES_135,
+	RES_180,
+	RES_270,
+	RES_360,
+	RES_540,
+	RES_720,
+	RES_1080,
+	RES_2k,
+	RES_4k
+}	t_resolutions;
+
 typedef struct s_input {
 	int				front;
 	int				back;
@@ -282,45 +296,46 @@ typedef struct s_config
 
 typedef struct s_game 
 {
-	char		**map;
-	int			width_height[2];
-	t_list		*textures[6]; // Array of textures for North, South, East, West, Ceiling, floor
-	t_texture 	**arraytextures[6];
-	int			length_textures_array[6];
-	t_list		*doors;
-	t_texture	**door_textures;
-	int			door_texture_count;
-	void		*mlx;
-	t_raycast	*raycasts; 
-	void		*window;
-	t_image		*img_map;
-	t_texture	*render;
-	t_texture	*window_img;
-	t_texture	*minimap;
-	t_player 	player;
-	t_input		input;
-	t_gamepad	gamepad;
-	int			mouse_xy[2];
-	double		delta_time;
-	long		last_frame_time;
-	int			mouse_captured;
-	t_precalc	precalc;
-	int			show_menu;
-	t_menu		menu;
-	char		**env;
-	double		*fish_eye_correction;
-	pid_t		steps_audio_pid;
-    int  		is_walking; // 1 si anda, 0 si está parado
-    int  		is_running;
-	double		time_since_last_step;
-	t_vector2   **prec_vector_cloud;
-	//t_vector2   **render_cloud;
-	int			*mist_density_fc;
-	int			mist_cloud_height;
-	t_config	config;
+	char			**map;
+	int				width_height[2];
+	t_list			*textures[6]; // Array of textures for North, South, East, West, Ceiling, floor
+	t_texture 		**arraytextures[6];
+	int				length_textures_array[6];
+	t_list			*doors;
+	t_texture		**door_textures;
+	int				door_texture_count;
+	void			*mlx;
+	t_raycast		*raycasts; 
+	void			*window;
+	t_image			*img_map;
+	t_texture		*render;
+	t_texture		*window_img;
+	t_texture		*minimap;
+	t_player 		*player;
+	t_input			input;
+	t_gamepad		gamepad;
+	int				mouse_xy[2];
+	double			delta_time;
+	long			last_frame_time;
+	int				mouse_captured;
+	t_precalc		precalc;
+	int				show_menu;
+	t_menu			menu;
+	char			**env;
+	double			*fish_eye_correction;
+	pid_t			steps_audio_pid;
+    int				is_walking; // 1 si anda, 0 si está parado
+    int				is_running;
+	double			time_since_last_step;
+	t_vector2		**prec_vector_cloud;
+	//t_vector2  	**render_cloud;
+	int				*mist_density_fc;
+	int				mist_cloud_height;
+	t_config		config;
 	t_resolution	*resolutions;
 	int				resolutions_size;
 	int				resolution_index;
+	t_player		*players;
 }	t_game;
 
 #endif

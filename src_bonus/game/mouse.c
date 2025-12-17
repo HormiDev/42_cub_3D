@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2025/09/11 17:29:43 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:33:35 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,12 @@ int ft_mouse_move(int x, int y, t_game *game)
     int delta_x = x - center_x;
     double sensitivity = 0.003;
 
-    game->player.rotation.x += delta_x * sensitivity;
+    game->player->rotation.x += delta_x * sensitivity;
 
-    if (game->player.rotation.x < 0)
-        game->player.rotation.x += 360;
-    else if (game->player.rotation.x >= 360)
-        game->player.rotation.x -= 360;
+    if (game->player->rotation.x < 0)
+        game->player->rotation.x += 360;
+    else if (game->player->rotation.x >= 360)
+        game->player->rotation.x -= 360;
 
     mlx_mouse_move(game->window, center_x, y);
 
@@ -58,8 +58,8 @@ int ft_mouse_move(int x, int y, t_game *game)
         return (0);
 
     patata_x = x - center_x;
-    game->player.rotation.x -= patata_x * MOUSE_SENSITIVITY * game->delta_time;
-    game->player.rotation.x = ft_normalize_angle(game->player.rotation.x);
+    game->player->rotation.x -= patata_x * MOUSE_SENSITIVITY * game->delta_time;
+    game->player->rotation.x = ft_normalize_angle(game->player->rotation.x);
     mlx_mouse_move(game->mlx, game->window, center_x, center_y);
     return (0);
 }

@@ -74,7 +74,7 @@ void	ft_check_door_triggers(t_game *game)
 	while (current)
 	{
 		door = (t_door *)current->content;
-		distance = ft_distance_to_door(game->player.position, door);
+		distance = ft_distance_to_door(game->player->position, door);
 		ft_trigger_door(door, distance);
 		current = current->next;
 	}

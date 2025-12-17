@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:15:03 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/15 21:45:06 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:33:35 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void ft_calculate_raycasts(t_game *game)
 {
 	int i;
 	double angle_step = FOV / game->config.render_width;
-	double start_angle = game->player.rotation.x - (FOV / 2);
+	double start_angle = game->player->rotation.x - (FOV / 2);
 	double current_angle;
 
 	i = 0;

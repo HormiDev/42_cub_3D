@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/20 00:50:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:33:35 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	ft_raycast_max_size(t_game *game, double angle,
 	distance.x = sin_cos[0] * max_size;
 	distance.y = sin_cos[1] * max_size;
 	ft_rotate_to_cuadrant(cuadrant, &distance.x, &distance.y);
-	ray->impact.x = game->player.position.x + distance.x;
-	ray->impact.y = game->player.position.y + distance.y;
+	ray->impact.x = game->player->position.x + distance.x;
+	ray->impact.y = game->player->position.y + distance.y;
 	ray->distance = max_size;
 	ray->type = -1;
 }
@@ -67,8 +67,8 @@ static void	ft_raycast_init(t_game *game, double *angle,
 		*angle -= 90;
 		(*cuadrant)++;
 	}
-	tile_ray_xy[0] = (int)game->player.position.x;
-	tile_ray_xy[1] = (int)game->player.position.y;
+	tile_ray_xy[0] = (int)game->player->position.x;
+	tile_ray_xy[1] = (int)game->player->position.y;
 }
 
 static int	ft_raycast_vertical(t_game *game, int *tile_ray_xy,
@@ -84,7 +84,7 @@ static int	ft_raycast_vertical(t_game *game, int *tile_ray_xy,
 	if (ft_is_wall_or_closed_door(game, tile_ray_xy[0], tile_ray_xy[1]))
 	{
 		ft_rotate_to_cuadrant(cuadrant, &aux_distance, &distance->y);
-		ft_calc_ray_position(ray, &(game->player.position),
+		ft_calc_ray_position(ray, &(game->player->position),
 			aux_distance, distance->y);
 		ft_ray_type(ray, cuadrant, 0);
 		if (ray->distance > max_size)
@@ -108,7 +108,7 @@ static int	ft_raycast_horizontal(t_game *game, int *tile_ray_xy,
 	{
 		distance->y = aux_distance;
 		ft_rotate_to_cuadrant(cuadrant, &distance->x, &distance->y);
-		ft_calc_ray_position(ray, &(game->player.position),
+		ft_calc_ray_position(ray, &(game->player->position),
 			distance->x, distance->y);
 		ft_ray_type(ray, cuadrant, 1);
 		if (ray->distance > max_size)
@@ -134,7 +134,7 @@ void	ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
 	sin_cos[1] = ft_cos(angle);
 	while (1)
 	{
-		ft_calc_distance(cuadrant, tile_ray_xy, game->player.position,
+		ft_calc_distance(cuadrant, tile_ray_xy, game->player->position,
 			&distance);
 		aux_distance = sin_cos[1] * (distance.y / sin_cos[0]);
 		if (aux_distance < distance.x)
