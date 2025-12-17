@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 01:16:45 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 02:56:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 16:37:17 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void ft_init_resolutions(t_game *game)
 	game->resolutions[0].width = 160;
 	game->resolutions[0].height = 90;
 	game->resolutions[1].width = 240;
-	game->resolutions[1].height = 135;
+	game->resolutions[1].height = 134;
 	game->resolutions[2].width = 320;
 	game->resolutions[2].height = 180;
 	game->resolutions[3].width = 480;

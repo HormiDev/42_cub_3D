@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 16:29:26 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 16:41:06 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,10 @@ void ft_one_player(t_game *game)
 {
 	//printf("Fps: %d\n", (int)(1 / game->delta_time));
 	ft_update_doors(game);
+	ft_update_aliens(game);
 	ft_calculate_raycasts(game); 
 	ft_render_3d(game);
-	ft_map2D(game);
+	ft_render_aliens(game);
 	if (game->config.render_height != WINDOW_HEIGHT || game->config.render_width != WINDOW_WIDTH)
 	{
 		ft_scale_t_image_precalc(game->render, game->window_img, game);
@@ -65,8 +66,10 @@ void ft_two_players(t_game *game)
 		/* code */
 		game->player = &game->players[player_index];
 		ft_update_doors(game);
+		ft_update_aliens(game);
 		ft_calculate_raycasts(game); 
 		ft_render_3d(game);
+		ft_render_aliens(game);
 		ft_map2D(game);
 		//ft_printf("Player %d Fps: %d\n", player_index + 1, (int)(1 / game->delta_time));
 		ft_scale_t_image_precalc_two(game->render, game->window_img, game, player_index);

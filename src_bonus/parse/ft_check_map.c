@@ -20,7 +20,7 @@ void	ft_check_map_valid_characters(char **map)
 			if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != 'N' 
 				&& map[i][j] != 'S' && map[i][j] != 'E' && map[i][j] != 'W'
 				&& map[i][j] != ' '  && map[i][j] != '\t'  && map[i][j] != '\n'
-				&& map[i][j] != 'D')
+				&& map[i][j] != 'D' && map[i][j] != 'A')
 			{
 				ft_print_map(map, j, i);
 				ft_dprintf(2, "%s%c Invalid character in map%s\n", RED, map[i][j], RESET);

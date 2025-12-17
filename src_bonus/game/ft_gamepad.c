@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gamepad.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com>    +#+  +:+       +#+       */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/02 00:00:00 by ismherna         ###   ########.fr       */
+/*   Updated: 2025/12/17 17:03:16 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,23 +164,23 @@ void	ft_update_gamepad(t_game *game)
 static void	ft_gamepad_move_input(t_game *game)
 {
 	if (game->gamepad.left_stick_y == -1)
-		game->input.gp_front = 1;
+		game->input.raw.gp.gp_front = 1;
 	else if (game->gamepad.left_stick_y == 1)
-		game->input.gp_back = 1;
+		game->input.raw.gp.gp_back = 1;
 	if (game->gamepad.left_stick_x == -1)
-		game->input.gp_left = 1;
+		game->input.raw.gp.gp_left = 1;
 	else if (game->gamepad.left_stick_x == 1)
-		game->input.gp_right = 1;
+		game->input.raw.gp.gp_right = 1;
 	if (game->gamepad.right_stick_click)
-		game->input.gp_run = 1;
+		game->input.raw.gp.gp_run = 1;
 }
 
 static void	ft_gamepad_rotation(t_game *game)
 {
 	if (game->gamepad.right_stick_x == -1 || game->gamepad.lb)
-		game->input.gp_rotate_left = 1;
+		game->input.raw.gp.gp_rotate_left = 1;
 	else if (game->gamepad.right_stick_x == 1 || game->gamepad.rb)
-		game->input.gp_rotate_right = 1;
+		game->input.raw.gp.gp_rotate_right = 1;
 }
 
 static void	ft_gamepad_menu_input(t_game *game)

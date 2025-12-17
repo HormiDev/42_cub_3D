@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 16:22:21 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 16:56:32 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,8 @@ t_game	*ft_loading_game(char *path_map)
 	ft_sqrt(0);
 	game->precalc.rotated_squares = ft_precalc_rotated_squares();
 	ft_config_player(game);
+	ft_init_aliens(game);
+	ft_config_aliens(game);
 	ft_init_doors(game);
 	ft_file_clear(&map_file);
 	

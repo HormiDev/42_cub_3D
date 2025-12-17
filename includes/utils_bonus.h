@@ -118,6 +118,12 @@ typedef enum e_door_state
 	DOOR_CLOSING = 3
 } t_door_state;
 
+typedef enum e_alien_state
+{
+	ALIEN_PATROL = 0,
+	ALIEN_CHASE = 1,
+	ALIEN_IDLE = 2
+} t_alien_state;
 
 typedef struct s_texture // cambiar nombre a t image
 {
@@ -176,7 +182,6 @@ typedef struct s_player
 	
 } t_player;
 
-
 typedef struct s_gamepad {
 	int	fd;
 	int	connected;
@@ -200,6 +205,48 @@ typedef enum e_input_device
 	INPUT_KEYBOARD = 0,
 	INPUT_GAMEPAD = 1
 }	t_input_device;
+
+typedef struct s_keyboard_input {
+	int	kb_front;
+	int	kb_back;
+	int	kb_left;
+	int	kb_right;
+	int	kb_rotate_left;
+	int	kb_rotate_right;
+	int	kb_run;
+} t_keyboard_input;
+
+typedef struct s_gamepad_input {
+	int	gp_front;
+	int	gp_back;
+	int	gp_left;
+	int	gp_right;
+	int	gp_rotate_left;
+	int	gp_rotate_right;
+	int	gp_run;
+} t_gamepad_input;
+
+typedef struct s_raw_input {
+	t_keyboard_input	kb;
+	t_gamepad_input		gp;
+} t_raw_input;
+
+typedef struct s_player_actions {
+	int	front;
+	int	back;
+	int	left;
+	int	right;
+	int	rotate_left;
+	int	rotate_right;
+	int	run;
+} t_player_actions;
+
+typedef struct s_input {
+	t_raw_input			raw;
+	t_player_actions	actions;
+	t_input_device		active_device;
+} t_input;
+
 
 typedef enum e_resolutions
 {
@@ -228,31 +275,6 @@ typedef struct s_alien
 	double			size;
 	t_texture		*texture;
 } t_alien;
-
-typedef struct s_input {
-	int				front;
-	int				back;
-	int				left;
-	int				right;
-	int				rotate_left;
-	int				rotate_right;
-	int				run;
-	int				kb_front;
-	int				kb_back;
-	int				kb_left;
-	int				kb_right;
-	int				kb_rotate_left;
-	int				kb_rotate_right;
-	int				kb_run;
-	int				gp_front;
-	int				gp_back;
-	int				gp_left;
-	int				gp_right;
-	int				gp_rotate_left;
-	int				gp_rotate_right;
-	int				gp_run;
-	t_input_device	active_device;
-} t_input;
 
 typedef struct s_image // eliminar
 {
@@ -317,6 +339,7 @@ typedef struct s_game
 	int				length_textures_array[6];
 	t_list			*doors;
 	t_texture		**door_textures;
+	t_alien			*aliens;
 	int				door_texture_count;
 	void			*mlx;
 	t_raycast		*raycasts; 

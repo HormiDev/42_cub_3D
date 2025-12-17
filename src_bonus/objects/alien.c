@@ -162,16 +162,16 @@ static void	ft_draw_alien_sprite(t_game *game, int x, int y, int w, int h,
 	int	tex_y;
 
 	i = 0;
-	while (i < h && (y + i) < RENDER_HEIGHT)
+	while (i < h && (y + i) < game->config.render_height)
 	{
 		if ((y + i) >= 0)
 		{
 			j = 0;
-			while (j < w && (x + j) < RENDER_WIDTH
+			while (j < w && (x + j) < game->config.render_width
 				&& (x + j) >= 0)
 			{
-				ray_index = RENDER_WIDTH - (x + j) - 1;
-				if (ray_index >= 0 && ray_index < RENDER_WIDTH
+				ray_index = game->config.render_width - (x + j) - 1;
+				if (ray_index >= 0 && ray_index < game->config.render_width
 					&& (alien_distance - 0.3) < game->raycasts[ray_index].distance)
 				{
 					tex_x = (j * texture->width) / w;
@@ -203,17 +203,17 @@ void	ft_render_aliens(t_game *game)
 	if (!game->aliens)
 		return ;
 	alien = (t_alien *)game->aliens;
-	distance = ft_vector_distance(game->player.position, alien->position);
+	distance = ft_vector_distance(game->player->position, alien->position);
 	if (distance < 0.3 || distance > (MAX_RAY_SIZE - 0.5))
 		return ;
-	angle = ft_calc_alien_angle(game->player.position, alien->position,
-			game->player.rotation.x);
-	screen_x = (int)((FOV / 2.0 - angle) * RENDER_WIDTH / FOV);
-	size = (int)((alien->size * RENDER_HEIGHT) / distance);
+	angle = ft_calc_alien_angle(game->player->position, alien->position,
+			game->player->rotation.x);
+	screen_x = (int)((FOV / 2.0 - angle) * game->config.render_width / FOV);
+	size = (int)((alien->size * game->config.render_height) / distance);
 	if (size < 15)
 		size = 15;
-	if (size > RENDER_HEIGHT)
-		size = RENDER_HEIGHT;
+	if (size > game->config.render_height)
+		size = game->config.render_height;
 	ft_draw_alien_sprite(game, screen_x - size / 2,
-		RENDER_HEIGHT / 2 - size / 2, size, size, alien->texture, distance);
+		game->config.render_height / 2 - size / 2, size, size, alien->texture, distance);
 }

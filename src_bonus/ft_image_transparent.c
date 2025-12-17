@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/14 01:37:54 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 16:44:33 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ static void ft_blend_alpha(t_img *dst, unsigned int src_color,
  * @param y Coordenada Y en la imagen de origen.
  * @param start Array con coordenadas de inicio [start_x, start_y].
  */
-static void ft_process_pixel(t_texture *dst, t_texture *src,
+static void ft_process_pixel(t_texture *dst, t_texture *src, // arregla esta mierda
                              int x, int y, int start[2])
 {
 	int				dx; 
@@ -107,7 +107,7 @@ static void ft_process_pixel(t_texture *dst, t_texture *src,
 	
     dx = start[0] + x;
     dy = start[1] + y;
-    if (dx < 0 || dx >= dst->width || dy < 0 || dy >= dst->height)
+    if (dx < 0 || dx >= dst->width || dy < 0 || dy >= dst->height) // esto no me gusta un pelo
         return;
     src_color = ft_get_pixel_color(src->img, x, y);
     alpha = (src_color >> 24) & 0xFF;
