@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/12/17 16:56:00 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/12/18 01:34:05 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -154,7 +154,6 @@ $(NAME): update_submodules build_libft build_minilibx-linux $(OBJ)
 	fi
 
 build_bonus: update_submodules build_libft build_minilibx-linux $(OBJ_BONUS)
-	@printf "%-183s\r" "" 
 	@$(CC) $(CFLAGS) $(OBJ_BONUS) $(LIBSA) $(LFLAGS) -o cub3D_bonus
 	@tput cuu1 && tput el
 	@tput cuu1 && tput el

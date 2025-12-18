@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 16:32:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/18 01:06:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,8 @@ void			ft_next_resolution(t_game *game);
 void			ft_loading_render(t_game *game, int render_height, int render_width);
 
 void			ft_scale_t_image_precalc_two(t_texture *tex_origin,
+		t_texture *text_destiny, t_game *game, int player);
+void			ft_scale_t_image_precalc_three(t_texture *tex_origin,
 		t_texture *text_destiny, t_game *game, int player);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 16:41:06 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/18 01:26:58 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,40 @@ void ft_two_players(t_game *game)
 	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
 }
 
+void ft_three_players(t_game *game)
+{
+	int player_index;
+
+	player_index = 0;
+	while (player_index < game->config.n_players)
+	{
+		/* code */
+		game->player = &game->players[player_index];
+		ft_update_doors(game);
+		ft_update_aliens(game);
+		ft_calculate_raycasts(game); 
+		ft_render_3d(game);
+		ft_render_aliens(game);
+		ft_map2D(game);
+		//ft_printf("Player %d Fps: %d\n", player_index + 1, (int)(1 / game->delta_time));
+		ft_scale_t_image_precalc_three(game->render, game->window_img, game, player_index);
+		if (player_index == 0)
+			ft_draw_transparent_image(game->window_img, game->minimap, WINDOW_WIDTH / 100, WINDOW_HEIGHT / 100);
+		else if (player_index == 1)
+			ft_draw_transparent_image(game->window_img, game->minimap, WINDOW_WIDTH / 100, WINDOW_HEIGHT / 100 + (WINDOW_HEIGHT / 2));
+		else if (player_index == 2)
+			ft_draw_transparent_image(game->window_img, game->minimap, WINDOW_WIDTH / 100 + (WINDOW_WIDTH / 2), WINDOW_HEIGHT / 100);
+		else
+			ft_draw_transparent_image(game->window_img, game->minimap, WINDOW_WIDTH / 100 + (WINDOW_WIDTH / 2), WINDOW_HEIGHT / 100 + (WINDOW_HEIGHT / 2));
+		//ft_printf("Scaled image for player %d\n", player_index + 1);
+		//ft_scale_t_image(game->render, game->window_img);
+		player_index++;
+	}
+	game->player = &game->players[0];
+	mlx_clear_window(game->mlx, game->window);
+	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
+}
+
 /**
  * @brief Actualiza el estado del juego y renderiza la escena.
  * Esta función se llama en cada frame del juego. Calcula el tiempo delta,
@@ -106,6 +140,8 @@ int ft_update(void *param)
 		ft_one_player(game);
 	else if (game->config.n_players == 2)
 		ft_two_players(game);
+	else
+		ft_three_players(game);
 	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	return (0);
 }
