@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 16:44:33 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/18 22:27:04 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,21 @@ static unsigned int	ft_get_pixel_color(t_img *img, int x, int y)
 	char	*pixel;
 
 	pixel = img->data + (y * img->size_line + x * (img->bpp / 8));
-	return (*(unsigned int *)pixel);
+	if (img->bpp == 32)
+		return (*(unsigned int *)pixel);
+	/* fallback: read bytes manually (assume little-endian) */
+	{
+		unsigned char *p = (unsigned char *)pixel;
+		unsigned int c = 0;
+		int bytes = img->bpp / 8;
+		int i = 0;
+		while (i < bytes && i < 4)
+		{
+			c |= ((unsigned int)p[i]) << (i * 8);
+			i++;
+		}
+		return c;
+	}
 }
 
 /**
@@ -46,10 +60,23 @@ static void	ft_put_pixel_color(t_img *img, int x, int y, unsigned int color)
 {
 	char	*pixel;
 
-	if (x >= 0 && x < img->width && y >= 0 && y < img->height)
+	if (x < 0 || x >= img->width || y < 0 || y >= img->height)
+		return;
+	pixel = img->data + (y * img->size_line + x * (img->bpp / 8));
+	if (img->bpp == 32)
 	{
-		pixel = img->data + (y * img->size_line + x * (img->bpp / 8));
 		*(unsigned int *)pixel = color;
+		return;
+	}
+	{
+		unsigned char *p = (unsigned char *)pixel;
+		int bytes = img->bpp / 8;
+		int i = 0;
+		while (i < bytes && i < 4)
+		{
+			p[i] = (color >> (i * 8)) & 0xFF;
+			i++;
+		}
 	}
 }
 
@@ -85,38 +112,98 @@ static void ft_blend_alpha(t_img *dst, unsigned int src_color,
 }
 
 /**
- * @brief Procesa un pixel individual para renderizado con transparencia.
+ * @brief Calcula el rango visible de pixeles en una fila.
  * 
- * Calcula las coordenadas de destino, obtiene el color del pixel de origen
- * y decide si copiar directamente (alpha = 255), ignorar (alpha = 0) o
- * aplicar alpha blending (alpha entre 1-254).
+ * Determina las coordenadas de origen y destino visibles despues de clipping.
  * 
- * @param dst Puntero a la textura de destino.
- * @param src Puntero a la textura de origen.
- * @param x Coordenada X en la imagen de origen.
- * @param y Coordenada Y en la imagen de origen.
- * @param start Array con coordenadas de inicio [start_x, start_y].
+ * @param sx0 Puntero a inicio X en origen.
+ * @param sx1 Puntero a fin X en origen.
+ * @param dx0 Puntero a inicio X en destino.
+ * @param dst Puntero a textura destino.
+ * @param src Puntero a textura origen.
+ * @param dst_start_x Inicio X en destino.
+ * @param dst_y Y en destino.
  */
-static void ft_process_pixel(t_texture *dst, t_texture *src, // arregla esta mierda
-                             int x, int y, int start[2])
+static void	ft_compute_visible_range(int *sx0, int *sx1, int *dx0,
+		t_texture *dst, t_texture *src, int dst_start_x, int dst_y)
 {
-	int				dx; 
-	int				dy;
+	int	src_w;
+	int	dst_w;
+	int	dx1;
+
+	src_w = src->width;
+	dst_w = dst->width;
+	*sx0 = 0;
+	*sx1 = src_w - 1;
+	*dx0 = dst_start_x;
+	dx1 = dst_start_x + src_w - 1;
+	if (dst_y < 0 || dst_y >= dst->height)
+	{
+		*sx0 = src_w;
+		*sx1 = -1;
+		return;
+	}
+	if (dx1 < 0 || *dx0 >= dst_w)
+	{
+		*sx0 = src_w;
+		*sx1 = -1;
+		return;
+	}
+	if (*dx0 < 0)
+	{
+		*sx0 = -*dx0;
+		*dx0 = 0;
+	}
+	if (dx1 >= dst_w)
+		*sx1 -= (dx1 - (dst_w - 1));
+}
+
+/**
+ * @brief Procesa una fila visible usando iteradores.
+ * 
+ * Itera sobre los pixeles visibles, aplicando transparencia.
+ * 
+ * @param dst Puntero a textura destino.
+ * @param src Puntero a textura origen.
+ * @param sx0 Inicio X en origen.
+ * @param sx1 Fin X en origen.
+ * @param dx0 Inicio X en destino.
+ * @param dst_y Y en destino.
+ * @param src_y Y en origen.
+ */
+static void	ft_process_visible_row(t_texture *dst, t_texture *src,
+		int sx0, int sx1, int dx0, int dst_y, int src_y)
+{
+	int				i;
+	int				dst_x;
 	unsigned int	src_color;
 	int				alpha;
-	
-    dx = start[0] + x;
-    dy = start[1] + y;
-    if (dx < 0 || dx >= dst->width || dy < 0 || dy >= dst->height) // esto no me gusta un pelo
-        return;
-    src_color = ft_get_pixel_color(src->img, x, y);
-    alpha = (src_color >> 24) & 0xFF;
-    if (alpha == 0)
-        return;
-    if (alpha == 255)
-        ft_put_pixel_color(dst->img, dx, dy, src_color);
-    else
-        ft_blend_alpha(dst->img, src_color, dx, dy);
+
+	i = sx0;
+	dst_x = dx0;
+	while (i <= sx1)
+	{
+		src_color = ft_get_pixel_color(src->img, i, src_y);
+		if ((src_color & 0xFFFFFF) == 0xFFFFFF)
+		{
+			i++;
+			dst_x++;
+			continue;
+		}
+		alpha = (src_color >> 24) & 0xFF;
+		if (alpha == 0)
+		{
+			i++;
+			dst_x++;
+			continue;
+		}
+		if (alpha == 255)
+			ft_put_pixel_color(dst->img, dst_x, dst_y, src_color);
+		else
+			ft_blend_alpha(dst->img, src_color, dst_x, dst_y);
+		i++;
+		dst_x++;
+	}
 }
 
 /**
@@ -135,21 +222,17 @@ static void ft_process_pixel(t_texture *dst, t_texture *src, // arregla esta mie
 void	ft_draw_transparent_image(t_texture *dst, t_texture *src,
 			int start_x, int start_y)
 {
-	int	x;
 	int	y;
-	int	start[2];
+	int	sx0;
+	int	sx1;
+	int	dx0;
 
-	start[0] = start_x;
-	start[1] = start_y;
 	y = 0;
 	while (y < src->height)
 	{
-		x = 0;
-		while (x < src->width)
-		{
-			ft_process_pixel(dst, src, x, y, start);
-			x++;
-		}
+		ft_compute_visible_range(&sx0, &sx1, &dx0, dst, src, start_x, start_y + y);
+		if (sx0 <= sx1)
+			ft_process_visible_row(dst, src, sx0, sx1, dx0, start_y + y, y);
 		y++;
 	}
 }

@@ -6,74 +6,38 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/20 20:32:27 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/18 22:39:30 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
 
-/**
- * @brief Crea una textura de prueba con transparencia.
- * 
- * @param game Puntero a la estructura del juego.
- * @param width Ancho del cuadrado.
- * @param height Alto del cuadrado.
- * @param color Color base (RGB).
- * @param alpha Nivel de transparencia (0-255).
- * @return Puntero a la textura creada.
- */
-static t_texture	*ft_create_transparent_box(t_game *game, int width,
-					int height, unsigned int color, int alpha)
+static void	ft_load_menu_logo(t_game *game)
 {
-	t_texture	*tex;
-	int			x;
-	int			y;
-	unsigned int full_color;
+	int width;
+	int height;
+	int i;
 
-	tex = ft_alloc_lst(sizeof(t_texture), 4);
-	tex->width = width;
-	tex->height = height;
-	tex->img = (t_img *)mlx_new_image(game->mlx, width, height);
-	if (!tex->img)
-		return (NULL);
-	full_color = (alpha << 24) | (color & 0xFFFFFF);
-	y = 0;
-	while (y < height)
+	game->menu.logo = ft_alloc_lst(sizeof(t_texture), 4);
+	check_arguments_xpm("textures/Alien_logo.xpm");
+	game->menu.logo->path = ft_strdup("textures/Alien_logo.xpm");
+	game->menu.logo->img = (t_img *)mlx_xpm_file_to_image(game->mlx, game->menu.logo->path, &width, &height);
+	if (!game->menu.logo->img)
 	{
-		x = 0;
-		while (x < width)
-		{
-			ft_draw_pixel_in_img(tex->img, x, y, full_color);
-			x++;
-		}
-		y++;
+		ft_dprintf(2, RED "Error: Failed to load logo texture\n" RESET);
+		ft_close_game(1);
 	}
-	return (tex);
-}
-
-/**
- * dibuja cuadrados transparentes sobre el menu.
- * @param game Puntero a la estructura del juego.
- */
-static void	ft_chuliguachis_squares(t_game *game)
-{
-	static t_texture	*box1 = NULL;
-	static t_texture	*box2 = NULL;
-	static t_texture	*box3 = NULL;
-
-	if (!box1)
+	game->menu.logo->width = width;
+	game->menu.logo->height = height;
+	game->menu.logo->colors_matrix = ft_alloc_lst(
+		sizeof(unsigned int *) * height, 4);
+	i = 0;
+	while (i < height)
 	{
-		box1 = ft_create_transparent_box(game, 200, 150, 0xFF0000, 255);
-		box2 = ft_create_transparent_box(game, 250, 100, 0x00FF00, 50);
-		box3 = ft_create_transparent_box(game, 300, 200, 0x0000FF, 100);
+		game->menu.logo->colors_matrix[i] = (unsigned int *)
+			(game->menu.logo->img->data + (i * sizeof(char) * 4 * width));
+		i++;
 	}
-	if (box1)
-		ft_draw_transparent_image(game->menu.scaled_frame, box1, -100, 200);
-	if (box2)
-		ft_draw_transparent_image(game->menu.scaled_frame, box2, 400, 350);
-	if (box3)
-		ft_draw_transparent_image(game->menu.scaled_frame, box3, 
-			WINDOW_WIDTH - 350, 100);
 }
 
 void	ft_draw_menu_text(t_game *game)
@@ -87,16 +51,7 @@ void	ft_draw_menu_text(t_game *game)
 	scale_y = WINDOW_HEIGHT / 8;
 	x = scale_x;
 	y = scale_y;
-	mlx_string_put(game->mlx, game->window, x, y, C_ALIEN_GREEN,
-		"    _    _     ___ _____ _   _ ");
-	mlx_string_put(game->mlx, game->window, x, y + 20, C_ALIEN_GREEN,
-		"   / \\  | |   |_ _| ____| \\ | |");
-	mlx_string_put(game->mlx, game->window, x, y + 40, C_ALIEN_GREEN,
-		"  / _ \\ | |    | ||  _| |  \\| |");
-	mlx_string_put(game->mlx, game->window, x, y + 60, C_ALIEN_GREEN,
-		" / ___ \\| |___ | || |___| |\\  |");
-	mlx_string_put(game->mlx, game->window, x, y + 80, C_ALIEN_GREEN,
-		"/_/   \\_\\_____|___|_____|_| \\_|");
+	
 	mlx_string_put(game->mlx, game->window, WINDOW_WIDTH / 3, 
 		WINDOW_HEIGHT / 2, C_ALIEN_GRID, "Press SPACE to start");
 	mlx_string_put(game->mlx, game->window, WINDOW_WIDTH / 3 + 20, 
@@ -130,11 +85,14 @@ void	ft_update_menu(t_game *game)
 	{
 		ft_scale_t_image(game->menu.frames_textures[game->menu.current_frame], 
 			game->menu.scaled_frame);
-		ft_chuliguachis_squares(game);
 		mlx_put_image_to_window(game->mlx, game->window,
 			game->menu.scaled_frame->img, 0, 0);
 	}
 	ft_draw_menu_text(game);
+	if (game->menu.logo)
+		ft_draw_transparent_image(game->menu.scaled_frame, game->menu.logo, WINDOW_WIDTH / 2 - 600/2, WINDOW_HEIGHT / 4);
+	mlx_put_image_to_window(game->mlx, game->window,
+		game->menu.scaled_frame->img, 0, 0);
 }
 
 static void	ft_load_menu_frames(t_game *game)
@@ -189,7 +147,6 @@ void	ft_init_menu(t_game *game)
 	game->menu.last_frame_time = ft_get_time();
 	game->menu.menu_music_pid = -1;
 	audio_play_menu(game, "music&sounds/menu.wav");
-	
 	game->menu.scaled_frame = ft_alloc_lst(sizeof(t_texture), 4);
 	game->menu.scaled_frame->img = (t_img *)mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!game->menu.scaled_frame->img)
@@ -206,6 +163,7 @@ void	ft_init_menu(t_game *game)
 		i++;
 	}
 	ft_load_menu_frames(game);
+	ft_load_menu_logo(game);
 }
 
 void	ft_free_menu(t_game *game)
@@ -221,4 +179,6 @@ void	ft_free_menu(t_game *game)
 	}
 	if (game->menu.scaled_frame && game->menu.scaled_frame->img)
 		mlx_destroy_image(game->mlx, game->menu.scaled_frame->img);
+	if (game->menu.logo && game->menu.logo->img)
+		mlx_destroy_image(game->mlx, game->menu.logo->img);
 }

@@ -307,6 +307,7 @@ typedef struct s_menu
 	int			current_frame;
 	long		last_frame_time;
 	t_texture	*scaled_frame;
+	t_texture	*logo;
 	pid_t		menu_music_pid;
 } t_menu;
 
