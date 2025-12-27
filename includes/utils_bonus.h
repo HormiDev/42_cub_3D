@@ -84,6 +84,11 @@
 #  define RENDER_HEIGHT 1080
 # endif
 
+# define MENU_HEIGHT 720
+# define MENU_WIDTH 1280
+# define MENU_BUTTON_HEIGHT 80
+# define MENU_BUTTON_WIDTH 300
+
 # define FOV 45.0
 
 # define MAX_FPS 60
@@ -226,9 +231,16 @@ typedef struct s_gamepad_input {
 	int	gp_run;
 } t_gamepad_input;
 
+typedef struct s_mouse_input {
+	int	mouse_x;
+	int	mouse_y;
+	int	mouse_clicked;
+} t_mouse_input;
+
 typedef struct s_raw_input {
 	t_keyboard_input	kb;
 	t_gamepad_input		gp;
+	t_mouse_input		mouse;
 } t_raw_input;
 
 typedef struct s_player_actions {
@@ -299,16 +311,27 @@ typedef struct s_precalc
 	t_rotated_square *rotated_squares;
 } t_precalc;
 
+typedef struct s_button
+{
+	t_vector_int	position;
+	t_vector_int	size;
+	void			(*on_click)(void *game);
+	t_texture		*texture;
+	t_texture		*hover_texture;
+} t_button;
+
 typedef struct s_menu
 {
-	void		*frames[200];
-	t_texture	*frames_textures[200];
-	int			total_frames;
-	int			current_frame;
-	long		last_frame_time;
-	t_texture	*scaled_frame;
-	t_texture	*logo;
-	pid_t		menu_music_pid;
+	t_texture		*render;
+	t_texture		*frames_textures[200];
+	int				total_frames;
+	int				current_frame;
+	long			last_frame_time;
+	t_texture		*logo;
+	t_button		*buttons;
+	int				n_buttons;
+	pid_t			menu_music_pid;
+	t_vector_int	mouse_position;
 } t_menu;
 
 typedef struct s_door

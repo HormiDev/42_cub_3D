@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2025/12/16 20:33:35 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/27 13:48:46 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,11 @@ int ft_mouse_move(int x, int y, t_game *game)
     (void)y;
 
     if (!game->mouse_captured)
-        return (0);
-
+    {
+		game->input.raw.mouse.mouse_x = x;
+		game->input.raw.mouse.mouse_y = y;
+		return (0);
+	}
     patata_x = x - center_x;
     game->player->rotation.x -= patata_x * MOUSE_SENSITIVITY * game->delta_time;
     game->player->rotation.x = ft_normalize_angle(game->player->rotation.x);
@@ -79,7 +82,7 @@ void ft_toggle_mouse_capture(t_game *game)
 
 void ft_init_mouse(t_game *game)
 {
-    game->mouse_captured = true; 
-    mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-    mlx_mouse_hide(game->mlx, game->window);
+    game->mouse_captured = 0; 
+    //mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    //mlx_mouse_hide(game->mlx, game->window);
 }

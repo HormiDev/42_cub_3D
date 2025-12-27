@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/12/18 01:34:05 by ide-dieg         ###   ########.fr        #
+#    Updated: 2025/12/27 03:12:31 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,6 +100,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/objects/door_raycast.c \
 			src_bonus/objects/alien.c \
 			src_bonus/ft_resolutions.c \
+			src_bonus/ft_loading_texture.c \
 
 OBJ_DIR  = objects
 OBJ_DIR_BONUS  = objects_bonus
@@ -136,8 +137,7 @@ update_submodules:
 clear:
 	clear
 
-$(NAME): update_submodules build_libft build_minilibx-linux $(OBJ)
-	@printf "%-183s\r" "" 
+$(NAME): update_submodules build_libft build_minilibx-linux $(OBJ) 
 	@$(CC) $(CFLAGS) $(OBJ) $(LIBSA) $(LFLAGS) -o $(NAME)
 	@tput cuu1 && tput el
 	@tput cuu1 && tput el

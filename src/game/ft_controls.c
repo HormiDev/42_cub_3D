@@ -14,25 +14,25 @@ static void	ft_handle_player_movement(t_game *game, double move_speed)
 	if (game->input.front && !game->input.back)
 	{
 		if (game->input.left && !game->input.right)
-			ft_move_direction(game, game->player->rotation.x + 45, move_speed);
+			ft_move_direction(game, game->player.rotation.x + 45, move_speed);
 		else if (game->input.right && !game->input.left)
-			ft_move_direction(game, game->player->rotation.x - 45, move_speed);
+			ft_move_direction(game, game->player.rotation.x - 45, move_speed);
 		else
-			ft_move_direction(game, game->player->rotation.x, move_speed);
+			ft_move_direction(game, game->player.rotation.x, move_speed);
 	}
 	if (game->input.back && !game->input.front)
 	{
 		if (game->input.left && !game->input.right)
-			ft_move_direction(game, game->player->rotation.x + 115, move_speed);
+			ft_move_direction(game, game->player.rotation.x + 115, move_speed);
 		else if (game->input.right && !game->input.left)
-			ft_move_direction(game, game->player->rotation.x - 115, move_speed);
+			ft_move_direction(game, game->player.rotation.x - 115, move_speed);
 		else
-			ft_move_direction(game, game->player->rotation.x + 180, move_speed);
+			ft_move_direction(game, game->player.rotation.x + 180, move_speed);
 	}
 	if (game->input.left && !game->input.front && !game->input.back)
-		ft_move_direction(game, game->player->rotation.x + 90, move_speed);
+		ft_move_direction(game, game->player.rotation.x + 90, move_speed);
 	if (game->input.right && !game->input.front && !game->input.back)
-		ft_move_direction(game, game->player->rotation.x - 90, move_speed);
+		ft_move_direction(game, game->player.rotation.x - 90, move_speed);
 }
 
 /**
@@ -47,13 +47,13 @@ static void	ft_handle_player_rotation(t_game *game)
 {
 	if (game->input.rotate_left)
 	{
-		game->player->rotation.x += ROTATION_SPEED * game->delta_time;
-		game->player->rotation.x = ft_normalize_angle(game->player->rotation.x);
+		game->player.rotation.x += ROTATION_SPEED * game->delta_time;
+		game->player.rotation.x = ft_normalize_angle(game->player.rotation.x);
 	}
 	if (game->input.rotate_right)
 	{
-		game->player->rotation.x -= ROTATION_SPEED * game->delta_time;
-		game->player->rotation.x = ft_normalize_angle(game->player->rotation.x);
+		game->player.rotation.x -= ROTATION_SPEED * game->delta_time;
+		game->player.rotation.x = ft_normalize_angle(game->player.rotation.x);
 	}
 }
 

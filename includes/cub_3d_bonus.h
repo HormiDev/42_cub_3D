@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/18 01:06:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/23 03:51:53 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,7 @@ int				ft_check_args(int argc, char **argv);
 t_game			*ft_loading_game(char *path_map);
 void			ft_close_game(int exit_code);
 int				ft_close_game_for_mlx();
-void			ft_init_menu(t_game *game);
-void			ft_free_menu(t_game *game);
+void			ft_loading_menu(t_game *game);
 void			ft_update_menu(t_game *game);
 void			ft_draw_menu_text(t_game *game);
 
@@ -216,5 +215,8 @@ void			ft_scale_t_image_precalc_two(t_texture *tex_origin,
 		t_texture *text_destiny, t_game *game, int player);
 void			ft_scale_t_image_precalc_three(t_texture *tex_origin,
 		t_texture *text_destiny, t_game *game, int player);
+
+t_texture		*ft_loading_texture(void *mlx_ptr, char *path);
+t_texture 		*ft_new_texture(void *mlx_ptr, int width, int height);
 
 #endif

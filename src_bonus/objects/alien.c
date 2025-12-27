@@ -25,6 +25,8 @@ void	ft_config_aliens(t_game *game)
 {
 	int	i;
 	int	j;
+	int	k;
+	t_alien *alien;
 
 	i = 0;
 	while (game->map[i])
@@ -36,7 +38,7 @@ void	ft_config_aliens(t_game *game)
 			{
 				game->aliens = ft_alloc_lst(sizeof(t_alien), 4);
 				ft_init_alien_data((t_alien *)game->aliens, j + 0.5, i + 0.5);
-				t_alien *alien = (t_alien *)game->aliens;
+				alien = (t_alien *)game->aliens;
 				alien->texture = ft_alloc_lst(sizeof(t_texture), 4);
 				check_arguments_xpm("textures/alien.xpm");
 				alien->texture->path = ft_strdup("textures/alien.xpm");
@@ -47,10 +49,10 @@ void	ft_config_aliens(t_game *game)
 					ft_close_game(1);
 				}
 				alien->texture->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * alien->texture->height, 4);
-				int k = 0;
+				k = 0;
 				while (k < alien->texture->height)
 				{
-					alien->texture->colors_matrix[k] = (unsigned int *)(alien->texture->img->data + (k * sizeof(char) * 4 * alien->texture->width));
+					alien->texture->colors_matrix[k] = (unsigned int *)(alien->texture->img->data + (k * alien->texture->img->size_line));
 					k++;
 				}
 				game->map[i][j] = '0';
@@ -91,7 +93,7 @@ static double	ft_find_best_angle(double dx, double dy, double distance)
 	double	error;
 
 	angle = 0;
-	step = 0.1;
+	step = 0.01; 
 	best_angle = 0;
 	best_error = 999999;
 	while (angle < 360)
@@ -142,48 +144,69 @@ static double	ft_calc_alien_angle(t_vector2 player, t_vector2 alien,
 }
 
 /**
- * @brief Dibuja el sprite del alien en la textura de renderizado.
+ * @brief Crea una textura escalada del alien.
  * 
  * @param game Puntero a la estructura principal del juego.
- * @param x Coordenada X inicial.
- * @param y Coordenada Y inicial.
- * @param width Ancho del sprite.
- * @param height Alto del sprite.
- * @param texture Textura del alien.
- * @param alien_distance Distancia del alien al jugador.
+ * @param texture Textura original del alien.
+ * @param size Tamaño deseado.
+ * @return Textura escalada o NULL si falla.
  */
-static void	ft_draw_alien_sprite(t_game *game, int x, int y, int w, int h,
-	t_texture *texture, double alien_distance)
+static t_texture	*ft_scale_alien_texture(t_game *game, int size)
 {
-	int	i;
-	int	j;
-	int	ray_index;
-	int	tex_x;
-	int	tex_y;
+	t_texture	*scaled;
+	int			i;
 
+	scaled = ft_alloc_lst(sizeof(t_texture), 4);
+	if (!scaled)
+		return (NULL);
+	scaled->width = size;
+	scaled->height = size;
+	scaled->img = (t_img *)mlx_new_image(game->mlx, size, size);
+	if (!scaled->img)
+		return (NULL);
+	scaled->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * size, 4);
+	if (!scaled->colors_matrix)
+		return (NULL);
 	i = 0;
-	while (i < h && (y + i) < game->config.render_height)
+	while (i < size)
 	{
-		if ((y + i) >= 0)
+		scaled->colors_matrix[i] = (unsigned int *)(scaled->img->data
+			+ (i * scaled->img->size_line));
+		i++;
+	}
+	return (scaled);
+}
+
+/**
+ * @brief Enmascara columnas del sprite segun profundidad.
+ *
+ * Marca como transparentes las columnas cuyos rayos tienen
+ * una pared mas cercana que el alien, usando blanco (0xFFFFFF)
+ * para que ft_draw_transparent_image las ignore.
+ */
+static void	ft_mask_alien_by_depth(t_game *game, t_texture *scaled,
+	int screen_x, double alien_distance)
+{
+	int	x;
+	int	ray_index;
+	int	y;
+
+	x = 0;
+	while (x < scaled->width)
+	{
+		ray_index = game->config.render_width - (screen_x + x) - 1;
+		if (screen_x + x < 0 || screen_x + x >= game->config.render_width
+			|| ray_index < 0 || ray_index >= game->config.render_width
+			|| (alien_distance - 0.3) >= game->raycasts[ray_index].distance)
 		{
-			j = 0;
-			while (j < w && (x + j) < game->config.render_width
-				&& (x + j) >= 0)
+			y = 0;
+			while (y < scaled->height)
 			{
-				ray_index = game->config.render_width - (x + j) - 1;
-				if (ray_index >= 0 && ray_index < game->config.render_width
-					&& (alien_distance - 0.3) < game->raycasts[ray_index].distance)
-				{
-					tex_x = (j * texture->width) / w;
-					tex_y = (i * texture->height) / h;
-					if (tex_x < texture->width && tex_y < texture->height
-						&& texture->colors_matrix[tex_y][tex_x] != 0xFFFFFF)
-						game->render->colors_matrix[y + i][x + j] = texture->colors_matrix[tex_y][tex_x];
-				}
-				j++;
+				scaled->colors_matrix[y][x] = 0x00FFFFFF;
+				y++;
 			}
 		}
-		i++;
+		x++;
 	}
 }
 
@@ -194,11 +217,13 @@ static void	ft_draw_alien_sprite(t_game *game, int x, int y, int w, int h,
  */
 void	ft_render_aliens(t_game *game)
 {
-	t_alien	*alien;
-	double	distance;
-	double	angle;
-	int		screen_x;
-	int		size;
+	t_alien		*alien;
+	t_texture	*scaled;
+	double		distance;
+	double		angle;
+	int			screen_x;
+	int			screen_y;
+	int			size;
 
 	if (!game->aliens)
 		return ;
@@ -214,6 +239,13 @@ void	ft_render_aliens(t_game *game)
 		size = 15;
 	if (size > game->config.render_height)
 		size = game->config.render_height;
-	ft_draw_alien_sprite(game, screen_x - size / 2,
-		game->config.render_height / 2 - size / 2, size, size, alien->texture, distance);
+	scaled = ft_scale_alien_texture(game, size);
+	if (!scaled)
+		return ;
+	screen_x = screen_x - size / 2;
+	screen_y = game->config.render_height / 2 - size / 2 + size / 8;
+	ft_scale_t_image(alien->texture, scaled);
+	ft_mask_alien_by_depth(game, scaled, screen_x, distance);
+	ft_draw_transparent_image(game->render, scaled,
+		screen_x, screen_y);
 }
