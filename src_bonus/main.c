@@ -23,7 +23,6 @@ int main(int argc, char **argv, char **env)
 	game = ft_loading_game(argv[1]);
 	game->env = env; 
 	game->show_menu = 1;
-	ft_printf("Entering main loop\n");
 	mlx_loop(game->mlx);
 	return (0);
 }

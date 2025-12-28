@@ -35,6 +35,7 @@ int ft_calc_delta_time(t_game *game)
 void ft_one_player(t_game *game)
 {
 	//printf("Fps: %d\n", (int)(1 / game->delta_time));
+	ft_controls(game, 0);
 	ft_update_doors(game);
 	ft_update_aliens(game);
 	ft_calculate_raycasts(game); 
@@ -66,6 +67,7 @@ void ft_two_players(t_game *game)
 	{
 		/* code */
 		game->player = &game->players[player_index];
+		ft_controls(game, player_index);
 		ft_update_doors(game);
 		ft_update_aliens(game);
 		ft_calculate_raycasts(game); 
@@ -93,6 +95,7 @@ void ft_three_players(t_game *game)
 	{
 		/* code */
 		game->player = &game->players[player_index];
+		ft_controls(game, player_index);
 		ft_update_doors(game);
 		ft_update_aliens(game);
 		ft_calculate_raycasts(game); 
@@ -134,7 +137,9 @@ int ft_update(void *param)
 	if (!ft_calc_delta_time(game))
 		return (0);
 	ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
-	ft_controls(game);
+	ft_update_gamepad(game);
+	ft_gamepad_movement(game);
+	input_merge_sources(game);	
 	if (game->show_menu)
 		ft_update_menu(game);
 	else if (game->config.n_players == 1)

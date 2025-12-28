@@ -67,7 +67,7 @@ long			ft_get_time(void);
 // ============================================================================
 // MOVEMENT & INPUT FUNCTIONS
 // ============================================================================
-void			ft_controls(t_game *game);
+void			ft_controls(t_game *game, int player_index);
 void 			ft_forwad_back(t_game *game, double move_speed);
 void 			ft_right_left(t_game *game, double move_speed);
 int 			ft_key_press(int keycode, t_game *game);
@@ -91,6 +91,7 @@ int			audio_stop_menu(t_game *game);
 void		input_detect_device(t_game *game);
 void		input_merge_sources(t_game *game);
 void		input_reset_gamepad(t_game *game);
+void		input_reset_gamepad_for_player(t_game *game, int player_index);
 int			input_handle_menu_a(t_game *game);
 int			input_handle_menu_b(t_game *game);
 

@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../../includes/cub_3d_bonus.h"
 #include <fcntl.h>
 #include <unistd.h>
@@ -17,201 +18,352 @@
 
 static int	ft_normalize_axis_value(int raw_value)
 {
-	if (raw_value > 16000)
-		return (1);
-	else if (raw_value < -16000)
-		return (-1);
-	return (0);
+    if (raw_value > 16000)
+        return (1);
+    else if (raw_value < -16000)
+        return (-1);
+    return (0);
 }
 
-static void	ft_process_button_event(t_game *game, struct js_event event)
+static void	ft_reset_single_gamepad(t_gamepad *gp)
+{
+    gp->connected = 0;
+    gp->fd = -1;
+    gp->a = 0;
+    gp->b = 0;
+    gp->x = 0;
+    gp->y = 0;
+    gp->lb = 0;
+    gp->rb = 0;
+    gp->left_stick_x = 0;
+    gp->left_stick_y = 0;
+    gp->right_stick_x = 0;
+    gp->right_stick_y = 0;
+    gp->right_stick_click = 0;
+    gp->a_pressed = 0;
+    gp->b_pressed = 0;
+}
+
+static void	ft_process_button_ab(t_gamepad *gp, struct js_event event)
 {
 	if (event.number == 0)
 	{
-		game->gamepad.a = event.value;
+		gp->a = event.value;
 		if (event.value == 1)
-			game->gamepad.a_pressed = 1;
+			gp->a_pressed = 1;
 	}
 	else if (event.number == 1)
 	{
-		game->gamepad.b = event.value;
+		gp->b = event.value;
 		if (event.value == 1)
-			game->gamepad.b_pressed = 1;
+			gp->b_pressed = 1;
 	}
-	else if (event.number == 2)
-		game->gamepad.x = event.value;
+}
+
+static void	ft_process_button_event(t_game *game, t_gamepad *gp,
+	struct js_event event)
+{
+	(void)game;
+	ft_process_button_ab(gp, event);
+	if (event.number == 2)
+		gp->x = event.value;
 	else if (event.number == 3)
-		game->gamepad.y = event.value;
+		gp->y = event.value;
 	else if (event.number == 4)
-		game->gamepad.lb = event.value;
+		gp->lb = event.value;
 	else if (event.number == 5)
-		game->gamepad.rb = event.value;
+		gp->rb = event.value;
 	else if (event.number == 9)
-		game->gamepad.right_stick_click = event.value;
+		gp->right_stick_click = event.value;
 }
 
-static void	ft_process_axis_event(t_game *game, struct js_event event)
+static void	ft_process_axis_event(t_gamepad *gp, struct js_event event)
 {
-	if (event.number == 0)
-		game->gamepad.left_stick_x = ft_normalize_axis_value(event.value);
-	else if (event.number == 1)
-		game->gamepad.left_stick_y = ft_normalize_axis_value(event.value);
-	else if (event.number == 3)
-		game->gamepad.right_stick_x = ft_normalize_axis_value(event.value);
-	else if (event.number == 4)
-		game->gamepad.right_stick_y = ft_normalize_axis_value(event.value);
+    if (event.number == 0)
+        gp->left_stick_x = ft_normalize_axis_value(event.value);
+    else if (event.number == 1)
+        gp->left_stick_y = ft_normalize_axis_value(event.value);
+    else if (event.number == 3)
+        gp->right_stick_x = ft_normalize_axis_value(event.value);
+    else if (event.number == 4)
+        gp->right_stick_y = ft_normalize_axis_value(event.value);
 }
 
-static void	ft_process_gamepad_event(t_game *game, struct js_event event)
+static void	ft_process_gamepad_event(t_game *game, t_gamepad *gp,
+	struct js_event event)
 {
 	if (event.type == JS_EVENT_BUTTON)
-		ft_process_button_event(game, event);
+		ft_process_button_event(game, gp, event);
 	else if (event.type == JS_EVENT_AXIS)
-		ft_process_axis_event(game, event);
+		ft_process_axis_event(gp, event);
 }
 
-static void	ft_reset_gamepad_state(t_game *game)
+static int	ft_try_open_gamepad_at(t_game *game, const char *path, int slot)
 {
-	game->gamepad.connected = 0;
-	game->gamepad.fd = -1;
-	game->gamepad.a = 0;
-	game->gamepad.b = 0;
-	game->gamepad.x = 0;
-	game->gamepad.y = 0;
-	game->gamepad.lb = 0;
-	game->gamepad.rb = 0;
-	game->gamepad.left_stick_x = 0;
-	game->gamepad.left_stick_y = 0;
-	game->gamepad.right_stick_x = 0;
-	game->gamepad.right_stick_y = 0;
-	game->gamepad.right_stick_click = 0;
-	game->gamepad.a_pressed = 0;
-	game->gamepad.b_pressed = 0;
-}
+	int	fd;
 
-static int	ft_try_open_gamepad(t_game *game, const char *path)
-{
-	game->gamepad.fd = open(path, O_RDONLY | O_NONBLOCK);
-	if (game->gamepad.fd != -1)
+	fd = ft_open_fd_lst(1, (char *)path, O_RDONLY | O_NONBLOCK);
+	if (fd != -1)
 	{
-		game->gamepad.connected = 1;
-		ft_printf("Gamepad found at %s\n", path);
+		game->gamepads[slot].fd = fd;
+		game->gamepads[slot].connected = 1;
+		game->gamepad_count++;
+		ft_printf("Gamepad %d found at %s\n", slot + 1, path);
 		return (1);
 	}
 	return (0);
+}
+
+static void	ft_init_gamepad_paths(t_game *game)
+{
+	const char	*paths[] = {"/dev/input/js0", "/dev/input/js1",
+		"/dev/input/js2", "/dev/input/js3",
+		"/dev/input/event0", "/dev/input/event1",
+		"/dev/input/event2", "/dev/input/event3", NULL};
+	int			i;
+	int			slot;
+
+	i = 0;
+	slot = 0;
+	while (paths[i] && slot < MAX_GAMEPADS)
+	{
+		if (ft_try_open_gamepad_at(game, paths[i], slot))
+			slot++;
+		i++;
+	}
 }
 
 void	ft_init_gamepad(t_game *game)
 {
-	const char	*paths[7];
-	int			i;
+	int	i;
 
-	ft_reset_gamepad_state(game);
-	paths[0] = "/dev/input/js0";
-	paths[1] = "/dev/input/js1";
-	paths[2] = "/dev/input/event0";
-	paths[3] = "/dev/input/event1";
-	paths[4] = "/dev/input/event2";
-	paths[5] = "/dev/input/event3";
-	paths[6] = NULL;
+	game->gamepad_count = 0;
+	game->waiting_for_gamepads = 0;
 	i = 0;
-	while (paths[i])
+	while (i < MAX_GAMEPADS)
 	{
-		if (ft_try_open_gamepad(game, paths[i]))
-			return ;
+		ft_reset_single_gamepad(&game->gamepads[i]);
 		i++;
 	}
-	ft_printf("Info: No gamepad detected (keyboard controls active)\n");
+	ft_init_gamepad_paths(game);
+	if (game->gamepad_count == 0)
+		ft_printf("Info: No gamepad detected (keyboard controls active)\n");
+	if (game->config.n_players > 1
+		&& game->gamepad_count < game->config.n_players)
+		game->waiting_for_gamepads = 1;
 }
 
 void	ft_free_gamepad(t_game *game)
 {
-	if (game->gamepad.fd != -1)
+	int	i;
+
+	i = 0;
+	while (i < MAX_GAMEPADS)
 	{
-		close(game->gamepad.fd);
-		game->gamepad.fd = -1;
+		if (game->gamepads[i].fd != -1)
+			close(game->gamepads[i].fd);
+		ft_reset_single_gamepad(&game->gamepads[i]);
+		i++;
 	}
-	game->gamepad.connected = 0;
+	game->gamepad_count = 0;
+	game->waiting_for_gamepads = 0;
 }
 
-static void	ft_handle_gamepad_error(t_game *game)
+static void	ft_recount_gamepads(t_game *game)
 {
-	game->gamepad.connected = 0;
-	if (game->gamepad.fd != -1)
+	int	i;
+
+	game->gamepad_count = 0;
+	i = 0;
+	while (i < MAX_GAMEPADS)
 	{
-		close(game->gamepad.fd);
-		game->gamepad.fd = -1;
+		if (game->gamepads[i].connected)
+			game->gamepad_count++;
+		i++;
 	}
 }
 
-void	ft_update_gamepad(t_game *game)
+static void	ft_handle_gamepad_error(t_game *game, int slot)
+{
+	if (game->gamepads[slot].fd != -1)
+		close(game->gamepads[slot].fd);
+	ft_reset_single_gamepad(&game->gamepads[slot]);
+	ft_recount_gamepads(game);
+	if (game->config.n_players > 1
+		&& game->gamepad_count < game->config.n_players)
+		game->waiting_for_gamepads = 1;
+}
+
+static void	ft_read_gamepad_events(t_game *game, int i)
 {
 	struct js_event	event;
 	ssize_t			bytes;
 
-	if (!game->gamepad.connected || game->gamepad.fd == -1)
-		return ;
-	bytes = read(game->gamepad.fd, &event, sizeof(event));
+	bytes = read(game->gamepads[i].fd, &event, sizeof(event));
 	while (bytes > 0)
 	{
-		ft_process_gamepad_event(game, event);
-		bytes = read(game->gamepad.fd, &event, sizeof(event));
+		ft_process_gamepad_event(game, &game->gamepads[i], event);
+		bytes = read(game->gamepads[i].fd, &event, sizeof(event));
 	}
 	if (bytes == -1 && errno != EAGAIN && errno != EWOULDBLOCK)
-		ft_handle_gamepad_error(game);
+		ft_handle_gamepad_error(game, i);
 }
 
-static void	ft_gamepad_move_input(t_game *game)
+void	ft_update_gamepad(t_game *game)
 {
-	if (game->gamepad.left_stick_y == -1)
+	int	i;
+
+	i = 0;
+	while (i < MAX_GAMEPADS)
+	{
+		if (!game->gamepads[i].connected || game->gamepads[i].fd == -1)
+		{
+			i++;
+			continue ;
+		}
+		ft_read_gamepad_events(game, i);
+		i++;
+	}
+}
+
+static void	ft_set_player_movement(t_player_input *pinput, t_gamepad *gp)
+{
+	if (gp->left_stick_y == -1)
+		pinput->gp.gp_front = 1;
+	else if (gp->left_stick_y == 1)
+		pinput->gp.gp_back = 1;
+	if (gp->left_stick_x == -1)
+		pinput->gp.gp_left = 1;
+	else if (gp->left_stick_x == 1)
+		pinput->gp.gp_right = 1;
+	if (gp->right_stick_click)
+		pinput->gp.gp_run = 1;
+}
+
+static void	ft_set_player_rotation(t_player_input *pinput, t_gamepad *gp)
+{
+	if (gp->right_stick_x == -1 || gp->lb)
+		pinput->gp.gp_rotate_left = 1;
+	else if (gp->right_stick_x == 1 || gp->rb)
+		pinput->gp.gp_rotate_right = 1;
+}
+
+static void	ft_reset_player_input(t_player_input *pinput)
+{
+	pinput->gp.gp_front = 0;
+	pinput->gp.gp_back = 0;
+	pinput->gp.gp_left = 0;
+	pinput->gp.gp_right = 0;
+	pinput->gp.gp_rotate_left = 0;
+	pinput->gp.gp_rotate_right = 0;
+	pinput->gp.gp_run = 0;
+}
+
+static void	ft_copy_actions_to_player(t_player_input *pinput, int player_idx)
+{
+	pinput->actions.front = pinput->gp.gp_front;
+	pinput->actions.back = pinput->gp.gp_back;
+	pinput->actions.left = pinput->gp.gp_left;
+	pinput->actions.right = pinput->gp.gp_right;
+	pinput->actions.rotate_left = pinput->gp.gp_rotate_left;
+	pinput->actions.rotate_right = pinput->gp.gp_rotate_right;
+	pinput->actions.run = pinput->gp.gp_run;
+	pinput->active_device = INPUT_GAMEPAD;
+	pinput->gamepad_index = player_idx;
+}
+
+static void	ft_gamepad_apply_to_player(t_game *game, t_gamepad *gp,
+	int player_idx)
+{
+	t_player_input	*pinput;
+
+	if (player_idx >= game->config.n_players)
+		return ;
+	pinput = &game->input.player_inputs[player_idx];
+	ft_reset_player_input(pinput);
+	ft_set_player_movement(pinput, gp);
+	ft_set_player_rotation(pinput, gp);
+	ft_copy_actions_to_player(pinput, player_idx);
+}
+
+static void	ft_gamepad_apply_to_input(t_game *game, t_gamepad *gp)
+{
+	if (gp->left_stick_y == -1)
 		game->input.raw.gp.gp_front = 1;
-	else if (game->gamepad.left_stick_y == 1)
+	else if (gp->left_stick_y == 1)
 		game->input.raw.gp.gp_back = 1;
-	if (game->gamepad.left_stick_x == -1)
+	if (gp->left_stick_x == -1)
 		game->input.raw.gp.gp_left = 1;
-	else if (game->gamepad.left_stick_x == 1)
+	else if (gp->left_stick_x == 1)
 		game->input.raw.gp.gp_right = 1;
-	if (game->gamepad.right_stick_click)
+	if (gp->right_stick_click)
 		game->input.raw.gp.gp_run = 1;
-}
-
-static void	ft_gamepad_rotation(t_game *game)
-{
-	if (game->gamepad.right_stick_x == -1 || game->gamepad.lb)
+	if (gp->right_stick_x == -1 || gp->lb)
 		game->input.raw.gp.gp_rotate_left = 1;
-	else if (game->gamepad.right_stick_x == 1 || game->gamepad.rb)
+	else if (gp->right_stick_x == 1 || gp->rb)
 		game->input.raw.gp.gp_rotate_right = 1;
 }
 
-static void	ft_gamepad_menu_input(t_game *game)
+static void	ft_process_menu_buttons(t_game *game, int i)
 {
-	if (game->gamepad.a_pressed)
+	if (game->gamepads[i].a_pressed)
 	{
 		input_handle_menu_a(game);
-		game->gamepad.a_pressed = 0;
+		game->gamepads[i].a_pressed = 0;
 	}
-	if (game->gamepad.b_pressed)
+	if (game->gamepads[i].b_pressed)
 	{
 		input_handle_menu_b(game);
-		game->gamepad.b_pressed = 0;
+		game->gamepads[i].b_pressed = 0;
+	}
+}
+
+static void	ft_gamepad_menu_input_for_all(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < MAX_GAMEPADS)
+	{
+		if (game->gamepads[i].connected)
+			ft_process_menu_buttons(game, i);
+		i++;
+	}
+}
+
+static void	ft_apply_multiplayer_gamepads(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < game->gamepad_count && i < MAX_GAMEPADS)
+	{
+		if (game->gamepads[i].connected)
+			ft_gamepad_apply_to_player(game, &game->gamepads[i], i);
+		i++;
 	}
 }
 
 void	ft_gamepad_movement(t_game *game)
 {
 	input_reset_gamepad(game);
-	if (!game->gamepad.connected)
+	if (game->gamepad_count == 0)
 		return ;
 	if (game->show_menu)
 	{
-		ft_gamepad_menu_input(game);
+		ft_gamepad_menu_input_for_all(game);
 		return ;
 	}
-	if (game->gamepad.b_pressed)
+	if (game->config.n_players > 1
+		&& game->gamepad_count < game->config.n_players)
+		game->waiting_for_gamepads = 1;
+	else
+		game->waiting_for_gamepads = 0;
+	if (game->config.n_players == 1)
 	{
-		input_handle_menu_b(game);
-		game->gamepad.b_pressed = 0;
+		if (game->gamepads[0].connected)
+			ft_gamepad_apply_to_input(game, &game->gamepads[0]);
 	}
-	ft_gamepad_move_input(game);
-	ft_gamepad_rotation(game);
+	else
+		ft_apply_multiplayer_gamepads(game);
 }

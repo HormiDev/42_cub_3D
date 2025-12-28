@@ -100,6 +100,7 @@
 # define DCP 0.1 // dist player collision
 
 # define MIST_COLOR 0x323232
+# define MAX_GAMEPADS 4
 
 typedef struct s_resolution
 {
@@ -253,10 +254,18 @@ typedef struct s_player_actions {
 	int	run;
 } t_player_actions;
 
+typedef struct s_player_input {
+	t_gamepad_input		gp;
+	t_player_actions	actions;
+	t_input_device		active_device;
+	int					gamepad_index;
+} t_player_input;
+
 typedef struct s_input {
 	t_raw_input			raw;
 	t_player_actions	actions;
 	t_input_device		active_device;
+	t_player_input		player_inputs[MAX_GAMEPADS];
 } t_input;
 
 
@@ -375,7 +384,9 @@ typedef struct s_game
 	t_texture		*minimap;
 	t_player 		*player;
 	t_input			input;
-	t_gamepad		gamepad;
+	t_gamepad		gamepads[MAX_GAMEPADS];
+	int				gamepad_count;
+	int				waiting_for_gamepads;
 	int				mouse_xy[2];
 	double			delta_time;
 	long			last_frame_time;
