@@ -71,11 +71,28 @@ static void	input_apply_gamepad(t_game *game)
 
 void	input_merge_sources(t_game *game)
 {
-	input_detect_device(game);
-	if (game->input.active_device == INPUT_KEYBOARD)
-		input_apply_keyboard(game);
+	int		i;
+	
+	if (game->config.n_players == 1)
+	{
+		input_detect_device(game);
+		if (game->input.active_device == INPUT_KEYBOARD)
+			input_apply_keyboard(game);
+		else
+			input_apply_gamepad(game);
+		game->input.player_inputs[0].actions = game->input.actions;
+		game->input.player_inputs[0].active_device = game->input.active_device;
+	}
 	else
-		input_apply_gamepad(game);
+	{
+		i = 0;
+		while (i < game->config.n_players)
+		{
+			if (game->gamepads[i].connected)
+				game->input.player_inputs[i].active_device = INPUT_GAMEPAD;
+			i++;
+		}
+	}
 }
 
 void	input_reset_gamepad(t_game *game)
@@ -87,6 +104,26 @@ void	input_reset_gamepad(t_game *game)
 	game->input.raw.gp.gp_rotate_left = 0;
 	game->input.raw.gp.gp_rotate_right = 0;
 	game->input.raw.gp.gp_run = 0;
+}
+
+void	input_reset_gamepad_for_player(t_game *game, int player_index)
+{
+	if (player_index < 0 || player_index >= MAX_GAMEPADS)
+		return;
+	game->input.player_inputs[player_index].gp.gp_front = 0;
+	game->input.player_inputs[player_index].gp.gp_back = 0;
+	game->input.player_inputs[player_index].gp.gp_left = 0;
+	game->input.player_inputs[player_index].gp.gp_right = 0;
+	game->input.player_inputs[player_index].gp.gp_rotate_left = 0;
+	game->input.player_inputs[player_index].gp.gp_rotate_right = 0;
+	game->input.player_inputs[player_index].gp.gp_run = 0;
+	game->input.player_inputs[player_index].actions.front = 0;
+	game->input.player_inputs[player_index].actions.back = 0;
+	game->input.player_inputs[player_index].actions.left = 0;
+	game->input.player_inputs[player_index].actions.right = 0;
+	game->input.player_inputs[player_index].actions.rotate_left = 0;
+	game->input.player_inputs[player_index].actions.rotate_right = 0;
+	game->input.player_inputs[player_index].actions.run = 0;
 }
 
 int	input_handle_menu_a(t_game *game)
@@ -108,9 +145,6 @@ int	input_handle_menu_b(t_game *game)
 		ft_close_game(0);
 	}
 	else
-	{
 		game->show_menu = 1;
-		ft_mouse_free(game);
-	}
 	return (0);
 }

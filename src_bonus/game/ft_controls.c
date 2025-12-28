@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/28 23:22:36 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/17 17:05:36 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,37 +21,40 @@
  * @param game Puntero a la estructura del juego.
  * @param move_speed Velocidad de movimiento calculada.
  */
-static int	ft_handle_player_movement(t_game *game, double move_speed)
+static int	ft_handle_player_movement(t_game *game, double move_speed, int player_index)
 {
-	int		moving; 
+	int		moving;
+	t_player_actions *actions;
 
-	moving = 0; 
-	if (game->input.actions.front && !game->input.actions.back)
+	moving = 0;
+	actions = &game->input.player_inputs[player_index].actions;
+	
+	if (actions->front && !actions->back)
 	{
-		if (game->input.actions.left && !game->input.actions.right)
+		if (actions->left && !actions->right)
 			ft_move_direction(game, game->player->rotation.x + 45, move_speed);
-		else if (game->input.actions.right && !game->input.actions.left)
+		else if (actions->right && !actions->left)
 			ft_move_direction(game, game->player->rotation.x - 45, move_speed);
 		else
 			ft_move_direction(game, game->player->rotation.x, move_speed);
 		moving = 1; 
 	}
-	if (game->input.actions.back && !game->input.actions.front)
+	if (actions->back && !actions->front)
 	{
-		if (game->input.actions.left && !game->input.actions.right)
+		if (actions->left && !actions->right)
 			ft_move_direction(game, game->player->rotation.x + 115, move_speed);
-		else if (game->input.actions.right && !game->input.actions.left)
+		else if (actions->right && !actions->left)
 			ft_move_direction(game, game->player->rotation.x - 115, move_speed);
 		else
 			ft_move_direction(game, game->player->rotation.x + 180, move_speed);
 		moving = 1; 
 	}
-	if (game->input.actions.left && !game->input.actions.front && !game->input.actions.back) 
+	if (actions->left && !actions->front && !actions->back) 
     {
         ft_move_direction(game, game->player->rotation.x + 90, move_speed);
         moving = 1;
     }
-    if (game->input.actions.right && !game->input.actions.front && !game->input.actions.back)
+    if (actions->right && !actions->front && !actions->back)
     {
         ft_move_direction(game, game->player->rotation.x - 90, move_speed);
         moving = 1;
@@ -67,14 +70,18 @@ static int	ft_handle_player_movement(t_game *game, double move_speed)
  *
  * @param game Puntero a la estructura del juego.
  */
-static void	ft_handle_player_rotation(t_game *game)
+static void	ft_handle_player_rotation(t_game *game, int player_index)
 {
-	if (game->input.actions.rotate_left)
+	t_player_actions *actions;
+
+	actions = &game->input.player_inputs[player_index].actions;
+	
+	if (actions->rotate_left)
 	{
 		game->player->rotation.x += ROTATION_SPEED * game->delta_time;
 		game->player->rotation.x = ft_normalize_angle(game->player->rotation.x);
 	}
-	if (game->input.actions.rotate_right)
+	if (actions->rotate_right)
 	{
 		game->player->rotation.x -= ROTATION_SPEED * game->delta_time;
 		game->player->rotation.x = ft_normalize_angle(game->player->rotation.x);
@@ -84,23 +91,15 @@ static void	ft_handle_player_rotation(t_game *game)
 int ft_key_press(int keycode, t_game *game)
 {
 	if (keycode == ESC)
-		input_handle_menu_b(game);//mover a otra funcion llamada desde update para acciones especioales
+		input_handle_menu_b(game);
 	if (game->show_menu)
 	{
 		if (keycode == SPACE || keycode == E)
-		{
-			input_handle_menu_a(game);//mover a otra funcion llamada desde update para acciones especioales
-			ft_mouse_capture(game);
-		}
+			input_handle_menu_a(game);
 		return (0);
 	}
 	if (keycode == M)
-	{//mover a otra funcion llamada desde update para acciones especioales
-		if (game->mouse_captured)
-			ft_mouse_free(game);
-		else
-			ft_mouse_capture(game);
-	}
+		ft_mouse_capture(game);
 	if (keycode == W)
 		game->input.raw.kb.kb_front = 1;
 	else if (keycode == A)
@@ -137,20 +136,20 @@ int ft_key_release(int keycode, t_game *game)
 	return (0);
 }
 
-void ft_controls(t_game *game)
+void ft_controls(t_game *game, int player_index)
 {
 	double	move_speed;
 	int		is_moving;
+	t_player_actions *actions;
 
-	ft_update_gamepad(game);
-	ft_gamepad_movement(game);
-	input_merge_sources(game);
-	if (game->input.actions.run)
+	actions = &game->input.player_inputs[player_index].actions;
+	
+	if (actions->run)
 		move_speed = RUN_SPEED;
 	else
 		move_speed = MOVE_SPEED;
-	is_moving = ft_handle_player_movement(game, move_speed);
-	ft_handle_player_rotation(game);
+	is_moving = ft_handle_player_movement(game, move_speed, player_index);
+	ft_handle_player_rotation(game, player_index);
 	if (is_moving)
 		audio_play_steps(game, AUDIO_WALK);
 }
