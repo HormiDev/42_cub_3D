@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 17:05:36 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/28 23:22:36 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,15 +84,23 @@ static void	ft_handle_player_rotation(t_game *game)
 int ft_key_press(int keycode, t_game *game)
 {
 	if (keycode == ESC)
-		input_handle_menu_b(game);
+		input_handle_menu_b(game);//mover a otra funcion llamada desde update para acciones especioales
 	if (game->show_menu)
 	{
 		if (keycode == SPACE || keycode == E)
-			input_handle_menu_a(game);
+		{
+			input_handle_menu_a(game);//mover a otra funcion llamada desde update para acciones especioales
+			ft_mouse_capture(game);
+		}
 		return (0);
 	}
 	if (keycode == M)
-		ft_toggle_mouse_capture(game);
+	{//mover a otra funcion llamada desde update para acciones especioales
+		if (game->mouse_captured)
+			ft_mouse_free(game);
+		else
+			ft_mouse_capture(game);
+	}
 	if (keycode == W)
 		game->input.raw.kb.kb_front = 1;
 	else if (keycode == A)

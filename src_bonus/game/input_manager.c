@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 00:00:00 by ismherna          #+#    #+#             */
-/*   Updated: 2025/12/17 17:03:37 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/28 23:20:01 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,9 @@ int	input_handle_menu_b(t_game *game)
 		ft_close_game(0);
 	}
 	else
+	{
 		game->show_menu = 1;
+		ft_mouse_free(game);
+	}
 	return (0);
 }

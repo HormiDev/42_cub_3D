@@ -69,11 +69,11 @@
 # define G				103
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 1920
+#  define WINDOW_WIDTH 3840
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 1080
+#  define WINDOW_HEIGHT 2160
 # endif
 
 # ifndef RENDER_WIDTH
@@ -318,6 +318,7 @@ typedef struct s_button
 	void			(*on_click)(void *game);
 	t_texture		*texture;
 	t_texture		*hover_texture;
+	int				is_hovered;
 } t_button;
 
 typedef struct s_menu

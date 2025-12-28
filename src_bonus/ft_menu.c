@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/27 13:53:49 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/28 23:03:37 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,22 @@ void	ft_draw_buttons_menu(t_game *game)
 	i = 0;
 	while (i < game->menu.n_buttons)
 	{
-		if (game->menu.buttons[i].texture)
+		if (game->menu.buttons[i].is_hovered && game->menu.buttons[i].hover_texture)
 		{
-			if (game->menu.mouse_position.x >= game->menu.buttons[i].position.x
-				&& game->menu.mouse_position.x <= game->menu.buttons[i].position.x + game->menu.buttons[i].size.x
-				&& game->menu.mouse_position.y >= game->menu.buttons[i].position.y
-				&& game->menu.mouse_position.y <= game->menu.buttons[i].position.y + game->menu.buttons[i].size.y)
-			{
-				if (game->menu.buttons[i].hover_texture)
-					ft_draw_transparent_image(game->menu.render, game->menu.buttons[i].hover_texture,
-						game->menu.buttons[i].position.x, game->menu.buttons[i].position.y);
-			}
-			else
-				ft_draw_transparent_image(game->menu.render, game->menu.buttons[i].texture,
-					game->menu.buttons[i].position.x, game->menu.buttons[i].position.y);
+			ft_draw_transparent_image(game->menu.render,
+				game->menu.buttons[i].hover_texture,
+				game->menu.buttons[i].position.x,
+				game->menu.buttons[i].position.y);
+		}
+		else if (game->menu.buttons[i].texture)
+		{
+			ft_draw_transparent_image(game->menu.render,
+				game->menu.buttons[i].texture,
+				game->menu.buttons[i].position.x,
+				game->menu.buttons[i].position.y);
 		}
 		i++;
 	}
-}
-
-void	ft_calculate_mouse_position_menu(t_game *game)
-{
-	game->menu.mouse_position.x = game->input.raw.mouse.mouse_x * MENU_WIDTH / WINDOW_WIDTH;
-	game->menu.mouse_position.y = game->input.raw.mouse.mouse_y * MENU_HEIGHT / WINDOW_HEIGHT;
 }
 
 void	ft_update_menu(t_game *game)
@@ -76,7 +69,6 @@ void	ft_update_menu(t_game *game)
 	}
 	if (game->menu.logo)
 		ft_draw_transparent_image(game->menu.render, game->menu.logo, MENU_WIDTH / 2 - game->menu.logo->width / 2, MENU_HEIGHT / 6);
-	ft_calculate_mouse_position_menu(game);
 	ft_draw_buttons_menu(game);
 	ft_scale_t_image(game->menu.render, game->window_img);
 	mlx_clear_window(game->mlx, game->window);

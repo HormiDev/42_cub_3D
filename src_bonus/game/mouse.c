@@ -6,29 +6,39 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2025/12/27 13:48:46 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2025/12/28 23:21:01 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
-/*
-int ft_mouse_move(int x, int y, t_game *game)
+
+void	ft_calculate_mouse_position_menu(t_game *game, t_menu *menu)
 {
-    int center_x = 1920 / 2;
-    int delta_x = x - center_x;
-    double sensitivity = 0.003;
+	menu->mouse_position.x = game->input.raw.mouse.mouse_x * MENU_WIDTH / WINDOW_WIDTH;
+	menu->mouse_position.y = game->input.raw.mouse.mouse_y * MENU_HEIGHT / WINDOW_HEIGHT;
+}
 
-    game->player->rotation.x += delta_x * sensitivity;
+void	ft_hober_buttons(t_game *game, t_menu *menu)
+{
+	int i;
 
-    if (game->player->rotation.x < 0)
-        game->player->rotation.x += 360;
-    else if (game->player->rotation.x >= 360)
-        game->player->rotation.x -= 360;
-
-    mlx_mouse_move(game->window, center_x, y);
-
-    return (0);
-}*/
+	ft_calculate_mouse_position_menu(game, menu);
+	i = 0;
+	while (i < menu->n_buttons)
+	{
+		if (menu->buttons[i].texture)
+		{
+			if (menu->mouse_position.x >= menu->buttons[i].position.x
+				&& menu->mouse_position.x <= menu->buttons[i].position.x + menu->buttons[i].size.x
+				&& menu->mouse_position.y >= menu->buttons[i].position.y
+				&& menu->mouse_position.y <= menu->buttons[i].position.y + menu->buttons[i].size.y)
+				menu->buttons[i].is_hovered = 1;
+			else
+				menu->buttons[i].is_hovered = 0;
+		}
+		i++;
+	}
+}
 
 /**
  * @brief Maneja el movimiento del ratón y actualiza la rotación del jugador.
@@ -58,6 +68,7 @@ int ft_mouse_move(int x, int y, t_game *game)
     {
 		game->input.raw.mouse.mouse_x = x;
 		game->input.raw.mouse.mouse_y = y;
+		ft_hober_buttons(game, &game->menu);
 		return (0);
 	}
     patata_x = x - center_x;
@@ -67,22 +78,16 @@ int ft_mouse_move(int x, int y, t_game *game)
     return (0);
 }
 
-void ft_toggle_mouse_capture(t_game *game)
+void ft_mouse_capture(t_game *game)
 {
-    game->mouse_captured = !game->mouse_captured;
-
-    if (game->mouse_captured)
-    {
-        mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-        mlx_mouse_hide(game->mlx, game->window);
-    }
-    else
-        mlx_mouse_show(game->mlx, game->window);
+	game->mouse_captured = 1;
+    mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+    mlx_mouse_hide(game->mlx, game->window);
 }
 
-void ft_init_mouse(t_game *game)
+void ft_mouse_free(t_game *game)
 {
-    game->mouse_captured = 0; 
-    //mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-    //mlx_mouse_hide(game->mlx, game->window);
+	game->mouse_captured = 0;
+	mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+	mlx_mouse_show(game->mlx, game->window);
 }
