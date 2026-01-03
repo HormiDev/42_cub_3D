@@ -69,19 +69,11 @@
 # define G				103
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 3840
+#  define WINDOW_WIDTH 1920
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 2160
-# endif
-
-# ifndef RENDER_WIDTH
-#  define RENDER_WIDTH 1920
-# endif
-
-# ifndef RENDER_HEIGHT
-#  define RENDER_HEIGHT 1080
+#  define WINDOW_HEIGHT 1080
 # endif
 
 # define MENU_HEIGHT 720

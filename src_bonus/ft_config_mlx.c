@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/28 23:13:42 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/03 19:44:52 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ static void	ft_setup_mlx_hooks(t_game *game)
 	mlx_hook(game->window, 6, 1L << 6, ft_mouse_move, game);
 	mlx_hook(game->window, 2, 1L<<0, ft_key_press, game);
 	mlx_hook(game->window, 3, 1L<<1, ft_key_release, game);
+	mlx_hook(game->window, 4, 1L<<2, ft_mouse_click, game);
 	game->last_frame_time = ft_get_time();
 	mlx_loop_hook(game->mlx, ft_update, game);
 	ft_init_gamepad(game);

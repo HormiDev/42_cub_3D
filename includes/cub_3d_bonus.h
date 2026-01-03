@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/28 23:14:38 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/03 20:05:46 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -219,5 +219,6 @@ void			ft_scale_t_image_precalc_three(t_texture *tex_origin,
 
 t_texture		*ft_loading_texture(void *mlx_ptr, char *path);
 t_texture 		*ft_new_texture(void *mlx_ptr, int width, int height);
+int				ft_mouse_click(int button, int x, int y, t_game *game);
 
 #endif
