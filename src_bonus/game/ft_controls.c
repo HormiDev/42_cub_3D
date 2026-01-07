@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   ft_controls.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 17:05:36 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:21:26 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../../includes/cub_3d_bonus.h"
 
@@ -27,7 +28,7 @@ static int	ft_handle_player_movement(t_game *game, double move_speed, int player
 	t_player_actions *actions;
 
 	moving = 0;
-	actions = &game->input.player_inputs[player_index].actions;
+	actions = &game->actions[player_index];
 	
 	if (actions->front && !actions->back)
 	{
@@ -74,7 +75,7 @@ static void	ft_handle_player_rotation(t_game *game, int player_index)
 {
 	t_player_actions *actions;
 
-	actions = &game->input.player_inputs[player_index].actions;
+	actions = &game->actions[player_index];
 	
 	if (actions->rotate_left)
 	{
@@ -100,39 +101,43 @@ int ft_key_press(int keycode, t_game *game)
 	}
 	if (keycode == M)
 		ft_mouse_capture(game);
+	if (game->kb_player < 0 || game->kb_player >= MAX_GAMEPADS)
+		return (0);
 	if (keycode == W)
-		game->input.raw.kb.kb_front = 1;
+		game->actions[game->kb_player].front = 1;
 	else if (keycode == A)
-		game->input.raw.kb.kb_left = 1;
+		game->actions[game->kb_player].left = 1;
 	else if (keycode == S)
-		game->input.raw.kb.kb_back = 1;
+		game->actions[game->kb_player].back = 1;
 	else if (keycode == D)
-		game->input.raw.kb.kb_right = 1;
+		game->actions[game->kb_player].right = 1;
 	else if (keycode == L)
-		game->input.raw.kb.kb_rotate_left = 1;
+		game->actions[game->kb_player].rotate_left = 1;
 	else if (keycode == R)
-		game->input.raw.kb.kb_rotate_right = 1;
+		game->actions[game->kb_player].rotate_right = 1;
 	else if (keycode == LSHIFT)
-		game->input.raw.kb.kb_run = 1;
+		game->actions[game->kb_player].run = 1;
 	return (0);
 }
 
 int ft_key_release(int keycode, t_game *game)
 {
+	if (game->kb_player < 0 || game->kb_player >= MAX_GAMEPADS)
+		return (0);
 	if (keycode == W)
-		game->input.raw.kb.kb_front = 0;
+		game->actions[game->kb_player].front = 0;
 	else if (keycode == A)
-		game->input.raw.kb.kb_left = 0;
+		game->actions[game->kb_player].left = 0;
 	else if (keycode == S)
-		game->input.raw.kb.kb_back = 0;
+		game->actions[game->kb_player].back = 0;
 	else if (keycode == D)
-		game->input.raw.kb.kb_right = 0;
+		game->actions[game->kb_player].right = 0;
 	else if (keycode == L)
-		game->input.raw.kb.kb_rotate_left = 0;
+		game->actions[game->kb_player].rotate_left = 0;
 	else if (keycode == R)
-		game->input.raw.kb.kb_rotate_right = 0;
+		game->actions[game->kb_player].rotate_right = 0;
 	else if (keycode == LSHIFT)
-		game->input.raw.kb.kb_run = 0;
+		game->actions[game->kb_player].run = 0;
 	return (0);
 }
 
@@ -142,7 +147,7 @@ void ft_controls(t_game *game, int player_index)
 	int		is_moving;
 	t_player_actions *actions;
 
-	actions = &game->input.player_inputs[player_index].actions;
+	actions = &game->actions[player_index];
 	
 	if (actions->run)
 		move_speed = RUN_SPEED;

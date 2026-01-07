@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_update.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/23 04:16:44 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:20:55 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,9 @@ void ft_one_player(t_game *game)
 	//printf("Fps: %d\n", (int)(1 / game->delta_time));
 	ft_controls(game, 0);
 	ft_update_doors(game);
-	ft_update_aliens(game);
 	ft_calculate_raycasts(game); 
 	ft_render_3d(game);
-	ft_render_aliens(game);
+	ft_render_all_sprites(game);
 	ft_map2D(game);
 	if (game->config.render_height != WINDOW_HEIGHT || game->config.render_width != WINDOW_WIDTH)
 	{
@@ -69,10 +68,9 @@ void ft_two_players(t_game *game)
 		game->player = &game->players[player_index];
 		ft_controls(game, player_index);
 		ft_update_doors(game);
-		ft_update_aliens(game);
 		ft_calculate_raycasts(game); 
 		ft_render_3d(game);
-		ft_render_aliens(game);
+		ft_render_all_sprites(game);
 		ft_map2D(game);
 		//ft_printf("Player %d Fps: %d\n", player_index + 1, (int)(1 / game->delta_time));
 		ft_scale_t_image_precalc_two(game->render, game->window_img, game, player_index);
@@ -97,10 +95,9 @@ void ft_three_players(t_game *game)
 		game->player = &game->players[player_index];
 		ft_controls(game, player_index);
 		ft_update_doors(game);
-		ft_update_aliens(game);
 		ft_calculate_raycasts(game); 
 		ft_render_3d(game);
-		ft_render_aliens(game);
+		ft_render_all_sprites(game);
 		ft_map2D(game);
 		//ft_printf("Player %d Fps: %d\n", player_index + 1, (int)(1 / game->delta_time));
 		ft_scale_t_image_precalc_three(game->render, game->window_img, game, player_index);
@@ -139,7 +136,6 @@ int ft_update(void *param)
 	ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
 	ft_update_gamepad(game);
 	ft_gamepad_movement(game);
-	input_merge_sources(game);	
 	if (game->show_menu)
 		ft_update_menu(game);
 	else if (game->config.n_players == 1)

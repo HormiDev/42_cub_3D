@@ -3,129 +3,63 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 00:00:00 by ismherna          #+#    #+#             */
-/*   Updated: 2025/12/28 23:20:01 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:22:02 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 /*
- * Input manager: alterna entre teclado y gamepad.
- * Solo uno puede estar activo a la vez.
- */
-
-static int	input_kb_has_activity(t_game *game)
-{
-	return (game->input.raw.kb.kb_front || game->input.raw.kb.kb_back
-		|| game->input.raw.kb.kb_left || game->input.raw.kb.kb_right
-		|| game->input.raw.kb.kb_rotate_left || game->input.raw.kb.kb_rotate_right
-		|| game->input.raw.kb.kb_run);
-}
-
-static int	input_gp_has_activity(t_game *game)
-{
-	return (game->input.raw.gp.gp_front || game->input.raw.gp.gp_back
-		|| game->input.raw.gp.gp_left || game->input.raw.gp.gp_right
-		|| game->input.raw.gp.gp_rotate_left || game->input.raw.gp.gp_rotate_right
-		|| game->input.raw.gp.gp_run);
-}
-
-void	input_detect_device(t_game *game)
-{
-	if (game->input.active_device == INPUT_KEYBOARD)
-	{
-		if (input_gp_has_activity(game) && !input_kb_has_activity(game))
-			game->input.active_device = INPUT_GAMEPAD;
-	}
-	else
-	{
-		if (input_kb_has_activity(game) && !input_gp_has_activity(game))
-			game->input.active_device = INPUT_KEYBOARD;
-	}
-}
-
-static void	input_apply_keyboard(t_game *game)
-{
-	game->input.actions.front = game->input.raw.kb.kb_front;
-	game->input.actions.back = game->input.raw.kb.kb_back;
-	game->input.actions.left = game->input.raw.kb.kb_left;
-	game->input.actions.right = game->input.raw.kb.kb_right;
-	game->input.actions.rotate_left = game->input.raw.kb.kb_rotate_left;
-	game->input.actions.rotate_right = game->input.raw.kb.kb_rotate_right;
-	game->input.actions.run = game->input.raw.kb.kb_run;
-}
-
-static void	input_apply_gamepad(t_game *game)
-{
-	game->input.actions.front = game->input.raw.gp.gp_front;
-	game->input.actions.back = game->input.raw.gp.gp_back;
-	game->input.actions.left = game->input.raw.gp.gp_left;
-	game->input.actions.right = game->input.raw.gp.gp_right;
-	game->input.actions.rotate_left = game->input.raw.gp.gp_rotate_left;
-	game->input.actions.rotate_right = game->input.raw.gp.gp_rotate_right;
-	game->input.actions.run = game->input.raw.gp.gp_run;
-}
-
-void	input_merge_sources(t_game *game)
-{
-	int		i;
-	
-	if (game->config.n_players == 1)
-	{
-		input_detect_device(game);
-		if (game->input.active_device == INPUT_KEYBOARD)
-			input_apply_keyboard(game);
-		else
-			input_apply_gamepad(game);
-		game->input.player_inputs[0].actions = game->input.actions;
-		game->input.player_inputs[0].active_device = game->input.active_device;
-	}
-	else
-	{
-		i = 0;
-		while (i < game->config.n_players)
-		{
-			if (game->gamepads[i].connected)
-				game->input.player_inputs[i].active_device = INPUT_GAMEPAD;
-			i++;
-		}
-	}
-}
-
-void	input_reset_gamepad(t_game *game)
-{
-	game->input.raw.gp.gp_front = 0;
-	game->input.raw.gp.gp_back = 0;
-	game->input.raw.gp.gp_left = 0;
-	game->input.raw.gp.gp_right = 0;
-	game->input.raw.gp.gp_rotate_left = 0;
-	game->input.raw.gp.gp_rotate_right = 0;
-	game->input.raw.gp.gp_run = 0;
-}
-
-void	input_reset_gamepad_for_player(t_game *game, int player_index)
+** input_reset_actions - Resetea todas las acciones de un jugador
+** @game: Puntero a la estructura del juego
+** @player_index: Índice del jugador (0-3)
+**
+** Pone a cero todas las acciones (movimiento y rotación) del jugador indicado.
+*/
+void	input_reset_actions(t_game *game, int player_index)
 {
 	if (player_index < 0 || player_index >= MAX_GAMEPADS)
-		return;
-	game->input.player_inputs[player_index].gp.gp_front = 0;
-	game->input.player_inputs[player_index].gp.gp_back = 0;
-	game->input.player_inputs[player_index].gp.gp_left = 0;
-	game->input.player_inputs[player_index].gp.gp_right = 0;
-	game->input.player_inputs[player_index].gp.gp_rotate_left = 0;
-	game->input.player_inputs[player_index].gp.gp_rotate_right = 0;
-	game->input.player_inputs[player_index].gp.gp_run = 0;
-	game->input.player_inputs[player_index].actions.front = 0;
-	game->input.player_inputs[player_index].actions.back = 0;
-	game->input.player_inputs[player_index].actions.left = 0;
-	game->input.player_inputs[player_index].actions.right = 0;
-	game->input.player_inputs[player_index].actions.rotate_left = 0;
-	game->input.player_inputs[player_index].actions.rotate_right = 0;
-	game->input.player_inputs[player_index].actions.run = 0;
+		return ;
+	game->actions[player_index].front = 0;
+	game->actions[player_index].back = 0;
+	game->actions[player_index].left = 0;
+	game->actions[player_index].right = 0;
+	game->actions[player_index].rotate_left = 0;
+	game->actions[player_index].rotate_right = 0;
+	game->actions[player_index].run = 0;
 }
 
+/*
+** input_merge_sources - Resetea acciones de jugadores con gamepad
+** @game: Puntero a la estructura del juego
+**
+** Recorre todos los jugadores activos y resetea las acciones de aquellos
+** que están usando gamepad. Los jugadores con teclado no se resetean.
+*/
+void	input_merge_sources(t_game *game)
+{
+	int	i;
+
+	/* Resetear solo las acciones de jugadores con gamepad */
+	i = 0;
+	while (i < game->config.n_players)
+	{
+		if (game->devices[i] == INPUT_GAMEPAD)
+			input_reset_actions(game, i);
+		i++;
+	}
+}
+
+/*
+** input_handle_menu_a - Maneja la acción A (aceptar) en el menú
+** @game: Puntero a la estructura del juego
+**
+** Cierra el menú y detiene la música si el menú está activo.
+** Return: 0 si éxito, -1 si error o menú no activo
+*/
 int	input_handle_menu_a(t_game *game)
 {
 	if (!game || !game->show_menu)
@@ -135,6 +69,13 @@ int	input_handle_menu_a(t_game *game)
 	return (0);
 }
 
+/*
+** input_handle_menu_b - Maneja la acción B (cancelar/menú) en el menú
+** @game: Puntero a la estructura del juego
+**
+** Si el menú está activo, cierra el juego. Si no, abre el menú.
+** Return: 0 si éxito, -1 si error
+*/
 int	input_handle_menu_b(t_game *game)
 {
 	if (!game)

@@ -7,6 +7,7 @@
 # include <sys/types.h>
 # include <limits.h>
 # include <sys/time.h>
+# include <float.h>
 # include <stdbool.h>
 # include <sys/wait.h>
 # include <signal.h>
@@ -90,6 +91,8 @@
 # define RUN_SPEED		3.0
 # define MOUSE_SENSITIVITY 0.4
 # define DCP 0.1 // dist player collision
+# define ANGLE_STEP 0.01
+# define MIN_ALIEN_SIZE 15
 
 # define MIST_COLOR 0x323232
 # define MAX_GAMEPADS 4
@@ -122,6 +125,16 @@ typedef enum e_alien_state
 	ALIEN_CHASE = 1,
 	ALIEN_IDLE = 2
 } t_alien_state;
+
+
+typedef enum e_sprite_kind
+{
+	SPRITE_ALIEN = 0,
+	SPRITE_PLAYER1 = 1,
+	SPRITE_PLAYER2 = 2,
+	SPRITE_PLAYER3 = 3,
+	SPRITE_PLAYER4 = 4
+} t_sprite_kind;
 
 typedef struct s_texture // cambiar nombre a t image
 {
@@ -204,38 +217,6 @@ typedef enum e_input_device
 	INPUT_GAMEPAD = 1
 }	t_input_device;
 
-typedef struct s_keyboard_input {
-	int	kb_front;
-	int	kb_back;
-	int	kb_left;
-	int	kb_right;
-	int	kb_rotate_left;
-	int	kb_rotate_right;
-	int	kb_run;
-} t_keyboard_input;
-
-typedef struct s_gamepad_input {
-	int	gp_front;
-	int	gp_back;
-	int	gp_left;
-	int	gp_right;
-	int	gp_rotate_left;
-	int	gp_rotate_right;
-	int	gp_run;
-} t_gamepad_input;
-
-typedef struct s_mouse_input {
-	int	mouse_x;
-	int	mouse_y;
-	int	mouse_clicked;
-} t_mouse_input;
-
-typedef struct s_raw_input {
-	t_keyboard_input	kb;
-	t_gamepad_input		gp;
-	t_mouse_input		mouse;
-} t_raw_input;
-
 typedef struct s_player_actions {
 	int	front;
 	int	back;
@@ -245,21 +226,6 @@ typedef struct s_player_actions {
 	int	rotate_right;
 	int	run;
 } t_player_actions;
-
-typedef struct s_player_input {
-	t_gamepad_input		gp;
-	t_player_actions	actions;
-	t_input_device		active_device;
-	int					gamepad_index;
-} t_player_input;
-
-typedef struct s_input {
-	t_raw_input			raw;
-	t_player_actions	actions;
-	t_input_device		active_device;
-	t_player_input		player_inputs[MAX_GAMEPADS];
-} t_input;
-
 
 typedef enum e_resolutions
 {
@@ -288,6 +254,14 @@ typedef struct s_alien
 	double			size;
 	t_texture		*texture;
 } t_alien;
+
+typedef struct s_alien_draw
+{
+	t_texture	*scaled;
+	int		screen_x;
+	int		screen_y;
+	int		size;
+} t_alien_draw;
 
 typedef struct s_image // eliminar
 {
@@ -358,49 +332,51 @@ typedef struct s_config
 
 typedef struct s_game 
 {
-	char			**map;
-	int				width_height[2];
-	t_list			*textures[6]; // Array of textures for North, South, East, West, Ceiling, floor
-	t_texture 		**arraytextures[6];
-	int				length_textures_array[6];
-	t_list			*doors;
-	t_texture		**door_textures;
-	t_alien			*aliens;
-	int				door_texture_count;
-	void			*mlx;
-	t_raycast		*raycasts; 
-	void			*window;
-	t_image			*img_map;
-	t_texture		*render;
-	t_texture		*window_img;
-	t_texture		*minimap;
-	t_player 		*player;
-	t_input			input;
-	t_gamepad		gamepads[MAX_GAMEPADS];
-	int				gamepad_count;
-	int				waiting_for_gamepads;
-	int				mouse_xy[2];
-	double			delta_time;
-	long			last_frame_time;
-	int				mouse_captured;
-	t_precalc		precalc;
-	int				show_menu;
-	t_menu			menu;
-	char			**env;
-	double			*fish_eye_correction;
-	pid_t			steps_audio_pid;
-    int				is_walking; // 1 si anda, 0 si está parado
-    int				is_running;
-	double			time_since_last_step;
-	t_vector2		**prec_vector_cloud;
-	//t_vector2  	**render_cloud;
-	int				*mist_density_fc;
-	int				mist_cloud_height;
-	t_config		config;
-	t_resolution	*resolutions;
-	int				resolutions_size;
-	int				resolution_index;
-	t_player		*players;
+	char				**map;
+	int					width_height[2];
+	t_list				*textures[6]; // Array of textures for North, South, East, West, Ceiling, floor
+	t_texture 			**arraytextures[6];
+	int					length_textures_array[6];
+	t_list				*doors;
+	t_texture			**door_textures;
+	t_alien				*aliens;
+	int					door_texture_count;
+	void				*mlx;
+	t_raycast			*raycasts; 
+	void				*window;
+	t_image				*img_map;
+	t_texture			*render;
+	t_texture			*window_img;
+	t_texture			*minimap;
+	t_player 			*player;
+	t_player_actions	actions[MAX_GAMEPADS];
+	t_input_device		devices[MAX_GAMEPADS];
+	int					kb_player;
+	int					mouse_xy[2];
+	int					mouse_captured;
+	t_gamepad			gamepads[MAX_GAMEPADS];
+	int					gamepad_count;
+	int					waiting_for_gamepads;
+	double				delta_time;
+	long				last_frame_time;
+	t_precalc			precalc;
+	int					show_menu;
+	t_menu				menu;
+	char				**env;
+	double				*fish_eye_correction;
+	pid_t				steps_audio_pid;
+    int					is_walking; // 1 si anda, 0 si está parado
+    int					is_running;
+	double				time_since_last_step;
+	t_vector2			**prec_vector_cloud;
+	//t_vector2  		**render_cloud;
+	int					*mist_density_fc;
+	int					mist_cloud_height;
+	t_config			config;
+	t_resolution		*resolutions;
+	int					resolutions_size;
+	int					resolution_index;
+	t_player			*players;
 }	t_game;
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_loading_game.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/23 03:54:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:19:35 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ t_game	*ft_loading_game(char *path_map)
 	ft_sqrt(0);
 	game->precalc.rotated_squares = ft_precalc_rotated_squares();
 	ft_config_player(game);
-	ft_init_aliens(game);
+	game->aliens = NULL;
 	ft_config_aliens(game);
 	ft_init_doors(game);
 	ft_file_clear(&map_file);
