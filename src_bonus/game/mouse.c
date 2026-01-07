@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2026/01/03 20:06:19 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:27:57 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 void	ft_calculate_mouse_position_menu(t_game *game, t_menu *menu)
 {
-	menu->mouse_position.x = game->input.raw.mouse.mouse_x * MENU_WIDTH / WINDOW_WIDTH;
-	menu->mouse_position.y = game->input.raw.mouse.mouse_y * MENU_HEIGHT / WINDOW_HEIGHT;
+	menu->mouse_position.x = game->mouse_xy[0] * MENU_WIDTH
+		/ WINDOW_WIDTH;
+	menu->mouse_position.y = game->mouse_xy[1] * MENU_HEIGHT
+		/ WINDOW_HEIGHT;
 }
 
 void	ft_hober_buttons(t_game *game, t_menu *menu)
 {
-	int i;
+	int	i;
 
 	ft_calculate_mouse_position_menu(game, menu);
 	i = 0;
@@ -29,9 +31,11 @@ void	ft_hober_buttons(t_game *game, t_menu *menu)
 		if (menu->buttons[i].texture)
 		{
 			if (menu->mouse_position.x >= menu->buttons[i].position.x
-				&& menu->mouse_position.x <= menu->buttons[i].position.x + menu->buttons[i].size.x
+				&& menu->mouse_position.x <= menu->buttons[i].position.x
+				+ menu->buttons[i].size.x
 				&& menu->mouse_position.y >= menu->buttons[i].position.y
-				&& menu->mouse_position.y <= menu->buttons[i].position.y + menu->buttons[i].size.y)
+				&& menu->mouse_position.y <= menu->buttons[i].position.y
+				+ menu->buttons[i].size.y)
 				menu->buttons[i].is_hovered = 1;
 			else
 				menu->buttons[i].is_hovered = 0;
@@ -40,9 +44,9 @@ void	ft_hober_buttons(t_game *game, t_menu *menu)
 	}
 }
 
-void ft_click_button(t_game *game, t_menu *menu)
+void	ft_click_button(t_game *game, t_menu *menu)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < menu->n_buttons)
@@ -71,51 +75,68 @@ void ft_click_button(t_game *game, t_menu *menu)
  * @param game Puntero a la estructura del juego.
  * @return Siempre devuelve 0 (requerido por la API de minilibx).
  */
-int ft_mouse_move(int x, int y, t_game *game)
+int	ft_mouse_move(int x, int y, t_game *game)
 {
-    int center_x;
-    int center_y; 
-    int patata_x;
-	
-    if (!game->mouse_captured)
-    {
-		game->input.raw.mouse.mouse_x = x;
-		game->input.raw.mouse.mouse_y = y;
+	int		center_x;
+	int		center_y;
+	int		patata_x;
+
+	center_x = WINDOW_WIDTH / 2;
+	center_y = WINDOW_HEIGHT / 2;
+	(void)y;
+	if (!game->mouse_captured)
+	{
+		game->mouse_xy[0] = x;
+		game->mouse_xy[1] = y;
 		if (game->show_menu)
 			ft_hober_buttons(game, &game->menu);
 		return (0);
 	}
-	center_x = WINDOW_WIDTH / 2;
-	center_y = WINDOW_HEIGHT / 2;
-    patata_x = x - center_x;
-    game->player->rotation.x -= patata_x * MOUSE_SENSITIVITY * game->delta_time;
-    game->player->rotation.x = ft_normalize_angle(game->player->rotation.x);
-    mlx_mouse_move(game->mlx, game->window, center_x, center_y);
-    return (0);
+	if (game->kb_player < 0 || game->kb_player >= MAX_GAMEPADS)
+		return (0);
+	patata_x = x - center_x;
+	if (game->config.n_players > 1)
+	{
+		game->players[game->kb_player].rotation.x -= patata_x
+			* MOUSE_SENSITIVITY * game->delta_time;
+		game->players[game->kb_player].rotation.x
+			= ft_normalize_angle(game->players[game->kb_player].rotation.x);
+	}
+	else
+	{
+		game->player->rotation.x -= patata_x * MOUSE_SENSITIVITY
+			* game->delta_time;
+		game->player->rotation.x = ft_normalize_angle(
+			game->player->rotation.x);
+	}
+	mlx_mouse_move(game->mlx, game->window, center_x, center_y);
+	return (0);
 }
 
-void ft_mouse_capture(t_game *game)
+void	ft_mouse_capture(t_game *game)
 {
 	game->mouse_captured = 1;
-    mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
-    mlx_mouse_hide(game->mlx, game->window);
+	mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2,
+		WINDOW_HEIGHT / 2);
+	mlx_mouse_hide(game->mlx, game->window);
 }
 
-void ft_mouse_free(t_game *game)
+void	ft_mouse_free(t_game *game)
 {
 	game->mouse_captured = 0;
-	mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2);
+	mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2,
+		WINDOW_HEIGHT / 2);
 	mlx_mouse_show(game->mlx, game->window);
 }
 
-int ft_mouse_click(int button, int x, int y, t_game *game)
+int	ft_mouse_click(int button, int x, int y, t_game *game)
 {
 	if (button == 1)
 	{
 		if (!game->mouse_captured)
 		{
-			game->input.raw.mouse.mouse_x = x;
-			game->input.raw.mouse.mouse_y = y;
+			game->mouse_xy[0] = x;
+			game->mouse_xy[1] = y;
 			if (game->show_menu)
 			{
 				ft_hober_buttons(game, &game->menu);

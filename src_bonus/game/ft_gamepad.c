@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gamepad.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/17 17:03:16 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:21:45 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,74 @@
 #include <unistd.h>
 #include <linux/joystick.h>
 
+/*
+** ft_normalize_axis_value - Normaliza el valor del eje del gamepad
+** @raw_value: Valor crudo del eje (-32768 a 32767)
+**
+** Convierte valores analógicos en digitales: 1, -1 o 0.
+** Return: 1 si > 16000, -1 si < -16000, 0 en otro caso
+*/
 static int	ft_normalize_axis_value(int raw_value)
 {
-    if (raw_value > 16000)
-        return (1);
-    else if (raw_value < -16000)
-        return (-1);
-    return (0);
+	if (raw_value > 16000)
+		return (1);
+	else if (raw_value < -16000)
+		return (-1);
+	return (0);
 }
 
+/*
+** ft_reset_single_gamepad - Resetea el estado de un gamepad
+** @gp: Puntero al gamepad a resetear
+**
+** Pone todos los valores del gamepad a su estado inicial.
+*/
 static void	ft_reset_single_gamepad(t_gamepad *gp)
 {
-    gp->connected = 0;
-    gp->fd = -1;
-    gp->a = 0;
-    gp->b = 0;
-    gp->x = 0;
-    gp->y = 0;
-    gp->lb = 0;
-    gp->rb = 0;
-    gp->left_stick_x = 0;
-    gp->left_stick_y = 0;
-    gp->right_stick_x = 0;
-    gp->right_stick_y = 0;
-    gp->right_stick_click = 0;
-    gp->a_pressed = 0;
-    gp->b_pressed = 0;
+	gp->connected = 0;
+	gp->fd = -1;
+	gp->a = 0;
+	gp->b = 0;
+	gp->x = 0;
+	gp->y = 0;
+	gp->lb = 0;
+	gp->rb = 0;
+	gp->left_stick_x = 0;
+	gp->left_stick_y = 0;
+	gp->right_stick_x = 0;
+	gp->right_stick_y = 0;
+	gp->right_stick_click = 0;
+	gp->a_pressed = 0;
+	gp->b_pressed = 0;
 }
 
+/*
+** ft_gamepad_has_input - Detecta si hay input activo en el gamepad
+** @gp: Puntero al gamepad a verificar
+**
+** Verifica si algún stick o botón está activo.
+** Return: 1 si hay input, 0 si no
+*/
+static int	ft_gamepad_has_input(t_gamepad *gp)
+{
+	if (gp->left_stick_x != 0 || gp->left_stick_y != 0)
+		return (1);
+	if (gp->right_stick_x != 0 || gp->right_stick_y != 0)
+		return (1);
+	if (gp->a || gp->b || gp->x || gp->y)
+		return (1);
+	if (gp->lb || gp->rb)
+		return (1);
+	return (0);
+}
+
+/*
+** ft_process_button_ab - Procesa los botones A y B del gamepad
+** @gp: Puntero al gamepad
+** @event: Evento de joystick recibido
+**
+** Actualiza el estado de los botones A (0) y B (1).
+*/
 static void	ft_process_button_ab(t_gamepad *gp, struct js_event event)
 {
 	if (event.number == 0)
@@ -60,6 +100,14 @@ static void	ft_process_button_ab(t_gamepad *gp, struct js_event event)
 	}
 }
 
+/*
+** ft_process_button_event - Procesa eventos de botones del gamepad
+** @game: Puntero a la estructura del juego
+** @gp: Puntero al gamepad
+** @event: Evento de joystick recibido
+**
+** Distribuye el procesamiento según el número de botón.
+*/
 static void	ft_process_button_event(t_game *game, t_gamepad *gp,
 	struct js_event event)
 {
@@ -77,18 +125,33 @@ static void	ft_process_button_event(t_game *game, t_gamepad *gp,
 		gp->right_stick_click = event.value;
 }
 
+/*
+** ft_process_axis_event - Procesa eventos de ejes del gamepad
+** @gp: Puntero al gamepad
+** @event: Evento de joystick recibido
+**
+** Actualiza los valores de los sticks analógicos normalizados.
+*/
 static void	ft_process_axis_event(t_gamepad *gp, struct js_event event)
 {
-    if (event.number == 0)
-        gp->left_stick_x = ft_normalize_axis_value(event.value);
-    else if (event.number == 1)
-        gp->left_stick_y = ft_normalize_axis_value(event.value);
-    else if (event.number == 3)
-        gp->right_stick_x = ft_normalize_axis_value(event.value);
-    else if (event.number == 4)
-        gp->right_stick_y = ft_normalize_axis_value(event.value);
+	if (event.number == 0)
+		gp->left_stick_x = ft_normalize_axis_value(event.value);
+	else if (event.number == 1)
+		gp->left_stick_y = ft_normalize_axis_value(event.value);
+	else if (event.number == 3)
+		gp->right_stick_x = ft_normalize_axis_value(event.value);
+	else if (event.number == 4)
+		gp->right_stick_y = ft_normalize_axis_value(event.value);
 }
 
+/*
+** ft_process_gamepad_event - Distribuye eventos del gamepad
+** @game: Puntero a la estructura del juego
+** @gp: Puntero al gamepad
+** @event: Evento de joystick recibido
+**
+** Enruta el evento según su tipo (botón o eje).
+*/
 static void	ft_process_gamepad_event(t_game *game, t_gamepad *gp,
 	struct js_event event)
 {
@@ -98,6 +161,54 @@ static void	ft_process_gamepad_event(t_game *game, t_gamepad *gp,
 		ft_process_axis_event(gp, event);
 }
 
+/*
+** ft_process_menu_buttons - Procesa botones A/B en el menú
+** @game: Puntero a la estructura del juego
+** @i: Índice del gamepad
+**
+** Maneja las acciones de aceptar (A) y cancelar (B) en el menú.
+*/
+static void	ft_process_menu_buttons(t_game *game, int i)
+{
+	if (game->gamepads[i].a_pressed)
+	{
+		input_handle_menu_a(game);
+		game->gamepads[i].a_pressed = 0;
+	}
+	if (game->gamepads[i].b_pressed)
+	{
+		input_handle_menu_b(game);
+		game->gamepads[i].b_pressed = 0;
+	}
+}
+
+/*
+** ft_gamepad_menu_input_for_all - Procesa input de todos los gamepads
+** @game: Puntero a la estructura del juego
+**
+** Revisa todos los gamepads conectados y procesa sus botones de menú.
+*/
+static void	ft_gamepad_menu_input_for_all(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < MAX_GAMEPADS)
+	{
+		if (game->gamepads[i].connected)
+			ft_process_menu_buttons(game, i);
+		i++;
+	}
+}
+
+/*
+** ft_try_open_gamepad_at - Intenta abrir un gamepad en una ruta
+** @game: Puntero a la estructura del juego
+** @path: Ruta del dispositivo a abrir
+** @slot: Slot donde guardar el gamepad (0-3)
+**
+** Return: 1 si se abrió correctamente, 0 si falló
+*/
 static int	ft_try_open_gamepad_at(t_game *game, const char *path, int slot)
 {
 	int	fd;
@@ -114,6 +225,12 @@ static int	ft_try_open_gamepad_at(t_game *game, const char *path, int slot)
 	return (0);
 }
 
+/*
+** ft_init_gamepad_paths - Inicializa los gamepads buscando en rutas
+** @game: Puntero a la estructura del juego
+**
+** Busca gamepads en las rutas /dev/input/js* y /dev/input/event*.
+*/
 static void	ft_init_gamepad_paths(t_game *game)
 {
 	const char	*paths[] = {"/dev/input/js0", "/dev/input/js1",
@@ -133,12 +250,19 @@ static void	ft_init_gamepad_paths(t_game *game)
 	}
 }
 
+/*
+** ft_init_gamepad - Inicializa el sistema de gamepads
+** @game: Puntero a la estructura del juego
+**
+** Resetea todos los gamepads y busca dispositivos conectados.
+*/
 void	ft_init_gamepad(t_game *game)
 {
 	int	i;
 
 	game->gamepad_count = 0;
 	game->waiting_for_gamepads = 0;
+	game->kb_player = 0;
 	i = 0;
 	while (i < MAX_GAMEPADS)
 	{
@@ -147,12 +271,19 @@ void	ft_init_gamepad(t_game *game)
 	}
 	ft_init_gamepad_paths(game);
 	if (game->gamepad_count == 0)
-		ft_printf("Info: No gamepad detected (keyboard controls active)\n");
+		ft_printf("Info: No gamepad detected "
+			"(keyboard controls active)\n");
 	if (game->config.n_players > 1
 		&& game->gamepad_count < game->config.n_players)
 		game->waiting_for_gamepads = 1;
 }
 
+/*
+** ft_free_gamepad - Libera recursos de los gamepads
+** @game: Puntero a la estructura del juego
+**
+** Cierra todos los file descriptors y resetea el estado.
+*/
 void	ft_free_gamepad(t_game *game)
 {
 	int	i;
@@ -169,6 +300,12 @@ void	ft_free_gamepad(t_game *game)
 	game->waiting_for_gamepads = 0;
 }
 
+/*
+** ft_recount_gamepads - Recuenta gamepads conectados
+** @game: Puntero a la estructura del juego
+**
+** Actualiza el contador de gamepads conectados.
+*/
 static void	ft_recount_gamepads(t_game *game)
 {
 	int	i;
@@ -183,6 +320,13 @@ static void	ft_recount_gamepads(t_game *game)
 	}
 }
 
+/*
+** ft_handle_gamepad_error - Maneja errores de lectura del gamepad
+** @game: Puntero a la estructura del juego
+** @slot: Slot del gamepad con error
+**
+** Cierra y resetea el gamepad que tuvo un error de lectura.
+*/
 static void	ft_handle_gamepad_error(t_game *game, int slot)
 {
 	if (game->gamepads[slot].fd != -1)
@@ -194,6 +338,13 @@ static void	ft_handle_gamepad_error(t_game *game, int slot)
 		game->waiting_for_gamepads = 1;
 }
 
+/*
+** ft_read_gamepad_events - Lee eventos del gamepad
+** @game: Puntero a la estructura del juego
+** @i: Índice del gamepad a leer
+**
+** Lee todos los eventos pendientes del gamepad y los procesa.
+*/
 static void	ft_read_gamepad_events(t_game *game, int i)
 {
 	struct js_event	event;
@@ -209,6 +360,12 @@ static void	ft_read_gamepad_events(t_game *game, int i)
 		ft_handle_gamepad_error(game, i);
 }
 
+/*
+** ft_update_gamepad - Actualiza el estado de todos los gamepads
+** @game: Puntero a la estructura del juego
+**
+** Lee eventos de todos los gamepads conectados.
+*/
 void	ft_update_gamepad(t_game *game)
 {
 	int	i;
@@ -226,144 +383,125 @@ void	ft_update_gamepad(t_game *game)
 	}
 }
 
-static void	ft_set_player_movement(t_player_input *pinput, t_gamepad *gp)
+/*
+** ft_set_player_movement - Aplica movimiento del stick al jugador
+** @act: Acciones del jugador a modificar
+** @gp: Gamepad del que leer el input
+**
+** Traduce el stick izquierdo a acciones de movimiento.
+*/
+static void	ft_set_player_movement(t_player_actions *act, t_gamepad *gp)
 {
 	if (gp->left_stick_y == -1)
-		pinput->gp.gp_front = 1;
+		act->front = 1;
 	else if (gp->left_stick_y == 1)
-		pinput->gp.gp_back = 1;
+		act->back = 1;
 	if (gp->left_stick_x == -1)
-		pinput->gp.gp_left = 1;
+		act->left = 1;
 	else if (gp->left_stick_x == 1)
-		pinput->gp.gp_right = 1;
+		act->right = 1;
 	if (gp->right_stick_click)
-		pinput->gp.gp_run = 1;
+		act->run = 1;
 }
 
-static void	ft_set_player_rotation(t_player_input *pinput, t_gamepad *gp)
+/*
+** ft_set_player_rotation - Aplica rotación del stick al jugador
+** @act: Acciones del jugador a modificar
+** @gp: Gamepad del que leer el input
+**
+** Traduce el stick derecho y bumpers a rotación.
+*/
+static void	ft_set_player_rotation(t_player_actions *act, t_gamepad *gp)
 {
 	if (gp->right_stick_x == -1 || gp->lb)
-		pinput->gp.gp_rotate_left = 1;
+		act->rotate_left = 1;
 	else if (gp->right_stick_x == 1 || gp->rb)
-		pinput->gp.gp_rotate_right = 1;
+		act->rotate_right = 1;
 }
 
-static void	ft_reset_player_input(t_player_input *pinput)
-{
-	pinput->gp.gp_front = 0;
-	pinput->gp.gp_back = 0;
-	pinput->gp.gp_left = 0;
-	pinput->gp.gp_right = 0;
-	pinput->gp.gp_rotate_left = 0;
-	pinput->gp.gp_rotate_right = 0;
-	pinput->gp.gp_run = 0;
-}
-
-static void	ft_copy_actions_to_player(t_player_input *pinput, int player_idx)
-{
-	pinput->actions.front = pinput->gp.gp_front;
-	pinput->actions.back = pinput->gp.gp_back;
-	pinput->actions.left = pinput->gp.gp_left;
-	pinput->actions.right = pinput->gp.gp_right;
-	pinput->actions.rotate_left = pinput->gp.gp_rotate_left;
-	pinput->actions.rotate_right = pinput->gp.gp_rotate_right;
-	pinput->actions.run = pinput->gp.gp_run;
-	pinput->active_device = INPUT_GAMEPAD;
-	pinput->gamepad_index = player_idx;
-}
-
+/*
+** ft_gamepad_apply_to_player - Aplica input del gamepad al jugador
+** @game: Puntero a la estructura del juego
+** @gp: Gamepad del que leer
+** @player_idx: Índice del jugador a actualizar
+**
+** Traduce el input del gamepad a acciones del jugador.
+*/
 static void	ft_gamepad_apply_to_player(t_game *game, t_gamepad *gp,
 	int player_idx)
 {
-	t_player_input	*pinput;
-
 	if (player_idx >= game->config.n_players)
 		return ;
-	pinput = &game->input.player_inputs[player_idx];
-	ft_reset_player_input(pinput);
-	ft_set_player_movement(pinput, gp);
-	ft_set_player_rotation(pinput, gp);
-	ft_copy_actions_to_player(pinput, player_idx);
+	ft_set_player_movement(&game->actions[player_idx], gp);
+	ft_set_player_rotation(&game->actions[player_idx], gp);
+	game->devices[player_idx] = INPUT_GAMEPAD;
 }
 
-static void	ft_gamepad_apply_to_input(t_game *game, t_gamepad *gp)
+/*
+** ft_apply_player0_input - Maneja input del jugador 0
+** @game: Puntero a la estructura del juego
+**
+** Aplica gamepad si hay input activo, sino deja teclado.
+*/
+static void	ft_apply_player0_input(t_game *game)
 {
-	if (gp->left_stick_y == -1)
-		game->input.raw.gp.gp_front = 1;
-	else if (gp->left_stick_y == 1)
-		game->input.raw.gp.gp_back = 1;
-	if (gp->left_stick_x == -1)
-		game->input.raw.gp.gp_left = 1;
-	else if (gp->left_stick_x == 1)
-		game->input.raw.gp.gp_right = 1;
-	if (gp->right_stick_click)
-		game->input.raw.gp.gp_run = 1;
-	if (gp->right_stick_x == -1 || gp->lb)
-		game->input.raw.gp.gp_rotate_left = 1;
-	else if (gp->right_stick_x == 1 || gp->rb)
-		game->input.raw.gp.gp_rotate_right = 1;
-}
-
-static void	ft_process_menu_buttons(t_game *game, int i)
-{
-	if (game->gamepads[i].a_pressed)
+	if (game->gamepads[0].connected
+		&& ft_gamepad_has_input(&game->gamepads[0]))
 	{
-		input_handle_menu_a(game);
-		game->gamepads[i].a_pressed = 0;
+		input_reset_actions(game, 0);
+		ft_gamepad_apply_to_player(game, &game->gamepads[0], 0);
+		game->devices[0] = INPUT_GAMEPAD;
+		game->kb_player = -1;
 	}
-	if (game->gamepads[i].b_pressed)
+	else
 	{
-		input_handle_menu_b(game);
-		game->gamepads[i].b_pressed = 0;
+		game->devices[0] = INPUT_KEYBOARD;
+		game->kb_player = 0;
 	}
 }
 
-static void	ft_gamepad_menu_input_for_all(t_game *game)
+/*
+** ft_apply_other_players - Maneja input de jugadores 1-3
+** @game: Puntero a la estructura del juego
+**
+** Requieren gamepad obligatoriamente.
+*/
+static void	ft_apply_other_players(t_game *game)
 {
 	int	i;
 
-	i = 0;
-	while (i < MAX_GAMEPADS)
+	i = 1;
+	while (i < game->config.n_players && i < MAX_GAMEPADS)
 	{
-		if (game->gamepads[i].connected)
-			ft_process_menu_buttons(game, i);
-		i++;
-	}
-}
-
-static void	ft_apply_multiplayer_gamepads(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < game->gamepad_count && i < MAX_GAMEPADS)
-	{
-		if (game->gamepads[i].connected)
+		if (i < game->gamepad_count && game->gamepads[i].connected)
+		{
+			input_reset_actions(game, i);
 			ft_gamepad_apply_to_player(game, &game->gamepads[i], i);
+		}
 		i++;
 	}
 }
 
+/*
+** ft_gamepad_movement - Actualiza acciones según gamepads/teclado
+** @game: Puntero a la estructura del juego
+**
+** Distribuye el input: player 0 puede usar teclado o gamepad,
+** players 1-3 requieren gamepad.
+*/
 void	ft_gamepad_movement(t_game *game)
 {
-	input_reset_gamepad(game);
-	if (game->gamepad_count == 0)
-		return ;
 	if (game->show_menu)
 	{
-		ft_gamepad_menu_input_for_all(game);
+		if (game->gamepad_count > 0)
+			ft_gamepad_menu_input_for_all(game);
 		return ;
 	}
+	ft_apply_player0_input(game);
+	ft_apply_other_players(game);
 	if (game->config.n_players > 1
 		&& game->gamepad_count < game->config.n_players)
 		game->waiting_for_gamepads = 1;
 	else
 		game->waiting_for_gamepads = 0;
-	if (game->config.n_players == 1)
-	{
-		if (game->gamepads[0].connected)
-			ft_gamepad_apply_to_input(game, &game->gamepads[0]);
-	}
-	else
-		ft_apply_multiplayer_gamepads(game);
 }

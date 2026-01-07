@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/03 20:05:46 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/07 13:35:18 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ void			ft_draw_transparent_image(t_texture *dst, t_texture *src,
 double			ft_double_diff(double a, double b);
 double			ft_vector_distance(t_vector2 a, t_vector2 b);
 double			ft_normalize_angle(double angle);
+double			ft_normalize_relative_angle(double angle);
 
 // ============================================================================
 // MATH FUNCTIONS
@@ -173,10 +174,11 @@ int				ft_is_wall_or_closed_door(t_game *game, int x, int y);
 // ============================================================================
 // ALIEN FUNCTIONS
 // ============================================================================
-void			ft_init_aliens(t_game *game);
 void			ft_config_aliens(t_game *game);
 void			ft_update_aliens(t_game *game);
-void			ft_render_aliens(t_game *game);
+void			ft_render_objects(t_game *game, t_sprite_kind kind);
+void			ft_render_objects(t_game *game, t_sprite_kind kind);
+void			ft_render_all_sprites(t_game *game);
 void			ft_free_aliens(t_game *game);
 //void			ft_calculate_patrol_points(t_game *game, t_alien *alien);
 
@@ -220,5 +222,6 @@ void			ft_scale_t_image_precalc_three(t_texture *tex_origin,
 t_texture		*ft_loading_texture(void *mlx_ptr, char *path);
 t_texture 		*ft_new_texture(void *mlx_ptr, int width, int height);
 int				ft_mouse_click(int button, int x, int y, t_game *game);
+void			input_reset_actions(t_game *game, int player_index);
 
 #endif
