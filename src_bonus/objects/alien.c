@@ -116,74 +116,109 @@ void	ft_update_aliens(t_game *game)
 }
 
 /**
- * @brief Calcula el ángulo entre dos puntos mediante búsqueda iterativa.
+ * @brief Calcula los ejes de cámara (forward y right) a partir de la rotación.
  *
- * Realiza una búsqueda de 0 a 360 grados en pasos ANGLE_STEP,
- * comparando cada ángulo con las componentes del vector. Encuentra el ángulo
- * que minimiza el error cuadrático entre las proyecciones calculadas y el vector real.
+ * Convierte el yaw del jugador (en grados) a dos vectores ortonormales
+ * en espacio mundo:
+ *  - view_dir: dirección hacia donde mira la cámara (forward)
+ *  - view_right: eje "derecha" de la cámara (perpendicular a view_dir)
  *
- * @param dx Componente X del vector objetivo.
- * @param dy Componente Y del vector objetivo.
- * @param distance Distancia o módulo del vector.
- * @return Ángulo en grados en el rango [0, 360).
+ * ¿Para qué?: la proyección de sprites necesita una base de cámara estable
+ * para transformar un vector mundo (dx,dy) a espacio cámara (x lateral,
+ * z delante) sin usar atan2, y coherente con el convenio del raycast
+ * (X=cos, Y=sin).
+ *
+ * @param game Puntero al juego (contiene la rotación del jugador).
+ * @param view_dir Vector de salida con la dirección de vista (forward).
+ * @param view_right Vector de salida con el eje derecha de cámara.
  */
-static double	ft_find_best_angle(double dx, double dy, double distance)
+static void	ft_get_camera_axes(t_game *game, t_vector2 *view_dir,
+	t_vector2 *view_right)
 {
-	double	angle;
-	double	cos_val;
-	double	sin_val;
-	double	best_angle;
-	double	best_error;
-	double	error;
+	double	rotation;
 
-	angle = 0.0;
-	best_angle = 0.0;
-	best_error = DBL_MAX;
-	while (angle < 360.0)
-	{
-		cos_val = ft_format_cos(angle) * distance;
-		sin_val = ft_format_sin(angle) * distance;
-		error = ft_sqrt(
-			(cos_val - dx) * (cos_val - dx)
-			+ (sin_val - dy) * (sin_val - dy));
-		if (error < best_error)
-		{
-			best_error = error;
-			best_angle = angle;
-		}
-		angle += ANGLE_STEP;
-	}
-	return (best_angle);
+	rotation = ft_normalize_angle(game->player->rotation.x);
+	view_dir->x = ft_format_cos(rotation);
+	view_dir->y = ft_format_sin(rotation);
+	view_right->x = view_dir->y;
+	view_right->y = -view_dir->x;
 }
 
-/**
- * @brief Calcula el ángulo relativo entre el jugador y el alien.
- *
- * Determina la dirección del alien respecto al jugador, calculando primero
- * el ángulo absoluto entre ambas posiciones y luego restando la rotación
- * del jugador. El resultado se normaliza al rango [-180, 180] grados.
- *
- * @param player Posición del jugador en el mundo.
- * @param alien Posición del alien en el mundo.
- * @param player_angle Ángulo de rotación actual del jugador.
- * @return Ángulo relativo en grados, en el rango [-180, 180].
- */
-static double	ft_calc_alien_angle(t_vector2 player, t_vector2 alien,
-	double player_angle)
-{
-	t_vector2	diff;
-	double		distance;
-	double		best_angle;
-	double		relative_angle;
 
-	diff.x = alien.x - player.x;
-	diff.y = alien.y - player.y;
-	distance = ft_sqrt(diff.x * diff.x + diff.y * diff.y);
-	if (distance < 0.001)
+/**
+ * @brief Convierte una coordenada horizontal normalizada a columna de pantalla.
+ *
+ * Recibe una X proyectada en Coordenadas Normalizadas de Dispositivo (NDC):
+ *  - projected_x = -1 equivale al borde izquierdo
+ *  - projected_x =  0 equivale al centro de pantalla
+ *  - projected_x = +1 equivale al borde derecho
+ *
+ * ¿Para qué?: el render de sprites necesita una columna en píxeles para
+ * colocar el billboard (screen_x) y para que el enmascarado por profundidad
+ * indexe el rayo correcto.
+ *
+ * @param projected_x Coordenada NDC en el rango [-1, 1].
+ * @param width Ancho de render en píxeles.
+ * @return Columna de pantalla clamped a [0, width-1].
+ */
+static int	ft_projected_x_to_screen_col(double projected_x, int width)
+{
+	int	screen_col;
+
+	screen_col = (int)(((projected_x + 1.0) * 0.5) * (double)width);
+	if (screen_col < 0)
 		return (0);
-	best_angle = ft_find_best_angle(diff.x, diff.y, distance);
-	relative_angle = best_angle - player_angle;
-	return (ft_normalize_relative_angle(relative_angle));
+	if (screen_col >= width)
+		return (width - 1);
+	return (screen_col);
+}
+
+
+/**
+ * @brief Proyecta un vector mundo (dx,dy) a una columna de pantalla.
+ *
+ * Proyecta el vector desde el jugador hasta el sprite a espacio cámara:
+ *  - camera_z es la profundidad "hacia delante" (debe ser > 0 para ser visible)
+ *  - camera_x es el desplazamiento lateral
+ *
+ * Usando tan(FOV/2) comprueba si el sprite está dentro del FOV horizontal.
+ * Si lo está, convierte camera_x/(camera_z*tan(FOV/2)) a una columna
+ * en el rango [0, render_width-1].
+ *
+ * ¿Para qué?: frente a escanear todas las columnas del raycast, esto es O(1),
+ * estable con el movimiento, evita atan2 y mantiene el mismo convenio que
+ * el motor de raycast.
+ *
+ * @param game Puntero al juego (para rotación y render_width).
+ * @param dx pos.x - player.x.
+ * @param dy pos.y - player.y.
+ * @return Columna de pantalla o -1 si está detrás del jugador o fuera del FOV.
+ */
+static int	ft_project_sprite_column(t_game *game, double dx, double dy)
+{
+	t_vector2	view_dir;
+	t_vector2	view_right;
+	double		camera_x;
+	double		camera_z;
+	double		tan_half_fov;
+	double		cos_half_fov;
+
+	ft_get_camera_axes(game, &view_dir, &view_right);
+	camera_x = dx * view_right.x + dy * view_right.y;
+	camera_z = dx * view_dir.x + dy * view_dir.y;
+	if (camera_z <= 0.001)
+		return (-1);
+	cos_half_fov = ft_cos(FOV / 2.0);
+	if (cos_half_fov < 0.000001)
+		return (-1);
+	tan_half_fov = ft_sin(FOV / 2.0) / cos_half_fov;
+	if (tan_half_fov <= 0.000001)
+		return (-1);
+	if (camera_x > camera_z * tan_half_fov
+		|| camera_x < -camera_z * tan_half_fov)
+		return (-1);
+	return (ft_projected_x_to_screen_col(camera_x / (camera_z * tan_half_fov),
+			game->config.render_width));
 }
 
 /**
@@ -306,7 +341,8 @@ void	ft_render_objects(t_game *game, t_sprite_kind kind)
 	t_vector2		pos;
 	t_texture		*tex;
 	double			distance;
-	double			angle;
+	int				screen_col;
+	t_vector2		diff;
 	double			base_size;
 
 	if (!ft_get_entity_data(game, kind, &pos, &base_size, &tex))
@@ -314,14 +350,27 @@ void	ft_render_objects(t_game *game, t_sprite_kind kind)
 	distance = ft_vector_distance(game->player->position, pos);
 	if (distance < 0.3 || distance > (MAX_RAY_SIZE - 0.5))
 		return ;
-	angle = ft_calc_alien_angle(game->player->position, pos,
-			game->player->rotation.x);
+	diff.x = pos.x - game->player->position.x;
+	diff.y = pos.y - game->player->position.y;
+	(void)distance;
+	screen_col = ft_project_sprite_column(game, diff.x, diff.y);
+	if (screen_col < 0)
+		return ;
 	draw.size = ft_compute_sprite_size(game, base_size, distance);
 	draw.scaled = ft_new_texture(game->mlx, draw.size, draw.size);
 	if (!draw.scaled)
 		return ;
-	draw.screen_x = (int)((FOV / 2.0 - angle)
-		* game->config.render_width / FOV) - draw.size / 2;
+	/*
+	 * screen_col está en coordenadas de pantalla (izq->der).
+	 * IMPORTANTE: el mask ya hace la conversión a índice de rayo:
+	 *   ray_index = render_width - (screen_x + x) - 1
+	 */
+	draw.screen_x = screen_col - draw.size / 2;
+	/* Clamp suave para evitar que se quede "pegado" al borde por screen_x extremos */
+	if (draw.screen_x < -draw.size)
+		draw.screen_x = -draw.size;
+	if (draw.screen_x > game->config.render_width)
+		draw.screen_x = game->config.render_width;
 	draw.screen_y = game->config.render_height / 2 - draw.size / 2
 		+ draw.size / 8;
 	ft_scale_t_image(tex, draw.scaled);
