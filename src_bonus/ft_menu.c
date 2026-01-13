@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/03 20:38:59 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/13 23:07:04 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,10 @@ void	ft_loading_menu_buttons(t_game *game)
 	game->menu.n_buttons = 3; // Actualizar si se añaden más botones
 	game->menu.buttons = ft_alloc_lst(sizeof(t_button) * game->menu.n_buttons, 4);
 	// Start Button
-	button_texture = ft_loading_texture(game->mlx, "textures/menu/Play_Button.xpm");
+	button_texture = ft_loading_texture(game->mlx, "textures/menu/button_play.xpm");
 	game->menu.buttons[0].texture = ft_new_texture(game->mlx, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 	ft_scale_t_image(button_texture, game->menu.buttons[0].texture);
-	button_texture = ft_loading_texture(game->mlx, "textures/menu/Play_Button_red.xpm");
+	button_texture = ft_loading_texture(game->mlx, "textures/menu/button_play_hover.xpm");
 	game->menu.buttons[0].hover_texture = ft_new_texture(game->mlx, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 	ft_scale_t_image(button_texture, game->menu.buttons[0].hover_texture);
 	game->menu.buttons[0].position.x = (MENU_WIDTH / 2) - (MENU_BUTTON_WIDTH / 2);
@@ -128,10 +128,10 @@ void	ft_loading_menu_buttons(t_game *game)
 	game->menu.buttons[0].size.y = MENU_BUTTON_HEIGHT;
 	game->menu.buttons[0].on_click = ft_start_button;
 	// Options Button
-	button_texture = ft_loading_texture(game->mlx, "textures/menu/Settings_Button.xpm");
+	button_texture = ft_loading_texture(game->mlx, "textures/menu/button_settings.xpm");
 	game->menu.buttons[1].texture = ft_new_texture(game->mlx, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 	ft_scale_t_image(button_texture, game->menu.buttons[1].texture);
-	button_texture = ft_loading_texture(game->mlx, "textures/menu/Settings_Button_red.xpm");
+	button_texture = ft_loading_texture(game->mlx, "textures/menu/button_settings_hover.xpm");
 	game->menu.buttons[1].hover_texture = ft_new_texture(game->mlx, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 	ft_scale_t_image(button_texture, game->menu.buttons[1].hover_texture);
 	game->menu.buttons[1].position.x = (MENU_WIDTH / 2) - (MENU_BUTTON_WIDTH / 2);
@@ -140,10 +140,10 @@ void	ft_loading_menu_buttons(t_game *game)
 	game->menu.buttons[1].size.y = MENU_BUTTON_HEIGHT;
 	game->menu.buttons[1].on_click = NULL; // Implementar función de opciones
 	// Exit Button
-	button_texture = ft_loading_texture(game->mlx, "textures/menu/Exit_Button.xpm");
+	button_texture = ft_loading_texture(game->mlx, "textures/menu/button_exit.xpm");
 	game->menu.buttons[2].texture = ft_new_texture(game->mlx, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 	ft_scale_t_image(button_texture, game->menu.buttons[2].texture);
-	button_texture = ft_loading_texture(game->mlx, "textures/menu/Exit_Button_red.xpm");
+	button_texture = ft_loading_texture(game->mlx, "textures/menu/button_exit_hover.xpm");
 	game->menu.buttons[2].hover_texture = ft_new_texture(game->mlx, MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 	ft_scale_t_image(button_texture, game->menu.buttons[2].hover_texture);
 	game->menu.buttons[2].position.x = (MENU_WIDTH / 2) - (MENU_BUTTON_WIDTH / 2);
