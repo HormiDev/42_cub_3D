@@ -350,6 +350,16 @@ static void	ft_read_gamepad_events(t_game *game, int i)
 	struct js_event	event;
 	ssize_t			bytes;
 
+	/*
+	 * Evita estados "pegados": algunos mandos/drivers pueden perder el
+	 * último evento (value=0) al soltar el stick. Como el juego usa un
+	 * estado persistente, reseteamos ejes cada tick y aplicamos lo leído.
+	 */
+	game->gamepads[i].left_stick_x = 0;
+	game->gamepads[i].left_stick_y = 0;
+	game->gamepads[i].right_stick_x = 0;
+	game->gamepads[i].right_stick_y = 0;
+
 	bytes = read(game->gamepads[i].fd, &event, sizeof(event));
 	while (bytes > 0)
 	{

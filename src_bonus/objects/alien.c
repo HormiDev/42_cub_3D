@@ -115,35 +115,6 @@ void	ft_update_aliens(t_game *game)
 		alien->state = ALIEN_IDLE;
 }
 
-/**
- * @brief Calcula los ejes de cámara (forward y right) a partir de la rotación.
- *
- * Convierte el yaw del jugador (en grados) a dos vectores ortonormales
- * en espacio mundo:
- *  - view_dir: dirección hacia donde mira la cámara (forward)
- *  - view_right: eje "derecha" de la cámara (perpendicular a view_dir)
- *
- * ¿Para qué?: la proyección de sprites necesita una base de cámara estable
- * para transformar un vector mundo (dx,dy) a espacio cámara (x lateral,
- * z delante) sin usar atan2, y coherente con el convenio del raycast
- * (X=cos, Y=sin).
- *
- * @param game Puntero al juego (contiene la rotación del jugador).
- * @param view_dir Vector de salida con la dirección de vista (forward).
- * @param view_right Vector de salida con el eje derecha de cámara.
- */
-static void	ft_get_camera_axes(t_game *game, t_vector2 *view_dir,
-	t_vector2 *view_right)
-{
-	double	rotation;
-
-	rotation = ft_normalize_angle(game->player->rotation.x);
-	view_dir->x = ft_format_cos(rotation);
-	view_dir->y = ft_format_sin(rotation);
-	view_right->x = view_dir->y;
-	view_right->y = -view_dir->x;
-}
-
 
 /**
  * @brief Convierte una coordenada horizontal normalizada a columna de pantalla.
@@ -164,60 +135,47 @@ static void	ft_get_camera_axes(t_game *game, t_vector2 *view_dir,
 static int	ft_projected_x_to_screen_col(double projected_x, int width)
 {
 	int	screen_col;
-
+	
 	screen_col = (int)(((projected_x + 1.0) * 0.5) * (double)width);
 	if (screen_col < 0)
-		return (0);
+	return (0);
 	if (screen_col >= width)
-		return (width - 1);
+	return (width - 1);
 	return (screen_col);
 }
 
 
 /**
- * @brief Proyecta un vector mundo (dx,dy) a una columna de pantalla.
+ * @brief Calcula los ejes de cámara (forward y right) a partir de la rotación.
  *
- * Proyecta el vector desde el jugador hasta el sprite a espacio cámara:
- *  - camera_z es la profundidad "hacia delante" (debe ser > 0 para ser visible)
- *  - camera_x es el desplazamiento lateral
+ * Convierte el yaw del jugador (en grados) a dos vectores ortonormales
+ * en espacio mundo:
+ *  - view_dir: dirección hacia donde mira la cámara (forward)
+ *  - view_right: eje "derecha" de la cámara (perpendicular a view_dir)
  *
- * Usando tan(FOV/2) comprueba si el sprite está dentro del FOV horizontal.
- * Si lo está, convierte camera_x/(camera_z*tan(FOV/2)) a una columna
- * en el rango [0, render_width-1].
+ * ¿Para qué?: la proyección de sprites necesita una base de cámara estable
+ * para transformar un vector mundo (dx,dy) a espacio cámara (x lateral,
+ * z delante) sin usar atan2, y coherente con el convenio del raycast
+ * (X=cos, Y=sin).
  *
- * ¿Para qué?: frente a escanear todas las columnas del raycast, esto es O(1),
- * estable con el movimiento, evita atan2 y mantiene el mismo convenio que
- * el motor de raycast.
- *
- * @param game Puntero al juego (para rotación y render_width).
- * @param dx pos.x - player.x.
- * @param dy pos.y - player.y.
- * @return Columna de pantalla o -1 si está detrás del jugador o fuera del FOV.
+ * @param game Puntero al juego (contiene la rotación del jugador).
+ * @param view_dir Vector de salida con la dirección de vista (forward).
+ * @param view_right Vector de salida con el eje derecha de cámara.
  */
 static int	ft_project_sprite_column(t_game *game, double dx, double dy)
 {
-	t_vector2	view_dir;
-	t_vector2	view_right;
-	double		camera_x;
-	double		camera_z;
-	double		tan_half_fov;
-	double		cos_half_fov;
+	double	player_rot;
+	double	sprite_ang;
+	double	delta;
 
-	ft_get_camera_axes(game, &view_dir, &view_right);
-	camera_x = dx * view_right.x + dy * view_right.y;
-	camera_z = dx * view_dir.x + dy * view_dir.y;
-	if (camera_z <= 0.001)
+	player_rot = ft_normalize_angle(game->player->rotation.x);
+	sprite_ang = ft_normalize_angle(atan2(dy, dx) * (180.0 / M_PI));
+	delta = ft_normalize_angle(player_rot - sprite_ang);
+	if (delta > 180.0)
+		delta -= 360.0;
+	if (ft_abs(delta) > (FOV * 0.5))
 		return (-1);
-	cos_half_fov = ft_cos(FOV / 2.0);
-	if (cos_half_fov < 0.000001)
-		return (-1);
-	tan_half_fov = ft_sin(FOV / 2.0) / cos_half_fov;
-	if (tan_half_fov <= 0.000001)
-		return (-1);
-	if (camera_x > camera_z * tan_half_fov
-		|| camera_x < -camera_z * tan_half_fov)
-		return (-1);
-	return (ft_projected_x_to_screen_col(camera_x / (camera_z * tan_half_fov),
+	return (ft_projected_x_to_screen_col(delta / (FOV * 0.5),
 			game->config.render_width));
 }
 
@@ -360,13 +318,7 @@ void	ft_render_objects(t_game *game, t_sprite_kind kind)
 	draw.scaled = ft_new_texture(game->mlx, draw.size, draw.size);
 	if (!draw.scaled)
 		return ;
-	/*
-	 * screen_col está en coordenadas de pantalla (izq->der).
-	 * IMPORTANTE: el mask ya hace la conversión a índice de rayo:
-	 *   ray_index = render_width - (screen_x + x) - 1
-	 */
 	draw.screen_x = screen_col - draw.size / 2;
-	/* Clamp suave para evitar que se quede "pegado" al borde por screen_x extremos */
 	if (draw.screen_x < -draw.size)
 		draw.screen_x = -draw.size;
 	if (draw.screen_x > game->config.render_width)
