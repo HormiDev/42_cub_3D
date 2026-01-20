@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2026/01/07 13:27:57 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/01/20 00:12:46 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,10 @@ int	ft_mouse_move(int x, int y, t_game *game)
 	{
 		game->mouse_xy[0] = x;
 		game->mouse_xy[1] = y;
-		if (game->show_menu)
+		if (game->show_menu == 1)
 			ft_hober_buttons(game, &game->menu);
+		else if (game->show_menu == 2)
+			ft_hober_buttons(game, &game->menu_settings);
 		return (0);
 	}
 	if (game->kb_player < 0 || game->kb_player >= MAX_GAMEPADS)
@@ -137,10 +139,15 @@ int	ft_mouse_click(int button, int x, int y, t_game *game)
 		{
 			game->mouse_xy[0] = x;
 			game->mouse_xy[1] = y;
-			if (game->show_menu)
+			if (game->show_menu == 1)
 			{
 				ft_hober_buttons(game, &game->menu);
 				ft_click_button(game, &game->menu);
+			}
+			else if (game->show_menu == 2)
+			{
+				ft_hober_buttons(game, &game->menu_settings);
+				ft_click_button(game, &game->menu_settings);
 			}
 		}
 	}

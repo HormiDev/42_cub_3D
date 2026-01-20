@@ -6,18 +6,34 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 01:16:45 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/18 21:16:17 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/20 01:12:15 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
 
-void ft_next_resolution(t_game *game)// debug function
+void ft_next_resolution(void *game_ptr)
 {
-	game->resolution_index++;
+	t_game	*game;
+
+	game = (t_game *)game_ptr;
 	if (game->resolution_index >= game->resolutions_size)
-		game->resolution_index = 0;
-	ft_loading_render(game, game->resolutions[game->resolution_index].height, game->resolutions[game->resolution_index].width);
+		return ;
+	game->resolution_index++;
+	ft_loading_render(game, game->resolutions[game->resolution_index].height,
+		game->resolutions[game->resolution_index].width);
+}
+
+void ft_previous_resolution(void *game_ptr)
+{
+	t_game	*game;
+
+	game = (t_game *)game_ptr;
+	if (game->resolution_index <= 0)
+		return ;
+	game->resolution_index--;
+	ft_loading_render(game, game->resolutions[game->resolution_index].height,
+		game->resolutions[game->resolution_index].width);
 }
 
 void ft_init_resolutions(t_game *game)

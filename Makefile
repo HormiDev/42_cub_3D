@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2025/12/27 03:12:31 by ide-dieg         ###   ########.fr        #
+#    Updated: 2026/01/19 23:48:47 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -98,9 +98,15 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/objects/door.c \
 			src_bonus/objects/door_utils.c \
 			src_bonus/objects/door_raycast.c \
-			src_bonus/objects/alien.c \
+			src_bonus/objects/objects_init.c \
+			src_bonus/objects/objects_update.c \
+			src_bonus/objects/objects_sort.c \
+			src_bonus/objects/objects_projection.c \
+			src_bonus/objects/objects_render_utils.c \
+			src_bonus/objects/objects_render.c \
 			src_bonus/ft_resolutions.c \
 			src_bonus/ft_loading_texture.c \
+			src_bonus/ft_menu_settings.c \
 
 OBJ_DIR  = objects
 OBJ_DIR_BONUS  = objects_bonus

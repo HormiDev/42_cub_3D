@@ -28,6 +28,7 @@
 # define C_ALIEN_GRID	0xFF00CC33
 # define C_ALIEN_PLAYER	0xFF00FFFF
 # define MAX_RAY_SIZE	10
+# define MAX_PLAYERS	5
 
 //minimap 
 # define MINIMAP_TILE_SIZE 8 //esto define el tamaño de cada tile en el minimapa
@@ -126,16 +127,6 @@ typedef enum e_alien_state
 	ALIEN_IDLE = 2
 } t_alien_state;
 
-
-typedef enum e_sprite_kind
-{
-	SPRITE_ALIEN = 0,
-	SPRITE_PLAYER1 = 1,
-	SPRITE_PLAYER2 = 2,
-	SPRITE_PLAYER3 = 3,
-	SPRITE_PLAYER4 = 4
-} t_sprite_kind;
-
 typedef struct s_texture // cambiar nombre a t image
 {
 	t_img			*img;
@@ -181,16 +172,35 @@ typedef struct s_raycast
 	int			type;
 } t_raycast;
 
+typedef struct s_render_objets
+{
+	int			object_type;
+	t_vector2	*position;
+	double		angle;
+	double		distance;
+	double		size;
+} t_render_objects;
 
+typedef enum e_entity_type
+{
+	ENTITY_PLAYER = 0,
+	ENTITY_ALIEN = 1
+} t_entity_type;
 
 typedef struct s_player
 {
-	t_vector2	position;
-	double		reverse_y_position;
-	t_vector2	rotation;
-	t_vector2	velocity;
-	double plane_y;
-	
+	t_entity_type	type;
+	int				active;
+	t_vector2		position;
+	t_vector2		rotation;
+	t_vector2		velocity;
+	double			plane_y;
+	double			render_distance;
+	t_texture		*texture;
+	t_alien_state	state;
+	double			speed;
+	double			chase_distance;
+	double			size;
 } t_player;
 
 typedef struct s_gamepad {
@@ -339,7 +349,6 @@ typedef struct s_game
 	int					length_textures_array[6];
 	t_list				*doors;
 	t_texture			**door_textures;
-	t_alien				*aliens;
 	int					door_texture_count;
 	void				*mlx;
 	t_raycast			*raycasts; 
@@ -362,6 +371,7 @@ typedef struct s_game
 	t_precalc			precalc;
 	int					show_menu;
 	t_menu				menu;
+	t_menu				menu_settings;
 	char				**env;
 	double				*fish_eye_correction;
 	pid_t				steps_audio_pid;
@@ -376,7 +386,7 @@ typedef struct s_game
 	t_resolution		*resolutions;
 	int					resolutions_size;
 	int					resolution_index;
-	t_player			*players;
+	t_player			players[MAX_PLAYERS];
 }	t_game;
 
 #endif

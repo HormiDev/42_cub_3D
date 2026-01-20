@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:57:27 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/11 17:29:17 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/10 18:33:09 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@
  */
 double ft_sqrt(double value)
 {
-	static double *sqrt_table;
-	int i;
-	static int table_size;
+	static double	*sqrt_table;
+	int				i;
+	static int		table_size;
 
 	if (sqrt_table == NULL)
 	{

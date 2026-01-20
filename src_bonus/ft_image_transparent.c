@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/23 01:25:13 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/19 23:57:33 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ static void	ft_process_line(t_texture *dst, t_texture *src,
  * @param start_x Coordenada X inicial en destino.
  * @param start_y Coordenada Y inicial en destino.
  */
-void	ft_draw_transparent_image(t_texture *dst, t_texture *src,
+void	ft_draw_image_rgba(t_texture *dst, t_texture *src,
 			int start_x, int start_y)
 {
 	t_vector_int	x_range;

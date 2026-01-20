@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/16 20:33:35 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/19 14:26:25 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void ft_forwad_back(t_game *game, double move_speed)
 		game->map[map_y][map_x] != '1')
 	{
 		game->player->position.y = new_y;
-		game->player->reverse_y_position = -new_y + game->width_height[1];
 	}
 }
 
@@ -59,7 +58,6 @@ void ft_move_player(t_game *game, double move_x, double move_y)
 {
 	game->player->position.x = move_x;
 	game->player->position.y = move_y;
-	game->player->reverse_y_position = -game->player->position.y + game->width_height[1];
 }
 
 void ft_move_direction(t_game *game, double angle, double move_speed)

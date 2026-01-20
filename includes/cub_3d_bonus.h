@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/07 13:35:18 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/01/20 01:04:57 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void			ft_draw_circle(t_game *game, int cx, int cy, int color);
 void			ft_draw_sq(t_game *game, int x, int y, int color);
 void			ft_draw_grid_horizontal(t_game *game, int color);
 void			ft_draw_grid_vertical(t_game *game, int color);
-void			ft_draw_transparent_image(t_texture *dst, t_texture *src,
+void			ft_draw_image_rgba(t_texture *dst, t_texture *src,
 						int start_x, int start_y);
 
 // Utility functions
@@ -176,11 +176,21 @@ int				ft_is_wall_or_closed_door(t_game *game, int x, int y);
 // ============================================================================
 void			ft_config_aliens(t_game *game);
 void			ft_update_aliens(t_game *game);
-void			ft_render_objects(t_game *game, t_sprite_kind kind);
-void			ft_render_objects(t_game *game, t_sprite_kind kind);
+void			ft_update_render_distances(t_game *game);
 void			ft_render_all_sprites(t_game *game);
+void			ft_render_player_sprite(t_game *game, t_player *player);
 void			ft_free_aliens(t_game *game);
-//void			ft_calculate_patrol_points(t_game *game, t_alien *alien);
+int				ft_compare_by_distance(const void *a, const void *b);
+void			ft_get_sorted_players(t_game *game, t_player sorted[MAX_PLAYERS]);
+int				ft_get_original_index(t_game *game, t_player *sorted_player);
+int				ft_projected_x_to_screen_col(double projected_x, int width);
+int				ft_project_sprite_column(t_game *game, double dx, double dy);
+void			ft_mask_alien_by_depth(t_game *game, t_texture *scaled,
+					int screen_x, double alien_distance);
+int				ft_compute_sprite_size(t_game *game, double base_size,
+					double distance);
+int				ft_get_player_data(t_player *player, t_vector2 *pos,
+					double *base_size, t_texture **tex);
 
 // ============================================================================
 // DEBUG FUNCTIONS
@@ -205,13 +215,14 @@ int				ft_stop_audio(pid_t pid);
 pid_t			ft_play_audio(const char *filename, char **env);
 
 void			ft_prec_fish_eye_correction(t_game *game);
-void			ft_draw_transparent_image(t_texture *dst, t_texture *src,
+void			ft_draw_image_rgba(t_texture *dst, t_texture *src,
 		int start_x, int start_y);
 void			ft_mix_color_alpha(unsigned int *color, unsigned int  *mix_color, int percent);
 void			ft_prec_vector_cloud(t_game *game);
 
 void			ft_init_resolutions(t_game *game);
-void			ft_next_resolution(t_game *game);
+void			ft_next_resolution(void *game_ptr);
+void			ft_previous_resolution(void *game_ptr);
 void			ft_loading_render(t_game *game, int render_height, int render_width);
 
 void			ft_scale_t_image_precalc_two(t_texture *tex_origin,
@@ -223,5 +234,12 @@ t_texture		*ft_loading_texture(void *mlx_ptr, char *path);
 t_texture 		*ft_new_texture(void *mlx_ptr, int width, int height);
 int				ft_mouse_click(int button, int x, int y, t_game *game);
 void			input_reset_actions(t_game *game, int player_index);
+
+void			ft_loading_menu_settings(t_game *game);
+void			ft_loading_texture_buttons(t_game *game, t_button *button,
+		char *base_texture, char *hover_texture);
+void			ft_button_position_size(t_button *button, int x, int y,
+		int width, int height);
+		
 
 #endif
