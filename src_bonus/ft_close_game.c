@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:25:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/20 00:50:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_close_game(int exit_code)
  * Esta función libera la memoria asignada al gamepad y finaliza el programa.
  * Se utiliza para limpiar los recursos antes de cerrar el juego.
  *
- * @param game Puntero a la estructura del juego que contiene el gamepad.
+ * @param game estructura del juego que contiene el gamepad.
  */
 int	ft_close_game_for_mlx(t_game *game)
 {

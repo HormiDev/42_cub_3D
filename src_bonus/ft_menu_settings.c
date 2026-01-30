@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 20:17:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/20 01:06:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/30 01:24:52 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ void	ft_loading_settings_buttons(t_game *game)
 		(MENU_WIDTH / 2) - MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT + 20,
 		MENU_BUTTON_HEIGHT, MENU_BUTTON_HEIGHT);
 	ft_loading_texture_buttons(game, &game->menu_settings.buttons[1],
-		"textures/menu/button_right.xpm", "textures/menu/button_right.xpm");
+		"textures/menu/button_right.xpm", "textures/menu/button_right_hover.xpm");
 	game->menu_settings.buttons[1].on_click = ft_previous_resolution;
 	// Dummy Button
 	ft_button_position_size(&game->menu_settings.buttons[2],
 		(MENU_WIDTH / 2) + MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT + 20,
 		MENU_BUTTON_HEIGHT, MENU_BUTTON_HEIGHT);
 	ft_loading_texture_buttons(game, &game->menu_settings.buttons[2],
-		"textures/menu/button_right.xpm", "textures/menu/button_right.xpm");
+		"textures/menu/button_left.xpm", "textures/menu/button_left_hover.xpm");
 	game->menu_settings.buttons[2].on_click = ft_next_resolution;
 }
 

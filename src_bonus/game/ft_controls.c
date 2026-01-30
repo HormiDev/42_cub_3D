@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_controls.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/07 13:21:26 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * Esta función estática procesa las entradas de movimiento (adelante, atrás, izquierda, derecha)
  * y determina la dirección y velocidad de movimiento.
  *
- * @param game Puntero a la estructura del juego.
+ * @param game estructura del juego.
  * @param move_speed Velocidad de movimiento calculada.
  */
 static int	ft_handle_player_movement(t_game *game, double move_speed, int player_index)
@@ -69,7 +69,7 @@ static int	ft_handle_player_movement(t_game *game, double move_speed, int player
  * Esta función estática procesa las entradas de rotación (izquierda, derecha)
  * y actualiza la rotación del jugador con normalización de ángulos.
  *
- * @param game Puntero a la estructura del juego.
+ * @param game estructura del juego.
  */
 static void	ft_handle_player_rotation(t_game *game, int player_index)
 {

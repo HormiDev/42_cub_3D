@@ -1,16 +1,28 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_map2D.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
+/*   Updated: 2026/01/29 19:43:34 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub_3d.h"
 
 /**
  * @brief Itera la posición del rayo hacia arriba o abajo según el cuadrante.
  *
- * Esta función ajusta la posición del rayo en el eje Y dependiendo del cuadrante
- * en el que se encuentre. Se utiliza para avanzar el rayo en la dirección correcta.
+ * Esta función ajusta la posición del rayo en el eje Y
+ * en el que se encuentre. Se utiliza para avanzar el rayo
  *
- * @param position_xy Puntero a un array que contiene las coordenadas X e Y del rayo.
+ * @param position_xy coordenadas X e Y del rayo.
  * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
  * @param iter Valor de iteración para avanzar el rayo.
  */
-void ft_ray_iter_up(int *position_xy, int cuadrant, int iter)
+void	ft_ray_iter_up(int *position_xy, int cuadrant, int iter)
 {
 	if (cuadrant == 0)
 		position_xy[1] += iter;
@@ -23,16 +35,15 @@ void ft_ray_iter_up(int *position_xy, int cuadrant, int iter)
 }
 
 /**
- * @brief Itera la posición del rayo hacia la derecha o izquierda según el cuadrante.
+
+ * @brief Itera la posición del rayo hacia la derecha o izquierda
  *
- * Esta función ajusta la posición del rayo en el eje X dependiendo del cuadrante
- * en el que se encuentre. Se utiliza para avanzar el rayo en la dirección correcta.
  *
- * @param position_xy Puntero a un array que contiene las coordenadas X e Y del rayo.
+ * @param position_xy Puntero a un array que contiene X e Y del rayo.
  * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
  * @param iter Valor de iteración para avanzar el rayo.
  */
-void ft_ray_iter_right(int *position_xy, int cuadrant, int iter)
+void	ft_ray_iter_right(int *position_xy, int cuadrant, int iter)
 {
 	if (cuadrant == 0)
 		position_xy[0] += iter;
@@ -45,17 +56,15 @@ void ft_ray_iter_right(int *position_xy, int cuadrant, int iter)
 }
 
 /**
- * @brief Calcula la distancia desde la posición del jugador hasta el tile del rayo.
- *
- * Esta función calcula la distancia en los ejes X e Y desde la posición del jugador
- * hasta el tile donde impacta el rayo, dependiendo del cuadrante en el que se encuentre.
+ * @brief distancia desde la posición del jugador hasta el tile del rayo.
  *
  * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
- * @param tile_ray_xy Array que contiene las coordenadas X e Y del tile del rayo.
+ * @param tile_ray_xy coordenadas X e Y del tile del rayo.
  * @param player_position Posición actual del jugador.
- * @param distance Puntero a una estructura t_vector2 donde se almacenarán las distancias calculadas.
+ * @param distance distancias calculadas.
  */
-void ft_calc_distance(int cuadrant, int *tile_ray_xy, t_vector2 player_position, t_vector2 *distance)
+void	ft_calc_distance(int cuadrant, int *tile_ray_xy,
+		t_vector2 player_position, t_vector2 *distance)
 {
 	if (cuadrant == 0)
 	{
@@ -82,16 +91,14 @@ void ft_calc_distance(int cuadrant, int *tile_ray_xy, t_vector2 player_position,
 /**
  * @brief Rota las distancias del rayo al cuadrante correspondiente.
  *
- * Esta función ajusta las distancias en los ejes X e Y según el cuadrante en el que se encuentre el rayo.
- * Se utiliza para asegurar que las distancias se calculen correctamente en función de la dirección del rayo.
- *
  * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
- * @param distance_x Puntero a la distancia en el eje X.
- * @param distance_y Puntero a la distancia en el eje Y.
+ * @param distance_x distancia en el eje X.
+ * @param distance_y distancia en el eje Y.
  */
-void ft_rotate_to_cuadrant(int cuadrant, double *distance_x, double *distance_y)
+void	ft_rotate_to_cuadrant(int cuadrant, double *distance_x,
+		double *distance_y)
 {
-	double aux_distance_x;
+	double	aux_distance_x;
 
 	aux_distance_x = *distance_x;
 	if (cuadrant == 0)
@@ -116,16 +123,18 @@ void ft_rotate_to_cuadrant(int cuadrant, double *distance_x, double *distance_y)
 /**
  * @brief Calcula la posición del impacto del rayo.
  *
- * Esta función calcula la posición del impacto del rayo en el mapa, sumando las distancias
- * calculadas a la posición del jugador. También calcula la distancia total desde el jugador
+ * Esta función calcula la posición del impacto del rayo en el mapa,
+	sumando las distancias
  * hasta el impacto.
  *
- * @param ray Puntero a la estructura t_raycast donde se almacenará el resultado.
+
+ * @param ray estructura t_raycast donde se almacenará el resultado.
  * @param player_position Posición actual del jugador.
  * @param distance_x Distancia en el eje X al impacto.
  * @param distance_y Distancia en el eje Y al impacto.
  */
-void ft_calc_ray_position(t_raycast *ray, t_vector2 *player_position, double distance_x, double distance_y)
+void	ft_calc_ray_position(t_raycast *ray, t_vector2 *player_position,
+		double distance_x, double distance_y)
 {
 	ray->impact.x = player_position->x + distance_x;
 	ray->impact.y = player_position->y + distance_y;
@@ -135,14 +144,15 @@ void ft_calc_ray_position(t_raycast *ray, t_vector2 *player_position, double dis
 /**
  * @brief Asigna el tipo de pared al rayo según el cuadrante y la dirección.
  *
- * Esta función determina el tipo de pared (Norte, Sur, Este, Oeste) en función del cuadrante
+ * Esta función determina el tipo de pared (Norte, Sur, Este,
+	Oeste) en función del cuadrante
  * y si el rayo se mueve hacia arriba/derecha o hacia abajo/izquierda.
  *
- * @param ray Puntero a la estructura t_raycast donde se almacenará el tipo de pared.
+ * @param ray t_raycast donde se almacenará el tipo de pared.
  * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
- * @param up_right Indica si el rayo se mueve hacia arriba/derecha (0) o hacia abajo/izquierda (1).
+ * @param up_right arriba/derecha (0) o hacia abajo/izquierda (1).
  */
-void ft_ray_type(t_raycast *ray, int cuadrant, int up_right)
+void	ft_ray_type(t_raycast *ray, int cuadrant, int up_right)
 {
 	if (up_right == 0)
 	{
@@ -170,18 +180,14 @@ void ft_ray_type(t_raycast *ray, int cuadrant, int up_right)
 
 /**
  * @brief Calcula el impacto del rayo cuando se alcanza el tamaño máximo.
- *
- * Esta función calcula la posición de impacto del rayo en el mapa cuando se alcanza
- * el tamaño máximo permitido. Se utiliza para evitar que el rayo se extienda más allá
- * de los límites establecidos.
- *
- * @param game Puntero a la estructura del juego que contiene la información del jugador.
+ * @param game estructura del juego que contiene la información del jugador.
  * @param angle Ángulo del rayo.
- * @param ray Puntero a la estructura t_raycast donde se almacenará el resultado.
+ * @param ray estructura t_raycast donde se almacenará el resultado.
  * @param max_size Tamaño máximo permitido para el rayo.
  * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
  */
-void ft_raycast_max_size(t_game *game, double angle, t_raycast *ray, double max_size, int cuadrant)
+void	ft_raycast_max_size(t_game *game, double angle, t_raycast *ray,
+		double max_size, int cuadrant)
 {
 	t_vector2	distance;
 	double		sin_cos[2];
@@ -190,21 +196,22 @@ void ft_raycast_max_size(t_game *game, double angle, t_raycast *ray, double max_
 	sin_cos[1] = ft_sin(angle);
 	distance.x = sin_cos[0] * max_size;
 	distance.y = sin_cos[1] * max_size;
-	ft_rotate_to_cuadrant(cuadrant, &distance.x, &distance.y);//revisar y comentar
+	ft_rotate_to_cuadrant(cuadrant, &distance.x, &distance.y);
 	ray->impact.x = game->player.position.x + distance.x;
 	ray->impact.y = game->player.position.y + distance.y;
 	ray->distance = max_size;
 	ray->type = -1;
 }
 
-void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
+void	ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
 {
-	int		tile_ray_xy[2];
+	int			tile_ray_xy[2];
 	t_vector2	distance;
 	double		sin_cos[2];
-	int		cuadrant = 0;
+	int			cuadrant;
 	double		aux_distance;
 
+	cuadrant = 0;
 	if (angle < 0)
 		angle += 360;
 	else if (angle >= 360)
@@ -219,44 +226,48 @@ void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
 	tile_ray_xy[1] = (int)game->player.position.y;
 	sin_cos[0] = ft_sin(angle);
 	sin_cos[1] = ft_cos(angle);
-	while(1)
+	while (1)
 	{
-		ft_calc_distance(cuadrant, tile_ray_xy, game->player.position, &distance);
-		aux_distance = sin_cos[1] * (distance.y / sin_cos[0]); // calcular la distancia de x al tocar el tile superior
-		if (aux_distance < distance.x)// si el rayo toca el tile superior
+		ft_calc_distance(cuadrant, tile_ray_xy, game->player.position,
+			&distance);
+		aux_distance = sin_cos[1] * (distance.y / sin_cos[0]);
+		if (aux_distance < distance.x)
 		{
-			if (distance.x > max_size + 1)// si se supera la distancia maxima del rayo ¡¡¡formula milagrosa, comparar distancias de senos y cosenos!!!
-			{
-				ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
-				break;
-			}
+			if (distance.x > max_size + 1)
+				comparar distancias de senos y cosenos !!!
+				{
+					ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
+					break ;
+				}
 			ft_ray_iter_up(tile_ray_xy, cuadrant, 1);
-			if (game->map[tile_ray_xy[1]][tile_ray_xy[0]] == '1')// si el tile superior es una pared
+			if (game->map[tile_ray_xy[1]][tile_ray_xy[0]] == '1')
 			{
 				ft_rotate_to_cuadrant(cuadrant, &aux_distance, &distance.y);
-				ft_calc_ray_position(ray, &(game->player.position), aux_distance, distance.y);
+				ft_calc_ray_position(ray, &(game->player.position),
+					aux_distance, distance.y);
 				ft_ray_type(ray, cuadrant, 0);
-				if (ray->distance > max_size) // si la distancia es mayor que la maxima, se sale del bucle
+				if (ray->distance > max_size)
 					ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
 				break ;
 			}
 		}
-		else // si el rayo toca el tile izquierdo
+		else
 		{
-			aux_distance = sin_cos[0] * (distance.x / sin_cos[1]); // calcular la distancia de y al tocar el tile izquierdo
-			if (distance.y > max_size + 1) // si se supera la distancia maxima del rayo
+			aux_distance = sin_cos[0] * (distance.x / sin_cos[1]);
+			if (distance.y > max_size + 1)
 			{
 				ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
-				break;
+				break ;
 			}
 			ft_ray_iter_right(tile_ray_xy, cuadrant, 1);
-			if (game->map[tile_ray_xy[1]][tile_ray_xy[0]] == '1') // si el tile izquierdo es una pared
+			if (game->map[tile_ray_xy[1]][tile_ray_xy[0]] == '1')
 			{
-				distance.y = aux_distance; // calcular la distancia de y al tocar el tile izquierdo
+				distance.y = aux_distance;
 				ft_rotate_to_cuadrant(cuadrant, &distance.x, &distance.y);
-				ft_calc_ray_position(ray, &(game->player.position), distance.x, distance.y);
+				ft_calc_ray_position(ray, &(game->player.position), distance.x,
+					distance.y);
 				ft_ray_type(ray, cuadrant, 1);
-				if (ray->distance > max_size) // si la distancia es mayor que la maxima, se sale del bucle
+				if (ray->distance > max_size)
 					ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
 				break ;
 			}
@@ -271,53 +282,29 @@ void ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
  * También puede dibujar líneas que representan la dirección del jugador, aunque
  * esta funcionalidad está comentada actualmente.
  *
- * @param game Puntero a la estructura del juego que contiene la información del jugador.
+ * @param game Contiene la información del jugador.
  */
-void ft_draw_player(t_game *game)
+void	ft_draw_player(t_game *game)
 {
-	int px;
-	int py;
-	//t_vector2 front;
-	//t_vector2 right;
-	//t_vector2 left;
-	//double angle;
-	
+	int	px;
+	int	py;
+
 	px = (int)(game->player.position.x * TILE_MAP_SIZE);
 	py = (int)(game->player.reverse_y_position * TILE_MAP_SIZE);
 	ft_draw_circle(game, px, py, C_RED);
-	/*
-	angle = game->player.rotation.x;
-	if (angle < 0)
-		angle += 360;
-	else if (angle >= 360)
-		angle -= 360;
-	while (angle > 90)
-		angle -= 90;
-
-	
-	front.x = ft_cos((game->player.rotation.x)) * TILE_MAP_SIZE / 3 + px;
-	front.y = -ft_sin((game->player.rotation.x)) * TILE_MAP_SIZE / 3 + py;
-	right.x = ft_cos((game->player.rotation.x + 90)) * TILE_MAP_SIZE / 7 + px;
-	right.y = -ft_sin((game->player.rotation.x + 90)) * TILE_MAP_SIZE / 7 + py;
-	left.x = ft_cos((game->player.rotation.x - 90)) * TILE_MAP_SIZE / 7 + px;
-	left.y = -ft_sin((game->player.rotation.x - 90)) * TILE_MAP_SIZE / 7 + py;
-	ft_draw_line_in_image(game, left, front, C_RED);
-	ft_draw_line_in_image(game, right, front, C_RED);
-	ft_draw_line_in_image(game, (t_vector2){px, py}, front, C_RED);*/
 }
 
 /**
  * @brief Dibuja un rayo en el mapa.
  *
- * Esta función dibuja una línea en el mapa que representa el rayo lanzado desde la posición del jugador.
  * El color del rayo depende del tipo de pared con la que impacta.
  *
- * @param game Puntero a la estructura del juego que contiene la información del jugador y los raycasts.
- * @param ray Puntero a la estructura t_raycast que contiene la información del rayo.
+ * @param game contiene la información del jugador y los raycasts.
+ * @param ray contiene la información del rayo.
  */
-void ft_draw_raycast(t_game *game, t_raycast *ray)
+void	ft_draw_raycast(t_game *game, t_raycast *ray)
 {
-	int color;
+	int	color;
 
 	if (ray->type == WALL_NO)
 		color = C_GREEN;
@@ -329,7 +316,8 @@ void ft_draw_raycast(t_game *game, t_raycast *ray)
 		color = C_RED;
 	else
 		color = C_WHITE;
-
-	ft_draw_line_in_image(game, (t_vector2){game->player.position.x * TILE_MAP_SIZE, game->player.reverse_y_position * TILE_MAP_SIZE},
-		(t_vector2){ray->impact.x * TILE_MAP_SIZE, (-ray->impact.y + game->width_height[1]) * TILE_MAP_SIZE}, color);
+	ft_draw_line_in_image(game, (t_vector2){game->player.position.x
+		* TILE_MAP_SIZE, game->player.reverse_y_position * TILE_MAP_SIZE},
+		(t_vector2){ray->impact.x * TILE_MAP_SIZE, (-ray->impact.y
+			+ game->width_height[1]) * TILE_MAP_SIZE}, color);
 }

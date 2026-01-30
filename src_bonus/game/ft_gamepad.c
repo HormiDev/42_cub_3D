@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gamepad.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/07 13:21:45 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ static void	ft_process_button_ab(t_gamepad *gp, struct js_event event)
 
 /*
 ** ft_process_button_event - Procesa eventos de botones del gamepad
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 ** @gp: Puntero al gamepad
 ** @event: Evento de joystick recibido
 **
@@ -146,7 +146,7 @@ static void	ft_process_axis_event(t_gamepad *gp, struct js_event event)
 
 /*
 ** ft_process_gamepad_event - Distribuye eventos del gamepad
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 ** @gp: Puntero al gamepad
 ** @event: Evento de joystick recibido
 **
@@ -163,7 +163,7 @@ static void	ft_process_gamepad_event(t_game *game, t_gamepad *gp,
 
 /*
 ** ft_process_menu_buttons - Procesa botones A/B en el menú
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 ** @i: Índice del gamepad
 **
 ** Maneja las acciones de aceptar (A) y cancelar (B) en el menú.
@@ -184,7 +184,7 @@ static void	ft_process_menu_buttons(t_game *game, int i)
 
 /*
 ** ft_gamepad_menu_input_for_all - Procesa input de todos los gamepads
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Revisa todos los gamepads conectados y procesa sus botones de menú.
 */
@@ -203,7 +203,7 @@ static void	ft_gamepad_menu_input_for_all(t_game *game)
 
 /*
 ** ft_try_open_gamepad_at - Intenta abrir un gamepad en una ruta
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 ** @path: Ruta del dispositivo a abrir
 ** @slot: Slot donde guardar el gamepad (0-3)
 **
@@ -227,7 +227,7 @@ static int	ft_try_open_gamepad_at(t_game *game, const char *path, int slot)
 
 /*
 ** ft_init_gamepad_paths - Inicializa los gamepads buscando en rutas
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Busca gamepads en las rutas /dev/input/js* y /dev/input/event*.
 */
@@ -252,7 +252,7 @@ static void	ft_init_gamepad_paths(t_game *game)
 
 /*
 ** ft_init_gamepad - Inicializa el sistema de gamepads
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Resetea todos los gamepads y busca dispositivos conectados.
 */
@@ -280,7 +280,7 @@ void	ft_init_gamepad(t_game *game)
 
 /*
 ** ft_free_gamepad - Libera recursos de los gamepads
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Cierra todos los file descriptors y resetea el estado.
 */
@@ -302,7 +302,7 @@ void	ft_free_gamepad(t_game *game)
 
 /*
 ** ft_recount_gamepads - Recuenta gamepads conectados
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Actualiza el contador de gamepads conectados.
 */
@@ -322,7 +322,7 @@ static void	ft_recount_gamepads(t_game *game)
 
 /*
 ** ft_handle_gamepad_error - Maneja errores de lectura del gamepad
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 ** @slot: Slot del gamepad con error
 **
 ** Cierra y resetea el gamepad que tuvo un error de lectura.
@@ -340,7 +340,7 @@ static void	ft_handle_gamepad_error(t_game *game, int slot)
 
 /*
 ** ft_read_gamepad_events - Lee eventos del gamepad
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 ** @i: Índice del gamepad a leer
 **
 ** Lee todos los eventos pendientes del gamepad y los procesa.
@@ -372,7 +372,7 @@ static void	ft_read_gamepad_events(t_game *game, int i)
 
 /*
 ** ft_update_gamepad - Actualiza el estado de todos los gamepads
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Lee eventos de todos los gamepads conectados.
 */
@@ -431,7 +431,7 @@ static void	ft_set_player_rotation(t_player_actions *act, t_gamepad *gp)
 
 /*
 ** ft_gamepad_apply_to_player - Aplica input del gamepad al jugador
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 ** @gp: Gamepad del que leer
 ** @player_idx: Índice del jugador a actualizar
 **
@@ -449,7 +449,7 @@ static void	ft_gamepad_apply_to_player(t_game *game, t_gamepad *gp,
 
 /*
 ** ft_apply_player0_input - Maneja input del jugador 0
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Aplica gamepad si hay input activo, sino deja teclado.
 */
@@ -472,7 +472,7 @@ static void	ft_apply_player0_input(t_game *game)
 
 /*
 ** ft_apply_other_players - Maneja input de jugadores 1-3
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Requieren gamepad obligatoriamente.
 */
@@ -494,7 +494,7 @@ static void	ft_apply_other_players(t_game *game)
 
 /*
 ** ft_gamepad_movement - Actualiza acciones según gamepads/teclado
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Distribuye el input: player 0 puede usar teclado o gamepad,
 ** players 1-3 requieren gamepad.

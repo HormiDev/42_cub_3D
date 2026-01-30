@@ -1,18 +1,30 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_parse_map_utils.c                               :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub_3d.h"
 
 /**
  * @brief Encuentra la primera línea del mapa que no está vacía.
  *
- * Recorre las líneas del mapa hasta encontrar una que contenga un carácter distinto de espacio o salto de línea.
- * Si no se encuentra tal línea, imprime un mensaje de error y cierra el juego.
+ * Recorre las líneashasta encontrar una que contenga un carácter distinto
+ * Si no se encuentra tal línea, imprime un mensaje de error y cierra .
  *
- * @param map_file Puntero a la estructura del archivo que contiene el mapa.
+ * @param map_file estructura del archivo que contiene el mapa.
  * @return int Índice de la primera línea del mapa.
  */
 int	ft_start_line_map(t_file *map_file)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = ft_get_map_start_index(map_file);
 	while (map_file->array_content[i])
@@ -20,14 +32,15 @@ int	ft_start_line_map(t_file *map_file)
 		j = 0;
 		while (map_file->array_content[i][j])
 		{
-			if (map_file->array_content[i][j] != ' ' 
+			if (map_file->array_content[i][j] != ' '
 				&& map_file->array_content[i][j] != '\n')
 				return (i);
 			j++;
 		}
 		i++;
 	}
-	ft_dprintf(2, "%sError: Failed to load map: start not found\n%s", RED, RESET);
+	ft_dprintf(2, "%sError: Failed to load map: start not found\n%s", RED,
+		RESET);
 	ft_close_game(1);
 	return (0);
 }
@@ -39,14 +52,14 @@ int	ft_start_line_map(t_file *map_file)
  * que contenga un carácter distinto de espacio o salto de línea, y devuelve
  * el índice de esa línea.
  *
- * @param map_file Puntero a la estructura del archivo que contiene el mapa.
+ * @param map_file estructura del archivo que contiene el mapa.
  * @param start_line Línea desde la cual comenzar la búsqueda.
  * @return int Índice de la última línea no vacía.
  */
 int	ft_end_line_map(t_file *map_file, int start_line)
 {
-	int j;
-	int last_line;
+	int	j;
+	int	last_line;
 
 	last_line = start_line;
 	while (map_file->array_content[start_line])
@@ -54,7 +67,7 @@ int	ft_end_line_map(t_file *map_file, int start_line)
 		j = 0;
 		while (map_file->array_content[start_line][j])
 		{
-			if (map_file->array_content[start_line][j] != ' ' 
+			if (map_file->array_content[start_line][j] != ' '
 				&& map_file->array_content[start_line][j] != '\n')
 				last_line = start_line;
 			j++;
@@ -67,17 +80,17 @@ int	ft_end_line_map(t_file *map_file, int start_line)
 /**
  * @brief Encuentra la primera columna no vacía en el mapa.
  *
- * Recorre las líneas del mapa desde height_start_end[0] hasta height_start_end[1]
- * y determina la primera columna que contiene un carácter distinto de espacio o salto de línea.
+
+ * Recorre las líneas del mapa
  *
- * @param map_file Puntero a la estructura del archivo que contiene el mapa.
- * @param height_start_end Array con los índices de inicio y fin de las líneas del mapa.
+ * @param map_file estructura del archivo que contiene el mapa.
+ * @param height_start_end Array con los índices de inicio y fin de las líneas
  * @return int Índice de la primera columna no vacía.
  */
 int	ft_start_column_map(t_file *map_file, const int *height_start_end)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 	int	start_column;
 
 	i = height_start_end[0];
@@ -87,7 +100,7 @@ int	ft_start_column_map(t_file *map_file, const int *height_start_end)
 		j = 0;
 		while (map_file->array_content[i][j])
 		{
-			if (map_file->array_content[i][j] != ' ' 
+			if (map_file->array_content[i][j] != ' '
 				&& map_file->array_content[i][j] != '\n')
 				if (j < start_column)
 					start_column = j;
@@ -101,18 +114,18 @@ int	ft_start_column_map(t_file *map_file, const int *height_start_end)
 /**
  * @brief Encuentra la última columna no vacía en el mapa.
  *
- * Recorre las líneas del mapa desde height_start_end[0] hasta height_start_end[1]
- * y determina la última columna que contiene un carácter distinto de espacio o salto de línea.
+
+ * Recorre las líneas del mapa desde
  *
- * @param map_file Puntero a la estructura del archivo que contiene el mapa.
- * @param height_start_end Array con los índices de inicio y fin de las líneas del mapa.
+ * @param map_file estructura del archivo que contiene el mapa.
+ * @param height_start_end Array con los índices de inicio y fin de las líneas
  * @return int Índice de la última columna no vacía.
  */
 int	ft_end_column_map(t_file *map_file, const int *height_start_end)
 {
-	int i;
-	int j;
-	int end_column;
+	int	i;
+	int	j;
+	int	end_column;
 
 	end_column = 0;
 	i = height_start_end[0];
@@ -121,13 +134,13 @@ int	ft_end_column_map(t_file *map_file, const int *height_start_end)
 		j = ft_strlen(map_file->array_content[i]) - 1;
 		while (j >= 0)
 		{
-			if (map_file->array_content[i][j] != ' ' 
+			if (map_file->array_content[i][j] != ' '
 				&& map_file->array_content[i][j] != '\n')
 			{
 				if (j > end_column)
 					end_column = j;
 				break ;
-			}	
+			}
 			j--;
 		}
 		i++;
@@ -142,7 +155,7 @@ int	ft_end_column_map(t_file *map_file, const int *height_start_end)
  * invirtiendo su orden para que la primera línea se convierta en la última
  * y viceversa.
  *
- * @param game Puntero a la estructura del juego que contiene el mapa.
+ * @param game estructura del juego que contiene el mapa.
  */
 void	ft_rotate_map_y(t_game *game)
 {

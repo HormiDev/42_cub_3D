@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:13:40 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/13 20:29:34 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 17:57:31 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 /**
  * @brief Verifica los argumentos de línea de comandos para el programa cub3D.
  *
- * Esta función comprueba que se proporcione exactamente un argumento, el cual debe ser
- * un archivo con extensión ".cub". Si no se cumplen las condiciones, imprime un mensaje
+ * Esta función comprueba que se proporcione exactamente un argumento,
+	el cual debe ser
+ * un archivo con extensión ".cub". Si no se cumplen las condiciones,
+	imprime un mensaje
  * de error y retorna 0. Si los argumentos son válidos, retorna 1.
  *
  * @param argc Número de argumentos de línea de comandos.
@@ -39,4 +41,3 @@ int	ft_check_args(int argc, char **argv)
 	}
 	return (1);
 }
-

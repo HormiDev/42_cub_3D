@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 00:00:00 by ismherna          #+#    #+#             */
-/*   Updated: 2026/01/07 13:22:02 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /*
 ** input_reset_actions - Resetea todas las acciones de un jugador
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 ** @player_index: Índice del jugador (0-3)
 **
 ** Pone a cero todas las acciones (movimiento y rotación) del jugador indicado.
@@ -34,7 +34,7 @@ void	input_reset_actions(t_game *game, int player_index)
 
 /*
 ** input_merge_sources - Resetea acciones de jugadores con gamepad
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Recorre todos los jugadores activos y resetea las acciones de aquellos
 ** que están usando gamepad. Los jugadores con teclado no se resetean.
@@ -55,7 +55,7 @@ void	input_merge_sources(t_game *game)
 
 /*
 ** input_handle_menu_a - Maneja la acción A (aceptar) en el menú
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Cierra el menú y detiene la música si el menú está activo.
 ** Return: 0 si éxito, -1 si error o menú no activo
@@ -71,7 +71,7 @@ int	input_handle_menu_a(t_game *game)
 
 /*
 ** input_handle_menu_b - Maneja la acción B (cancelar/menú) en el menú
-** @game: Puntero a la estructura del juego
+** @game: estructura del juego
 **
 ** Si el menú está activo, cierra el juego. Si no, abre el menú.
 ** Return: 0 si éxito, -1 si error

@@ -1,12 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_controls.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 13:30:01 by ide-dieg          #+#    #+#             */
+/*   Updated: 2026/01/29 19:06:45 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub_3d.h"
 
 /**
  * @brief Maneja el movimiento del jugador basado en las teclas presionadas.
  *
- * Esta función estática procesa las entradas de movimiento (adelante, atrás, izquierda, derecha)
+ * Esta función estática procesa las entradas de movimiento (adelante, atrás,
+	izquierda, derecha)
  * y determina la dirección y velocidad de movimiento.
- *
- * @param game Puntero a la estructura del juego.
+ * @param game estructura del juego.
  * @param move_speed Velocidad de movimiento calculada.
  */
 static void	ft_handle_player_movement(t_game *game, double move_speed)
@@ -41,7 +53,7 @@ static void	ft_handle_player_movement(t_game *game, double move_speed)
  * Esta función estática procesa las entradas de rotación (izquierda, derecha)
  * y actualiza la rotación del jugador con normalización de ángulos.
  *
- * @param game Puntero a la estructura del juego.
+ * @param game estructura del juego.
  */
 static void	ft_handle_player_rotation(t_game *game)
 {
@@ -57,7 +69,7 @@ static void	ft_handle_player_rotation(t_game *game)
 	}
 }
 
-int ft_key_press(int keycode, t_game *game)
+int	ft_key_press(int keycode, t_game *game)
 {
 	if (keycode == ESC)
 		ft_close_game(0);
@@ -78,7 +90,7 @@ int ft_key_press(int keycode, t_game *game)
 	return (0);
 }
 
-int ft_key_release(int keycode, t_game *game)
+int	ft_key_release(int keycode, t_game *game)
 {
 	if (keycode == W)
 		game->input.front = 0;
@@ -97,15 +109,14 @@ int ft_key_release(int keycode, t_game *game)
 	return (0);
 }
 
-void ft_controls(t_game *game)
+void	ft_controls(t_game *game)
 {
-	double move_speed;
+	double	move_speed;
 
 	if (game->input.run)
 		move_speed = RUN_SPEED;
 	else
 		move_speed = MOVE_SPEED;
-	
 	ft_handle_player_movement(game, move_speed);
 	ft_handle_player_rotation(game);
 }

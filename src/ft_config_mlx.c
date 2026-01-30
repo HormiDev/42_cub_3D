@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/10 11:54:41 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:17:12 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,7 @@
 /**
  * @brief Libera la memoria asignada a la estructura mlx y cierra la ventana.
  *
- * Esta función libera la memoria asignada a la estructura mlx y cierra la ventana del juego.
- * Se utiliza para limpiar los recursos antes de cerrar el juego.
- *
- * @param game Puntero a la estructura del juego que contiene la información de mlx.
+ * @param game estructura del juego que contiene la información de mlx.
  */
 void	ft_free_mlx(t_game *game)
 {
@@ -35,9 +32,9 @@ void	ft_free_mlx(t_game *game)
  * @brief Inicializa MLX y crea la ventana del juego.
  *
  * Esta función inicializa la biblioteca mlx y crea una nueva ventana.
- * Si ocurre algún error durante la inicialización, se imprime un mensaje de error y se cierra el juego.
- *
- * @param game Puntero a la estructura del juego que contiene la información de mlx y la ventana.
+ * Si ocurre algún error durante la inicialización,
+	se imprime un mensaje de error y se cierra el juego.
+ * @param game estructura contiene la información de mlx y la ventana.
  */
 static void	ft_init_mlx_window(t_game *game)
 {
@@ -47,7 +44,8 @@ static void	ft_init_mlx_window(t_game *game)
 		ft_dprintf(2, RED "Error:\n Failed to initialize mlx\n" RESET);
 		ft_close_game(1);
 	}
-	game->window = mlx_new_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
+	game->window = mlx_new_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT,
+			"Cub3D");
 	if (!game->window)
 	{
 		ft_dprintf(2, RED "Error:\n Failed to create window\n" RESET);
@@ -58,10 +56,11 @@ static void	ft_init_mlx_window(t_game *game)
 /**
  * @brief Configura la imagen y los hooks de eventos para MLX.
  *
- * Esta función crea la imagen para el mapa del juego y configura los hooks 
- * para eventos de teclado, ratón y gamepad. También inicializa el tiempo del frame.
+ * Esta función crea la imagen para el mapa del juego y configura los hooks
+ * para eventos de teclado,
+	ratón y gamepad. También inicializa el tiempo del frame.
  *
- * @param game Puntero a la estructura del juego que contiene la información de mlx.
+ * @param game estructura del juego que contiene la información de mlx.
  */
 static void	ft_setup_mlx_hooks(t_game *game)
 {
@@ -72,10 +71,12 @@ static void	ft_setup_mlx_hooks(t_game *game)
 		ft_dprintf(2, RED "Error:\n Failed to create image\n" RESET);
 		ft_close_game(1);
 	}
-	game->img_map->img_data = mlx_get_data_addr(game->img_map->img, &game->img_map->bits_pixel, &game->img_map->image_len, &game->img_map->end);
+	game->img_map->img_data = mlx_get_data_addr(game->img_map->img,
+			&game->img_map->bits_pixel, &game->img_map->image_len,
+			&game->img_map->end);
 	mlx_hook(game->window, 17, 0, ft_close_game_for_mlx, game);
-	mlx_hook(game->window, 2, 1L<<0, ft_key_press, game);
-	mlx_hook(game->window, 3, 1L<<1, ft_key_release, game);
+	mlx_hook(game->window, 2, 1L << 0, ft_key_press, game);
+	mlx_hook(game->window, 3, 1L << 1, ft_key_release, game);
 	game->last_frame_time = ft_get_time();
 	mlx_loop_hook(game->mlx, ft_update, game);
 }
@@ -86,7 +87,7 @@ static void	ft_setup_mlx_hooks(t_game *game)
  * Esta función inicializa completamente MLX llamando a las funciones auxiliares
  * para inicializar la ventana y configurar los hooks de eventos.
  *
- * @param game Puntero a la estructura del juego que contiene la información de mlx y la ventana.
+ * @param game contiene la información de mlx y la ventana.
  */
 void	ft_config_mlx(t_game *game)
 {

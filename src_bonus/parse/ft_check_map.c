@@ -37,7 +37,7 @@ void	ft_check_map_valid_characters(char **map)
  * Recorre el mapa y cuenta cuántas veces aparecen los caracteres que representan
  * a los jugadores ('N', 'S', 'E', 'W'). Debe haber exactamente un jugador.
  * 
- * @param game Puntero a la estructura del juego que contiene el mapa.
+ * @param game estructura del juego que contiene el mapa.
  * @return int Número de jugadores encontrados en el mapa.
  */
 int	ft_check_map_count_player(t_game *game)
@@ -70,7 +70,7 @@ int	ft_check_map_count_player(t_game *game)
  * están rodeadas por paredes ('1'). Si el mapa no está cerrado, se imprime un
  * mensaje de error y se cierra el juego.
  * 
- * @param game Puntero a la estructura del juego que contiene el mapa.
+ * @param game estructura del juego que contiene el mapa.
  * @return int 1 si el mapa está cerrado, 0 si no lo está.
  */
 void	ft_check_map(t_game *game)

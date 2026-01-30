@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:30:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/19 14:26:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * Esta función estática configura la rotación del jugador basándose en el carácter
  * que representa la dirección inicial ('N', 'S', 'E', 'W').
  *
- * @param game Puntero a la estructura del juego.
+ * @param game estructura del juego.
  * @param direction_char Carácter que representa la dirección ('N', 'S', 'E', 'W').
  */
 static void	ft_set_player_rotation(t_game *game, char direction_char)
@@ -43,7 +43,7 @@ static void	ft_set_player_rotation(t_game *game, char direction_char)
  * rotación del jugador según el carácter encontrado, y luego reemplaza el carácter
  * en el mapa con '0'.
  *
- * @param game Puntero a la estructura del juego que contiene el mapa y la información del jugador.
+ * @param game estructura del juego que contiene el mapa y la información del jugador.
  */
 void	ft_config_player(t_game *game)
 {

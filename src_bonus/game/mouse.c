@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2026/01/20 00:12:46 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_click_button(t_game *game, t_menu *menu)
  *
  * @param x Posición horizontal del ratón en la ventana.
  * @param y Posición vertical del ratón en la ventana (no se utiliza).
- * @param game Puntero a la estructura del juego.
+ * @param game estructura del juego.
  * @return Siempre devuelve 0 (requerido por la API de minilibx).
  */
 int	ft_mouse_move(int x, int y, t_game *game)

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/03 19:44:52 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * Esta función libera la memoria asignada a la estructura mlx y cierra la ventana del juego.
  * Se utiliza para limpiar los recursos antes de cerrar el juego.
  *
- * @param game Puntero a la estructura del juego que contiene la información de mlx.
+ * @param game estructura del juego que contiene la información de mlx.
  */
 void	ft_free_mlx(t_game *game)
 {
@@ -37,7 +37,7 @@ void	ft_free_mlx(t_game *game)
  * Esta función inicializa la biblioteca mlx y crea una nueva ventana.
  * Si ocurre algún error durante la inicialización, se imprime un mensaje de error y se cierra el juego.
  *
- * @param game Puntero a la estructura del juego que contiene la información de mlx y la ventana.
+ * @param game estructura del juego que contiene la información de mlx y la ventana.
  */
 static void	ft_init_mlx_window(t_game *game)
 {
@@ -61,7 +61,7 @@ static void	ft_init_mlx_window(t_game *game)
  * Esta función crea la imagen para el mapa del juego y configura los hooks 
  * para eventos de teclado, ratón y gamepad. También inicializa el tiempo del frame.
  *
- * @param game Puntero a la estructura del juego que contiene la información de mlx.
+ * @param game estructura del juego que contiene la información de mlx.
  */
 static void	ft_setup_mlx_hooks(t_game *game)
 {
@@ -89,7 +89,7 @@ static void	ft_setup_mlx_hooks(t_game *game)
  * Esta función inicializa completamente MLX llamando a las funciones auxiliares
  * para inicializar la ventana y configurar los hooks de eventos.
  *
- * @param game Puntero a la estructura del juego que contiene la información de mlx y la ventana.
+ * @param game estructura del juego que contiene la información de mlx y la ventana.
  */
 void	ft_config_mlx(t_game *game)
 {

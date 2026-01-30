@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/19 18:55:47 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * @brief draw_background - Dibuja el fondo (techo y suelo) de la pantalla
- * @param game: Puntero a la estructura del juego
+ * @param game: estructura del juego
 */ 
 void draw_background(t_game *game)
 {
@@ -36,9 +36,9 @@ void draw_background(t_game *game)
 
 /**
  * @brief get_texture_for_wall - Obtiene la textura correspondiente al tipo de pared
- * @param game: Puntero a la estructura del juego
+ * @param game: estructura del juego
  * @param wall_type: Tipo de pared (WALL_NO, WALL_SO, WALL_EA, WALL_WE)
- * @return Puntero a la textura o NULL si no se encuentra
+ * @return textura o NULL si no se encuentra
  */
 static t_texture *get_texture_for_wall(t_game *game, t_raycast *ray)
 {

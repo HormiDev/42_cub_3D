@@ -27,7 +27,7 @@ int ft_int_max(int a, int b) // llevar a la libft
  * Esta función dibuja una línea entre dos puntos en la imagen del mapa utilizando el algoritmo de Bresenham.
  * Se utiliza para representar rayos o líneas de visión en el mapa.
  *
- * @param game Puntero a la estructura del juego que contiene la imagen del mapa.
+ * @param game estructura del juego que contiene la imagen del mapa.
  * @param start Punto de inicio de la línea.
  * @param end Punto final de la línea.
  * @param color Color de la línea a dibujar.

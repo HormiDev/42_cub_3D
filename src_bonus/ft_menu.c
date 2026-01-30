@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/20 00:51:15 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	ft_loading_menu_frames(t_game *game)
 
 /**
  * ft_start_button - Inicia el botón de inicio.
- * @game_ptr: Puntero a la estructura del juego.
+ * @game_ptr: estructura del juego.
  */
 void	ft_start_button(void *game_ptr)
 {
@@ -135,7 +135,7 @@ void	ft_settings_button(void *game_ptr)
 
 /**
  * ft_loading_texture_buttons - Carga las texturas de un botón.
- * @game: Puntero a la estructura del juego.
+ * @game: estructura del juego.
  * @button: Puntero al botón a configurar.
  * @base_texture: Ruta de la textura base del botón.
  * @hover_texture: Ruta de la textura de hover del botón.

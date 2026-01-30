@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/11/03 17:35:43 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	ft_rotate_point(int *x, int *y, double angle)
 
 /**
  * Inicializa las esquinas de un cuadrado centrado en el origen con un tamaño dado.
- * @param square Puntero a la estructura t_rotated_square donde se almacenarán las coordenadas.
+ * @param square estructura t_rotated_square donde se almacenarán las coordenadas.
  * @param size Tamaño del cuadrado.
  */
 static void	ft_init_square_corners(t_rotated_square *square, int size)
@@ -55,7 +55,7 @@ static void	ft_init_square_corners(t_rotated_square *square, int size)
 
 /**
  * Rota las esquinas de un cuadrado por un ángulo especificado.
- * @param square Puntero a la estructura t_rotated_square que contiene las esquinas.
+ * @param square estructura t_rotated_square que contiene las esquinas.
  * @param angle Ángulo de rotación en radianes.
  * @param size Tamaño del cuadrado.
  */

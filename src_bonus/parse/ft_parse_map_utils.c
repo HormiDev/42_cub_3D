@@ -6,7 +6,7 @@
  * Recorre las líneas del mapa hasta encontrar una que contenga un carácter distinto de espacio o salto de línea.
  * Si no se encuentra tal línea, imprime un mensaje de error y cierra el juego.
  *
- * @param map_file Puntero a la estructura del archivo que contiene el mapa.
+ * @param map_file estructura del archivo que contiene el mapa.
  * @return int Índice de la primera línea del mapa.
  */
 int	ft_start_line_map(t_file *map_file)
@@ -39,7 +39,7 @@ int	ft_start_line_map(t_file *map_file)
  * que contenga un carácter distinto de espacio o salto de línea, y devuelve
  * el índice de esa línea.
  *
- * @param map_file Puntero a la estructura del archivo que contiene el mapa.
+ * @param map_file estructura del archivo que contiene el mapa.
  * @param start_line Línea desde la cual comenzar la búsqueda.
  * @return int Índice de la última línea no vacía.
  */
@@ -70,7 +70,7 @@ int	ft_end_line_map(t_file *map_file, int start_line)
  * Recorre las líneas del mapa desde height_start_end[0] hasta height_start_end[1]
  * y determina la primera columna que contiene un carácter distinto de espacio o salto de línea.
  *
- * @param map_file Puntero a la estructura del archivo que contiene el mapa.
+ * @param map_file estructura del archivo que contiene el mapa.
  * @param height_start_end Array con los índices de inicio y fin de las líneas del mapa.
  * @return int Índice de la primera columna no vacía.
  */
@@ -104,7 +104,7 @@ int	ft_start_column_map(t_file *map_file, const int *height_start_end)
  * Recorre las líneas del mapa desde height_start_end[0] hasta height_start_end[1]
  * y determina la última columna que contiene un carácter distinto de espacio o salto de línea.
  *
- * @param map_file Puntero a la estructura del archivo que contiene el mapa.
+ * @param map_file estructura del archivo que contiene el mapa.
  * @param height_start_end Array con los índices de inicio y fin de las líneas del mapa.
  * @return int Índice de la última columna no vacía.
  */
@@ -142,7 +142,7 @@ int	ft_end_column_map(t_file *map_file, const int *height_start_end)
  * invirtiendo su orden para que la primera línea se convierta en la última
  * y viceversa.
  *
- * @param game Puntero a la estructura del juego que contiene el mapa.
+ * @param game estructura del juego que contiene el mapa.
  */
 void	ft_rotate_map_y(t_game *game)
 {

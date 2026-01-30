@@ -36,7 +36,7 @@ static void	ft_load_texture_from_path(t_game *game, t_texture *tex, char *path)
  * y crea un objeto de textura correspondiente. Si es una ruta, carga la textura desde el archivo.
  * Si es un color, lo convierte a formato RGB.
  *
- * @param game Puntero a la estructura del juego donde se almacenará la textura.
+ * @param game estructura del juego donde se almacenará la textura.
  * @param line Línea que contiene la definición de la textura o color.
  * @return Puntero al objeto de textura creado.
  */
@@ -70,7 +70,7 @@ t_texture	*ft_create_texture(t_game *game, char *line)
  * Esta función identifica el tipo de textura de pared (NO, SO, WE, EA) en la línea proporcionada,
  * crea un objeto de textura y lo añade a la lista correspondiente en la estructura del juego.
  *
- * @param game Puntero a la estructura del juego donde se almacenarán las texturas.
+ * @param game estructura del juego donde se almacenarán las texturas.
  * @param line Línea que contiene la definición de la textura de pared.
  * BONUS: Modificar 
  */
@@ -96,7 +96,7 @@ static void	ft_parse_floor_ceiling(t_game *game, char *line)
  * Esta función identifica el tipo de textura (NO, SO, WE, EA) en la línea proporcionada,
  * crea un objeto de textura y lo añade a la lista correspondiente en la estructura del juego.
  *
- * @param game Puntero a la estructura del juego donde se almacenarán las texturas.
+ * @param game estructura del juego donde se almacenarán las texturas.
  * @param line Línea que contiene la definición de la textura.
  */
 void ft_parse_texture_line(t_game *game, char *line)
@@ -135,8 +135,8 @@ void ft_parse_texture_line(t_game *game, char *line)
  * Recorre cada línea del archivo del mapa, identifica las definiciones de texturas y colores
  * (NO, SO, WE, EA, F, C), y las añade a las listas o campos correspondientes en la estructura del juego.
  *
- * @param game Puntero a la estructura del juego donde se almacenarán las texturas y colores.
- * @param map_file Puntero a la estructura de archivo que contiene el contenido del mapa como un arreglo de cadenas.
+ * @param game estructura del juego donde se almacenarán las texturas y colores.
+ * @param map_file estructura de archivo que contiene el contenido del mapa como un arreglo de cadenas.
  */
 void	ft_read_textures_in_map(t_game *game, t_file *map_file)
 {

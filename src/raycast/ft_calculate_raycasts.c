@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:15:03 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/22 13:38:59 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:09:16 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 /**
  * @brief Calcula los raycasts para cada columna de la ventana.
  *
- * Esta función recorre cada columna de la ventana y calcula el raycast correspondiente
- * utilizando la función ft_raycast. Los resultados se almacenan en el array de raycasts
- * del juego.
+ * recorre cada columna de la ventana y calcula el raycast correspondiente
+ * utilizando la función ft_raycast.
  *
- * @param game Puntero a la estructura del juego que contiene la información del jugador y los raycasts.
+ * @param game contiene la información del jugador y los raycasts.
  */
-void ft_calculate_raycasts(t_game *game)
+void	ft_calculate_raycasts(t_game *game)
 {
-	int i;
-	double angle_step = FOV / RENDER_WIDTH;
-	double start_angle = game->player.rotation.x - (FOV / 2);
-	double current_angle;
+	int		i;
+	double	angle_step;
+	double	start_angle;
+	double	current_angle;
 
+	angle_step = FOV / RENDER_WIDTH;
+	start_angle = game->player.rotation.x - (FOV / 2);
 	i = 0;
 	while (i < RENDER_WIDTH)
 	{

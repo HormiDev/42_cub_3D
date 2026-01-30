@@ -15,3 +15,6 @@
 -> 1/4 vuelta = 90 grados = π/2 radianes
 
 ![radianes circulo](image.png)
+
+
+¡¡revisar!! -> esegurarse de que no coja un fichero llamado .cub ya que es un fichero oculto

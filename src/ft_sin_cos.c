@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 18:02:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/20 00:20:31 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:44:27 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,26 +22,26 @@
  * @param degrees Ángulo en grados.
  * @return El ángulo convertido a radianes.
  */
-double ft_angle_rad(double degrees)
+double	ft_angle_rad(double degrees)
 {
-	return (degrees) * M_PI / 180.0;
+	return ((degrees) * M_PI / 180.0);
 }
 
 /**
  * @brief Calcula el seno de un ángulo dado en grados.
  *
- * Esta función utiliza una tabla precalculada de senos para mejorar el rendimiento.
- * Si la tabla no ha sido inicializada, se crea y se llena con los valores del seno
+ * Si la tabla no ha sido inicializada,
+	se crea y se llena con los valores del seno
  * para los ángulos de 0 a 89.99 grados (9000 pasos).
  *
  * @param angle Ángulo en grados.
  * @return El seno del ángulo dado.
  */
-double ft_sin(double angle)
+double	ft_sin(double angle)
 {
-	static double *sin_table;
-	int i;
-	
+	static double	*sin_table;
+	int				i;
+
 	if (sin_table == NULL)
 	{
 		i = 0;
@@ -57,29 +57,30 @@ double ft_sin(double angle)
 		angle += 9000;
 	if (angle >= 9000)
 		angle -= 9000;
-	return sin_table[(int)(angle) % 9000];
+	return (sin_table[(int)(angle) % 9000]);
 }
 
 /**
  * @brief Calcula el coseno de un ángulo dado en grados.
  *
- * Esta función utiliza una tabla precalculada de cosenos para mejorar el rendimiento.
- * Si la tabla no ha sido inicializada, se crea y se llena con los valores del coseno
+
+ * Si la tabla no ha sido inicializada,
+	se crea y se llena con los valores del coseno
  * para los ángulos de 0 a 89.99 grados (9000 pasos).
  *
  * @param angle Ángulo en grados.
  * @return El coseno del ángulo dado.
  */
-double ft_cos(double angle)
+double	ft_cos(double angle)
 {
-	static double *cos_table; 
-	int i; 
+	static double	*cos_table;
+	int				i;
+
 	if (cos_table == NULL)
 	{
 		i = 0;
-
 		cos_table = ft_alloc_lst(sizeof(double) * 9000, 3);
-		while(i < 9000)
+		while (i < 9000)
 		{
 			cos_table[i] = cos(ft_angle_rad(i / 100.0));
 			i++;
@@ -90,5 +91,5 @@ double ft_cos(double angle)
 		angle += 9000;
 	if (angle >= 9000)
 		angle -= 9000;
-	return cos_table[(int)(angle) % 9000];
+	return (cos_table[(int)(angle) % 9000]);
 }

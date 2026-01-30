@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:25:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/10 12:05:41 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:16:19 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 /**
  * @brief Libera la memoria asignada y cierra el juego.
- *
- * Esta función libera toda la memoria asignada por el juego y finaliza el programa
- * con el código de salida especificado.
  *
  * @param exit_code Código de salida del programa.
  */
@@ -32,9 +29,9 @@ void	ft_close_game(int exit_code)
  * Esta función libera la memoria asignada al gamepad y finaliza el programa.
  * Se utiliza para limpiar los recursos antes de cerrar el juego.
  *
- * @param game Puntero a la estructura del juego que contiene el gamepad.
+ * @param game estructura del juego que contiene el gamepad.
  */
-int	ft_close_game_for_mlx()
+int	ft_close_game_for_mlx(void)
 {
 	ft_alloc_clear();
 	exit(0);

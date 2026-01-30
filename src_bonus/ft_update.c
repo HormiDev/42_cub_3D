@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/19 23:57:33 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * @brief Calcula el tiempo transcurrido desde el último frame.
  * Esta función obtiene el tiempo actual y calcula la diferencia con el tiempo del último frame.
  * Luego, actualiza el tiempo del último frame y calcula el delta_time.
- * @param game Puntero a la estructura del juego que contiene el tiempo del último frame y el delta_time.
+ * @param game estructura del juego que contiene el tiempo del último frame y el delta_time.
  */
 int ft_calc_delta_time(t_game *game)
 {
@@ -123,7 +123,7 @@ void ft_three_players(t_game *game)
  * Esta función se llama en cada frame del juego. Calcula el tiempo delta,
  * maneja los movimientos del jugador, limpia la ventana, realiza raycasts
  * y renderiza la escena 3D. Finalmente, dibuja el mapa y actualiza la ventana.
- * @param param Puntero a la estructura del juego que contiene toda la información necesaria.
+ * @param param estructura del juego que contiene toda la información necesaria.
  * @return 0 para indicar que la actualización se realizó correctamente.
  */
 int ft_update(void *param)

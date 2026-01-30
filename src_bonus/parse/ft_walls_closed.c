@@ -11,7 +11,7 @@ static int	ft_check_space_surrounded(char **map, int i, int j);
  * todos los caracteres sean '1' o espacios. Si encuentra algún carácter diferente,
  * devuelve 0. Si ambas filas están correctamente cerradas, devuelve 1.
  *
- * @param game Puntero a la estructura del juego que contiene el mapa.
+ * @param game estructura del juego que contiene el mapa.
  * @return int 1 si las filas están cerradas, 0 en caso contrario.
  */
 int ft_check_up_down(t_game *game)
@@ -195,7 +195,7 @@ int	ft_check_map_closed_in(char **map)
  * 2. Los bordes izquierdo y derecho de cada fila están cerrados con '1'.
  * 3. No hay espacios vacíos que no estén rodeados por paredes.
  *
- * @param game Puntero a la estructura del juego que contiene el mapa.
+ * @param game estructura del juego que contiene el mapa.
  * @return int 1 si el mapa está cerrado, 0 en caso contrario.
  */
 int ft_check_map_closed(t_game *game)

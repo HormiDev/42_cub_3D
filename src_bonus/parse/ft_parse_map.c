@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:15 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/09/11 17:29:16 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@
  * en la estructura del juego. También verifica que el mapa sea válido y lo rota
  * si es necesario.
  *
- * @param game Puntero a la estructura del juego donde se almacenará el mapa.
- * @param map_file Puntero a la estructura del archivo que contiene el mapa.
+ * @param game estructura del juego donde se almacenará el mapa.
+ * @param map_file estructura del archivo que contiene el mapa.
  */
 void	ft_parse_map(t_game *game, t_file *map_file)
 {
