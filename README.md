@@ -1,20 +1,45 @@
-# 42_Cub_3D
+crear un nuevo audio manager (que no deje procesos zombie) -> tiene que ser un proceso hijo que gestione los audios
 
-# Trigonometría:
+Migración de HD alloc -> funcion del demonio
 
-**radianes:** unidad de medida para angulos alternativa a los grados. 
+Sistema de puertas: crear un nuevo sistema al hacer click o aprovechando el propio raycast y comprobando distancia o creando un nuevo raycast (lo primero en principio).
 
-**conversión:** 
+prerenderizado de modelo 3d: distintos angulos
 
--> 1 vuelta = 360 grados = 2π radianes
+funcion de escritura en imagenes
 
--> 3/4 vuelta = 270 grados = 3π/2 radianes
+crear ia del alien
 
--> 1/2 vuelta = 180 grados = π radianes
+modo de juego normal
+	jugadores huyen del alien
+	alien caza a los jugadores
+	si el temporizador de (3 mins) llega a 0 los jugadores ganan
+	si el alien mata a todos los jugadores el alien gana
+	lanzallamas
+		mata al alien y respawnea de inmediato
+	minimapa
+		integrar minimapa en el hud
 
--> 1/4 vuelta = 90 grados = π/2 radianes
+hud
+	cargas lanzallamas
+	temporizador
+	
+texturas
+	paredes y suelo estilo nave
 
-![radianes circulo](image.png)
+terminar el menu de configuracion
+	subir bajar resolucion
+	activar desactivar niebla
+	numero de jugadores 1 - 4
+	temporizador de la partida 1 - 2 - 3(default) - 5 - 10 mins
+	cargas de lanza llamas por jugador 1(default) - 2 - 3
 
+modelos 3d prerenderizados
+	alien
+	player
 
-¡¡revisar!! -> esegurarse de que no coja un fichero llamado .cub ya que es un fichero oculto
+animaciones 3d prerenderizados
+	alien
+	player
+
+---> NORMINETTE <---
