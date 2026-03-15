@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:44:04 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/12 19:23:37 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,8 @@ t_game	*ft_loading_game(char *path_map)
 	ft_loading_menu(game);
 	ft_loading_menu_settings(game);
 	game->config.n_players = 4;
+	game->config.duration_index = 2;
+	game->game_state = GAME_PLAYING;
 	ft_init_resolutions(game);
 	game->resolution_index = RES_540;
 	ft_loading_render(game, game->resolutions[game->resolution_index].height,

@@ -86,6 +86,7 @@
 # define FOV 45.0
 
 # define MAX_FPS 60
+# define GAME_DURATIONS_COUNT 5
 
 # define MOVE_SPEED		1.0
 # define ROTATION_SPEED	45.0
@@ -126,6 +127,13 @@ typedef enum e_alien_state
 	ALIEN_CHASE = 1,
 	ALIEN_IDLE = 2
 } t_alien_state;
+
+typedef enum e_game_state
+{
+	GAME_PLAYING = 0,
+	GAME_PLAYERS_WIN = 1,
+	GAME_ALIEN_WIN = 2
+} t_game_state;
 
 typedef struct s_texture // cambiar nombre a t image
 {
@@ -336,8 +344,9 @@ typedef struct s_config
 	int	render_height;
 	int	render_celling;
 	int	render_floor;
-	int render_mist;
+	int	render_mist;
 	int	sound_effects;
+	int	duration_index;
 } t_config;
 
 typedef struct s_game 
@@ -386,6 +395,8 @@ typedef struct s_game
 	t_resolution		*resolutions;
 	int					resolutions_size;
 	int					resolution_index;
+	e_game_state		game_state;
+	long				game_start_time;
 	t_player			players[MAX_PLAYERS];
 }	t_game;
 

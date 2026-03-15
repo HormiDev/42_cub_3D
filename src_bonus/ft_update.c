@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/12 19:25:09 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,12 +138,23 @@ int ft_update(void *param)
 	ft_gamepad_movement(game);
 	if (game->show_menu)
 		ft_update_menu(game);
-	else if (game->config.n_players == 1)
-		ft_one_player(game);
-	else if (game->config.n_players == 2)
-		ft_two_players(game);
 	else
-		ft_three_players(game);
+	{
+		if (game->game_start_time == 0)
+			ft_init_timer(game);
+		ft_check_timer(game);
+		if (game->game_state != GAME_PLAYERS_WIN)
+		{
+			if (game->config.n_players == 1)
+				ft_one_player(game);
+			else if (game->config.n_players == 2)
+				ft_two_players(game);
+			else
+				ft_three_players(game);
+		}
+	}
 	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
+	if (!game->show_menu)
+		ft_render_timer_hud(game);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2026/01/19 23:48:47 by ide-dieg         ###   ########.fr        #
+#    Updated: 2026/03/12 19:23:06 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,6 +107,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_resolutions.c \
 			src_bonus/ft_loading_texture.c \
 			src_bonus/ft_menu_settings.c \
+			src_bonus/utils/ft_game_timer.c \
 
 OBJ_DIR  = objects
 OBJ_DIR_BONUS  = objects_bonus

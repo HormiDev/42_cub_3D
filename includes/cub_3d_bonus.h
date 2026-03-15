@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/20 01:04:57 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/12 19:25:09 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,18 @@ void			ft_mix_color(unsigned int *color, unsigned int  *mix_color, int percent);
 unsigned int	ft_parse_color_rgb(char *color_str);
 int				ft_path_or_color(char *str);
 int				ft_str_isnumber(char *str);
+
+// ============================================================================
+// TIMER FUNCTIONS
+// ============================================================================
+int				ft_get_duration_seconds(t_game *game);
+int				ft_get_duration_minutes(t_game *game);
+void			ft_init_timer(t_game *game);
+int				ft_get_remaining(t_game *game);
+void			ft_check_timer(t_game *game);
+void			ft_next_duration(void *game_ptr);
+void			ft_previous_duration(void *game_ptr);
+void			ft_render_timer_hud(t_game *game);
 
 // ============================================================================
 // DOOR FUNCTIONS
