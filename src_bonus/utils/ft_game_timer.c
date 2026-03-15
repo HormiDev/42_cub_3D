@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_game_timer.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/12 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/12 19:24:52 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:23:39 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,32 +99,6 @@ void	ft_previous_duration(void *game_ptr)
 	game->config.duration_index--;
 }
 
-/**
- * @brief Dibuja el temporizador restante en pantalla en formato MM:SS.
- * Usa mlx_string_put centrado en la parte superior de la ventana.
- * Si la partida ha terminado muestra el mensaje de victoria.
- */
-void	ft_render_timer_hud(t_game *game)
-{
-	char	str[16];
-	int		remaining;
-	int		minutes;
-	int		seconds;
-
-	if (game->game_state == GAME_PLAYERS_WIN)
-	{
-		mlx_string_put(game->mlx, game->window,
-			WINDOW_WIDTH / 2 - 60, WINDOW_HEIGHT / 2,
-			0xFF00FF00, "PLAYERS WIN!");
-		return ;
-	}
-	remaining = ft_get_remaining(game);
-	minutes = remaining / 60;
-	seconds = remaining % 60;
-	ft_sprintf(str, "%02d:%02d", minutes, seconds);
-	mlx_string_put(game->mlx, game->window,
-		WINDOW_WIDTH / 2 - 16, 40, 0xFFFFFF00, str);
-}
 
 /**
  * @brief Dibuja el temporizador restante en pantalla en formato MM:SS.

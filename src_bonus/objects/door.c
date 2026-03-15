@@ -11,7 +11,7 @@ static t_door	*ft_create_door(int x, int y)
 	door->position.y = y;
 	door->state = DOOR_CLOSED;
 	door->animation_progress = 0.0;
-	door->trigger_distance = 2.5;
+	door->trigger_distance = 3.0;
 	door->texture_index = 0;
 	return (door);
 }
@@ -72,7 +72,6 @@ void	ft_update_doors(t_game *game)
 	t_list	*current;
 	t_door	*door;
 
-	ft_check_door_triggers(game);
 	current = game->doors;
 	while (current)
 	{
