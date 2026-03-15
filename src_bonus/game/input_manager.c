@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/02 00:00:00 by ismherna          #+#    #+#             */
-/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:05:42 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	input_reset_actions(t_game *game, int player_index)
 	game->actions[player_index].rotate_left = 0;
 	game->actions[player_index].rotate_right = 0;
 	game->actions[player_index].run = 0;
+	game->actions[player_index].interact = 0;
 }
 
 /*

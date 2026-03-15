@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_update.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/12 19:25:09 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:08:47 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,30 @@ void ft_three_players(t_game *game)
  * @param param estructura del juego que contiene toda la información necesaria.
  * @return 0 para indicar que la actualización se realizó correctamente.
  */
+static int	ft_should_show_door_prompt(t_game *game)
+{
+	t_vector_int	door_tile;
+	t_door			*door;
+	double			dx;
+	double			dy;
+	double			distance;
+
+	if (!game || !game->player)
+		return (0);
+	if (!ft_raycast_door_hit(game, game->player->rotation.x, 4.0,
+			&door_tile))
+		return (0);
+	door = ft_get_door_at(game, door_tile.x, door_tile.y);
+	if (!door)
+		return (0);
+	dx = game->player->position.x - (door->position.x + 0.5);
+	dy = game->player->position.y - (door->position.y + 0.5);
+	distance = ft_sqrt(dx * dx + dy * dy);
+	if (distance > door->trigger_distance)
+		return (0);
+	return (1);
+}
+
 int ft_update(void *param)
 {
 	t_game 	*game = (t_game *)param;
@@ -155,6 +179,12 @@ int ft_update(void *param)
 	}
 	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 	if (!game->show_menu)
+	{
+		if (ft_should_show_door_prompt(game))
+			mlx_string_put(game->mlx, game->window,
+				WINDOW_WIDTH / 2 - 70, WINDOW_HEIGHT - 40,
+				0xFFFFFF00, "Press A or Click");
 		ft_render_timer_hud(game);
+	}
 	return (0);
 }

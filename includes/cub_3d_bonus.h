@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/12 19:25:09 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:05:42 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,6 +182,9 @@ t_door			*ft_get_door_at(t_game *game, int x, int y);
 void			ft_free_doors(t_game *game);
 double			ft_get_door_height(t_door *door);
 int				ft_is_wall_or_closed_door(t_game *game, int x, int y);
+int				ft_raycast_door_hit(t_game *game, double angle,
+					double max_size, t_vector_int *door_tile);
+int				ft_try_toggle_door(t_game *game);
 
 // ============================================================================
 // ALIEN FUNCTIONS

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gamepad.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:08:47 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,6 +444,11 @@ static void	ft_gamepad_apply_to_player(t_game *game, t_gamepad *gp,
 		return ;
 	ft_set_player_movement(&game->actions[player_idx], gp);
 	ft_set_player_rotation(&game->actions[player_idx], gp);
+	if (gp->a_pressed)
+	{
+		game->actions[player_idx].interact = 1;
+		gp->a_pressed = 0;
+	}
 	game->devices[player_idx] = INPUT_GAMEPAD;
 }
 

@@ -64,6 +64,30 @@ static void	ft_trigger_door(t_door *door, double distance)
 	}
 }
 
+int	ft_try_toggle_door(t_game *game)
+{
+	t_vector_int	door_tile;
+	t_door			*door;
+	double			distance;
+
+	if (!game || !game->player)
+		return (0);
+	if (!ft_raycast_door_hit(game, game->player->rotation.x, 4.0,
+			&door_tile))
+		return (0);
+	door = ft_get_door_at(game, door_tile.x, door_tile.y);
+	if (!door)
+		return (0);
+	distance = ft_distance_to_door(game->player->position, door);
+	if (distance > door->trigger_distance)
+		return (0);
+	if (door->state == DOOR_CLOSED || door->state == DOOR_CLOSING)
+		door->state = DOOR_OPENING;
+	else if (door->state == DOOR_OPEN || door->state == DOOR_OPENING)
+		door->state = DOOR_CLOSING;
+	return (1);
+}
+
 void	ft_check_door_triggers(t_game *game)
 {
 	t_list	*current;

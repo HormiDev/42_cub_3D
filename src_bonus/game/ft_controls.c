@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_controls.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 18:05:53 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,11 @@ void ft_controls(t_game *game, int player_index)
 		move_speed = MOVE_SPEED;
 	is_moving = ft_handle_player_movement(game, move_speed, player_index);
 	ft_handle_player_rotation(game, player_index);
+	if (actions->interact)
+	{
+		ft_try_toggle_door(game);
+		actions->interact = 0;
+	}
 	if (is_moving)
 		audio_play_steps(game, AUDIO_WALK);
 }

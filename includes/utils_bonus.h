@@ -243,6 +243,7 @@ typedef struct s_player_actions {
 	int	rotate_left;
 	int	rotate_right;
 	int	run;
+	int	interact;
 } t_player_actions;
 
 typedef enum e_resolutions
@@ -395,7 +396,7 @@ typedef struct s_game
 	t_resolution		*resolutions;
 	int					resolutions_size;
 	int					resolution_index;
-	e_game_state		game_state;
+	t_game_state		game_state;
 	long				game_start_time;
 	t_player			players[MAX_PLAYERS];
 }	t_game;
