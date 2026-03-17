@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 20:17:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/30 01:24:52 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:46:43 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void ft_menu_button(void *game_ptr)
 void	ft_loading_settings_buttons(t_game *game)
 {
 	game->menu_settings.n_buttons = 3; // Actualizar si se añaden más botones
-	game->menu_settings.buttons = ft_alloc_lst(sizeof(t_button) * game->menu_settings.n_buttons, 4);
+	game->menu_settings.buttons = hd_calloc(game->menu_settings.n_buttons,
+			sizeof(t_button));
 	// Back Button
 	ft_button_position_size(&game->menu_settings.buttons[0],
 		(MENU_WIDTH / 2) - (MENU_BUTTON_WIDTH / 2), MENU_BUTTON_HEIGHT + 20,

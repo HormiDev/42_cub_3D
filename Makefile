@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2026/03/12 19:23:06 by ide-dieg         ###   ########.fr        #
+#    Updated: 2026/03/15 21:28:12 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,6 +28,7 @@ SRC		=	src/main.c \
 			src/parse/ft_check_map.c \
 			src/parse/ft_create_game_map.c \
 			src/parse/ft_map_origin.c \
+			src/parse/ft_map_origin_utils.c \
 			src/parse/ft_walls_closed.c \
 			src/parse/ft_read_textures.c \
 			src/parse/ft_parse_textures.c \
@@ -46,9 +47,9 @@ SRC		=	src/main.c \
 			src/ft_mix_color.c \
 			src/ft_update.c \
 			src/ft_get_time.c \
-			src/DEBUG/ft_debug_textures.c \
 			src/ft_scale_t_image_precalc.c \
 			src/ft_scale_t_image.c \
+			src/DEBUG/ft_debug_textures.c \
 
 SRC_BONUS =	src_bonus/main.c \
 			src_bonus/game/ft_controls.c \

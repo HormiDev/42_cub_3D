@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 19:52:57 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:44:38 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:40:58 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ unsigned char	***ft_precalc_mixcolor(void)
 	int				j;
 	int				k;
 
-	preclac = ft_alloc_lst(sizeof(unsigned char **) * 256, 3);
+	preclac = hd_malloc(sizeof(unsigned char **) * 256);
 	i = 0;
 	while (i < 256)
 	{
-		preclac[i] = ft_alloc_lst(sizeof(unsigned char *) * 256, 3);
+		preclac[i] = hd_malloc(sizeof(unsigned char *) * 256);
 		j = 0;
 		while (j < 256)
 		{
-			preclac[i][j] = ft_alloc_lst(sizeof(unsigned char) * 101, 3);
+			preclac[i][j] = hd_malloc(sizeof(unsigned char) * 101);
 			k = 0;
 			while (k < 101)
 			{

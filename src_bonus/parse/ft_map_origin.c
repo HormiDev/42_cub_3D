@@ -1,6 +1,5 @@
 
 #include "../../includes/cub_3d_bonus.h"
-#include <stdbool.h>
 
 /**
  * @brief Verifica si una línea es una directiva del mapa.
@@ -37,7 +36,7 @@ bool is_directive_line(char *line)
  * @return true Si la línea contiene solo espacios, tabulaciones o saltos de línea.
  * @return false Si la línea contiene algún otro carácter.
  */
-static bool is_only_spaces(const char *line)
+bool is_only_spaces(const char *line)
 {
 	int j = 0;
 	while (line[j])

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 18:02:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:42:34 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:46:20 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ double ft_sin(double angle)
 	if (sin_table == NULL)
 	{
 		i = 0;
-		sin_table = ft_alloc_lst(sizeof(double) * 9000, 3);
+		sin_table = hd_malloc(sizeof(double) * 9000);
 		while (i < 9000)
 		{
 			sin_table[i] = sin(ft_angle_rad(i / 100.0));
@@ -78,7 +78,7 @@ double ft_cos(double angle)
 	{
 		i = 0;
 
-		cos_table = ft_alloc_lst(sizeof(double) * 9000, 3);
+		cos_table = hd_malloc(sizeof(double) * 9000);
 		while(i < 9000)
 		{
 			cos_table[i] = cos(ft_angle_rad(i / 100.0));

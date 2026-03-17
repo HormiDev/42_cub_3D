@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/17 16:17:05 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/12 20:15:26 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:53:59 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,16 @@ void	ft_prec_vector_cloud(t_game *game)
 	double current_angle;
 
 	fov_y = FOV * ((double)game->config.render_height / (double)game->config.render_width);
-	// tas impementar hd_alloc para liberar game->prec_vector_cloud antes de reasignar teniendo en cuenta que es una matriz
-	game->prec_vector_cloud = ft_alloc_lst(sizeof(t_vector2 *) * game->config.render_height / 2, 4);
+	game->prec_vector_cloud = hd_calloc(game->config.render_height / 2,
+			sizeof(t_vector2 *));
 	//game->render_cloud = ft_alloc_lst(sizeof(t_vector2 *) * game->config.render_height / 2, 4);
-	game->mist_density_fc = ft_alloc_lst(sizeof(int) * game->config.render_height / 2, 4);
+	game->mist_density_fc = hd_calloc(game->config.render_height / 2,
+			sizeof(int));
 	i = 0;
 	while (i < game->config.render_height / 2)
 	{
-		game->prec_vector_cloud[i] = ft_alloc_lst(sizeof(t_vector2) * game->config.render_width, 4);
+		game->prec_vector_cloud[i] = hd_calloc(game->config.render_width,
+				sizeof(t_vector2));
 		//game->render_cloud[i] = ft_alloc_lst(sizeof(t_vector2) * game->config.render_width, 4);
 		j = 0;
 		x = 0.5 / ft_sin((fov_y / 2.0) - (i * fov_y / (double)(game->config.render_height))) * ft_cos((fov_y / 2.0) - (i * fov_y / (double)(game->config.render_height)));

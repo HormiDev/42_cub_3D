@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_controls.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 18:05:53 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/03/17 14:01:19 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ int ft_key_press(int keycode, t_game *game)
 		game->actions[game->kb_player].rotate_right = 1;
 	else if (keycode == LSHIFT)
 		game->actions[game->kb_player].run = 1;
+	else if (keycode == E)
+		game->actions[game->kb_player].interact = 1;
 	return (0);
 }
 

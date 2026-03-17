@@ -1,8 +1,8 @@
 crear un nuevo audio manager (que no deje procesos zombie) -> tiene que ser un proceso hijo que gestione los audios
 
-Migración de HD alloc -> funcion del demonio
+Migración de HD alloc -> funcion del demonio [OK]
 
-Sistema de puertas: crear un nuevo sistema al hacer click o aprovechando el propio raycast y comprobando distancia o creando un nuevo raycast (lo primero en principio).
+Sistema de puertas: crear un nuevo sistema al hacer click o aprovechando el propio raycast y comprobando distancia o creando un nuevo raycast (lo primero en principio). [OK]
 
 prerenderizado de modelo 3d: distintos angulos
 

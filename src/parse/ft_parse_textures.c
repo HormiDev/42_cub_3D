@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 19:07:39 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:41:08 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	ft_load_texture_from_path(t_game *game, t_texture *tex, char *path)
 			tex->path);
 		ft_close_game(1);
 	}
-	tex->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * tex->height, 4);
+	tex->colors_matrix = hd_calloc(tex->height, sizeof(unsigned int *));
 	i = 0;
 	while (i < tex->height)
 	{
@@ -65,7 +65,7 @@ t_texture	*ft_create_texture(t_game *game, char *line)
 	char		**split;
 	int			path_or_color;
 
-	tex = ft_alloc_lst(sizeof(t_texture), 4);
+	tex = hd_calloc(1, sizeof(t_texture));
 	split = ft_split_chars_ae(line, " \n\t");
 	if (!split[1])
 	{

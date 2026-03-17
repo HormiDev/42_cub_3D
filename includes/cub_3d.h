@@ -278,5 +278,7 @@ void			ft_print_map(char **map, int error_x, int error_y);
 void			debug_print_textures(t_game *game);
 long			ft_long_diff(long a, long b);
 
+bool is_only_spaces(const char *line);
+bool is_directive_line(char *line);
 
 #endif

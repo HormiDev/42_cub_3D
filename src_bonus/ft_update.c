@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_update.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 18:08:47 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/03/17 14:01:27 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,7 @@ int ft_update(void *param)
 		if (ft_should_show_door_prompt(game))
 			mlx_string_put(game->mlx, game->window,
 				WINDOW_WIDTH / 2 - 70, WINDOW_HEIGHT - 40,
-				0xFFFFFF00, "Press A or Click");
+				0xFFFFFF00, "Press E or A");
 		ft_render_timer_hud(game);
 	}
 	return (0);

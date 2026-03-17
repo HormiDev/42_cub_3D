@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:54:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:20:22 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:41:22 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	main(int argc, char **argv)
 {
 	t_game	*game;
 
+	hd_alloc_set_error_func(hd_alloc_error_func_d);
 	if (!ft_check_args(argc, argv))
 		return (1);
 	ft_printf("Arguments are valid\n");

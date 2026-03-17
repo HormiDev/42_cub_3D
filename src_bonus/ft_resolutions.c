@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 01:16:45 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 19:15:10 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:46:48 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void ft_previous_resolution(void *game_ptr)
 void ft_init_resolutions(t_game *game)
 {
 	game->resolutions_size = 10;
-	game->resolutions = ft_alloc_lst(sizeof(t_resolution) * game->resolutions_size, 4);
+	game->resolutions = hd_calloc(game->resolutions_size, sizeof(t_resolution));
 	game->resolutions[0].width = 160;
 	game->resolutions[0].height = 90;
 	game->resolutions[1].width = 240;

@@ -4,7 +4,7 @@ static t_door	*ft_create_door(int x, int y)
 {
 	t_door	*door;
 
-	door = ft_alloc_lst(sizeof(t_door), 4);
+	door = hd_calloc(1, sizeof(t_door));
 	if (!door)
 		return (NULL);
 	door->position.x = x;

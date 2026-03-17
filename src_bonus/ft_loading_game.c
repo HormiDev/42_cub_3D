@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/12 19:23:37 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:46:17 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void	ft_build_array_textures(t_game *game)
 		game->length_textures_array[i] = ft_lstsize(list);
 		if (game->length_textures_array[i] > 0)
 		{
-			game->arraytextures[i] = ft_alloc_lst(sizeof(t_texture *)
-					* game->length_textures_array[i], 4);
+			game->arraytextures[i] = hd_calloc(game->length_textures_array[i],
+					sizeof(t_texture *));
 			j = 0;
 			while (list)
 			{
@@ -43,7 +43,7 @@ void	ft_create_render(t_game *game)
 {
 	int	i;
 
-	game->render = ft_alloc_lst(sizeof(t_texture), 4);
+	game->render = hd_calloc(1, sizeof(t_texture));
 	game->render->img = mlx_new_image(game->mlx, game->config.render_width,
 			game->config.render_height);
 	if (!game->render->img)
@@ -53,8 +53,8 @@ void	ft_create_render(t_game *game)
 	}
 	game->render->width = game->config.render_width;
 	game->render->height = game->config.render_height;
-	game->render->colors_matrix = ft_alloc_lst(sizeof(unsigned int *)
-			* game->config.render_height, 4);
+	game->render->colors_matrix = hd_calloc(game->config.render_height,
+			sizeof(unsigned int *));
 	i = 0;
 	while (i < game->config.render_height)
 	{
@@ -68,7 +68,7 @@ void	ft_create_window_img(t_game *game)
 {
 	int	i;
 
-	game->window_img = ft_alloc_lst(sizeof(t_texture), 4);
+	game->window_img = hd_calloc(1, sizeof(t_texture));
 	game->window_img->img = mlx_new_image(game->mlx, WINDOW_WIDTH,
 			WINDOW_HEIGHT);
 	if (!game->window_img->img)
@@ -78,8 +78,8 @@ void	ft_create_window_img(t_game *game)
 	}
 	game->window_img->width = WINDOW_WIDTH;
 	game->window_img->height = WINDOW_HEIGHT;
-	game->window_img->colors_matrix = ft_alloc_lst(sizeof(unsigned int *)
-			* WINDOW_HEIGHT, 4);
+	game->window_img->colors_matrix = hd_calloc(WINDOW_HEIGHT,
+			sizeof(unsigned int *));
 	i = 0;
 	while (i < WINDOW_HEIGHT)
 	{
@@ -100,7 +100,7 @@ void	ft_create_minimap(t_game *game)
 	int	size;
 
 	size = WINDOW_HEIGHT / 5;
-	game->minimap = ft_alloc_lst(sizeof(t_texture), 4);
+	game->minimap = hd_calloc(1, sizeof(t_texture));
 	game->minimap->img = mlx_new_image(game->mlx, size, size);
 	if (!game->minimap->img)
 	{
@@ -109,8 +109,7 @@ void	ft_create_minimap(t_game *game)
 	}
 	game->minimap->width = size;
 	game->minimap->height = size;
-	game->minimap->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * size,
-			4);
+	game->minimap->colors_matrix = hd_calloc(size, sizeof(unsigned int *));
 	i = 0;
 	while (i < size)
 	{
@@ -132,7 +131,7 @@ void	ft_loading_render(t_game *game, int render_height, int render_width)
 		game->config.render_width /= 2;
 	ft_create_render(game);
 	// tas impementar hd_alloc para liberar game->raycasts antes de reasignar
-	game->raycasts = ft_alloc_lst(sizeof(t_raycast) * render_width, 4);
+	game->raycasts = hd_calloc(render_width, sizeof(t_raycast));
 	ft_prec_fish_eye_correction(game);
 	ft_prec_vector_cloud(game);
 }
@@ -155,7 +154,7 @@ t_game	*ft_loading_game(char *path_map)
 	t_game	*game;
 	t_file	*map_file;
 
-	game = ft_alloc_lst(sizeof(t_game), 4);
+	game = hd_calloc(1, sizeof(t_game));
 	ft_config_mlx(game);
 	map_file = ft_create_file_from_filename(path_map);
 	if (!map_file)

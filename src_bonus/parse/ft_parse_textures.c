@@ -20,7 +20,7 @@ static void	ft_load_texture_from_path(t_game *game, t_texture *tex, char *path)
 		ft_dprintf(2, RED "Error: Failed to load texture from path: %s\n" RESET, tex->path);
 		ft_close_game(1);
 	}
-	tex->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * tex->height, 4);
+	tex->colors_matrix = hd_calloc(tex->height, sizeof(unsigned int *));
 	i = 0;
 	while (i < tex->height)
 	{
@@ -46,7 +46,7 @@ t_texture	*ft_create_texture(t_game *game, char *line)
 	char		**split;
 	int			path_or_color;
 
-	tex = ft_alloc_lst(sizeof(t_texture), 4);
+	tex = hd_calloc(1, sizeof(t_texture));
 	split = ft_split_chars_ae(line, " \n\t");
 	if (!split[1])
 	{

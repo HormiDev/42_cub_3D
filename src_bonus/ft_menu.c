@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:46:46 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ void ft_button_position_size(t_button *button, int x, int y, int width, int heig
 void	ft_loading_menu_buttons(t_game *game)
 {
 	game->menu.n_buttons = 3; // Actualizar si se añaden más botones
-	game->menu.buttons = ft_alloc_lst(sizeof(t_button) * game->menu.n_buttons, 4);
+	game->menu.buttons = hd_calloc(game->menu.n_buttons, sizeof(t_button));
 	// Play Button
 	ft_button_position_size(&game->menu.buttons[0],
 		(MENU_WIDTH / 2) - (MENU_BUTTON_WIDTH / 2),

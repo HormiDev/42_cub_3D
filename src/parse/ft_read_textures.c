@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:06:50 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 21:18:12 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,7 @@ static void	validate_xpm_line(char *line)
 	start_quote = ft_strchr(line, '\"');
 	if (!ft_strchr(start_quote + 1, '\"'))
 	{
-		ft_dprintf(2, RED "Error: Invalid XPM: The quote is not closed:
-			%s\n" RESET, line);
+		ft_dprintf(2, RED "Error: Invalid XPM: The quote is not closed: %s\n" RESET, line);
 		ft_close_game(1);
 	}
 	sub_str = ft_substr_ae(start_quote + 1, 0, ft_strchr(start_quote + 1, '\"')

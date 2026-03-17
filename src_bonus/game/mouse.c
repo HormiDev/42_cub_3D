@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2026/03/15 18:05:53 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/03/17 14:01:15 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,10 +149,6 @@ int	ft_mouse_click(int button, int x, int y, t_game *game)
 				ft_hober_buttons(game, &game->menu_settings);
 				ft_click_button(game, &game->menu_settings);
 			}
-		}
-		else if (game->kb_player >= 0 && game->kb_player < MAX_GAMEPADS)
-		{
-			game->actions[game->kb_player].interact = 1;
 		}
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 19:43:34 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 21:18:47 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -234,7 +234,6 @@ void	ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size)
 		if (aux_distance < distance.x)
 		{
 			if (distance.x > max_size + 1)
-				comparar distancias de senos y cosenos !!!
 				{
 					ft_raycast_max_size(game, angle, ray, max_size, cuadrant);
 					break ;

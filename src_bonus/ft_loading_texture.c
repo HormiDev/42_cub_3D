@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 19:02:05 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/12/27 04:26:42 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:47:06 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void ft_texture_matrix(t_texture *texture)
 {
 	int i;
 
-	texture->colors_matrix = ft_alloc_lst(sizeof(unsigned int *) * texture->height, 4);// usar hd_alloc
+	texture->colors_matrix = hd_calloc(texture->height, sizeof(unsigned int *));
 	i = 0;
 	while (i < texture->height)
 	{
@@ -39,8 +39,8 @@ t_texture *ft_loading_texture(void *mlx_ptr, char *path)
 		ft_dprintf(2, RED "Error: Failed to load texture from path: %s\n" RESET, path);
 		return (NULL);
 	}
-	texture = ft_alloc_lst(sizeof(t_texture), 4);// usar hd alloc
-	texture->path = ft_strdup_ae(path);//usar hd_alloc
+	texture = hd_calloc(1, sizeof(t_texture));
+	texture->path = hd_alloc(ft_strdup(path), free);
 	texture->img = img;
 	texture->width = width;
 	texture->height = height;
@@ -52,7 +52,7 @@ t_texture *ft_new_texture(void *mlx_ptr, int width, int height)
 {
 	t_texture *texture;
 
-	texture = ft_alloc_lst(sizeof(t_texture), 4);// usar hd_alloc
+	texture = hd_calloc(1, sizeof(t_texture));
 	texture->img = mlx_new_image(mlx_ptr, width, height);// usar hd_alloc
 	if (!texture->img)
 	{

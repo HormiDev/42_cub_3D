@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:25:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:16:19 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:41:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  */
 void	ft_close_game(int exit_code)
 {
-	ft_alloc_clear();
+	hd_alloc_clear();
 	exit(exit_code);
 }
 
@@ -33,6 +33,6 @@ void	ft_close_game(int exit_code)
  */
 int	ft_close_game_for_mlx(void)
 {
-	ft_alloc_clear();
+	hd_alloc_clear();
 	exit(0);
 }

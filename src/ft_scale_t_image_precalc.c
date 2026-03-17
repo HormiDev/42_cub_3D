@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:41:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:38:50 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/15 22:41:03 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	*ft_scale_precalc_y(void)
 	int	i;
 
 	printf("Creating scale_y_table with size: %d\n", WINDOW_HEIGHT);
-	scale_y_table = ft_alloc_lst(sizeof(int) * WINDOW_HEIGHT, 3);
+	scale_y_table = hd_malloc(sizeof(int) * WINDOW_HEIGHT);
 	i = 0;
 	while (i < WINDOW_HEIGHT)
 	{
@@ -35,7 +35,7 @@ int	*ft_scale_precalc_x(void)
 	int	i;
 
 	printf("Creating scale_x_table with size: %d\n", WINDOW_WIDTH);
-	scale_x_table = ft_alloc_lst(sizeof(int) * WINDOW_WIDTH, 3);
+	scale_x_table = hd_malloc(sizeof(int) * WINDOW_WIDTH);
 	i = 0;
 	while (i < WINDOW_WIDTH)
 	{
