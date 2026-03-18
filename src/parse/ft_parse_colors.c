@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 19:29:05 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/18 01:56:12 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ unsigned int	ft_parse_color_rgb(char *color_str)
 	unsigned int	color;
 	unsigned char	*bgra;
 
-	rgb_values = ft_split_ae(color_str, ',');
+	rgb_values = hd_alloc(ft_split(color_str, ','), ft_hd_alloc_free_split);
 	bgra = (unsigned char *)&color;
 	bgra[2] = ft_atoi(rgb_values[0]);
 	bgra[1] = ft_atoi(rgb_values[1]);
@@ -68,7 +68,7 @@ int	ft_path_or_color(char *str)
 
 	if (ft_strchr(str, '/'))
 		return (1);
-	split = ft_split_chars_ae(str, ",\n\t");
+	split = hd_alloc(ft_split_chars(str, ",\n\t"), ft_hd_alloc_free_split);
 	if (ft_splitlen(split) == 3)
 	{
 		rgb[0] = ft_atoi(split[0]);

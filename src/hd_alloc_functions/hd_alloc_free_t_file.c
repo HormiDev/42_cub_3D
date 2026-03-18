@@ -1,27 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   hd_alloc_free_t_file.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/12 18:54:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/18 02:21:58 by ide-dieg         ###   ########.fr       */
+/*   Created: 2026/03/17 22:07:37 by ide-dieg          #+#    #+#             */
+/*   Updated: 2026/03/17 23:57:21 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/cub_3d.h"
+#include "../../includes/cub_3d.h"
 
-int	main(int argc, char **argv)
+void	hd_alloc_free_t_file(void *ptr)
 {
-	t_game	*game;
-
-	hd_alloc_set_error_func(hd_alloc_error_func_d);
-	if (!ft_check_args(argc, argv))
-		return (1);
-	ft_printf("Arguments are valid\n");
-	game = ft_loading_game(argv[1]);
-	mlx_loop(game->mlx);
-	hd_alloc_clear();
-	return (0);
+	ft_file_clear((t_file *)ptr);
 }

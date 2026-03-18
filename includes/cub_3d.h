@@ -198,6 +198,8 @@ int				ft_start_column_map(t_file *map_file, const int *height_start_end);
 int				ft_end_column_map(t_file *map_file, const int *height_start_end);
 void			ft_create_game_map(t_game *game, t_file *map_file, const int *height_start_end, const int *width_start_end);
 void			ft_rotate_map_y(t_game *game);
+bool			is_only_spaces(const char *line);
+bool			is_directive_line(char *line);
 
 // Map validation
 void			ft_check_map(t_game *game);
@@ -278,7 +280,15 @@ void			ft_print_map(char **map, int error_x, int error_y);
 void			debug_print_textures(t_game *game);
 long			ft_long_diff(long a, long b);
 
-bool is_only_spaces(const char *line);
-bool is_directive_line(char *line);
+// ============================================================================
+// MLX HD_ALLOC FUNCTIONS
+// ============================================================================
+void			*ft_create_window(void *mlx, int size_x, int size_y, char *title);
+void			*ft_create_image(void *mlx, int size_x, int size_y);
+void			*ft_mlx_xpm_file_to_image(void *mlx, char *filename,
+					int *width, int *height);
+void			hd_alloc_free_t_file(void *ptr);
+void			ft_hd_alloc_mlx_destroy(void *ptr);
+void			ft_hd_alloc_free_split(void *ptr);
 
 #endif

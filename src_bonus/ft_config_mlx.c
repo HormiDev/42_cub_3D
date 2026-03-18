@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 22:46:08 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/17 20:05:00 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	ft_free_mlx(t_game *game)
  */
 static void	ft_init_mlx_window(t_game *game)
 {
-	game->mlx = mlx_init();
+	game->mlx = hd_alloc(mlx_init(), free);
 	if (!game->mlx)
 	{
 		ft_dprintf(2, RED "Error:\n Failed to initialize mlx\n" RESET);

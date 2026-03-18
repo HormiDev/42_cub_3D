@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 22:40:46 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/17 23:56:19 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	ft_create_render(t_game *game)
 	int	i;
 
 	game->render = hd_calloc(1, sizeof(t_texture));
-	game->render->img = mlx_new_image(game->mlx, RENDER_WIDTH, RENDER_HEIGHT);
+	game->render->img = ft_create_image(game->mlx, RENDER_WIDTH, RENDER_HEIGHT);
 	if (!game->render->img)
 	{
 		ft_dprintf(2, "Error: Failed to create render image\n");
@@ -69,7 +69,7 @@ void	ft_create_window_img(t_game *game)
 	int	i;
 
 	game->window_img = hd_calloc(1, sizeof(t_texture));
-	game->window_img->img = mlx_new_image(game->mlx, WINDOW_WIDTH,
+	game->window_img->img = ft_create_image(game->mlx, WINDOW_WIDTH,
 			WINDOW_HEIGHT);
 	if (!game->window_img->img)
 	{
@@ -110,7 +110,7 @@ t_game	*ft_loading_game(char *path_map)
 
 	game = hd_calloc(1, sizeof(t_game));
 	ft_config_mlx(game);
-	map_file = ft_create_file_from_filename(path_map);
+	map_file = hd_alloc(ft_create_file_from_filename(path_map), hd_alloc_free_t_file);
 	if (!map_file)
 	{
 		ft_dprintf(2, "Error: Failed to create map\n");
@@ -128,6 +128,6 @@ t_game	*ft_loading_game(char *path_map)
 	ft_sqrt(0);
 	game->precalc.scale_x_table = ft_scale_precalc_x();
 	game->precalc.scale_y_table = ft_scale_precalc_y();
-	ft_file_clear(&map_file);
+	hd_free(map_file);
 	return (game);
 }

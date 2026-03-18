@@ -6,7 +6,7 @@
 #    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2026/03/15 21:28:12 by ide-dieg         ###   ########.fr        #
+#    Updated: 2026/03/18 01:55:32 by ide-dieg         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,6 +50,10 @@ SRC		=	src/main.c \
 			src/ft_scale_t_image_precalc.c \
 			src/ft_scale_t_image.c \
 			src/DEBUG/ft_debug_textures.c \
+			src/hd_alloc_functions/ft_mlx_hd_alloc_functions.c \
+			src/hd_alloc_functions/hd_alloc_free_t_file.c \
+			src/hd_alloc_functions/ft_hd_alloc_mlx_destroy.c \
+			src/hd_alloc_functions/ft_hd_alloc_free_split.c \
 
 SRC_BONUS =	src_bonus/main.c \
 			src_bonus/game/ft_controls.c \

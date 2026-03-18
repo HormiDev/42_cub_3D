@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 21:18:12 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/18 02:14:06 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ static void	validate_xpm_line(char *line)
 {
 	char	*start_quote;
 	char	*sub_str;
+	char	**split;
 
 	start_quote = ft_strchr(line, '\"');
 	if (!ft_strchr(start_quote + 1, '\"'))
@@ -54,9 +55,10 @@ static void	validate_xpm_line(char *line)
 		ft_dprintf(2, RED "Error: Invalid XPM: The quote is not closed: %s\n" RESET, line);
 		ft_close_game(1);
 	}
-	sub_str = ft_substr_ae(start_quote + 1, 0, ft_strchr(start_quote + 1, '\"')
-			- start_quote - 1);
-	if (ft_splitlen(ft_split_ae(sub_str, ' ')) < 4)
+	sub_str = hd_alloc(ft_substr(start_quote + 1, 0, ft_strchr(start_quote + 1, '\"')
+			- start_quote - 1), free);
+	split = hd_alloc(ft_split(sub_str, ' '), ft_hd_alloc_free_split);
+	if (ft_splitlen(split) < 4)
 	{
 		ft_dprintf(2, "Error: Invalid XPM file format in line: %s\n", line);
 		ft_close_game(1);
@@ -78,7 +80,7 @@ void	check_arguments_xpm(char *path)
 	t_file		*file;
 	t_strlist	*current;
 
-	file = ft_create_file_from_filename(path);
+	file = hd_alloc(ft_create_file_from_filename(path), hd_alloc_free_t_file);
 	if (!file)
 	{
 		ft_dprintf(2, RED "Error: Failed to open XPM file: %s\n" RESET, path);
@@ -94,4 +96,5 @@ void	check_arguments_xpm(char *path)
 		}
 		current = current->next;
 	}
+	hd_free(file);
 }

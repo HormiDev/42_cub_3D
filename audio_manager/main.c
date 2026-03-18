@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 19:39:51 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/17 14:33:28 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/17 20:10:36 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,25 @@ typedef struct s_audio_manager
 	int		pipe[2];
 }	t_audio_manager;
 
+void	free_gnl(void *ptr)
+{
+	get_next_line(-1);
+	free(ptr);
+}
+
 static void	audio_manager_run(void)
 {
-	char	line[1024];
-	size_t		len;
+	char	*line;
 
-	len = 0;
-	while (len < sizeof(line) - 1 && line[len] != '\n')
-	{
-		if (read(STDIN_FILENO, &line[len], 1) <= 0)
-			exit(1);
-		len++;
-	}
-	line[len] = '\0';
-	while (line[0])
+	hd_alloc(malloc(1), free_gnl);
+	line = get_next_line(0);
+	while (line)
 	{
 		ft_printf("[CHILD] recibido: %s", line);
-		len = 0;
-		while (len < sizeof(line) - 1 && line[len] != '\n')
-		{
-			if (read(STDIN_FILENO, &line[len], 1) <= 0)
-				exit(1);
-			len++;
-		}
+		line = get_next_line(0);
+		hd_free(line);
 	}
-
+	hd_alloc_clear();
 	exit(0);
 }
 
