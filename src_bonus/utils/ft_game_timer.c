@@ -99,6 +99,18 @@ void	ft_previous_duration(void *game_ptr)
 	game->config.duration_index--;
 }
 
+static int	append_two_digits(char *buf, int len, int value)
+{
+	if (value < 10)
+	{
+		buf[len++] = '0';
+		len += ft_sprintf(buf + len, "%d", value);
+		return (len);
+	}
+	len += ft_sprintf(buf + len, "%d", value);
+	return (len);
+}
+
 
 /**
  * @brief Dibuja el temporizador restante en pantalla en formato MM:SS.
@@ -122,7 +134,11 @@ void	ft_render_timer_hud(t_game *game)
 	remaining = ft_get_remaining(game);
 	minutes = remaining / 60;
 	seconds = remaining % 60;
-	ft_sprintf(str, "%02d:%02d", minutes, seconds);
+	int	len = 0;
+	len = append_two_digits(str, len, minutes);
+	str[len++] = ':';
+	len = append_two_digits(str, len, seconds);
+	str[len] = '\0';
 	mlx_string_put(game->mlx, game->window,
 		WINDOW_WIDTH / 2 - 16, 40, 0xFFFFFF00, str);
 }
