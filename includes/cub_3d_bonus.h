@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 18:05:42 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/03/29 23:41:05 by ismherna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,6 +255,19 @@ void			ft_loading_texture_buttons(t_game *game, t_button *button,
 		char *base_texture, char *hover_texture);
 void			ft_button_position_size(t_button *button, int x, int y,
 		int width, int height);
+
+// ============================================================================
+// MLX HD_ALLOC FUNCTIONS
+// ============================================================================
+void			*ft_create_window(void *mlx, int size_x, int size_y, char *title);
+void			*ft_create_image(void *mlx, int size_x, int size_y);
+void			*ft_mlx_xpm_file_to_image(void *mlx, char *filename,
+					int *width, int *height);
+void			hd_alloc_free_t_file(void *ptr);
+void			ft_hd_alloc_mlx_destroy(void *ptr);
+void			ft_hd_alloc_free_split(void *ptr);
 		
+void			ft_draw_string_hud(t_texture *dst, t_texture *font,
+					const char *str, int x, int y);
 
 #endif

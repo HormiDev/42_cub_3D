@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/17 16:54:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2025/08/18 19:59:04 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/30 01:36:51 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int main(void)
 
 	prueba.mlx = mlx_init();
 	prueba.window = mlx_new_window(prueba.mlx, 800, 800, "Test Window");
-	prueba.img = mlx_xpm_file_to_image(prueba.mlx, "textures/ladrillos_este.xpm", &prueba.imgwidth, &prueba.imgheight);
-	prueba.img2 = mlx_xpm_file_to_image(prueba.mlx, "textures/ladrillos1.xpm", &prueba.imgwidth, &prueba.imgheight);
+	prueba.img = ft_mlx_xpm_file_to_image(prueba.mlx, "textures/ladrillos_este.xpm", &prueba.imgwidth, &prueba.imgheight);
+	prueba.img2 = ft_mlx_xpm_file_to_image(prueba.mlx, "textures/ladrillos1.xpm", &prueba.imgwidth, &prueba.imgheight);
 	prueba.img_x = 0;
 	prueba.img_y = 0;
 	if (!prueba.img !prueba.img2)

@@ -13,8 +13,8 @@ static void	ft_load_texture_from_path(t_game *game, t_texture *tex, char *path)
 
 	
 	check_arguments_xpm(path);
-	tex->path = ft_strdup(path);
-	tex->img = (t_img *)mlx_xpm_file_to_image(game->mlx, tex->path, &tex->width, &tex->height);
+	tex->path = hd_alloc(ft_strdup(path), free);
+	tex->img = (t_img *)ft_mlx_xpm_file_to_image(game->mlx, tex->path, &tex->width, &tex->height);
 	if (!tex->img)
 	{
 		ft_dprintf(2, RED "Error: Failed to load texture from path: %s\n" RESET, tex->path);
@@ -47,7 +47,7 @@ t_texture	*ft_create_texture(t_game *game, char *line)
 	int			path_or_color;
 
 	tex = hd_calloc(1, sizeof(t_texture));
-	split = ft_split_chars_ae(line, " \n\t");
+	split = hd_alloc(ft_split_chars(line, " \n\t"), ft_hd_alloc_free_split);
 	if (!split[1])
 	{
 		ft_dprintf(2, RED "Error: Texture path not found.\n" RESET);
@@ -81,12 +81,12 @@ static void	ft_parse_floor_ceiling(t_game *game, char *line)
 	if (ft_strncmp_p(line, "F", 1) == 0)
 	{
 		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[4], ft_lstnew_a(new_tex));
+		ft_lstadd_back(&game->textures[4], hd_alloc(ft_lstnew(new_tex), free));
 	}
 	else if (ft_strncmp_p(line, "C", 1) == 0)
 	{
 		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[5], ft_lstnew_a(new_tex));
+		ft_lstadd_back(&game->textures[5], hd_alloc(ft_lstnew(new_tex), free));
 	}
 }
 
@@ -106,22 +106,22 @@ void ft_parse_texture_line(t_game *game, char *line)
 	if (ft_strncmp_p(line, "NO", 2) == 0)
 	{
 		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[WALL_NO], ft_lstnew_a(new_tex));
+		ft_lstadd_back(&game->textures[WALL_NO], hd_alloc(ft_lstnew(new_tex), free));
 	}
 	else if (ft_strncmp_p(line, "SO", 2) == 0)
 	{
 		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[WALL_SO], ft_lstnew_a(new_tex));
+		ft_lstadd_back(&game->textures[WALL_SO], hd_alloc(ft_lstnew(new_tex), free));
 	}
 	else if (ft_strncmp_p(line, "WE", 2) == 0)
 	{
 		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[WALL_WE], ft_lstnew_a(new_tex));
+		ft_lstadd_back(&game->textures[WALL_WE], hd_alloc(ft_lstnew(new_tex), free));
 	}
 	else if (ft_strncmp_p(line, "EA", 2) == 0)
 	{
 		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[WALL_EA], ft_lstnew_a(new_tex));
+		ft_lstadd_back(&game->textures[WALL_EA], hd_alloc(ft_lstnew(new_tex), free));
 	}
 	else
 		ft_parse_floor_ceiling(game, line);

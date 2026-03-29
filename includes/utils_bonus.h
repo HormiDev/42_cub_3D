@@ -399,6 +399,7 @@ typedef struct s_game
 	t_game_state		game_state;
 	long				game_start_time;
 	t_player			players[MAX_PLAYERS];
+	t_texture 			*font;
 }	t_game;
 
 #endif

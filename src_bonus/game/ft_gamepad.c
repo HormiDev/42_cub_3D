@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gamepad.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 18:08:47 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/03/15 18:08:47 by ismherna          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ static int	ft_try_open_gamepad_at(t_game *game, const char *path, int slot)
 {
 	int	fd;
 
-	fd = ft_open_fd_lst(1, (char *)path, O_RDONLY | O_NONBLOCK);
+	fd = hd_open(path, O_RDONLY | O_NONBLOCK);
 	if (fd != -1)
 	{
 		game->gamepads[slot].fd = fd;

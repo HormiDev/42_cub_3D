@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+         #
+#    By: ismherna <ismherna@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 12:36:27 by ide-dieg          #+#    #+#              #
-#    Updated: 2026/03/29 16:56:36 by ide-dieg         ###   ########.fr        #
+#    Updated: 2026/03/29 23:41:05 by ismherna          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,6 +62,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/game/mouse.c \
 			src_bonus/game/audio_manager.c \
 			src_bonus/game/input_manager.c \
+			src_bonus/ft_image_to_text.c \
 			src_bonus/utils/ft_angle_utils.c \
 			src_bonus/utils/ft_vector_utils.c \
 			src_bonus/utils/ft_game_timer.c \
@@ -114,6 +115,10 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_resolutions.c \
 			src_bonus/ft_loading_texture.c \
 			src_bonus/ft_menu_settings.c \
+			src_bonus/hd_alloc_functions/ft_mlx_hd_alloc_functions.c \
+			src_bonus/hd_alloc_functions/hd_alloc_free_t_file.c \
+			src_bonus/hd_alloc_functions/ft_hd_alloc_mlx_destroy.c \
+			src_bonus/hd_alloc_functions/ft_hd_alloc_free_split.c \
 
 OBJ_DIR  = objects
 OBJ_DIR_BONUS  = objects_bonus
@@ -127,7 +132,7 @@ OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_BONUS = $(patsubst %.c, $(OBJ_DIR_BONUS)/%.o, $(SRC_BONUS))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3  #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror 
 
 all: clear $(NAME) title_print
 

@@ -39,7 +39,7 @@ void	ft_init_doors(t_game *game)
 				door = ft_create_door(x, y);
 				if (!door)
 					ft_close_game(1);
-				ft_lstadd_back(&game->doors, ft_lstnew(door));
+				ft_lstadd_back(&game->doors, hd_alloc(ft_lstnew(door), free));
 			}
 		}
 	}

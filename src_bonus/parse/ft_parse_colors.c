@@ -11,7 +11,7 @@ unsigned int	ft_parse_color_rgb(char *color_str)
 	unsigned int	color;
 	unsigned char	*bgra;
 
-	rgb_values = ft_split_ae(color_str, ',');
+	rgb_values = hd_alloc(ft_split(color_str, ','), ft_hd_alloc_free_split);
 	bgra = (unsigned char *)&color;
 	bgra[2] = ft_atoi(rgb_values[0]);
 	bgra[1] = ft_atoi(rgb_values[1]);
@@ -54,8 +54,8 @@ int ft_path_or_color(char *str)
 
 	if (ft_strchr(str, '/'))
 		return (1);
-	split = ft_split_chars_ae(str, ",\n\t");
-	if (ft_splitlen(split) == 3)
+	split = hd_alloc(ft_split_chars(str, ",\n\t"), ft_hd_alloc_free_split);
+	if (ft_splitlen(split) == 3) 
 	{
 		rgb[0] = ft_atoi(split[0]);
 		rgb[1] = ft_atoi(split[1]);

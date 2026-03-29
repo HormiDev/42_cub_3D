@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 22:46:46 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/30 01:36:51 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ void	ft_loading_menu_frames(t_game *game)
 
 	i = 0;
 	j = 0;
+	hd_alloc_set_error_func(0);
 	while (i < 200)
 	{
 		ft_snprintf(path, sizeof(path), "menu_frames/frame_%d.xpm", i);
@@ -105,6 +106,7 @@ void	ft_loading_menu_frames(t_game *game)
 		}
 		i++;
 	}
+	hd_alloc_set_error_func(hd_alloc_error_func_d);
 	game->menu.total_frames = j;
 }
 

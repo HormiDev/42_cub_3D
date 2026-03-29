@@ -42,9 +42,9 @@ static void	validate_xpm_line(char *line)
 		ft_dprintf(2, RED "Error: Invalid XPM: The quote is not closed: %s\n" RESET, line);
 		ft_close_game(1);
 	}
-	sub_str = ft_substr_ae(start_quote + 1, 0,
-			ft_strchr(start_quote + 1, '\"') - start_quote - 1);
-	if (ft_splitlen(ft_split_ae(sub_str, ' ')) < 4)
+	sub_str = hd_alloc(ft_substr(start_quote + 1, 0,
+			ft_strchr(start_quote + 1, '\"') - start_quote - 1), free);
+	if (ft_splitlen(hd_alloc(ft_split(sub_str, ' '), ft_hd_alloc_free_split)) < 4)
 	{
 		ft_dprintf(2, "Error: Invalid XPM file format in line: %s\n", line);
 		ft_close_game(1);
@@ -64,7 +64,7 @@ void	check_arguments_xpm(char *path)
 	t_file		*file;
 	t_strlist	*current;
 
-	file = ft_create_file_from_filename(path);
+	file = hd_alloc(ft_create_file_from_filename(path), hd_alloc_free_t_file);
 	if (!file)
 	{
 		ft_dprintf(2, RED "Error: Failed to open XPM file: %s\n" RESET, path);

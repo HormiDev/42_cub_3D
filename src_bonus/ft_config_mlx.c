@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/17 20:05:00 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/30 01:36:51 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ void	ft_free_mlx(t_game *game)
  */
 static void	ft_init_mlx_window(t_game *game)
 {
-	game->mlx = hd_alloc(mlx_init(), free);
+	game->mlx = hd_alloc(mlx_init(), ft_hd_alloc_mlx_destroy);
 	if (!game->mlx)
 	{
 		ft_dprintf(2, RED "Error:\n Failed to initialize mlx\n" RESET);
 		ft_close_game(1);
 	}
-	game->window = mlx_new_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
+	game->window = ft_create_window(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT, "Cub3D");
 	if (!game->window)
 	{
 		ft_dprintf(2, RED "Error:\n Failed to create window\n" RESET);
@@ -66,7 +66,7 @@ static void	ft_init_mlx_window(t_game *game)
 static void	ft_setup_mlx_hooks(t_game *game)
 {
 	game->img_map = hd_calloc(1, sizeof(t_image));
-	game->img_map->img = mlx_new_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
+	game->img_map->img = ft_create_image(game->mlx, WINDOW_WIDTH, WINDOW_HEIGHT);
 	if (!game->img_map->img)
 	{
 		ft_dprintf(2, RED "Error:\n Failed to create image\n" RESET);
