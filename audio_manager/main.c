@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 19:39:51 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/17 20:10:36 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/29 19:06:10 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,39 +20,74 @@ typedef struct s_audio_manager
 {
 	pid_t	pid;
 	int		pipe[2];
+	char	**env;
 }	t_audio_manager;
 
-void	free_gnl(void *ptr)
+static void	free_gnl(void *ptr)
 {
 	get_next_line(-1);
 	free(ptr);
 }
 
-static void	audio_manager_run(void)
+static void	exit_audio_manager(int exit_code)
+{
+	hd_alloc_clear();
+	exit(exit_code);
+}
+
+pid_t ft_play_audio(const char *filename, char **env)
+{
+	pid_t		pid;
+	char		*argv[4];
+	char		audio[1024];
+
+	if (!filename)
+		return (-1);
+	ft_strlcpy_p(audio, filename, sizeof(audio));
+	argv[0] = "aplay";
+	argv[1] = "-q";
+	argv[2] = audio;
+	argv[3] = NULL;
+	pid = hd_fork();
+	if (pid == 0)
+	{
+		hd_alloc_clear();
+		//ft_printf("[Audio] recibido: %s\n", audio);
+		execve("/usr/bin/aplay", argv, env);
+		exit(1);
+	}
+	return (pid);
+}
+
+static void	audio_manager_run(t_audio_manager *audio_manager)
 {
 	char	*line;
 
+	close(audio_manager->pipe[1]);
+	if (dup2(audio_manager->pipe[0], 0) < 0)
+		exit_audio_manager(1);
+	close(audio_manager->pipe[0]);
 	hd_alloc(malloc(1), free_gnl);
-	line = get_next_line(0);
+	line = hd_alloc(get_next_line(0), free);
 	while (line)
 	{
-		ft_printf("[CHILD] recibido: %s", line);
-		line = get_next_line(0);
+		line[ft_strlen_p(line) - 1] = '\0';
+		ft_play_audio(line, audio_manager->env);
 		hd_free(line);
+		line = hd_alloc(get_next_line(0), free);
 	}
 	hd_alloc_clear();
 	exit(0);
 }
 
-t_audio_manager	*start_audio_manager(void)
+t_audio_manager	*init_audio_manager(char **env)
 {
 	t_audio_manager	*audio_manager;
 
 	audio_manager = hd_calloc(1, sizeof(t_audio_manager));
 	if (!audio_manager)
 		return (0);
-	audio_manager->pipe[0] = -1;
-	audio_manager->pipe[1] = -1;
+	audio_manager->env = env;
 	if (pipe(audio_manager->pipe) < 0)
 	{
 		hd_free(audio_manager);
@@ -67,13 +102,7 @@ t_audio_manager	*start_audio_manager(void)
 		return (0);
 	}
 	if (audio_manager->pid == 0)//proceso hijo
-	{
-		close(audio_manager->pipe[1]);
-		if (dup2(audio_manager->pipe[0], 0) < 0)
-			exit(1);
-		close(audio_manager->pipe[0]);
-		audio_manager_run();
-	}
+		audio_manager_run(audio_manager);
 	close(audio_manager->pipe[0]);
 	audio_manager->pipe[0] = -1;
 	return (audio_manager);
@@ -95,19 +124,22 @@ void	audio_manager_stop(t_audio_manager *audio_manager)
 	waitpid(audio_manager->pid, 0, 0);
 }
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **env)
 {
 	t_audio_manager	*audio_manager;
 
 	(void)argc;
 	(void)argv;
-	audio_manager = start_audio_manager();
+	audio_manager = init_audio_manager(env);
 	if (!audio_manager)
 		return (1);
-	audio_manager_send(audio_manager, "hola desde el padre");
-	sleep(1);
-	audio_manager_send(audio_manager, "segunda linea");
-	audio_manager_send(audio_manager, "tercera linea");
+	audio_manager_send(audio_manager, "music&sounds/menu.wav");
+	for(int i = 0; i < 10; i++)
+	{
+		sleep(1);
+		audio_manager_send(audio_manager, "music&sounds/Andar.wav");
+	}
 	audio_manager_stop(audio_manager);
+	hd_alloc_clear();
 	return (0);
 }
