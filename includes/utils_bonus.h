@@ -274,13 +274,13 @@ typedef struct s_alien
 	t_texture		*texture;
 } t_alien;
 
-typedef struct s_alien_draw
+typedef struct s_objet_draw
 {
-	t_texture	*scaled;
-	int		screen_x;
-	int		screen_y;
-	int		size;
-} t_alien_draw;
+	t_texture		*scaled;
+	int				screen_x;
+	int				screen_y;
+	int				size;
+} t_objet_draw;
 
 typedef struct s_image // eliminar
 {
@@ -355,7 +355,7 @@ typedef struct s_game
 	char				**map;
 	char				**map_transitable;
 	int					width_height[2];
-	t_list				*textures[6]; // Array of textures for North, South, East, West, Ceiling, floor
+	t_list				*textures[6];
 	t_texture 			**arraytextures[6];
 	int					length_textures_array[6];
 	t_list				*doors;
@@ -400,6 +400,7 @@ typedef struct s_game
 	t_game_state		game_state;
 	long				game_start_time;
 	t_player			players[MAX_PLAYERS];
+	t_player			*ordered_ojects[MAX_PLAYERS];
 	t_texture 			*font;
 	t_texture			*timer;
 	t_texture			*render_timer;

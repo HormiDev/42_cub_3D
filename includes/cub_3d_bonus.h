@@ -196,10 +196,11 @@ void			ft_render_all_sprites(t_game *game);
 void			ft_render_player_sprite(t_game *game, t_player *player);
 void			ft_free_aliens(t_game *game);
 int				ft_compare_by_distance(const void *a, const void *b);
-void			ft_get_sorted_players(t_game *game, t_player sorted[MAX_PLAYERS]);
+void			ft_get_sorted_players(t_game *game);
 int				ft_get_original_index(t_game *game, t_player *sorted_player);
 int				ft_projected_x_to_screen_col(double projected_x, int width);
-int				ft_project_sprite_column(t_game *game, double dx, double dy);
+int				ft_project_sprite_column(t_game *game, double dx, double dy,
+					double *distance);
 void			ft_mask_alien_by_depth(t_game *game, t_texture *scaled,
 					int screen_x, double alien_distance);
 int				ft_compute_sprite_size(t_game *game, double base_size,

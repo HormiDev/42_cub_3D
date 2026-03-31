@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/31 19:44:15 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,7 +224,6 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		ft_mix_color(&game->render->colors_matrix[y++][x], &texture->texture_color, mist_density);
 		while (y < render_end)
 		{
-			//ft_mix_color_precalc(&game->render->colors_matrix[y][x], &texture->texture_color, mist_density, game);
 			game->render->colors_matrix[y][x] = game->render->colors_matrix[y - 1][x];
 			y++;
 		}
@@ -236,12 +235,9 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		while (y < height_mid)
 		{
 			if (last_texture_pixel == (int)texture_start)
-			{
 				game->render->colors_matrix[y][x] = game->render->colors_matrix[y - 1][x];
-			}
 			else
 			{
-				//ft_mix_color_precalc(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], mist_density, game);
 				ft_mix_color(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], mist_density);
 				last_texture_pixel = (int)texture_start;
 			}
@@ -252,12 +248,9 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		while (y < render_end)
 		{
 			if (last_texture_pixel == (int)texture_start)
-			{
 				game->render->colors_matrix[y][x] = game->render->colors_matrix[y - 1][x];
-			}
 			else
 			{
-				//ft_mix_color_precalc(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], mist_density, game);
 				ft_mix_color(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], mist_density);
 				last_texture_pixel = (int)texture_start;
 			}
@@ -312,7 +305,6 @@ void ft_render_3d(t_game *game)
 	int			i;
 
 	draw_background(game);
-	//ft_render_cloud(game);
 	i = 0;
 	while (i < game->config.render_width)
 	{

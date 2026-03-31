@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:30:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/31 20:18:29 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	ft_config_player(t_game *game)
 	{
 		game->players[idx].active = 0;
 		game->players[idx].type = ENTITY_PLAYER;
+		game->ordered_ojects[idx] = &game->players[idx];
 		idx++;
 	}
 	game->player = &game->players[0];

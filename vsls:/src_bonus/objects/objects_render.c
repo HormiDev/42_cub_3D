@@ -7,7 +7,6 @@ static void	ft_setup_sprite_draw(t_game *game, t_objet_draw *draw,
 	int screen_col, double base_size, double distance)
 {
 	draw->size = ft_compute_sprite_size(game, base_size, distance);
-	draw->scaled = ft_new_texture(game->mlx, draw->size, draw->size);
 	draw->screen_x = screen_col - draw->size / 2;
 	if (draw->screen_x < -draw->size)
 		draw->screen_x = -draw->size;
@@ -29,23 +28,20 @@ void	ft_render_player_sprite(t_game *game, t_player *object)
 
 	if (!object->active || !object->texture)
 		return ;
-	draw.scaled = object->texture;
 	distance = ft_vector_distance(game->player->position, object->position);
 	if (distance < 0.3 || distance > (MAX_RAY_SIZE - 0.5))
 		return ;
 	diff.x = object->position.x - game->player->position.x;
 	diff.y = object->position.y - game->player->position.y;
-	screen_col = ft_project_sprite_column(game, diff.x, diff.y, &distance);
+	screen_col = ft_project_sprite_column(game, diff.x, diff.y);
 	if (screen_col == INT_MIN)
 		return ;
-	
 	ft_setup_sprite_draw(game, &draw, screen_col, object->size, distance);
-	if (!draw.scaled)
+	if (draw.size <= 0)
 		return ;
-	ft_scale_t_image(object->texture, draw.scaled);
-	ft_mask_alien_by_depth(game, draw.scaled, draw.screen_x, distance);
-	ft_draw_image_rgba(game->render, draw.scaled,
-		draw.screen_x, draw.screen_y);
+	/* Dibujar directamente escalado y con depth-test por columna, sin textura intermedia */
+	ft_draw_image_rgba_scaled_depth(game, game->render, object->texture,
+		draw.screen_x, draw.screen_y, draw.size, distance);
 }
 
 /**

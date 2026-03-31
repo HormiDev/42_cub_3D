@@ -26,10 +26,28 @@ int	ft_compare_by_distance(const void *a, const void *b)
 /**
  * @brief Crea una copia ordenada del array de jugadores.
  */
-void	ft_get_sorted_players(t_game *game, t_player sorted[MAX_PLAYERS])
+void	ft_get_sorted_players(t_game *game)
 {
-	ft_memcpy(sorted, game->players, sizeof(t_player) * MAX_PLAYERS);
-	qsort(sorted, MAX_PLAYERS, sizeof(t_player), ft_compare_by_distance);
+	int	i;
+	int j;
+	t_player *temp;
+
+	i = 0;
+	while(i < MAX_PLAYERS - 1)
+	{
+		j = 0;
+		while(j < MAX_PLAYERS - i - 1)
+		{
+			if (ft_compare_by_distance(game->ordered_ojects[j], game->ordered_ojects[j + 1]) > 0)
+			{
+				temp = game->ordered_ojects[j];
+				game->ordered_ojects[j] = game->ordered_ojects[j + 1];
+				game->ordered_ojects[j + 1] = temp;
+			}
+			j++;
+		}
+		i++;
+	}
 }
 
 /**

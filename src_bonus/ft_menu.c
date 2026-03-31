@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/31 03:08:22 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/31 19:31:25 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	ft_update_menu(t_game *game)
 		ft_draw_string_hud(game->menu_settings.render, game->font, resolution, 
 			&(t_vector_int){MENU_WIDTH / 2 - (6 * 6 * ft_strlen(resolution) / 2), 110}, 6);
 	}
-	ft_draw_string_hud(game->menu.render, game->font, "cub3d by hormidev and ismaelucky342", 
+	ft_draw_string_hud(game->menu.render, game->font, "42 cub3d by hormidev and ismaelucky342", 
 		&(t_vector_int){10, MENU_HEIGHT - 30}, 2);
 	ft_scale_t_image(game->menu.render, game->window_img);
 	mlx_clear_window(game->mlx, game->window);
