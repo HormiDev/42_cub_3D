@@ -267,7 +267,7 @@ void			hd_alloc_free_t_file(void *ptr);
 void			ft_hd_alloc_mlx_destroy(void *ptr);
 void			ft_hd_alloc_free_split(void *ptr);
 		
-void			ft_draw_string_hud(t_texture *dst, t_texture *font,
-					const char *str, int x, int y);
+void	ft_draw_string_hud(t_texture *dst, t_texture *font,
+			const char *str, t_vector_int *pos, int scale);
 
 #endif

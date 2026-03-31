@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:15 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/31 02:41:35 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,5 @@ void	ft_parse_map(t_game *game, t_file *map_file)
 	ft_create_game_map(game, map_file, height_start_end, width_start_end);
 	ft_check_map(game);
 	ft_rotate_map_y(game);
+	
 }

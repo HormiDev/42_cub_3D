@@ -37,14 +37,16 @@ static t_vector2	ft_world_corner_to_screen(t_game *game, double wx, double wy)
 	t_vector2	screen;
 	double		cos_a;
 	double		sin_a;
+	int			centre;
 
+	centre = WINDOW_HEIGHT / 10;
 	relative.x = wx - game->player->position.x;
 	relative.y = -(wy - game->player->position.y);
 	cos_a = ft_format_cos(game->player->rotation.x - 90.0);
 	sin_a = ft_format_sin(game->player->rotation.x - 90.0);
-	screen.x = 100 + (relative.x * cos_a - relative.y
+	screen.x = centre + (relative.x * cos_a - relative.y
 			* sin_a) * MINIMAP_TILE_SIZE;
-	screen.y = 100 + (relative.x * sin_a + relative.y
+	screen.y = centre + (relative.x * sin_a + relative.y
 			* cos_a) * MINIMAP_TILE_SIZE;
 	return (screen);
 }
@@ -86,7 +88,7 @@ static void	ft_draw_minimap_row(t_game *game, int my)
 	int	mx;
 	int	visible_range;
 
-	visible_range = 10;
+	visible_range = WINDOW_HEIGHT / 80;
 	mx = (int)game->player->position.x - visible_range;
 	while (mx <= (int)game->player->position.x + visible_range)
 	{
@@ -104,8 +106,8 @@ static void	ft_draw_player_indicator(t_game *game)
 	t_vector_int	center;
 	t_vector2		line_end;
 
-	center.x = 100;
-	center.y = 100;
+	center.x = WINDOW_HEIGHT / 10;
+	center.y = WINDOW_HEIGHT / 10;
 	p.y = center.y - 4;
 	while (p.y <= center.y + 4)
 	{
@@ -130,12 +132,14 @@ static void	ft_draw_player_indicator(t_game *game)
 static void	ft_draw_minimap_background(t_game *game)
 {
 	t_vector_int	p;
+	int				size;
 
+	size = WINDOW_HEIGHT / 5;
 	p.y = 0;
-	while (p.y < 200)
+	while (p.y < size)
 	{
 		p.x = 0;
-		while (p.x < 200)
+		while (p.x < size)
 		{
 			ft_draw_pixel_in_img(game->minimap->img, p.x, p.y,
 				C_ALIEN_DARK);
@@ -154,18 +158,18 @@ static void	ft_draw_minimap_border(t_game *game)
 	i = 0;
 	offset.x = 0;
 	offset.y = 0;
-	end.x = 200;
-	end.y = 200;
-	while (i < 200)
+	end.x = WINDOW_HEIGHT / 5;;
+	end.y = WINDOW_HEIGHT / 5;;
+	while (i < end.x)
 	{
-		if (i < 2 || i > 198)
+		if (i < 2 || i > end.x - 2)
 		{
 			ft_draw_pixel_in_img(game->minimap->img, offset.x + i,
 				offset.y, C_ALIEN_GRID);
 			ft_draw_pixel_in_img(game->minimap->img, offset.x + i,
 				end.y - 1, C_ALIEN_GRID);
 		}
-		if (i < 2 || i > 198)
+		if (i < 2 || i > end.x - 2)
 		{
 			ft_draw_pixel_in_img(game->minimap->img, offset.x,
 				offset.y + i, C_ALIEN_GRID);
@@ -182,7 +186,7 @@ void	ft_map2D(t_game *game)
 	int	visible_range;
 
 	ft_draw_minimap_background(game);
-	visible_range = 10;
+	visible_range = WINDOW_HEIGHT / 80;
 	my = (int)game->player->position.y - visible_range;
 	while (my <= (int)game->player->position.y + visible_range)
 	{

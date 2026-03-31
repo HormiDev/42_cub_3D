@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:54:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 22:41:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/30 23:37:24 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int main(int argc, char **argv, char **env)
 	game = ft_loading_game(argv[1]);
 	game->env = env; 
 	game->show_menu = 1;
+	ft_init_timer(game);
 	mlx_loop(game->mlx);
 	return (0);
 }

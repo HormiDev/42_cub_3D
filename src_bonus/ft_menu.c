@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/30 01:36:51 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/31 03:08:22 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	ft_draw_menu_background(t_game *game)
 
 void	ft_update_menu(t_game *game)
 {
+	char resolution[12];
+
 	audio_play_menu(game, "music&sounds/menu.wav");
 	ft_draw_menu_background(game);
 	if (game->show_menu == 1)
@@ -79,7 +81,16 @@ void	ft_update_menu(t_game *game)
 		ft_draw_buttons_menu(&game->menu);
 	}
 	else if (game->show_menu == 2)
+	{
 		ft_draw_buttons_menu(&game->menu_settings);
+		ft_draw_string_hud(game->menu_settings.render, game->font, "Resolution", 
+			&(t_vector_int){MENU_WIDTH / 2 - (6 * 6 * 10 / 2), 30}, 6);
+		ft_snprintf(resolution, sizeof(resolution), "%d x %d", game->render->width, game->render->height);
+		ft_draw_string_hud(game->menu_settings.render, game->font, resolution, 
+			&(t_vector_int){MENU_WIDTH / 2 - (6 * 6 * ft_strlen(resolution) / 2), 110}, 6);
+	}
+	ft_draw_string_hud(game->menu.render, game->font, "cub3d by hormidev and ismaelucky342", 
+		&(t_vector_int){10, MENU_HEIGHT - 30}, 2);
 	ft_scale_t_image(game->menu.render, game->window_img);
 	mlx_clear_window(game->mlx, game->window);
 	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
@@ -133,6 +144,12 @@ void	ft_settings_button(void *game_ptr)
 	if (!game)
 		return ;
 	game->show_menu = 2;
+}
+
+void	ft_exit_button(void *game_ptr)
+{
+	(void)game_ptr;
+	ft_close_game(0);
 }
 
 /**
@@ -198,7 +215,7 @@ void	ft_loading_menu_buttons(t_game *game)
 		MENU_BUTTON_WIDTH, MENU_BUTTON_HEIGHT);
 	ft_loading_texture_buttons(game, &game->menu.buttons[2],
 		"textures/menu/button_exit.xpm", "textures/menu/button_exit_hover.xpm");
-	game->menu.buttons[2].on_click = NULL;
+	game->menu.buttons[2].on_click = ft_exit_button;
 }
 
 void	ft_loading_menu(t_game *game)

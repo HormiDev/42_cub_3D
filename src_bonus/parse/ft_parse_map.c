@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:15 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/03/30 23:16:53 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  *
  * Esta función determina las dimensiones del mapa (ancho y alto) y crea el mapa
  * en la estructura del juego. También verifica que el mapa sea válido y lo rota
- * si es necesario.
+ * si es necesario. 
  *
  * @param game estructura del juego donde se almacenará el mapa.
  * @param map_file estructura del archivo que contiene el mapa.

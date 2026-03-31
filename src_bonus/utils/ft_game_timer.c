@@ -101,22 +101,23 @@ static void	get_timer_string(char *str, int remaining)
  */
 void	ft_render_timer_hud(t_game *game)
 {
-	char	str[16];
-	int	remaining;
-	int	timer_width;
-	int	x;
-	int	y;
+	char		str[16];
+	int			remaining;
+	int			timer_width;
+	t_vector_int	pos;
     
 	if (game->game_state == GAME_PLAYERS_WIN)
 	{
+		pos.x = WINDOW_WIDTH / 4 - 33;
+		pos.y = WINDOW_HEIGHT / 2;
 		ft_draw_string_hud(game->render, game->font,
-			"players win", WINDOW_WIDTH / 2 - 33, WINDOW_HEIGHT / 2);
-			return ;
-		}
+			"players win", &pos, 2);
+		return ;
+	}
 	remaining = ft_get_remaining(game);
 	get_timer_string(str, remaining);
 	timer_width = 6 * 4;
-	x = game->render->width - timer_width - 10;
-	y = 10;
-	ft_draw_string_hud(game->render, game->font, str, x, y);
+	pos.x = game->render->width / 2 - timer_width - 10;
+	pos.y = 10;
+	ft_draw_string_hud(game->render, game->font, str, &pos, 2);
 }

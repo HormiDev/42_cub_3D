@@ -157,8 +157,6 @@ int ft_update(void *param)
 		ft_update_menu(game);
 	else
 	{
-		if (game->game_start_time == 0)
-			ft_init_timer(game);
 		ft_check_timer(game);
 		if (game->game_state != GAME_PLAYERS_WIN)
 		{

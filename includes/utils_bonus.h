@@ -353,6 +353,7 @@ typedef struct s_config
 typedef struct s_game 
 {
 	char				**map;
+	char				**map_transitable;
 	int					width_height[2];
 	t_list				*textures[6]; // Array of textures for North, South, East, West, Ceiling, floor
 	t_texture 			**arraytextures[6];
@@ -400,6 +401,8 @@ typedef struct s_game
 	long				game_start_time;
 	t_player			players[MAX_PLAYERS];
 	t_texture 			*font;
+	t_texture			*timer;
+	t_texture			*render_timer;
 }	t_game;
 
 #endif
