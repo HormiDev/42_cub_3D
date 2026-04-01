@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 01:22:24 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/01 21:32:41 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/02 00:24:20 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	ft_draw_image_rgba_scaled(t_texture *dst, t_texture *src,
 }
 
 
-void	ft_draw_image_rgba_scaled_plus(t_texture *dst, t_texture *src,
+void	ft_draw_image_rgba_scaled_plus(t_game *game, t_texture *src,
 			int pos_x, int pos_y, int src_size, double distance)
 {
 	t_vector_int	start_dst;
@@ -131,19 +131,19 @@ void	ft_draw_image_rgba_scaled_plus(t_texture *dst, t_texture *src,
 		start_src.y = -(float)start_dst.y / (float)src_size * src->height;
 		start_dst.y = 0;
 	}
-	if (end_dst.x < dst->width)
+	if (end_dst.x < game->render->width)
 		end_src.x = src->width - 1;
 	else
 	{
-		end_src.x = -((end_dst.x - dst->width) / src_size * src->width) + src->width;
-		end_dst.x = dst->width - 1;
+		end_src.x = -((end_dst.x - game->render->width) / src_size * src->width) + src->width;
+		end_dst.x = game->render->width - 1;
 	}
-	if (end_dst.y < dst->height)
+	if (end_dst.y < game->render->height)
 		end_src.y = src->height - 1;
 	else
 	{
-		end_src.y = -((end_dst.y - dst->height) / src_size * src->height) + src->height;
-		end_dst.y = dst->height - 1;
+		end_src.y = -((end_dst.y - game->render->height) / src_size * src->height) + src->height;
+		end_dst.y = game->render->height - 1;
 	}
 
 	int tmp_start_dst_x;
@@ -162,18 +162,25 @@ void	ft_draw_image_rgba_scaled_plus(t_texture *dst, t_texture *src,
 
 	src_iter.x = (float)src->width / (float)src_size;
 	src_iter.y = (float)src->height / (float)src_size;
+	int raicast_iter;
 
 	while (start_dst.y <= end_dst.y)
 	{
 		start_dst.x = tmp_start_dst_x;
 		start_src.x = tmp_start_src_x;
 		src_pos.x = start_src.x;
+		raicast_iter = -start_dst.x + game->config.render_width - 1;
 		while (start_dst.x <= end_dst.x)
-		{	if (src->colors_matrix[src_pos.y][src_pos.x] << 24)
+		{	
+			if (distance <= game->raycasts[raicast_iter].distance)
 			{
-				dst->colors_matrix[start_dst.y][start_dst.x] = src->colors_matrix[src_pos.y][src_pos.x];
-				ft_mix_color_alpha(&dst->colors_matrix[start_dst.y][start_dst.x], &mist_color, mist_mix);
+				if (src->colors_matrix[src_pos.y][src_pos.x] << 24)
+				{
+					game->render->colors_matrix[start_dst.y][start_dst.x] = src->colors_matrix[src_pos.y][src_pos.x];
+					ft_mix_color_alpha(&game->render->colors_matrix[start_dst.y][start_dst.x], &mist_color, mist_mix);
+				}
 			}
+			raicast_iter--;
 			start_dst.x++;
 			start_src.x += src_iter.x;
 			//start_src.x = (float)src->width / (float)src_size * (float)(start_dst.x - tmp_start_dst_x);

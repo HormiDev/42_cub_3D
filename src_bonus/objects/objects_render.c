@@ -37,7 +37,7 @@ void	ft_render_player_sprite(t_game *game, t_player *object)
 		return ;
 	ft_setup_sprite_draw(game, &draw, screen_col, object->size, distance);
 	//ft_draw_image_rgba_scaled(game->render, draw.scaled, draw.screen_x, draw.screen_y, draw.size);
-	ft_draw_image_rgba_scaled_plus(game->render, draw.scaled, draw.screen_x, draw.screen_y, draw.size, distance);
+	ft_draw_image_rgba_scaled_plus(game, draw.scaled, draw.screen_x, draw.screen_y, draw.size, distance);
 	//ft_scale_t_image(object->texture, draw.scaled);
 	//ft_mask_alien_by_depth(game, draw.scaled, draw.screen_x, distance);
 	//ft_draw_image_rgba(game->render, draw.scaled,
