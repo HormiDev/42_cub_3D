@@ -236,14 +236,18 @@ typedef enum e_input_device
 }	t_input_device;
 
 typedef struct s_player_actions {
-	int	front;
-	int	back;
-	int	left;
-	int	right;
-	int	rotate_left;
-	int	rotate_right;
-	int	run;
-	int	interact;
+	int			front;
+	int			back;
+	int			left;
+	int			right;
+	int			rotate_left;
+	int			rotate_right;
+	int			run;
+	int			interact;
+	int			flamethrower_charges; // Cargas disponibles (máx 3)
+    int			flamethrower_ready; // 1 si el lanzallamas está listo para usar, 0 si está en cooldown
+	long		flamethrower_last_time;    // Timestamp del último disparo
+	double		flamethrower_cooldown_remaining; // Tiempo restante en segundos
 } t_player_actions;
 
 typedef enum e_resolutions

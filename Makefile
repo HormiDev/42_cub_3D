@@ -108,6 +108,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/objects/door_raycast.c \
 			src_bonus/objects/objects_init.c \
 			src_bonus/objects/objects_update.c \
+			src_bonus/objects/ft_draw_image_scaled.c \
 			src_bonus/objects/objects_sort.c \
 			src_bonus/objects/objects_projection.c \
 			src_bonus/objects/objects_render_utils.c \

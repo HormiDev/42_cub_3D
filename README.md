@@ -9,9 +9,6 @@ modo de juego normal
 	si el alien mata a todos los jugadores el alien gana
 	lanzallamas
 		mata al alien y respawnea de inmediato
-
-hud
-	cargas lanzallamas
 	
 texturas
 	paredes y suelo estilo nave

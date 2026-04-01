@@ -28,7 +28,7 @@ int	ft_project_sprite_column(t_game *game, double dx, double dy, double *distanc
 	if (delta_tmp < 0)
 		delta_tmp = delta_tmp * -1;
 	*distance = *distance * ft_cos(delta_tmp);
-	if (ft_abs(delta) > (FOV * 0.7))// agragar proteccion contra popeo lateral
+	if (ft_abs(delta) > (FOV * 0.9))
 		return (INT_MIN);
 	return (ft_projected_x_to_screen_col(delta / (FOV * 0.5),
 			game->config.render_width));

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2026/03/17 14:01:15 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/01 18:25:47 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,23 +133,28 @@ void	ft_mouse_free(t_game *game)
 
 int	ft_mouse_click(int button, int x, int y, t_game *game)
 {
-	if (button == 1)
-	{
-		if (!game->mouse_captured)
-		{
-			game->mouse_xy[0] = x;
-			game->mouse_xy[1] = y;
-			if (game->show_menu == 1)
-			{
-				ft_hober_buttons(game, &game->menu);
-				ft_click_button(game, &game->menu);
-			}
-			else if (game->show_menu == 2)
-			{
-				ft_hober_buttons(game, &game->menu_settings);
-				ft_click_button(game, &game->menu_settings);
-			}
-		}
-	}
-	return (0);
+    if (button == 1)
+    {
+        if (!game->mouse_captured)
+        {
+            game->mouse_xy[0] = x;
+            game->mouse_xy[1] = y;
+            if (game->show_menu == 1)
+            {
+                ft_hober_buttons(game, &game->menu);
+                ft_click_button(game, &game->menu);
+            }
+            else if (game->show_menu == 2)
+            {
+                ft_hober_buttons(game, &game->menu_settings);
+                ft_click_button(game, &game->menu_settings);
+            }
+			/*
+            else
+            {
+                attack_with_flamethrower(game, game->kb_player);
+            }*/
+        }
+    }
+    return (0);
 }

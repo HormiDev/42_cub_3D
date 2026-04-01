@@ -36,8 +36,6 @@ int	ft_compute_sprite_size(t_game *game, double base_size, double distance)
 	size = (int)((base_size * game->config.render_height) / distance);
 	if (size < MIN_ALIEN_SIZE)
 		size = MIN_ALIEN_SIZE;
-	if (size > game->config.render_height)
-		size = game->config.render_height;
 	return (size);
 }
 

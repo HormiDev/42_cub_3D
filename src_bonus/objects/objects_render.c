@@ -4,15 +4,12 @@
  * @brief Configura los parámetros de dibujado del sprite.
  */
 static void	ft_setup_sprite_draw(t_game *game, t_objet_draw *draw,
-	int screen_col, double base_size, double distance)
+	int screen_col, double base_size, double distance)//funcion para borrar
 {
 	draw->size = ft_compute_sprite_size(game, base_size, distance);
-	draw->scaled = ft_new_texture(game->mlx, draw->size, draw->size);
+	//draw->scaled = ft_new_texture(game->mlx, draw->size, draw->size);
 	draw->screen_x = screen_col - draw->size / 2;
-	if (draw->screen_x < -draw->size)
-		draw->screen_x = -draw->size;
-	if (draw->screen_x > game->config.render_width)
-		draw->screen_x = game->config.render_width;
+
 	draw->screen_y = game->config.render_height / 2 - draw->size / 2
 		+ draw->size / 8;
 }
@@ -38,14 +35,13 @@ void	ft_render_player_sprite(t_game *game, t_player *object)
 	screen_col = ft_project_sprite_column(game, diff.x, diff.y, &distance);
 	if (screen_col == INT_MIN)
 		return ;
-	
 	ft_setup_sprite_draw(game, &draw, screen_col, object->size, distance);
-	if (!draw.scaled)
-		return ;
-	ft_scale_t_image(object->texture, draw.scaled);
-	ft_mask_alien_by_depth(game, draw.scaled, draw.screen_x, distance);
-	ft_draw_image_rgba(game->render, draw.scaled,
-		draw.screen_x, draw.screen_y);
+	//ft_draw_image_rgba_scaled(game->render, draw.scaled, draw.screen_x, draw.screen_y, draw.size);
+	ft_draw_image_rgba_scaled_plus(game->render, draw.scaled, draw.screen_x, draw.screen_y, draw.size, distance);
+	//ft_scale_t_image(object->texture, draw.scaled);
+	//ft_mask_alien_by_depth(game, draw.scaled, draw.screen_x, distance);
+	//ft_draw_image_rgba(game->render, draw.scaled,
+	//	draw.screen_x, draw.screen_y);
 }
 
 /**

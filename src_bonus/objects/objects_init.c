@@ -20,8 +20,8 @@ static void	ft_init_alien_data(t_player *alien, double x, double y)
  */
 static void	ft_load_alien_texture(t_game *game, t_player *alien)
 {
-	check_arguments_xpm("textures/alien.xpm");
-	alien->texture = ft_loading_texture(game->mlx, "textures/alien.xpm");
+	check_arguments_xpm("textures/capture_angle_000.xpm");
+	alien->texture = ft_loading_texture(game->mlx, "textures/capture_angle_000.xpm");
 	if (!alien->texture)
 	{
 		ft_dprintf(2, RED "Error: Failed to load alien texture\n" RESET);

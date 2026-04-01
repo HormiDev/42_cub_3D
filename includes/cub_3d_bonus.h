@@ -270,5 +270,16 @@ void			ft_hd_alloc_free_split(void *ptr);
 		
 void	ft_draw_string_hud(t_texture *dst, t_texture *font,
 			const char *str, t_vector_int *pos, int scale);
+void	ft_draw_image_rgba_scaled(t_texture *dst, t_texture *src,
+			int pos_x, int pos_y, int scale);
+void	ft_draw_image_rgba_scaled_plus(t_texture *dst, t_texture *src,
+			int pos_x, int pos_y, int src_size, double distance);
+
+// ============================================================================
+// FLAMETHROWER FUNCTIONS
+// ============================================================================
+void	flamethrower(t_game *game, int player_index);
+void	ft_update_flamethrower_cooldown(t_player_actions *actions, double delta_time);
+void	ft_render_flamethrower_hud(t_game *game, int player_index);
 
 #endif
