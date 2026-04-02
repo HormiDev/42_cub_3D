@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   flamethrower.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/02 16:22:26 by ismherna          #+#    #+#             */
+/*   Updated: 2026/04/02 16:36:40 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub_3d_bonus.h"
 
 /**
@@ -10,7 +22,7 @@
  * @param alien Puntero a la estructura del alien a verificar.
  * @return 1 si el alien está en rango, 0 en caso contrario.
  */
-static int	is_alien_in_range(t_player *player, t_alien *alien)
+static int	is_alien_in_range(t_player *player, t_player *alien)
 {
 	double	dx;
 	double	dy;
@@ -25,29 +37,16 @@ static int	is_alien_in_range(t_player *player, t_alien *alien)
 /**
  * @brief Verifica si el lanzallamas está en cooldown y puede volver a disparar.
  *
- * Compara el tiempo actual con el timestamp del último disparo. Si la diferencia
- * es menor a 2.0 segundos, calcula el tiempo restante de cooldown y devuelve 0.
- * Si el cooldown ha expirado, devuelve 1 para permitir el siguiente disparo.
+ * Comprueba si el cooldown ha expirado usando flamethrower_cooldown_remaining.
+ * Si el cooldown es 0 o menos, permite disparar (retorna 1).
+ * Si aún hay cooldown activo, retorna 0.
  *
  * @param actions Puntero a la estructura de acciones del jugador con datos del lanzallamas.
  * @return 1 si el cooldown ha expirado y se puede disparar, 0 si aún está en cooldown.
  */
 static int	ft_check_flamethrower_cooldown(t_player_actions *actions)
 {
-	long	current_time;
-	double	time_diff_seconds;
-
-	if (actions->flamethrower_last_time != 0)
-	{
-		current_time = ft_get_time();
-		time_diff_seconds = (current_time - actions->flamethrower_last_time) / 1000.0;
-		if (time_diff_seconds < 2.0)
-		{
-			actions->flamethrower_cooldown_remaining = 2.0 - time_diff_seconds;
-			return (0);
-		}
-	}
-	return (1);
+	return (actions->flamethrower_cooldown_remaining <= 0);
 }
 
 /**
@@ -55,6 +54,7 @@ static int	ft_check_flamethrower_cooldown(t_player_actions *actions)
  *
  * Decrementa el contador de cargas, actualiza el timestamp del último disparo,
  * inicia el cooldown y busca aliens dentro del rango de ataque para desactivarlos.
+ * Cuando se mata un alien, lo respawnea en otro punto del mapa.
  * Solo desactiva el primer alien que encuentre en rango.
  *
  * @param game Puntero a la estructura del juego.
@@ -69,16 +69,17 @@ static void	ft_flamethrower_attack(t_game *game, t_player *player,
 	actions->flamethrower_charges--;
 	actions->flamethrower_ready = 0;
 	actions->flamethrower_last_time = ft_get_time();
-	actions->flamethrower_cooldown_remaining = 2.0;
+	actions->flamethrower_cooldown_remaining = 20.0;
 	
 	i = 0;
 	while (i < MAX_PLAYERS)
 	{
 		if (game->players[i].type == ENTITY_ALIEN)
 		{
-			if (is_alien_in_range(player, (t_alien *)&game->players[i]))
+			if (is_alien_in_range(player, &game->players[i]))
 			{
 				game->players[i].active = 0;
+				ft_respawn_alien(game);
 				break ;
 			}
 		}
@@ -111,6 +112,7 @@ void	flamethrower(t_game *game, int player_index)
 		return ;
 	
 	ft_flamethrower_attack(game, player, actions);
+	ft_render_flamethrower_hud(game, player_index);
 }
 
 /**

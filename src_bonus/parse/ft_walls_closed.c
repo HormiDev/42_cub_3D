@@ -1,6 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_walls_closed.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/02 16:25:21 by ismherna          #+#    #+#             */
+/*   Updated: 2026/04/02 16:36:38 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub_3d_bonus.h"
 
-// Declaraciones de funciones auxiliares
 static int	ft_row_has_content(char *row);
 static int	ft_check_space_surrounded(char **map, int i, int j);
 

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_check_map.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/02 16:24:34 by ismherna          #+#    #+#             */
+/*   Updated: 2026/04/02 16:36:40 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub_3d_bonus.h"
 
 /**
@@ -90,7 +102,6 @@ void	ft_check_map(t_game *game)
 		}
 		ft_close_game(1);
 	}
-	
 	if(!ft_check_map_closed(game))
 	{
 		ft_dprintf(2, RED "Error: Map is not closed\n" RESET);

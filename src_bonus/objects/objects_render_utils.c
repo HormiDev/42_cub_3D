@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   objects_render_utils.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/02 16:24:01 by ismherna          #+#    #+#             */
+/*   Updated: 2026/04/02 16:36:37 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub_3d_bonus.h"
 
 /**
@@ -39,16 +51,3 @@ int	ft_compute_sprite_size(t_game *game, double base_size, double distance)
 	return (size);
 }
 
-/**
- * @brief Obtiene los datos de un jugador para renderizar.
- */
-int	ft_get_player_data(t_player *player, t_vector2 *pos,
-	double *base_size, t_texture **tex)
-{
-	if (!player->active || !player->texture)
-		return (0);
-	*pos = player->position;
-	*base_size = player->size;
-	*tex = player->texture;
-	return (1);
-}

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 11:49:44 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 22:47:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/03 00:45:15 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void ft_prec_fish_eye_correction(t_game *game)
 	int i;
 	double fe_corection;
 	
-	// tas impementar hd_alloc para liberar game->fish_eye_correction antes de reasignar
 	game->fish_eye_correction = hd_calloc(game->config.render_width,
 			sizeof(double));
 	i = 0;

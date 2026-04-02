@@ -35,12 +35,15 @@ int ft_calc_delta_time(t_game *game)
 void ft_one_player(t_game *game)
 {
 	ft_controls(game, 0);
+	ft_update_flamethrower_cooldown(&game->actions[0], game->delta_time);
+	ft_update_aliens(game);
 	ft_update_doors(game);
 	ft_calculate_raycasts(game); 
 	ft_render_3d(game);
 	ft_render_all_sprites(game);
 	ft_map2D(game);
 	ft_render_timer_hud(game);
+	ft_render_flamethrower_hud(game, 0);
 	if (game->config.render_height != WINDOW_HEIGHT || game->config.render_width != WINDOW_WIDTH)
 	{
 		ft_scale_t_image_precalc(game->render, game->window_img, game);
@@ -65,17 +68,20 @@ void ft_two_players(t_game *game)
 	{
 		game->player = &game->players[player_index];
 		ft_controls(game, player_index);
+		ft_update_flamethrower_cooldown(&game->actions[player_index], game->delta_time);
 		ft_update_doors(game);
 		ft_calculate_raycasts(game); 
 		ft_render_3d(game);
 		ft_render_all_sprites(game);
 		ft_map2D(game);
 		ft_render_timer_hud(game);
+		ft_render_flamethrower_hud(game, player_index);
 		ft_scale_t_image_precalc_two(game->render, game->window_img, game, player_index);
 		ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH / 100, WINDOW_HEIGHT / 100 + (WINDOW_HEIGHT / 2 * (player_index)));
 		player_index++;
 	}
 	game->player = &game->players[0];
+	ft_update_aliens(game);
 	mlx_clear_window(game->mlx, game->window);
 	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
 }
@@ -89,12 +95,14 @@ void ft_three_players(t_game *game)
 	{
 		game->player = &game->players[player_index];
 		ft_controls(game, player_index);
+		ft_update_flamethrower_cooldown(&game->actions[player_index], game->delta_time);
 		ft_update_doors(game);
 		ft_calculate_raycasts(game); 
 		ft_render_3d(game);
 		ft_render_all_sprites(game);
 		ft_map2D(game);
 		ft_render_timer_hud(game);
+		ft_render_flamethrower_hud(game, player_index);
 		ft_scale_t_image_precalc_three(game->render, game->window_img, game, player_index);
 		if (player_index == 0)
 			ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH / 100, WINDOW_HEIGHT / 100);
@@ -107,6 +115,7 @@ void ft_three_players(t_game *game)
 		player_index++;
 	}
 	game->player = &game->players[0];
+	ft_update_aliens(game);
 	mlx_clear_window(game->mlx, game->window);
 	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
 }

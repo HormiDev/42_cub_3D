@@ -61,6 +61,8 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/game/ft_gamepad.c \
 			src_bonus/game/mouse.c \
 			src_bonus/game/audio_manager.c \
+			src_bonus/game/flamethrower.c \
+			src_bonus/game/flamethrower_hud.c \
 			src_bonus/game/input_manager.c \
 			src_bonus/ft_image_to_text.c \
 			src_bonus/utils/ft_angle_utils.c \
@@ -69,6 +71,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/utils/ft_game_timer_utils.c \
 			src_bonus/parse/ft_check_args.c \
 			src_bonus/parse/ft_parse_map.c \
+			src_bonus/parse/ft_map_transitable_gen.c \
 			src_bonus/parse/ft_parse_colors.c \
 			src_bonus/parse/ft_parse_map_utils.c \
 			src_bonus/parse/ft_check_map.c \
@@ -120,6 +123,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/hd_alloc_functions/hd_alloc_free_t_file.c \
 			src_bonus/hd_alloc_functions/ft_hd_alloc_mlx_destroy.c \
 			src_bonus/hd_alloc_functions/ft_hd_alloc_free_split.c \
+			src_bonus/ft_loading_prerender_models.c
 
 OBJ_DIR  = objects
 OBJ_DIR_BONUS  = objects_bonus
@@ -133,7 +137,7 @@ OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_BONUS = $(patsubst %.c, $(OBJ_DIR_BONUS)/%.o, $(SRC_BONUS))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 
 all: clear $(NAME) title_print
 

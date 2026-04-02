@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/09/11 17:38:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/29 23:41:05 by ismherna          ###   ########.fr       */
+/*   Created: 2026/04/03 00:39:25 by ismherna          #+#    #+#             */
+/*   Updated: 2026/04/03 00:46:50 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef CUB_3D_BONUS_H
 # define CUB_3D_BONUS_H
@@ -54,6 +53,10 @@ void			ft_rotate_map_y(t_game *game);
 // Map validation
 void			ft_check_map(t_game *game);
 int				ft_check_map_closed(t_game *game);
+
+// Map transitable generation and printing
+void			ft_create_map_transitable(t_game *game);
+void			ft_print_transitable_map(t_game *game);
 
 // XPM parsing
 void			check_arguments_xpm(char *path);
@@ -189,7 +192,8 @@ int				ft_try_toggle_door(t_game *game);
 // ============================================================================
 // ALIEN FUNCTIONS
 // ============================================================================
-void			ft_config_aliens(t_game *game);
+void			ft_config_objects(t_game *game);
+void			ft_respawn_alien(t_game *game);
 void			ft_update_aliens(t_game *game);
 void			ft_update_render_distances(t_game *game);
 void			ft_render_all_sprites(t_game *game);
@@ -199,14 +203,11 @@ int				ft_compare_by_distance(const void *a, const void *b);
 void			ft_get_sorted_players(t_game *game);
 int				ft_get_original_index(t_game *game, t_player *sorted_player);
 int				ft_projected_x_to_screen_col(double projected_x, int width);
-int				ft_project_sprite_column(t_game *game, double dx, double dy,
-					double *distance);
+int				ft_project_sprite_column(t_game *game, double dx, double dy, t_objet_draw *draw);
 void			ft_mask_alien_by_depth(t_game *game, t_texture *scaled,
 					int screen_x, double alien_distance);
 int				ft_compute_sprite_size(t_game *game, double base_size,
 					double distance);
-int				ft_get_player_data(t_player *player, t_vector2 *pos,
-					double *base_size, t_texture **tex);
 
 // ============================================================================
 // DEBUG FUNCTIONS
@@ -274,6 +275,19 @@ void	ft_draw_image_rgba_scaled(t_texture *dst, t_texture *src,
 			int pos_x, int pos_y, int scale);
 void	ft_draw_image_rgba_scaled_plus(t_game *game, t_texture *src,
 			int pos_x, int pos_y, int src_size, double distance);
+
+// ============================================================================
+// FLAMETHROWER FUNCTIONS
+// ============================================================================
+void	flamethrower(t_game *game, int player_index);
+void	ft_update_flamethrower_cooldown(t_player_actions *actions, double delta_time);
+void	ft_render_flamethrower_hud(t_game *game, int player_index);
+
+// ============================================================================
+// PRERENDER MODELS
+// ============================================================================
+void				ft_loading_prerender_models(t_game *game);
+t_prerender_model	*ft_init_prerender_model(t_game *game, int n_frames, int n_angles, char *path);
 
 // ============================================================================
 // FLAMETHROWER FUNCTIONS

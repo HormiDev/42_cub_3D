@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/03 00:39:38 by ismherna          #+#    #+#             */
+/*   Updated: 2026/04/03 00:46:26 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef UTILS_BONUS_H
 # define UTILS_BONUS_H
 
@@ -135,7 +147,7 @@ typedef enum e_game_state
 	GAME_ALIEN_WIN = 2
 } t_game_state;
 
-typedef struct s_texture // cambiar nombre a t image
+typedef struct s_texture
 {
 	t_img			*img;
 	char			*path;
@@ -144,6 +156,13 @@ typedef struct s_texture // cambiar nombre a t image
 	int				height;
 	unsigned int	**colors_matrix;
 } t_texture;
+
+typedef struct s_prerender_model
+{
+	t_texture		**texture;
+	int				n_frames;
+	int				n_angles;
+} t_prerender_model;
 
 typedef struct s_cursor
 {
@@ -197,18 +216,18 @@ typedef enum e_entity_type
 
 typedef struct s_player
 {
-	t_entity_type	type;
-	int				active;
-	t_vector2		position;
-	t_vector2		rotation;
-	t_vector2		velocity;
-	double			plane_y;
-	double			render_distance;
-	t_texture		*texture;
-	t_alien_state	state;
-	double			speed;
-	double			chase_distance;
-	double			size;
+	t_entity_type		type;
+	int					active;
+	t_vector2			position;
+	t_vector2			rotation;
+	t_vector2			velocity;
+	double				plane_y;
+	double				render_distance;
+	t_prerender_model	*model;
+	t_alien_state		state;
+	double				speed;
+	double				chase_distance;
+	double				size;
 } t_player;
 
 typedef struct s_gamepad {
@@ -244,8 +263,8 @@ typedef struct s_player_actions {
 	int			rotate_right;
 	int			run;
 	int			interact;
-	int			flamethrower_charges; // Cargas disponibles (máx 3)
-    int			flamethrower_ready; // 1 si el lanzallamas está listo para usar, 0 si está en cooldown
+	int			flamethrower_charges;
+    int			flamethrower_ready;
 	long		flamethrower_last_time;    // Timestamp del último disparo
 	double		flamethrower_cooldown_remaining; // Tiempo restante en segundos
 } t_player_actions;
@@ -264,29 +283,17 @@ typedef enum e_resolutions
 	RES_4k
 }	t_resolutions;
 
-typedef struct s_alien
-{
-	t_vector2		position;
-	t_alien_state	state;
-	t_vector2		patrol_points[4];
-	int				current_patrol;
-	int				patrol_count;
-	double			speed;
-	double			chase_distance;
-	double			patrol_distance;
-	double			size;
-	t_texture		*texture;
-} t_alien;
-
 typedef struct s_objet_draw
 {
 	t_texture		*scaled;
 	int				screen_x;
 	int				screen_y;
 	int				size;
+	double			distance;
+	int				angle;
 } t_objet_draw;
 
-typedef struct s_image // eliminar
+typedef struct s_image
 {
 	void	*img;
 	char	*img_data;
@@ -408,6 +415,7 @@ typedef struct s_game
 	t_texture 			*font;
 	t_texture			*timer;
 	t_texture			*render_timer;
+	t_prerender_model	*alien_prerender;
 }	t_game;
 
 #endif

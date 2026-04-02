@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   objects_init.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/02 16:23:51 by ismherna          #+#    #+#             */
+/*   Updated: 2026/04/02 16:36:37 by ide-dieg         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub_3d_bonus.h"
 
 /**
@@ -20,13 +32,7 @@ static void	ft_init_alien_data(t_player *alien, double x, double y)
  */
 static void	ft_load_alien_texture(t_game *game, t_player *alien)
 {
-	check_arguments_xpm("textures/capture_angle_000.xpm");
-	alien->texture = ft_loading_texture(game->mlx, "textures/capture_angle_000.xpm");
-	if (!alien->texture)
-	{
-		ft_dprintf(2, RED "Error: Failed to load alien texture\n" RESET);
-		ft_close_game(1);
-	}
+	alien->model = game->alien_prerender;
 }
 
 /**
@@ -44,24 +50,24 @@ static void	ft_spawn_alien(t_game *game, int x, int y)
  */
 static void	ft_assign_textures_to_players(t_game *game)
 {
-	int	k;
+    int	k;
 
-	k = 0;
-	while (k < MAX_PLAYERS)
-	{
-		if (k != 4 && game->players[k].active)
-		{
-			game->players[k].texture = game->players[4].texture;
-			game->players[k].size = 2.0;
-		}
-		k++;
-	}
+    k = 0;
+    while (k < MAX_PLAYERS)
+    {
+        if (k != 4 && game->players[k].active)
+        {
+            game->players[k].model = game->players[4].model;
+            game->players[k].size = 2.0;
+        }
+        k++;
+    }
 }
 
 /**
  * @brief Busca y configura aliens en el mapa.
  */
-void	ft_config_aliens(t_game *game)
+void	ft_config_objects(t_game *game)
 {
 	int	i;
 	int	j;
