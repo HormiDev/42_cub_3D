@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 01:22:24 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/02 00:24:20 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/04 02:16:38 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ void	ft_draw_image_rgba_scaled_plus(t_game *game, t_texture *src,
 		{	
 			if (distance <= game->raycasts[raicast_iter].distance)
 			{
-				if (src->colors_matrix[src_pos.y][src_pos.x] << 24)
+				if ((src->colors_matrix[src_pos.y][src_pos.x]) > 0x00FFFFFF)
 				{
 					game->render->colors_matrix[start_dst.y][start_dst.x] = src->colors_matrix[src_pos.y][src_pos.x];
 					ft_mix_color_alpha(&game->render->colors_matrix[start_dst.y][start_dst.x], &mist_color, mist_mix);

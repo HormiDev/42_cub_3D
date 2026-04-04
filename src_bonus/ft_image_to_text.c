@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:26:34 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:37 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/04 02:24:31 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	ft_font_process_line(t_texture *dst, t_texture *src,
 	{
 		src_color = src_ptr[src_x + x];
 		x_scale = 0;
-		if (src_color != 0x00000000)
+		if (src_color > 0x00FFFFFF)
 		{
 			while (x_scale < scale)
 			{

@@ -6,27 +6,11 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/18 00:47:50 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:26:01 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d.h"
-
-/**
- * @brief Libera la memoria asignada a la estructura mlx y cierra la ventana.
- *
- * @param game estructura del juego que contiene la información de mlx.
- */
-void	ft_free_mlx(t_game *game)
-{
-	if (game->mlx)
-	{
-		if (game->window)
-			mlx_destroy_window(game->mlx, game->window);
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-	}
-}
 
 /**
  * @brief Inicializa MLX y crea la ventana del juego.

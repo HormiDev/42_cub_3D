@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:23:51 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:37 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/04 01:37:14 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ static void	ft_init_alien_data(t_player *alien, double x, double y)
 	alien->speed = 1.2;
 	alien->chase_distance = 4.0;
 	alien->size = 2.0;
+	alien->path_len = 0;
+	alien->curr_step = 0;
+	alien->last_heatmap_pos.x = -1;
+	alien->last_heatmap_pos.y = -1;
 }
 
 /**

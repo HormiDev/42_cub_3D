@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 00:39:25 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/03 00:46:50 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/04 01:38:25 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,11 @@ int				ft_try_toggle_door(t_game *game);
 void			ft_config_objects(t_game *game);
 void			ft_respawn_alien(t_game *game);
 void			ft_update_aliens(t_game *game);
+void			ft_update_heatmap(t_game *game, int player_idx);
+void			ft_map_dist(t_game *game, t_player *alien);
+void			ft_build_path(t_game *game, t_player *alien);
+void			ft_alien_patrol_update(t_game *game, t_player *alien);
+void			ft_alien_chase_update(t_game *game, t_player *alien);
 void			ft_update_render_distances(t_game *game);
 void			ft_render_all_sprites(t_game *game);
 void			ft_render_player_sprite(t_game *game, t_player *player);

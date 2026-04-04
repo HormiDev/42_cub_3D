@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 00:50:36 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/02 20:10:48 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/03 16:18:10 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,5 +114,5 @@ t_prerender_model	*ft_init_prerender_model(t_game *game, int n_frames, int n_ang
 
 void	ft_loading_prerender_models(t_game *game)
 {
-	game->alien_prerender = ft_init_prerender_model(game, 1, 72, "textures/prerender/");
+	game->alien_prerender = ft_init_prerender_model(game, 1, 36, "textures/prerender/");
 }

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 00:39:38 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/03 00:46:26 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/04 01:36:52 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@
 # define ANGLE_STEP 0.01
 # define MIN_ALIEN_SIZE 15
 
-# define MIST_COLOR 0x323232
+# define MIST_COLOR 0xFF323232
 # define MAX_GAMEPADS 4
 
 typedef struct s_resolution
@@ -137,7 +137,7 @@ typedef enum e_alien_state
 {
 	ALIEN_PATROL = 0,
 	ALIEN_CHASE = 1,
-	ALIEN_IDLE = 2
+	ALIEN_IDLE = 2 
 } t_alien_state;
 
 typedef enum e_game_state
@@ -228,6 +228,11 @@ typedef struct s_player
 	double				speed;
 	double				chase_distance;
 	double				size;
+	int					dist[128][128];
+	t_vector_int		path[256];
+	int					path_len;
+	int					curr_step;
+	t_vector_int		last_heatmap_pos;
 } t_player;
 
 typedef struct s_gamepad {
@@ -364,6 +369,7 @@ typedef struct s_config
 typedef struct s_game 
 {
 	char				**map;
+	char				**map_original;
 	char				**map_transitable;
 	int					width_height[2];
 	t_list				*textures[6];

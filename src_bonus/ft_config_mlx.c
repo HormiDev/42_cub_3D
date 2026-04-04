@@ -6,30 +6,11 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/02 01:03:21 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/03 14:26:01 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
-
-/**
- * @brief Libera la memoria asignada a la estructura mlx y cierra la ventana.
- *
- * Esta función libera la memoria asignada a la estructura mlx y cierra la ventana del juego.
- * Se utiliza para limpiar los recursos antes de cerrar el juego.
- *
- * @param game estructura del juego que contiene la información de mlx.
- */
-void	ft_free_mlx(t_game *game)
-{
-	if (game->mlx)
-	{
-		if (game->window)
-			mlx_destroy_window(game->mlx, game->window);
-		mlx_destroy_display(game->mlx);
-		free(game->mlx);
-	}
-}
 
 /**
  * @brief Inicializa MLX y crea la ventana del juego.
