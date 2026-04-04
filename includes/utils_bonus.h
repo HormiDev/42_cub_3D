@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 00:39:38 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/04 01:36:52 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/04 21:04:41 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@
 # include <fcntl.h>
 # include <math.h>
 # include <errno.h>
+# include <dirent.h>
+# include <sys/stat.h>
+# include <unistd.h>
 
 # define C_RED			0xFFFF0000
 # define C_WHITE		0xFFFFFF

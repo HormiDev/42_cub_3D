@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:09 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 20:07:36 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/04 20:53:04 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	ft_render_player_sprite(t_game *game, t_player *object)
 	if (!object->active || !object->model)
 		return ;
 	draw.distance = ft_vector_distance(game->player->position, object->position);
-	if (draw.distance < 0.3 || draw.distance > (MAX_RAY_SIZE - 0.5))
+	if (draw.distance < 0.3 || draw.distance > (MAX_RAY_SIZE))
 		return ;
 	diff.x = object->position.x - game->player->position.x;
 	diff.y = object->position.y - game->player->position.y;

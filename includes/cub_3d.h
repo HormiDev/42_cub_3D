@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 00:39:44 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/03 00:45:16 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/04 21:08:07 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/time.h>
 # include <stdbool.h>
 # include <stdio.h>
-#include <fcntl.h>
+# include <fcntl.h>
 # include <math.h>
 # include <errno.h>
  

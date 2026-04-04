@@ -6,16 +6,11 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 00:50:36 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/03 16:18:10 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/04 20:59:17 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
-#include <sys/types.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <unistd.h>
-
 
 static char *ft_get_next_file(DIR *dir, char *path_dir)
 {
@@ -42,8 +37,7 @@ void	ft_loading_textures_with_path(t_game *game, t_prerender_model *pre, char *p
 	char	cwd[1024];
 	char	*file_name;
 
-
-	dir = opendir(path_dir);
+	dir = hd_alloc(opendir(path_dir), ft_hd_alloc_closedir);
 	if (!dir)
 	{
 		ft_printf("Error opening directory: %s\n", path_dir);
@@ -65,7 +59,7 @@ void	ft_loading_textures_with_path(t_game *game, t_prerender_model *pre, char *p
 		i++;
 		file_name = ft_get_next_file(dir, path_dir);
 	}
-	closedir(dir);
+	hd_free(dir);
 }
 
 void	ft_ordered_textures(t_prerender_model *pre)

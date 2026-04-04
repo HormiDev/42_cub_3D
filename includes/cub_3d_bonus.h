@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 00:39:25 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/04 01:38:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/04 21:02:10 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,7 @@ void			*ft_mlx_xpm_file_to_image(void *mlx, char *filename,
 void			hd_alloc_free_t_file(void *ptr);
 void			ft_hd_alloc_mlx_destroy(void *ptr);
 void			ft_hd_alloc_free_split(void *ptr);
+void			ft_hd_alloc_closedir(void *ptr);
 		
 void	ft_draw_string_hud(t_texture *dst, t_texture *font,
 			const char *str, t_vector_int *pos, int scale);
