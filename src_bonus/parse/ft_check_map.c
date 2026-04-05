@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:34 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/05 23:31:12 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_check_map_valid_characters(char **map)
 			if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != 'N' 
 				&& map[i][j] != 'S' && map[i][j] != 'E' && map[i][j] != 'W'
 				&& map[i][j] != ' '  && map[i][j] != '\t'  && map[i][j] != '\n'
-				&& map[i][j] != 'D' && map[i][j] != 'A')
+				&& map[i][j] != 'D')
 			{
 				ft_print_map(map, j, i);
 				ft_dprintf(2, "%s%c Invalid character in map%s\n", RED, map[i][j], RESET);

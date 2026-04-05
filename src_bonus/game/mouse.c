@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 01:01:01 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/05 23:37:03 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,10 +150,10 @@ int	ft_mouse_click(int button, int x, int y, t_game *game)
                 ft_click_button(game, &game->menu_settings);
             }
         }
-        else
+        /*else
         {
             flamethrower(game, game->kb_player);
-        }
+        }*/
     }
     return (0);
 }

@@ -23,7 +23,7 @@ static int	ft_find_hottest_reachable_tile(t_game *game, t_player *alien, t_vecto
 		x = -1;
 		while (++x < game->width_height[0])
 		{
-			char tile = game->map_original[y][x];
+			char tile = game->map_heatmap[y][x];
 			if (tile >= '2' && tile <= '4' && tile > best_heat)
 			{
 				best_heat = tile;

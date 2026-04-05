@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:15 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/05 13:54:43 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/06 00:51:11 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /**
  * @brief Crea una copia del mapa para usar como heatmap del pathfinding del alien.
  *
- * Copia game->map a game->map_original. El mapa original se usa para el
+ * Copia game->map a game->map_heatmap. El mapa original se usa para el
  * sistema de heatmap/pathfinding del alien sin modificar el mapa de juego.
  *
  * @param game estructura del juego con el mapa a copiar.
@@ -28,25 +28,25 @@ static void	ft_create_map_copy(t_game *game)
 
 	if (!game || !game->map)
 		return ;
-	game->map_original = hd_calloc(game->width_height[1] + 1, sizeof(char *));
+	game->map_heatmap = hd_calloc(game->width_height[1] + 1, sizeof(char *));
 	i = 0;
 	while (i < game->width_height[1])
 	{
-		game->map_original[i] = hd_calloc(game->width_height[0] + 1, sizeof(char));
+		game->map_heatmap[i] = hd_calloc(game->width_height[0] + 1, sizeof(char));
 		j = 0;
 		while (j < game->width_height[0])
 		{
 			tile = game->map[i][j];
 			if (tile == '1' || tile == 'D')
-				game->map_original[i][j] = tile;
+				game->map_heatmap[i][j] = tile;
 			else
-				game->map_original[i][j] = '0';
+				game->map_heatmap[i][j] = '0';
 			j++;
 		}
-		game->map_original[i][game->width_height[0]] = '\0';
+		game->map_heatmap[i][game->width_height[0]] = '\0';
 		i++;
 	}
-	game->map_original[game->width_height[1]] = NULL;
+	game->map_heatmap[game->width_height[1]] = NULL;
 }
 
 /**

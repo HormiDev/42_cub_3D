@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/31 19:31:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/05 19:56:41 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	ft_draw_menu_background(t_game *game)
 void	ft_update_menu(t_game *game)
 {
 	char resolution[12];
+	char players[20];
 
 	audio_play_menu(game, "music&sounds/menu.wav");
 	ft_draw_menu_background(game);
@@ -85,9 +86,14 @@ void	ft_update_menu(t_game *game)
 		ft_draw_buttons_menu(&game->menu_settings);
 		ft_draw_string_hud(game->menu_settings.render, game->font, "Resolution", 
 			&(t_vector_int){MENU_WIDTH / 2 - (6 * 6 * 10 / 2), 30}, 6);
-		ft_snprintf(resolution, sizeof(resolution), "%d x %d", game->render->width, game->render->height);
-		ft_draw_string_hud(game->menu_settings.render, game->font, resolution, 
+		ft_snprintf(resolution, sizeof(resolution), "%d x %d",
+			game->resolutions[game->config.resolution_index].width,
+			game->resolutions[game->config.resolution_index].height);
+		ft_draw_string_hud(game->menu_settings.render, game->font, resolution,
 			&(t_vector_int){MENU_WIDTH / 2 - (6 * 6 * ft_strlen(resolution) / 2), 110}, 6);
+		ft_snprintf(players, sizeof(players), "players %d", game->config.n_players);
+		ft_draw_string_hud(game->menu_settings.render, game->font, players,
+			&(t_vector_int){MENU_WIDTH / 2 - (6 * 6 * ft_strlen(players) / 2), 210}, 6);
 	}
 	ft_draw_string_hud(game->menu.render, game->font, "42 cub3d by hormidev and ismaelucky342", 
 		&(t_vector_int){10, MENU_HEIGHT - 30}, 2);
@@ -143,6 +149,7 @@ void	ft_settings_button(void *game_ptr)
 	game = (t_game *)game_ptr;
 	if (!game)
 		return ;
+	game->tmp_config = game->config;
 	game->show_menu = 2;
 }
 

@@ -126,21 +126,21 @@ int	ft_bfs_path(t_game *game, t_vector_int start, t_vector_int goal,
 	bfs.visited = game->bfs_visited;
 	bfs.max_queue = game->bfs_queue_size;
 	ft_bfs_init(&bfs, start, game->bfs_visited_width, game->bfs_visited_height);
-	ft_dprintf(1, "%s[BFS] Start:(%d,%d) -> Goal:(%d,%d)%s\n",
-		CYAN, start.x, start.y, goal.x, goal.y, RESET);
-	// // ft_debug_print_map(game);
+	//ft_dprintf(1, "%s[BFS] Start:(%d,%d) -> Goal:(%d,%d)%s\n",
+		//CYAN, start.x, start.y, goal.x, goal.y, RESET);
+	//ft_debug_print_map(game);
 	if (!ft_bfs_explore(game, &bfs, goal))
 	{
-		ft_dprintf(1, "%s[BFS] No path found (explored %d nodes)%s\n",
-			RED, bfs.queue_end, RESET);
-		// // ft_debug_print_visited(game, bfs.visited);
+		//ft_dprintf(1, "%s[BFS] No path found (explored %d nodes)%s\n",
+		//	RED, bfs.queue_end, RESET);
+		//ft_debug_print_visited(game, bfs.visited);
 		*path_len = 0;
 		return (0);
 	}
 	ft_bfs_rebuild_path(&bfs, start, goal, path, path_len);
-	ft_dprintf(1, "%s[BFS] Path found: %d steps%s\n", GREEN, *path_len, RESET);
-	// // ft_debug_print_visited(game, bfs.visited);
-	// // ft_debug_print_path(game, path, *path_len, start, goal);
+	//ft_dprintf(1, "%s[BFS] Path found: %d steps%s\n", GREEN, *path_len, RESET);
+	//ft_debug_print_visited(game, bfs.visited);
+	//ft_debug_print_path(game, path, *path_len, start, goal);
 	return (1);
 }
 

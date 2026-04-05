@@ -34,12 +34,12 @@ void	ft_debug_print_map(t_game *game)
 		x = -1;
 		while (++x < game->width_height[0])
 		{
-			if (game->map_original[y][x] == '1')
+			if (game->map_heatmap[y][x] == '1')
 				ft_dprintf(1, "%s█%s", RED, RESET);
-			else if (game->map_original[y][x] == '0')
+			else if (game->map_heatmap[y][x] == '0')
 				ft_dprintf(1, " ");
 			else
-				ft_dprintf(1, "%c", game->map_original[y][x]);
+				ft_dprintf(1, "%c", game->map_heatmap[y][x]);
 		}
 		ft_dprintf(1, "\n");
 	}
@@ -69,7 +69,7 @@ void	ft_debug_print_visited(t_game *game, int visited[128][64])
 		x = -1;
 		while (++x < game->width_height[0])
 		{
-			if (game->map_original[y][x] == '1')
+			if (game->map_heatmap[y][x] == '1')
 				ft_dprintf(1, "%s█%s", RED, RESET);
 			else if (visited[y][x])
 				ft_dprintf(1, "%s0%s", GREEN, RESET);
@@ -119,14 +119,14 @@ void	ft_debug_print_path(t_game *game, t_vector_int *path, int path_len,
 				if (path[i].x == x && path[i].y == y)
 					is_path = 1;
 			}
-			if (game->map_original[y][x] == '1')
+			if (game->map_heatmap[y][x] == '1')
 				ft_dprintf(1, "%s█%s", RED, RESET);
 			else if (x == start.x && y == start.y)
 				ft_dprintf(1, "%sS%s", GREEN, RESET);
 			else if (x == goal.x && y == goal.y)
 				ft_dprintf(1, "%sG%s", YELLOW, RESET);
 			else if (is_path)
-				ft_dprintf(1, "%s0%s", MAGENTA, RESET);
+				ft_dprintf(1, "%%s", MAGENTA, RESET);
 			else
 				ft_dprintf(1, " ");
 		}

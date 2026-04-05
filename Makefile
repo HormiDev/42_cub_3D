@@ -130,7 +130,8 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/hd_alloc_functions/ft_hd_alloc_mlx_destroy.c \
 			src_bonus/hd_alloc_functions/ft_hd_alloc_free_split.c \
 			src_bonus/ft_loading_prerender_models.c \
-			src_bonus/hd_alloc_functions/ft_hd_alloc_closedir.c
+			src_bonus/hd_alloc_functions/ft_hd_alloc_closedir.c \
+			src_bonus/ft_n_players.c \
 
 OBJ_DIR  = objects
 OBJ_DIR_BONUS  = objects_bonus
@@ -144,7 +145,7 @@ OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_BONUS = $(patsubst %.c, $(OBJ_DIR_BONUS)/%.o, $(SRC_BONUS))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror
 
 all: clear $(NAME) title_print
 

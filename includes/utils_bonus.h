@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/05 13:53:43 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/06 00:51:11 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@
 # define G				103
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 1920
+#  define WINDOW_WIDTH 3840
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 1080
+#  define WINDOW_HEIGHT 2160
 # endif
 
 # define MENU_HEIGHT 720
@@ -291,6 +291,16 @@ typedef struct s_player_actions {
 	double		flamethrower_cooldown_remaining; // Tiempo restante en segundos
 } t_player_actions;
 
+typedef enum e_duration
+{
+	DURATION_1_MINUTE,
+	DURATION_2_MINUTES,
+	DURATION_3_MINUTES,
+	DURATION_5_MINUTES,
+	DURATION_10_MINUTES,
+	DURATION_UNLIMITED
+} t_duration;
+
 typedef enum e_resolutions
 {
 	RES_90,
@@ -376,8 +386,8 @@ typedef struct s_config
 	int	n_players;
 	int	render_width;
 	int	render_height;
+	int	resolution_index;
 	int	render_celling;
-	int	render_floor;
 	int	render_mist;
 	int	sound_effects;
 	int	duration_index;
@@ -386,7 +396,7 @@ typedef struct s_config
 typedef struct s_game 
 {
 	char				**map;
-	char				**map_original;
+	char				**map_heatmap;
 	char				**map_transitable;
 	int					width_height[2];
 	int					bfs_queue_size;
@@ -432,9 +442,11 @@ typedef struct s_game
 	int					*mist_density_fc;
 	int					mist_cloud_height;
 	t_config			config;
+	t_config			tmp_config;
 	t_resolution		*resolutions;
 	int					resolutions_size;
-	int					resolution_index;
+	int					*durations;
+    int					durations_size;
 	t_game_state		game_state;
 	long				game_start_time;
 	t_player			players[MAX_PLAYERS];

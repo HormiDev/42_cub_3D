@@ -6,57 +6,29 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:26:13 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:38 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/05 19:32:52 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
-/**
- * @brief Devuelve la duración (en segundos) asociada a un índice.
- *
- * Usa una tabla estática con las duraciones permitidas y aplica saturación
- * en los límites: si `idx` es menor que 0 devuelve la primera duración, y si
- * es mayor o igual a `GAME_DURATIONS_COUNT` devuelve la última.
- *
- * @param idx Índice en la tabla de duraciones.
- * @return Duración en segundos correspondiente al índice.
- */
-static int	get_duration(int idx)
+void ft_init_durations(t_game *game)
 {
-	static const int durations[GAME_DURATIONS_COUNT] = {60, 120, 180, 300, 600};
-	if (idx < 0)
-		return durations[0];
-	if (idx >= GAME_DURATIONS_COUNT)
-		return durations[GAME_DURATIONS_COUNT - 1];
-	return durations[idx];
+    game->durations_size = 5;
+    game->durations = hd_calloc(game->durations_size, sizeof(int));
+    game->durations[DURATION_1_MINUTE] = 60;
+    game->durations[DURATION_2_MINUTES] = 120;
+    game->durations[DURATION_3_MINUTES] = 180;
+    game->durations[DURATION_5_MINUTES] = 300;
+    game->durations[DURATION_10_MINUTES] = 600;
 }
 
-/**
- * @brief Obtiene la duración de la partida en segundos según la configuración.
- *
- * Consulta `game->config.duration_index` y devuelve el valor en segundos
- * obtenido de `get_duration`.
- *
- * @param game Puntero al estado del juego.
- * @return Duración en segundos.
- */
-int	ft_get_duration_seconds(t_game *game)
+int get_duration(t_game *game)
 {
-	return get_duration(game->config.duration_index);
-}
-
-/**
- * @brief Obtiene la duración de la partida en minutos según la configuración.
- *
- * Devuelve la duración (segundos) dividida por 60 para representar minutos.
- *
- * @param game Puntero al estado del juego.
- * @return Duración en minutos.
- */
-int	ft_get_duration_minutes(t_game *game)
-{
-	return get_duration(game->config.duration_index) / 60;
+    if (game->config.duration_index < 0 || 
+        game->config.duration_index >= game->durations_size)
+        return game->durations[0];
+    return game->durations[game->config.duration_index];
 }
 
 /**
@@ -85,11 +57,11 @@ void	ft_init_timer(t_game *game)
  */
 int	ft_get_remaining(t_game *game)
 {
-	long elapsed_ms = ft_long_diff(game->game_start_time, ft_get_time());
-	int elapsed_sec = (int)(elapsed_ms / 1000);
-	int remaining = get_duration(game->config.duration_index) - elapsed_sec;
-	if (remaining > 0)
-		return remaining;
-	else
-		return 0;
+    long elapsed_ms = ft_long_diff(game->game_start_time, ft_get_time());
+    int elapsed_sec = (int)(elapsed_ms / 1000);
+    int remaining = get_duration(game) - elapsed_sec;
+    if (remaining > 0)
+        return remaining;
+    else
+        return 0;
 }

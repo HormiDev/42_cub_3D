@@ -81,11 +81,13 @@ int	input_handle_menu_b(t_game *game)
 {
 	if (!game)
 		return (-1);
-	if (game->show_menu)
+	if (game->show_menu == 1)
 	{
 		audio_stop_menu(game);
 		ft_close_game(0);
 	}
+	else if (game->show_menu == 2)
+		ft_menu_button(game);
 	else
 		game->show_menu = 1;
 	return (0);

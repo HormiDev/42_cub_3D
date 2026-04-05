@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/05 14:33:44 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/06 00:41:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ int				ft_str_isnumber(char *str);
 // ============================================================================
 // TIMER FUNCTIONS
 // ============================================================================
-int				ft_get_duration_seconds(t_game *game);
+int				get_duration(t_game *game);
 int				ft_get_duration_minutes(t_game *game);
 void			ft_init_timer(t_game *game);
 int				ft_get_remaining(t_game *game);
@@ -193,7 +193,7 @@ int				ft_try_toggle_door(t_game *game);
 // ============================================================================
 // ALIEN FUNCTIONS
 // ============================================================================
-void			ft_config_objects(t_game *game);
+void			ft_config_alien(t_game *game);
 void			ft_respawn_alien(t_game *game);
 void			ft_update_aliens(t_game *game);
 void			ft_update_heatmap(t_game *game);
@@ -263,6 +263,8 @@ void			ft_init_resolutions(t_game *game);
 void			ft_next_resolution(void *game_ptr);
 void			ft_previous_resolution(void *game_ptr);
 void			ft_loading_render(t_game *game, int render_height, int render_width);
+void			ft_decrease_players(void *game_ptr);
+void			ft_increase_players(void *game_ptr);
 
 void			ft_scale_t_image_precalc_two(t_texture *tex_origin,
 		t_texture *text_destiny, t_game *game, int player);
@@ -319,4 +321,14 @@ void	flamethrower(t_game *game, int player_index);
 void	ft_update_flamethrower_cooldown(t_player_actions *actions, double delta_time);
 void	ft_render_flamethrower_hud(t_game *game, int player_index);
 
+void			ft_init_durations(t_game *game);
+void			ft_next_duration(void *game_ptr);
+void			ft_previous_duration(void *game_ptr);
+int				ft_get_alien_index(t_game *game);
+
+void	ft_debug_print_map(t_game *game);
+void	ft_debug_print_visited(t_game *game, int visited[128][64]);
+void	ft_debug_print_path(t_game *game, t_vector_int *path, int path_len, t_vector_int start, t_vector_int goal);
+
+void	ft_menu_button(void *game_ptr);
 #endif

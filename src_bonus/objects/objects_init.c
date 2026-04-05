@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_init.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:23:51 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/05 13:20:44 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/05 23:30:00 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,11 @@
 /**
  * @brief Inicializa los datos del alien en su posición inicial.
  */
-static void	ft_init_alien_data(t_player *alien, double x, double y)
+static void	ft_init_alien_data(t_player *alien)
 {
 	alien->type = ENTITY_ALIEN;
 	alien->active = 1;
 	alien->alive = 1;
-	alien->position.x = x;
-	alien->position.y = y;
 	alien->state = ALIEN_IDLE;
 	alien->speed = 1.5;
 	alien->chase_distance = 4.0;
@@ -43,15 +41,10 @@ static void	ft_load_alien_texture(t_game *game, t_player *alien)
 /**
  * @brief Crea un alien en la posición especificada del mapa.
  */
-static void	ft_spawn_alien(t_game *game, int x, int y)
+static void	ft_spawn_alien(t_game *game)
 {
-	ft_init_alien_data(&game->players[4], x + 0.5, y + 0.5);
+	ft_init_alien_data(&game->players[4]);
 	ft_load_alien_texture(game, &game->players[4]);
-	ft_dprintf(1, "[ALIEN SPAWN] Found 'A' at map[%d][%d] (x_col=%d, y_row=%d)\n",
-		y, x, x, y);
-	ft_dprintf(1, "[ALIEN SPAWN] Placed at world position: x=%d y=%d\n",
-		(int)game->players[4].position.x, (int)game->players[4].position.y);
-	game->map[y][x] = '0';
 }
 
 /**
@@ -76,25 +69,11 @@ static void	ft_assign_textures_to_players(t_game *game)
 /**
  * @brief Busca y configura aliens en el mapa.
  */
-void	ft_config_objects(t_game *game)
+void	ft_config_alien(t_game *game)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	while (game->map[i])
-	{
-		j = 0;
-		while (game->map[i][j])
-		{
-			if (game->map[i][j] == 'A')
-			{
-				ft_spawn_alien(game, j, i);
-				ft_assign_textures_to_players(game);
-				return ;
-			}
-			j++;
-		}
-		i++;
-	}
+	ft_spawn_alien(game);
+	ft_respawn_alien(game);
+	ft_dprintf(1, "[ALIEN SPAWN] Placed at world position: x=%d y=%d\n",
+		(int)game->players[4].position.x, (int)game->players[4].position.y);
+	ft_assign_textures_to_players(game);
 }

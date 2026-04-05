@@ -16,9 +16,9 @@ static void	ft_mark_heat(t_game *game, int px, int py)
 		return ;
 	if (py < 0 || py >= game->width_height[1])
 		return ;
-	if (game->map_original[py][px] == '1')
+	if (game->map_heatmap[py][px] == '1')
 		return ;
-	game->map_original[py][px] = '2';
+	game->map_heatmap[py][px] = '2';
 }
 
 /**
@@ -35,7 +35,7 @@ static void	ft_clear_heatmap(t_game *game)
 	int	y;
 	int	x;
 
-	if (!game || !game->map_original || !game->map)
+	if (!game || !game->map_heatmap || !game->map)
 		return ;
 	y = 0;
 	while (y < game->width_height[1])
@@ -43,8 +43,8 @@ static void	ft_clear_heatmap(t_game *game)
 		x = 0;
 		while (x < game->width_height[0])
 		{
-			if (game->map_original[y][x] >= '2' && game->map_original[y][x] <= '4')
-				game->map_original[y][x] = game->map[y][x];
+			if (game->map_heatmap[y][x] >= '2' && game->map_heatmap[y][x] <= '4')
+				game->map_heatmap[y][x] = game->map[y][x];
 			x++;
 		}
 		y++;
@@ -67,7 +67,7 @@ void	ft_update_heatmap(t_game *game)
 	int	px;
 	int	py;
 
-	if (!game || !game->map_original)
+	if (!game || !game->map_heatmap)
 		return ;
 	ft_clear_heatmap(game);
 	if (game->player && game->player->alive)

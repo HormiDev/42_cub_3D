@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 01:16:45 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 22:46:48 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/05 19:48:50 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,9 @@ void ft_next_resolution(void *game_ptr)
 	t_game	*game;
 
 	game = (t_game *)game_ptr;
-	if (game->resolution_index >= game->resolutions_size -1)
+	if (game->config.resolution_index >= game->resolutions_size -1)
 		return ;
-	game->resolution_index++;
-	ft_loading_render(game, game->resolutions[game->resolution_index].height,
-		game->resolutions[game->resolution_index].width);
+	game->config.resolution_index++;
 }
 
 void ft_previous_resolution(void *game_ptr)
@@ -29,11 +27,9 @@ void ft_previous_resolution(void *game_ptr)
 	t_game	*game;
 
 	game = (t_game *)game_ptr;
-	if (game->resolution_index <= 0)
+	if (game->config.resolution_index <= 0)
 		return ;
-	game->resolution_index--;
-	ft_loading_render(game, game->resolutions[game->resolution_index].height,
-		game->resolutions[game->resolution_index].width);
+	game->config.resolution_index--;
 }
 
 void ft_init_resolutions(t_game *game)

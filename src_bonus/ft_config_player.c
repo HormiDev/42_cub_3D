@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_config_player.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:30:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/04 19:48:53 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/05 23:15:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ void	ft_config_player(t_game *game)
 		game->players[idx].type = ENTITY_PLAYER;
 		game->ordered_ojects[idx] = &game->players[idx];
 		// Inicializar acciones y cargas del lanzallamas
-		game->actions[idx].flamethrower_charges = 3;
-		game->actions[idx].flamethrower_ready = 1;
-		game->actions[idx].flamethrower_last_time = 0;
-		game->actions[idx].flamethrower_cooldown_remaining = 0;
+		//game->actions[idx].flamethrower_charges = 3;
+		//game->actions[idx].flamethrower_ready = 1;
+		//game->actions[idx].flamethrower_last_time = 0;
+		//game->actions[idx].flamethrower_cooldown_remaining = 0;
 		idx++;
 	}
 	game->player = &game->players[0];

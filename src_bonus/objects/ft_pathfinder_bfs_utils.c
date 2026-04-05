@@ -41,9 +41,9 @@ int	ft_bfs_is_valid_tile(t_game *game, t_bfs *bfs, t_vector_int next)
 		return (0);
 	if (bfs->visited[next.y][next.x])
 		return (0);
-	if (game->map_original[next.y][next.x] == '1')
+	if (game->map_heatmap[next.y][next.x] == '1')
 		return (0);
-	if (game->map_original[next.y][next.x] == 'D')
+	if (game->map_heatmap[next.y][next.x] == 'D')
 		return (0);
 	return (1);
 }

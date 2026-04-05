@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:37 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/05 23:25:49 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,13 +170,15 @@ t_game	*ft_loading_game(char *path_map)
 	game->font = ft_loading_texture(game->mlx, "textures/fuente.xpm");
 	if (!game->font)
 		ft_dprintf(2, RED "Error: Failed to load font texture\n" RESET);
-	game->config.n_players = 4;
+	game->config.n_players = 1;
 	game->config.duration_index = 2;
 	game->game_state = GAME_PLAYING;
+	ft_init_durations(game);
+	ft_init_timer(game);
 	ft_init_resolutions(game);
-	game->resolution_index = RES_540;
-	ft_loading_render(game, game->resolutions[game->resolution_index].height,
-		game->resolutions[game->resolution_index].width);
+	game->config.resolution_index = RES_540;
+	ft_loading_render(game, game->resolutions[game->config.resolution_index].height,
+		game->resolutions[game->config.resolution_index].width);
 	ft_create_window_img(game);
 	ft_create_minimap(game);
 	ft_sin(0);
@@ -185,7 +187,7 @@ t_game	*ft_loading_game(char *path_map)
 	game->precalc.rotated_squares = ft_precalc_rotated_squares();
 	ft_loading_prerender_models(game);
 	ft_config_player(game);
-	ft_config_objects(game);
+	ft_config_alien(game);
 	ft_init_doors(game);
 	hd_free(map_file);
 	return (game);

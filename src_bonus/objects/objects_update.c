@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_update.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:25 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/05 14:42:34 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/06 00:51:11 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ static int	ft_count_walkable_points(t_game *game)
 		j = 0;
 		while (j < game->width_height[0])
 		{
-			if (game->map_original[i][j] == '0')
+			if (game->map_transitable[i][j] == '0')
 				count++;
 			j++;
 		}
@@ -125,7 +125,7 @@ static int	ft_count_walkable_points(t_game *game)
 }
 
 /**
- * @brief Obtiene la posición del n-ésimo punto caminable en map_original.
+ * @brief Obtiene la posición del n-ésimo punto caminable en map_heatmap.
  */
 static int	ft_get_walkable_point(t_game *game, int index, t_vector2 *pos)
 {
@@ -140,7 +140,7 @@ static int	ft_get_walkable_point(t_game *game, int index, t_vector2 *pos)
 		j = 0;
 		while (j < game->width_height[0])
 		{
-			if (game->map_original[i][j] == '0')
+			if (game->map_transitable[i][j] == '0')
 			{
 				if (count == index)
 				{
@@ -158,29 +158,30 @@ static int	ft_get_walkable_point(t_game *game, int index, t_vector2 *pos)
 }
 
 /**
- * @brief Valida que un punto esté lo suficientemente lejos de todos los jugadores.
+ * @brief Verifica si una posición está dentro del área de exclusión de algún player.
  *
  * Itera sobre todos los jugadores activos y comprueba si la distancia desde
- * la posición dada es mayor o igual a min_distance. Si algún jugador está
- * demasiado cerca, retorna 0 (inválido).
+ * la posición dada es menor que MAX_RAY_SIZE (radio de exclusión).
  *
  * @param game estructura del juego.
  * @param pos posición a validar.
- * @param min_distance distancia mínima requerida a los jugadores.
- * @return 1 si está lejos de todos, 0 si alguno está cerca.
+ * @return 1 si está dentro de algún área de player, 0 si está libre.
  */
-static int	ft_far_from_players(t_game *game, t_vector2 pos, double min_distance)
+static int	ft_is_in_player_area(t_game *game, t_vector2 pos)
 {
-	int	k;
+    int	k;
 
-	k = 0;
-	while (k < game->config.n_players)
-	{
-		if (ft_vector_distance(game->players[k].position, pos) < min_distance)
-			return (0);
-		k++;
-	}
-	return (1);
+    k = 0;
+    while (k < game->config.n_players)
+    {
+        if (game->players[k].active && game->players[k].alive)
+        {
+            if (ft_vector_distance(game->players[k].position, pos) < MAX_RAY_SIZE)
+                return (1);
+        }
+        k++;
+    }
+    return (0);
 }
 
 /**
@@ -205,40 +206,44 @@ static void	ft_set_alien_pos(t_game *game, t_vector2 pos)
 }
 
 /**
- * @brief Respawnea el alien en una posición segura aleatororia del mapa.
+ * @brief Respawnea el alien en una posición segura dentro del mapa transitable.
  *
- * Primero calcula cuántos puntos caminables existen. Luego intenta colocar
- * al alien a una distancia entre 4 y 10 unidades de los jugadores (rango de 
- * 'spawn seguro'). Si eso no es posible después de un intento, coloca al alien
- * en un punto caminable completamente aleatorio como fallback.
+ * Intenta encontrar un punto caminable que NO esté dentro del área de exclusión
+ * (MAX_RAY_SIZE) de ningún jugador. Si lo consigue, coloca el alien ahí.
+ * Si después de un intento no encuentra posición válida, coloca el alien en
+ * un punto caminable completamente aleatorio como fallback.
  *
  * @param game estructura del juego con el mapa y jugadores.
  */
 void	ft_respawn_alien(t_game *game)
 {
-	int			count;
-	int			random_idx;
-	t_vector2	pos;
-	double		min_dist;
+    int			count;
+    int			random_idx;
+    t_vector2	pos;
+    int			attempts;
 
-	if (!game || !game->map_original)
-		return ;
-	count = ft_count_walkable_points(game);
-	if (count == 0)
-		return ;
-	min_dist = 4.0 + (rand() % 7);
-	random_idx = rand() % count;
-	if (ft_get_walkable_point(game, random_idx, &pos))
-	{
-		if (ft_far_from_players(game, pos, min_dist))
-		{
-			ft_set_alien_pos(game, pos);
-			return ;
-		}
-	}
-	random_idx = rand() % count;
-	if (ft_get_walkable_point(game, random_idx, &pos))
-		ft_set_alien_pos(game, pos);
+    if (!game || !game->map_transitable)
+        return ;
+    count = ft_count_walkable_points(game);
+    if (count == 0)
+        return ;
+    attempts = 0;
+    while (attempts < count)
+    {
+        random_idx = rand() % count;
+        if (ft_get_walkable_point(game, random_idx, &pos))
+        {
+            if (!ft_is_in_player_area(game, pos))
+            {
+                ft_set_alien_pos(game, pos);
+                return ;
+            }
+        }
+        attempts++;
+    }
+    random_idx = rand() % count;
+    if (ft_get_walkable_point(game, random_idx, &pos))
+        ft_set_alien_pos(game, pos);
 }
 
 /**

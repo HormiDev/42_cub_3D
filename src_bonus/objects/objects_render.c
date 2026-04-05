@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:09 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/04 20:53:04 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/05 22:05:39 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 static void	ft_setup_sprite_draw(t_game *game, t_objet_draw *draw,
 	int screen_col, double base_size)//funcion para borrar
 {
+	if (game->config.n_players == 2)
+		base_size = 4;
 	draw->size = ft_compute_sprite_size(game, base_size, draw->distance);
 	//draw->scaled = ft_new_texture(game->mlx, draw->size, draw->size);
 	draw->screen_x = screen_col - draw->size / 2;
