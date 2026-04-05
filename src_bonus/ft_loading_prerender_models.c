@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_loading_prerender_models.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 00:50:36 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/04 20:59:17 by ide-dieg         ###   ########.fr       */
+/*   Created: 2026/04/05 12:16:38 by nirmata           #+#    #+#             */
+/*   Updated: 2026/04/05 12:16:40 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,5 +108,5 @@ t_prerender_model	*ft_init_prerender_model(t_game *game, int n_frames, int n_ang
 
 void	ft_loading_prerender_models(t_game *game)
 {
-	game->alien_prerender = ft_init_prerender_model(game, 1, 36, "textures/prerender/");
+	game->alien_prerender = ft_init_prerender_model(game, 1, 1, "textures/prerender/");
 }

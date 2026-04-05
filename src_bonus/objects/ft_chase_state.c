@@ -1,48 +1,74 @@
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Realiza raycasting para detectar si hay línea directa al jugador.
- * 
- * Usa ft_raycast para disparar un rayo desde la posición del alien hacia
- * el jugador. Si el rayo toca al jugador (distance < 0.5) retorna 1.
- *
+ * @brief Encuentra el jugador vivo más cercano al alien.
  * @param game estructura del juego.
  * @param alien puntero al alien.
- * @return 1 si hay visión directa, 0 si no.
+ * @param closest puntero para guardar al jugador más cercano.
+ * @return distancia al más cercano o -1 si no hay vivos.
  */
-static int	ft_has_line_of_sight(t_game *game, t_player *alien)
+static double	ft_find_closest_player(t_game *game, t_player *alien, t_player **closest)
 {
-	t_vector2	delta;
-	double		angle;
-	t_raycast	ray;
-	double		target_dist;
+	double		min_dist;
+	double		dist;
+	int			i;
 
-	delta.x = game->player->position.x - alien->position.x;
-	delta.y = game->player->position.y - alien->position.y;
-	angle = atan2(delta.y, delta.x);
-	target_dist = ft_vector_distance(alien->position, game->player->position);
-	ft_raycast(game, angle, &ray, target_dist + 1.0);
-	if (ray.distance < target_dist + 0.5)
-		return (1);
-	return (0);
+	min_dist = 999.0;
+	*closest = NULL;
+	if (game->player && game->player->alive)
+	{
+		min_dist = ft_vector_distance(alien->position, game->player->position);
+		*closest = game->player;
+	}
+	i = 0;
+	while (i < game->config.n_players)
+	{
+		if (game->players[i].active && game->players[i].alive)
+		{
+			dist = ft_vector_distance(alien->position, game->players[i].position);
+			if (dist < min_dist)
+			{
+				min_dist = dist;
+				*closest = &game->players[i];
+			}
+		}
+		i++;
+	}
+	return (*closest ? min_dist : -1);
 }
 
 /**
- * @brief Persigue al jugador en línea recta con velocidad constante.
- * 
- * Calcula el vector dirección normalizado hacia el jugador.
- * Mueve el alien a velocidad constante en esa dirección.
- *
+ * @brief Verifica si el alien puede ver al jugador.
+ * @param game estructura del juego.
+ * @param alien puntero al alien.
+ * @param target puntero al jugador objetivo.
+ * @return 1 si distancia < alien->chase_distance, 0 si no.
+ */
+static int	ft_has_line_of_sight(t_game *game, t_player *alien, t_player *target)
+{
+	double		dist;
+
+	if (!game || !target || !alien)
+		return (0);
+	dist = ft_vector_distance(alien->position, target->position);
+	return (dist < alien->chase_distance);
+}
+
+/**
+ * @brief Persigue al jugador en línea recta.
  * @param game estructura del juego.
  * @param alien puntero al alien a mover.
+ * @param target jugador a perseguir.
  */
-static void	ft_move_toward_player(t_game *game, t_player *alien)
+static void	ft_move_toward_player(t_game *game, t_player *alien, t_player *target)
 {
 	t_vector2	direction;
 	double		norm;
 
-	direction.x = game->player->position.x - alien->position.x;
-	direction.y = game->player->position.y - alien->position.y;
+	if (!target)
+		return ;
+	direction.x = target->position.x - alien->position.x;
+	direction.y = target->position.y - alien->position.y;
 	norm = ft_sqrt(direction.x * direction.x + direction.y * direction.y);
 	if (norm > 0.001)
 	{
@@ -55,23 +81,29 @@ static void	ft_move_toward_player(t_game *game, t_player *alien)
 
 /**
  * @brief Actualiza el estado CHASE del alien.
- * 
- * Verifica línea directa de visión. Si está disponible, persigue al jugador.
- * Si pierde visión, cambia a estado PATROL.
- *
  * @param game estructura del juego.
- * @param alien puntero al alien.
+ * @param alien puntero al alien a actualizar.
  */
 void	ft_alien_chase_update(t_game *game, t_player *alien)
 {
-	if (!alien || !game || !game->player)
+	double		dist;
+	t_player	*target;
+
+	if (!alien || !game)
 		return ;
-	if (!ft_has_line_of_sight(game, alien))
+	dist = ft_find_closest_player(game, alien, &target);
+	if (dist < 0 || !target)
+	{
+		alien->state = ALIEN_PATROL;
+		alien->path_len = 0;
+		return ;
+	}
+	if (!ft_has_line_of_sight(game, alien, target))
 	{
 		alien->state = ALIEN_PATROL;
 		alien->path_len = 0;
 		return ;
 	}
 	alien->path_len = 0;
-	ft_move_toward_player(game, alien);
+	ft_move_toward_player(game, alien, target);
 }

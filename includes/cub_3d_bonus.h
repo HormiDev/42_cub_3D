@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/03 00:39:25 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/04 21:02:10 by ide-dieg         ###   ########.fr       */
+/*   Created: 2026/04/05 12:17:15 by nirmata           #+#    #+#             */
+/*   Updated: 2026/04/05 14:33:44 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void			ft_config_player(t_game *game);
 // PARSING FUNCTIONS
 // ============================================================================
 void			ft_parse_map(t_game *game, t_file *map_file);
+void			ft_alloc_bfs_structures(t_game *game);
 void 			ft_parse_colors(t_game *game, t_file *map_file);
 void			ft_read_textures_in_map(t_game *game, t_file *map_file);
 int				ft_path_or_color(char *str);
@@ -195,11 +196,27 @@ int				ft_try_toggle_door(t_game *game);
 void			ft_config_objects(t_game *game);
 void			ft_respawn_alien(t_game *game);
 void			ft_update_aliens(t_game *game);
-void			ft_update_heatmap(t_game *game, int player_idx);
-void			ft_map_dist(t_game *game, t_player *alien);
-void			ft_build_path(t_game *game, t_player *alien);
+void			ft_update_heatmap(t_game *game);
+
+// BFS Pathfinding functions
+int				ft_bfs_path(t_game *game, t_vector_int start, t_vector_int goal, t_vector_int *path, int *path_len);
+void			ft_bfs_init(t_bfs *bfs, t_vector_int start, int width, int height);
+int				ft_bfs_is_valid_tile(t_game *game, t_bfs *bfs, t_vector_int next);
+int				ft_bfs_process_neighbor(t_bfs *bfs, t_vector_int current, t_vector_int next);
+void			ft_init_directions(int *dx, int *dy);
+
+/* DEBUG PATHFINDER VISUALIZATION (uncomment in ft_pathfinder_bfs.c to enable) */
+// #define DEBUG_PATHFINDER 1
+void			ft_debug_print_map(t_game *game);
+void			ft_debug_print_visited(t_game *game, int visited[128][64]);
+void			ft_debug_print_path(t_game *game, t_vector_int *path, int path_len, t_vector_int start, t_vector_int goal);
+
 void			ft_alien_patrol_update(t_game *game, t_player *alien);
 void			ft_alien_chase_update(t_game *game, t_player *alien);
+void			ft_check_alien_collision(t_game *game);
+void			ft_kill_player(t_player *player);
+int				ft_check_game_end(t_game *game);
+void			ft_debug_alien(t_game *game);
 void			ft_update_render_distances(t_game *game);
 void			ft_render_all_sprites(t_game *game);
 void			ft_render_player_sprite(t_game *game, t_player *player);

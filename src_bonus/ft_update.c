@@ -13,6 +13,33 @@
 #include "../includes/cub_3d_bonus.h"
 
 /**
+ * @brief Dibuja la pantalla de fin de juego (GAME OVER).
+ *
+ * Renderiza una pantalla negra con un mensaje de derrota cuando el alien
+ * ha eliminado a todos los jugadores.
+ *
+ * @param game estructura del juego.
+ */
+static void	ft_draw_game_over_screen(t_game *game)
+{
+	int	center_x;
+	int	center_y;
+
+	center_x = WINDOW_WIDTH / 2;
+	center_y = WINDOW_HEIGHT / 2;
+	
+	mlx_clear_window(game->mlx, game->window);
+	mlx_string_put(game->mlx, game->window, center_x - 200, center_y - 100,
+		0xFFFF0000, "GAME OVER");
+	mlx_string_put(game->mlx, game->window, center_x - 150, center_y,
+		0xFFFFFFFF, "YOU LOST");
+	mlx_string_put(game->mlx, game->window, center_x - 250, center_y + 100,
+		0xFFFFFF00, "The alien has eliminated all players...");
+	mlx_string_put(game->mlx, game->window, center_x - 100, center_y + 200,
+		0xFF00FF00, "Press ESC to exit");
+}
+
+/**
  * @brief Calcula el tiempo transcurrido desde el último frame.
  * Esta función obtiene el tiempo actual y calcula la diferencia con el tiempo del último frame.
  * Luego, actualiza el tiempo del último frame y calcula el delta_time.
@@ -164,6 +191,10 @@ int ft_update(void *param)
 	ft_gamepad_movement(game);
 	if (game->show_menu)
 		ft_update_menu(game);
+	else if (game->game_state == GAME_ALIEN_WIN)
+	{
+		ft_draw_game_over_screen(game);
+	}
 	else
 	{
 		ft_check_timer(game);
@@ -176,15 +207,13 @@ int ft_update(void *param)
 			else
 				ft_three_players(game);
 		}
-	}
-	mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
-	if (!game->show_menu)
-	{
+		mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 		if (ft_should_show_door_prompt(game))
 			mlx_string_put(game->mlx, game->window,
 				WINDOW_WIDTH / 2 - 70, WINDOW_HEIGHT - 40,
 				0xFFFFFF00, "Press E or A");
 		ft_render_timer_hud(game);
+		ft_debug_alien(game);
 	}
 	return (0);
 }

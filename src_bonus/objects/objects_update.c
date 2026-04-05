@@ -3,43 +3,106 @@
 /*                                                        :::      ::::::::   */
 /*   objects_update.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:25 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/04 01:54:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/05 14:42:34 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Actualiza el estado del alien según su distancia al jugador.
+ * @brief Calcula la distancia mínima del alien a todos los jugadores.
+ * @param game estructura del juego.
+ * @param alien puntero al alien.
+ * @return distancia mínima encontrada.
  */
-void	ft_update_aliens(t_game *game)
+static double	ft_update_alien_distance(t_game *game, t_player *alien)
 {
-	t_player	*alien;
-	double		distance;
+	double	distance;
+	double	player_dist;
+	int		i;
 
-	if (!game->players[4].active)
-		return ;
-	alien = &game->players[4];
-	distance = ft_vector_distance(game->player->position, alien->position);
-	if (distance <= alien->chase_distance)
-		alien->state = ALIEN_CHASE;
-	else
-		alien->state = ALIEN_IDLE;
+	distance = 999.0;
+	if (game->player && game->player->alive)
+		distance = ft_vector_distance(alien->position, game->player->position);
+	i = 0;
+	while (i < game->config.n_players)
+	{
+		if (game->players[i].active && game->players[i].alive)
+		{
+			player_dist = ft_vector_distance(alien->position, game->players[i].position);
+			if (player_dist < distance)
+				distance = player_dist;
+		}
+		i++;
+	}
+	return (distance);
 }
 
 /**
- * @brief Cuenta puntos caminables ('0') en el mapa transitable.
- *
- * Recorre todo el mapa_transitable contando cuántos puntos están marcados
- * como '0' (espacios abiertos donde se puede respawnear).
- *
- * @param game estructura del juego con el mapa transitable.
- * @return cantidad total de puntos caminables.
+ * @brief Actualiza el estado y velocidad del alien.
+ * @param alien puntero al alien.
+ * @param distance distancia al jugador más cercano.
+ * @param last_state puntero al estado anterior.
  */
-static int	ft_count_points(t_game *game)
+static void	ft_update_alien_state_and_speed(t_player *alien, double distance,
+	t_alien_state *last_state)
+{
+	if (distance <= alien->chase_distance)
+		alien->state = ALIEN_CHASE;
+	else
+		alien->state = ALIEN_PATROL;
+	if (alien->state != *last_state)
+	{
+		if (alien->state == ALIEN_CHASE)
+			alien->speed = 3.5;
+		else
+			alien->speed = 1.5;
+		*last_state = alien->state;
+	}
+}
+
+/**
+ * @brief Ejecuta el comportamiento del alien según su estado.
+ * @param game estructura del juego.
+ * @param alien puntero al alien.
+ */
+static void	ft_execute_alien_behavior(t_game *game, t_player *alien)
+{
+	if (alien->state == ALIEN_CHASE)
+		ft_alien_chase_update(game, alien);
+	else
+		ft_alien_patrol_update(game, alien);
+}
+
+/**
+ * @brief Actualiza el estado del alien según su distancia al jugador.
+ *
+ * Verifica colisiones con jugadores, actualiza el estado del alien,
+ * ejecuta la lógica de persecución/patrulla y verifica fin del juego.
+ */
+void	ft_update_aliens(t_game *game)
+{
+	t_player			*alien;
+	double				distance;
+	static t_alien_state	last_state = -1;
+
+	if (!game || !game->players[4].active)
+		return ;
+	alien = &game->players[4];
+	distance = ft_update_alien_distance(game, alien);
+	ft_update_alien_state_and_speed(alien, distance, &last_state);
+	ft_execute_alien_behavior(game, alien);
+	ft_check_alien_collision(game);
+	ft_check_game_end(game);
+}
+
+/**
+ * @brief Cuenta puntos caminables ('0') en el mapa_original.
+ */
+static int	ft_count_walkable_points(t_game *game)
 {
 	int	i;
 	int	j;
@@ -47,12 +110,12 @@ static int	ft_count_points(t_game *game)
 
 	count = 0;
 	i = 0;
-	while (game->map_transitable[i])
+	while (i < game->width_height[1])
 	{
 		j = 0;
-		while (game->map_transitable[i][j])
+		while (j < game->width_height[0])
 		{
-			if (game->map_transitable[i][j] == '0')
+			if (game->map_original[i][j] == '0')
 				count++;
 			j++;
 		}
@@ -62,17 +125,9 @@ static int	ft_count_points(t_game *game)
 }
 
 /**
- * @brief Obtiene la posición del n-ésimo punto caminable.
- *
- * Busca en el mapa_transitable el punto número 'index' que tenga valor '0'
- * y devuelve sus coordenadas (i, j) convertidas a posición del mundo (x+0.5, y+0.5).
- *
- * @param game estructura del juego.
- * @param index número del punto a buscar (0-basado).
- * @param pos puntero donde guardar las coordenadas encontradas.
- * @return 1 si encontró el punto, 0 si no existe.
+ * @brief Obtiene la posición del n-ésimo punto caminable en map_original.
  */
-static int	ft_get_point(t_game *game, int index, t_vector2 *pos)
+static int	ft_get_walkable_point(t_game *game, int index, t_vector2 *pos)
 {
 	int	i;
 	int	j;
@@ -80,12 +135,12 @@ static int	ft_get_point(t_game *game, int index, t_vector2 *pos)
 
 	count = 0;
 	i = 0;
-	while (game->map_transitable[i])
+	while (i < game->width_height[1])
 	{
 		j = 0;
-		while (game->map_transitable[i][j])
+		while (j < game->width_height[0])
 		{
-			if (game->map_transitable[i][j] == '0')
+			if (game->map_original[i][j] == '0')
 			{
 				if (count == index)
 				{
@@ -166,14 +221,14 @@ void	ft_respawn_alien(t_game *game)
 	t_vector2	pos;
 	double		min_dist;
 
-	if (!game || !game->map || !game->map_transitable)
+	if (!game || !game->map_original)
 		return ;
-	count = ft_count_points(game);
+	count = ft_count_walkable_points(game);
 	if (count == 0)
 		return ;
 	min_dist = 4.0 + (rand() % 7);
 	random_idx = rand() % count;
-	if (ft_get_point(game, random_idx, &pos))
+	if (ft_get_walkable_point(game, random_idx, &pos))
 	{
 		if (ft_far_from_players(game, pos, min_dist))
 		{
@@ -182,7 +237,7 @@ void	ft_respawn_alien(t_game *game)
 		}
 	}
 	random_idx = rand() % count;
-	if (ft_get_point(game, random_idx, &pos))
+	if (ft_get_walkable_point(game, random_idx, &pos))
 		ft_set_alien_pos(game, pos);
 }
 

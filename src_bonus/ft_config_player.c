@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_config_player.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:30:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/02 01:03:47 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/04 19:48:53 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	ft_config_player(t_game *game)
 	while (idx < MAX_PLAYERS)
 	{
 		game->players[idx].active = 0;
+		game->players[idx].alive = 1;
 		game->players[idx].type = ENTITY_PLAYER;
 		game->ordered_ojects[idx] = &game->players[idx];
 		// Inicializar acciones y cargas del lanzallamas
@@ -67,6 +68,7 @@ void	ft_config_player(t_game *game)
 	}
 	game->player = &game->players[0];
 	game->players[0].active = 1;
+	game->players[0].alive = 1;
 	while (game->map[i])
 	{
 		j = 0;
@@ -89,6 +91,7 @@ void	ft_config_player(t_game *game)
 	{
 		ft_memcpy(&game->players[idx], &game->players[0], sizeof(t_player));
 		game->players[idx].active = 1;
+		game->players[idx].alive = 1;
 		game->players[idx].type = ENTITY_PLAYER;
 		game->players[idx].size = 2.0;
 		game->players[idx].position.x += (idx % 2) ? 0.3 : -0.3;

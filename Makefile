@@ -111,6 +111,12 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/objects/door_raycast.c \
 			src_bonus/objects/objects_init.c \
 			src_bonus/objects/objects_update.c \
+			src_bonus/objects/objects_collision.c \
+			src_bonus/objects/ft_heatmap.c \
+			src_bonus/objects/ft_pathfinder_bfs.c \
+			src_bonus/objects/ft_pathfinder_bfs_utils.c \
+			src_bonus/objects/ft_chase_state.c \
+			src_bonus/objects/ft_patrol_state.c \
 			src_bonus/objects/ft_draw_image_scaled.c \
 			src_bonus/objects/objects_sort.c \
 			src_bonus/objects/objects_projection.c \
@@ -138,7 +144,7 @@ OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_BONUS = $(patsubst %.c, $(OBJ_DIR_BONUS)/%.o, $(SRC_BONUS))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 
 all: clear $(NAME) title_print
 

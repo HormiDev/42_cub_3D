@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/03 00:39:38 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/04 21:04:41 by ide-dieg         ###   ########.fr       */
+/*   Created: 2026/04/05 12:17:03 by nirmata           #+#    #+#             */
+/*   Updated: 2026/04/05 13:53:43 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,6 +211,19 @@ typedef struct s_render_objets
 	double		size;
 } t_render_objects;
 
+
+typedef struct s_bfs
+{
+	t_vector_int	*queue;
+	int				*parent;
+	int				**visited;
+	int				queue_start;
+	int				queue_end;
+	int				max_queue;
+	int				width;
+	int				height;
+}	t_bfs;
+
 typedef enum e_entity_type
 {
 	ENTITY_PLAYER = 0,
@@ -221,6 +234,7 @@ typedef struct s_player
 {
 	t_entity_type		type;
 	int					active;
+	int					alive;
 	t_vector2			position;
 	t_vector2			rotation;
 	t_vector2			velocity;
@@ -232,7 +246,7 @@ typedef struct s_player
 	double				chase_distance;
 	double				size;
 	int					dist[128][128];
-	t_vector_int		path[256];
+	t_vector_int		path[1024];
 	int					path_len;
 	int					curr_step;
 	t_vector_int		last_heatmap_pos;
@@ -375,6 +389,10 @@ typedef struct s_game
 	char				**map_original;
 	char				**map_transitable;
 	int					width_height[2];
+	int					bfs_queue_size;
+	int					bfs_parent_size;
+	int					bfs_visited_width;
+	int					bfs_visited_height;
 	t_list				*textures[6];
 	t_texture 			**arraytextures[6];
 	int					length_textures_array[6];
@@ -425,6 +443,9 @@ typedef struct s_game
 	t_texture			*timer;
 	t_texture			*render_timer;
 	t_prerender_model	*alien_prerender;
+	t_vector_int		*bfs_queue;
+	int					*bfs_parent;
+	int					**bfs_visited;
 }	t_game;
 
 #endif
