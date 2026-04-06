@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flamethrower.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:26 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 16:11:05 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 23:08:54 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 /**
  * @brief Calcula si un alien está dentro del rango de ataque del lanzallamas.
  *
- * Utiliza la distancia euclidiana para determinar si la distancia entre el jugador
+ * distancia euclidiana para determinar 
+ * si la distancia entre el jugador
  * y el alien es menor o igual a 5.0 unidades.
  *
  * @param player Puntero a la estructura del jugador atacante.
@@ -41,8 +42,8 @@ static int	is_alien_in_range(t_player *player, t_player *alien)
  * Si el cooldown es 0 o menos, permite disparar (retorna 1).
  * Si aún hay cooldown activo, retorna 0.
  *
- * @param actions Puntero a la estructura de acciones del jugador con datos del lanzallamas.
- * @return 1 si el cooldown ha expirado y se puede disparar, 0 si aún está en cooldown.
+ * @return 1 si el cooldown ha expirado y se puede disparar,
+	0 si aún está en cooldown.
  */
 static int	ft_check_flamethrower_cooldown(t_player_actions *actions)
 {
@@ -53,13 +54,11 @@ static int	ft_check_flamethrower_cooldown(t_player_actions *actions)
  * @brief Ejecuta el ataque del lanzallamas contra aliens en rango.
  *
  * Decrementa el contador de cargas, actualiza el timestamp del último disparo,
- * inicia el cooldown y busca aliens dentro del rango de ataque para desactivarlos.
  * Cuando se mata un alien, lo respawnea en otro punto del mapa.
  * Solo desactiva el primer alien que encuentre en rango.
  *
  * @param game Puntero a la estructura del juego.
  * @param player Puntero a la estructura del jugador que dispara.
- * @param actions Puntero a la estructura de acciones donde se actualizan datos del lanzallamas.
  */
 static void	ft_flamethrower_attack(t_game *game, t_player *player,
 		t_player_actions *actions)
@@ -70,7 +69,6 @@ static void	ft_flamethrower_attack(t_game *game, t_player *player,
 	actions->flamethrower_ready = 0;
 	actions->flamethrower_last_time = game->current_time;
 	actions->flamethrower_cooldown_remaining = 20.0;
-	
 	i = 0;
 	while (i < MAX_PLAYERS)
 	{
@@ -99,18 +97,15 @@ static void	ft_flamethrower_attack(t_game *game, t_player *player,
  */
 void	flamethrower(t_game *game, int player_index)
 {
-	t_player		*player;
+	t_player			*player;
 	t_player_actions	*actions;
 
 	player = &game->players[player_index];
 	actions = &game->actions[player_index];
-	
 	if (actions->flamethrower_charges <= 0)
 		return ;
-	
 	if (!ft_check_flamethrower_cooldown(actions))
 		return ;
-	
 	ft_flamethrower_attack(game, player, actions);
 	ft_render_flamethrower_hud(game, player_index);
 }
@@ -118,14 +113,17 @@ void	flamethrower(t_game *game, int player_index)
 /**
  * @brief Actualiza el estado del cooldown del lanzallamas en cada frame.
  *
- * Decrementa el tiempo restante de cooldown basándose en el delta_time del frame.
- * Cuando el cooldown llega a 0, marca el lanzallamas como listo (flamethrower_ready = 1).
- * Si no hay cooldown activo y aún hay cargas disponibles, el lanzallamas está listo para disparar.
+
+ * Cuando el cooldown llega a 0,
+	marca el lanzallamas como listo (flamethrower_ready = 1).
+ * Si no hay cooldown activo y aún hay cargas disponibles,
+	el lanzallamas está listo para disparar.
  *
  * @param actions Puntero a la estructura de acciones del jugador.
  * @param delta_time Tiempo transcurrido en el frame actual (en segundos).
  */
-void	ft_update_flamethrower_cooldown(t_player_actions *actions, double delta_time)
+void	ft_update_flamethrower_cooldown(t_player_actions *actions,
+		double delta_time)
 {
 	if (actions->flamethrower_cooldown_remaining > 0)
 	{

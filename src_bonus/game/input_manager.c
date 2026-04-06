@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/12/02 00:00:00 by ismherna          #+#    #+#             */
-/*   Updated: 2026/03/15 18:05:42 by ismherna          ###   ########.fr       */
+/*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
+/*   Updated: 2026/04/06 23:14:45 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,8 @@ void	input_reset_actions(t_game *game, int player_index)
 */
 void	input_merge_sources(t_game *game)
 {
-	int	i;
+	int		i;
 
-	/* Resetear solo las acciones de jugadores con gamepad */
 	i = 0;
 	while (i < game->config.n_players)
 	{

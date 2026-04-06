@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_gamepad.c                                       :+:      :+:    :+:   */
+/*   ft_gamepad_utils_1.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 18:08:47 by ismherna          ###   ########.fr       */
+/*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
+/*   Updated: 2026/04/06 23:09:32 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ void	ft_process_button_ab(t_gamepad *gp, struct js_event event)
 ** Distribuye el procesamiento según el número de botón.
 */
 void	ft_process_button_event(t_game *game, t_gamepad *gp,
-	struct js_event event)
+		struct js_event event)
 {
 	(void)game;
 	ft_process_button_ab(gp, event);

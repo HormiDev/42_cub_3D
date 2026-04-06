@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:21:55 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 23:21:42 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ int	ft_try_toggle_door(t_game *game)
 
 	if (!game || !game->player)
 		return (0);
-	if (!ft_raycast_door_hit(game, game->player->rotation.x, 4.0,
-			&door_tile))
+	if (!ft_raycast_door_hit(game, game->player->rotation.x, 4.0, &door_tile))
 		return (0);
 	door = ft_get_door_at(game, door_tile.x, door_tile.y);
 	if (!door)

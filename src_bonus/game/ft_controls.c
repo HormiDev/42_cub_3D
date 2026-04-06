@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_controls.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 17:17:10 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 23:12:53 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,51 +15,60 @@
 /**
  * @brief Maneja el movimiento del jugador basado en las teclas presionadas.
  *
- * Esta función estática procesa las entradas de movimiento (adelante, atrás, izquierda, derecha)
+ * Esta función estática procesa las entradas de movimiento (adelante, atrás,
+	izquierda, derecha)
  * y determina la dirección y velocidad de movimiento.
  *
  * @param game estructura del juego.
  * @param move_speed Velocidad de movimiento calculada.
  */
-static int	ft_handle_player_movement(t_game *game, double move_speed, int player_index)
+static int	ft_handle_player_movement(t_game *game, double move_speed,
+		int player_index)
 {
-	int		moving;
-	t_player_actions *actions;
+	int					moving;
+	t_player_actions	*actions;
 
 	moving = 0;
 	actions = &game->actions[player_index];
-	
 	if (actions->front && !actions->back)
 	{
 		if (actions->left && !actions->right)
-			ft_move_direction(game, game->player->rotation.x + 45, move_speed, player_index);
+			ft_move_direction(game, game->player->rotation.x + 45, move_speed,
+				player_index);
 		else if (actions->right && !actions->left)
-			ft_move_direction(game, game->player->rotation.x - 45, move_speed, player_index);
+			ft_move_direction(game, game->player->rotation.x - 45, move_speed,
+				player_index);
 		else
-			ft_move_direction(game, game->player->rotation.x, move_speed, player_index);
-		moving = 1; 
+			ft_move_direction(game, game->player->rotation.x, move_speed,
+				player_index);
+		moving = 1;
 	}
 	if (actions->back && !actions->front)
 	{
 		if (actions->left && !actions->right)
-			ft_move_direction(game, game->player->rotation.x + 115, move_speed, player_index);
+			ft_move_direction(game, game->player->rotation.x + 115, move_speed,
+				player_index);
 		else if (actions->right && !actions->left)
-			ft_move_direction(game, game->player->rotation.x - 115, move_speed, player_index);
+			ft_move_direction(game, game->player->rotation.x - 115, move_speed,
+				player_index);
 		else
-			ft_move_direction(game, game->player->rotation.x + 180, move_speed, player_index);
-		moving = 1; 
+			ft_move_direction(game, game->player->rotation.x + 180, move_speed,
+				player_index);
+		moving = 1;
 	}
-	if (actions->left && !actions->front && !actions->back) 
-    {
-        ft_move_direction(game, game->player->rotation.x + 90, move_speed, player_index);
-        moving = 1;
-    }
-    if (actions->right && !actions->front && !actions->back)
-    {
-        ft_move_direction(game, game->player->rotation.x - 90, move_speed, player_index);
-        moving = 1;
-    }
-	return (moving); 
+	if (actions->left && !actions->front && !actions->back)
+	{
+		ft_move_direction(game, game->player->rotation.x + 90, move_speed,
+			player_index);
+		moving = 1;
+	}
+	if (actions->right && !actions->front && !actions->back)
+	{
+		ft_move_direction(game, game->player->rotation.x - 90, move_speed,
+			player_index);
+		moving = 1;
+	}
+	return (moving);
 }
 
 /**
@@ -72,10 +81,9 @@ static int	ft_handle_player_movement(t_game *game, double move_speed, int player
  */
 static void	ft_handle_player_rotation(t_game *game, int player_index)
 {
-	t_player_actions *actions;
+	t_player_actions	*actions;
 
 	actions = &game->actions[player_index];
-	
 	if (actions->rotate_left)
 	{
 		game->player->rotation.x += ROTATION_SPEED * game->delta_time;
@@ -88,7 +96,7 @@ static void	ft_handle_player_rotation(t_game *game, int player_index)
 	}
 }
 
-int ft_key_press(int keycode, t_game *game)
+int	ft_key_press(int keycode, t_game *game)
 {
 	if (keycode == ESC)
 		input_handle_menu_b(game);
@@ -121,7 +129,7 @@ int ft_key_press(int keycode, t_game *game)
 	return (0);
 }
 
-int ft_key_release(int keycode, t_game *game)
+int	ft_key_release(int keycode, t_game *game)
 {
 	if (game->kb_player < 0 || game->kb_player >= MAX_GAMEPADS)
 		return (0);
@@ -142,11 +150,11 @@ int ft_key_release(int keycode, t_game *game)
 	return (0);
 }
 
-void ft_controls(t_game *game, int player_index)
+void	ft_controls(t_game *game, int player_index)
 {
-	double	move_speed;
-	int		is_moving;
-	t_player_actions *actions;
+	double				move_speed;
+	int					is_moving;
+	t_player_actions	*actions;
 
 	actions = &game->actions[player_index];
 	game->actions[player_index].walk = 0;

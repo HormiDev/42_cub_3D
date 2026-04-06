@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gamepad.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 18:08:47 by ismherna          ###   ########.fr       */
+/*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
+/*   Updated: 2026/04/06 23:10:19 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@
 */
 void	ft_apply_player0_input(t_game *game)
 {
-	if (game->gamepads[0].connected
-		&& ft_gamepad_has_input(&game->gamepads[0]))
+	if (game->gamepads[0].connected && ft_gamepad_has_input(&game->gamepads[0]))
 	{
 		input_reset_actions(game, 0);
 		ft_gamepad_apply_to_player(game, &game->gamepads[0], 0);

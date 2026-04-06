@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mouse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 02:56:43 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/05 23:37:03 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 23:16:17 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	ft_calculate_mouse_position_menu(t_game *game, t_menu *menu)
 {
-	menu->mouse_position.x = game->mouse_xy[0] * MENU_WIDTH
-		/ WINDOW_WIDTH;
-	menu->mouse_position.y = game->mouse_xy[1] * MENU_HEIGHT
-		/ WINDOW_HEIGHT;
+	menu->mouse_position.x = game->mouse_xy[0] * MENU_WIDTH / WINDOW_WIDTH;
+	menu->mouse_position.y = game->mouse_xy[1] * MENU_HEIGHT / WINDOW_HEIGHT;
 }
 
 void	ft_hober_buttons(t_game *game, t_menu *menu)
@@ -55,7 +53,7 @@ void	ft_click_button(t_game *game, t_menu *menu)
 		{
 			if (menu->buttons[i].on_click)
 				menu->buttons[i].on_click(game);
-			break;
+			break ;
 		}
 		i++;
 	}
@@ -64,10 +62,8 @@ void	ft_click_button(t_game *game, t_menu *menu)
 /**
  * @brief Maneja el movimiento del ratón y actualiza la rotación del jugador.
  *
- * Esta función es llamada cuando el ratón se mueve. Calcula la diferencia en la posición
- * horizontal del ratón respecto al centro de la ventana y actualiza la rotación del jugador.
- * Debido a que el sistema de coordenadas del mundo tiene el eje Y invertido en comparación
- * con las coordenadas de la ventana, invertimos la dirección del movimiento para una 
+ * con las coordenadas de la ventana,
+	invertimos la dirección del movimiento para una
  * experiencia de control más intuitiva.
  *
  * @param x Posición horizontal del ratón en la ventana.
@@ -77,9 +73,9 @@ void	ft_click_button(t_game *game, t_menu *menu)
  */
 int	ft_mouse_move(int x, int y, t_game *game)
 {
-	int		center_x;
-	int		center_y;
-	int		patata_x;
+	int	center_x;
+	int	center_y;
+	int	patata_x;
 
 	center_x = WINDOW_WIDTH / 2;
 	center_y = WINDOW_HEIGHT / 2;
@@ -101,15 +97,13 @@ int	ft_mouse_move(int x, int y, t_game *game)
 	{
 		game->players[game->kb_player].rotation.x -= patata_x
 			* MOUSE_SENSITIVITY * game->delta_time;
-		game->players[game->kb_player].rotation.x
-			= ft_normalize_angle(game->players[game->kb_player].rotation.x);
+		game->players[game->kb_player].rotation.x = ft_normalize_angle(game->players[game->kb_player].rotation.x);
 	}
 	else
 	{
 		game->player->rotation.x -= patata_x * MOUSE_SENSITIVITY
 			* game->delta_time;
-		game->player->rotation.x = ft_normalize_angle(
-			game->player->rotation.x);
+		game->player->rotation.x = ft_normalize_angle(game->player->rotation.x);
 	}
 	mlx_mouse_move(game->mlx, game->window, center_x, center_y);
 	return (0);
@@ -118,42 +112,40 @@ int	ft_mouse_move(int x, int y, t_game *game)
 void	ft_mouse_capture(t_game *game)
 {
 	game->mouse_captured = 1;
-	mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2,
-		WINDOW_HEIGHT / 2);
+	mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2, WINDOW_HEIGHT
+		/ 2);
 	mlx_mouse_hide(game->mlx, game->window);
 }
 
 void	ft_mouse_free(t_game *game)
 {
 	game->mouse_captured = 0;
-	mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2,
-		WINDOW_HEIGHT / 2);
+	mlx_mouse_move(game->mlx, game->window, WINDOW_WIDTH / 2, WINDOW_HEIGHT
+		/ 2);
 	mlx_mouse_show(game->mlx, game->window);
 }
 
 int	ft_mouse_click(int button, int x, int y, t_game *game)
 {
-    if (button == 1)
-    {
-        if (!game->mouse_captured)
-        {
-            game->mouse_xy[0] = x;
-            game->mouse_xy[1] = y;
-            if (game->show_menu == 1)
-            {
-                ft_hober_buttons(game, &game->menu);
-                ft_click_button(game, &game->menu);
-            }
-            else if (game->show_menu == 2)
-            {
-                ft_hober_buttons(game, &game->menu_settings);
-                ft_click_button(game, &game->menu_settings);
-            }
-        }
-        else
-        {
-            flamethrower(game, game->kb_player);
-        }
-    }
-    return (0);
+	if (button == 1)
+	{
+		if (!game->mouse_captured)
+		{
+			game->mouse_xy[0] = x;
+			game->mouse_xy[1] = y;
+			if (game->show_menu == 1)
+			{
+				ft_hober_buttons(game, &game->menu);
+				ft_click_button(game, &game->menu);
+			}
+			else if (game->show_menu == 2)
+			{
+				ft_hober_buttons(game, &game->menu_settings);
+				ft_click_button(game, &game->menu_settings);
+			}
+		}
+		else
+			flamethrower(game, game->kb_player);
+	}
+	return (0);
 }

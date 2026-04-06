@@ -72,6 +72,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/game/ft_gamepad.c \
 			src_bonus/game/mouse.c \
 			src_bonus/game/audio_manager.c \
+			src_bonus/game/audio_manager_utils.c \
 			src_bonus/game/flamethrower.c \
 			src_bonus/game/flamethrower_hud.c \
 			src_bonus/game/input_manager.c \

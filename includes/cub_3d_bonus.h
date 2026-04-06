@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/06 17:15:50 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 23:18:18 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -347,7 +347,7 @@ void			ft_init_durations(t_game *game);
 void			ft_next_duration(void *game_ptr);
 void			ft_previous_duration(void *game_ptr);
 int				ft_get_alien_index(t_game *game);
-
+int		audio_is_playing(pid_t pid);
 void	ft_debug_print_map(t_game *game);
 void	ft_debug_print_visited(t_game *game, int visited[128][64]);
 void	ft_debug_print_path(t_game *game, t_vector_int *path, int path_len, t_vector_int start, t_vector_int goal);

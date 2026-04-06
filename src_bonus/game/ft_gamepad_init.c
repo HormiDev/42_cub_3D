@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_gamepad.c                                       :+:      :+:    :+:   */
+/*   ft_gamepad_init.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 18:08:47 by ismherna          ###   ########.fr       */
+/*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
+/*   Updated: 2026/04/06 23:13:40 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@
 void	ft_init_gamepad_paths(t_game *game)
 {
 	const char	*paths[] = {"/dev/input/js0", "/dev/input/js1",
-		"/dev/input/js2", "/dev/input/js3",
-		"/dev/input/event0", "/dev/input/event1",
-		"/dev/input/event2", "/dev/input/event3", NULL};
+		"/dev/input/js2", "/dev/input/js3", "/dev/input/event0",
+		"/dev/input/event1", "/dev/input/event2", "/dev/input/event3",
+		NULL};
 	int			i;
 	int			slot;
 

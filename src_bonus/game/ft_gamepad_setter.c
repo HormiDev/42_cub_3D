@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_gamepad.c                                       :+:      :+:    :+:   */
+/*   ft_gamepad_setter.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42.fr>            +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/26 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 18:08:47 by ismherna          ###   ########.fr       */
+/*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
+/*   Updated: 2026/04/06 23:13:59 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,7 @@ void	ft_set_player_rotation(t_player_actions *act, t_gamepad *gp)
 **
 ** Traduce el input del gamepad a acciones del jugador.
 */
-void	ft_gamepad_apply_to_player(t_game *game, t_gamepad *gp,
-	int player_idx)
+void	ft_gamepad_apply_to_player(t_game *game, t_gamepad *gp, int player_idx)
 {
 	if (player_idx >= game->config.n_players)
 		return ;

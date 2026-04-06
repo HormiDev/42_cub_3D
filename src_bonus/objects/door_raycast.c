@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door_raycast.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:03 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 23:21:34 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ static int	ft_is_outside_map(t_game *game, int x, int y)
 	return (0);
 }
 
-static void	ft_raycast_door_init(t_game *game, double *angle,
-	int *cuadrant, int *tile_ray_xy)
+static void	ft_raycast_door_init(t_game *game, double *angle, int *cuadrant,
+		int *tile_ray_xy)
 {
 	if (*angle < 0)
 		*angle += 360;
@@ -37,8 +37,8 @@ static void	ft_raycast_door_init(t_game *game, double *angle,
 	tile_ray_xy[1] = (int)game->player->position.y;
 }
 
-int	ft_raycast_door_hit(t_game *game, double angle,
-	double max_size, t_vector_int *door_tile)
+int	ft_raycast_door_hit(t_game *game, double angle, double max_size,
+		t_vector_int *door_tile)
 {
 	int			tile_ray_xy[2];
 	t_vector2	distance;
