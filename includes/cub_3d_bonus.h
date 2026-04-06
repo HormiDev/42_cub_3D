@@ -6,7 +6,7 @@
 /*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/06 23:18:18 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 01:02:42 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,43 @@ void			ft_config_alien(t_game *game);
 void			ft_respawn_alien(t_game *game);
 void			ft_update_aliens(t_game *game);
 void			ft_search_heatmap(t_game *game);
+
+// ALIEN AI
+int				ft_is_blocking_tile(t_game *game, int x, int y);
+int				ft_is_player_visible(t_player *alien, t_player *target);
+int				ft_chase_prepare_step(t_player *alien, t_vector2 *target,
+					t_vector2 *direction, double *dist);
+void			ft_chase_apply_step(t_game *game, t_player *alien,
+					t_vector2 *direction);
+void			ft_chase_move_along_path(t_game *game, t_player *alien);
+void			ft_chase_set_curr_step(t_player *alien, t_vector_int start);
+void			ft_chase_rebuild_path(t_game *game, t_player *alien,
+					t_player *target);
+void			ft_chase_try_target(t_player *alien, t_player *candidate,
+					t_player **closest, double *closest_dist);
+void			ft_chase_scan_players(t_game *game, t_player *alien,
+					t_player **closest, double *closest_dist);
+void			ft_chase_player(t_game *game, t_player *alien, t_player *target);
+t_player		*ft_chase_find_closest_target(t_game *game, t_player *alien);
+int				ft_find_hottest_reachable_tile(t_game *game, t_player *alien,
+					t_vector_int *pos);
+int				ft_patrol_prepare_step(t_player *alien, t_vector2 *target,
+					t_vector2 *direction, double *dist);
+void			ft_patrol_apply_step(t_game *game, t_player *alien,
+					t_vector2 *direction);
+void			ft_move_along_path(t_game *game, t_player *alien);
+void			ft_patrol_update_retry_timer(double *retry_timer,
+					t_vector_int *last_goal, t_player *alien);
+void			ft_patrol_search_path(t_game *game, t_player *alien,
+					t_vector_int goal, t_vector_int *last_goal);
+int				ft_patrol_set_goal_from_player(t_player *alien, t_player *player,
+					t_vector_int *goal);
+int				ft_patrol_find_near_player_goal(t_game *game, t_player *alien,
+					t_vector_int *goal);
+void			ft_patrol_find_and_search_goal(t_game *game, t_player *alien,
+					t_vector_int *last_goal);
+void			ft_patrol_move_and_cleanup(t_game *game, t_player *alien,
+					t_vector_int *last_goal);
 
 // BFS Pathfinding functions
 int				ft_bfs_path(t_game *game, t_vector_int start, t_vector_int goal, t_vector_int *path, int *path_len);

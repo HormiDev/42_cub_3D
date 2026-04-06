@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_update.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:25 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 20:44:00 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 00:48:53 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,35 +115,57 @@ static void	ft_set_alien_pos(t_game *game, t_vector2 pos)
 	alien->state = ALIEN_IDLE;
 }
 
+static void	ft_mark_exclusion_area(t_game *game, t_vector2 center, int radius)
+{
+	int	start_x;
+	int	end_x;
+	int	start_y;
+	int	end_y;
+	int	x;
+	int	y;
+
+	start_x = (int)center.x - radius;
+	end_x = (int)center.x + radius;
+	start_y = (int)center.y - radius;
+	end_y = (int)center.y + radius;
+	if (start_x < 0)
+		start_x = 0;
+	if (start_y < 0)
+		start_y = 0;
+	if (end_x >= game->width_height[0])
+		end_x = game->width_height[0] - 1;
+	if (end_y >= game->width_height[1])
+		end_y = game->width_height[1] - 1;
+	y = start_y;
+	while (y <= end_y)
+	{
+		x = start_x;
+		while (x <= end_x)
+		{
+			game->map_transitable_aux[y][x] = '1';
+			x++;
+		}
+		y++;
+	}
+}
+
 static void ft_mark_player_areas(t_game *game)
 {
 	int	i;
-    int	x;
-    int	y;
-    int	radius;
+	int	radius;
 
-    radius = (int)(MAX_RAY_SIZE * 1.5);
-    i = 0;
-    while (i < game->config.n_players)
-    {
-        if (game->players[i].active && game->players[i].alive)
-        {
-            y = (int)game->players[i].position.y - radius;
-            while (y <= (int)game->players[i].position.y + radius
-                && y >= 0 && y < game->width_height[1])
-            {
-                x = (int)game->players[i].position.x - radius;
-                while (x <= (int)game->players[i].position.x + radius
-                    && x >= 0 && x < game->width_height[0])
-                {
-                    game->map_transitable_aux[y][x] = '1';
-                    x++;
-                }
-                y++;
-            }
-        }
-        i++;
-    }
+	radius = (int)(MAX_RAY_SIZE * 1.5);
+	if (game->player && game->player->alive)
+		ft_mark_exclusion_area(game, game->player->position, radius);
+	i = 0;
+	while (i < game->config.n_players)
+	{
+		if (game->players[i].active && game->players[i].alive)
+			ft_mark_exclusion_area(game, game->players[i].position, radius);
+		i++;
+	}
+	if (game->players[4].active)
+		ft_mark_exclusion_area(game, game->players[4].position, (int)MAX_RAY_SIZE);
 }
 
 
@@ -211,37 +233,54 @@ static int ft_get_random_position(t_game *game, int indez, t_vector2 *pos)
  */
 void	ft_respawn_alien(t_game *game)
 {
-    int i; 
+	int		i;
 	int j; 
 	int avaiable_count;
 	int random_idx;
+	long seed;
 	t_vector2 pos;
 
 	if(!game || !game->map_transitable || !game->map_transitable_aux)
-        return ;
+		return ;
+	pos = game->players[4].position;
 	i = 0;
-    while (i < game->width_height[1])
-    {
-        j = 0;
-        while (j < game->width_height[0])
-        {
-            game->map_transitable_aux[i][j] = game->map_transitable[i][j];
-            j++;
-        }
-        i++;
-    }
+	while (i < game->width_height[1])
+	{
+		j = 0;
+		while (j < game->width_height[0])
+		{
+			game->map_transitable_aux[i][j] = game->map_transitable[i][j];
+			j++;
+		}
+		i++;
+	}
 	ft_mark_player_areas(game);
 	avaiable_count = ft_aviable_positions(game);
-	if (avaiable_count > 0)
+	if (avaiable_count <= 0)
 	{
-		random_idx = game->current_time % avaiable_count;
-		printf("Respawning alien at index %d of %d available positions with time %ld\n", random_idx, avaiable_count, game->current_time);
-        ft_get_random_position(game, random_idx, &pos);
+		i = 0;
+		while (i < game->width_height[1])
+		{
+			j = 0;
+			while (j < game->width_height[0])
+			{
+				game->map_transitable_aux[i][j] = game->map_transitable[i][j];
+				j++;
+			}
+			i++;
+		}
+		avaiable_count = ft_aviable_positions(game);
 	}
-	else
+	if (avaiable_count <= 0)
+		return ;
+	seed = game->current_time;
+	if (seed <= 0)
+		seed = ft_get_time();
+	random_idx = (int)(seed % avaiable_count);
+	if (!ft_get_random_position(game, random_idx, &pos))
 	{
-		random_idx = game->current_time % ft_aviable_positions(game);
-        ft_get_random_position(game, random_idx, &pos);
+		random_idx = 0;
+		ft_get_random_position(game, random_idx, &pos);
 	}
 	ft_set_alien_pos(game, pos);	
 }
