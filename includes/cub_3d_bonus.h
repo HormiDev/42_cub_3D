@@ -14,6 +14,7 @@
 # define CUB_3D_BONUS_H
 
 # include "utils_bonus.h"
+# include <linux/joystick.h>
 
 // ============================================================================
 // MAIN FUNCTIONS
@@ -82,9 +83,31 @@ void			ft_move_player(t_game *game, double move_x, double move_y);
 
 
 // Gamepad functions
+int				ft_normalize_axis_value(int raw_value);
+void			ft_reset_single_gamepad(t_gamepad *gp);
+int				ft_gamepad_has_input(t_gamepad *gp);
+void			ft_process_button_ab(t_gamepad *gp, struct js_event event);
+void			ft_process_button_event(t_game *game, t_gamepad *gp,
+					struct js_event event);
+void			ft_process_axis_event(t_gamepad *gp, struct js_event event);
+void			ft_process_gamepad_event(t_game *game, t_gamepad *gp,
+					struct js_event event);
+void			ft_process_menu_buttons(t_game *game, int i);
+void			ft_gamepad_menu_input_for_all(t_game *game);
+int				ft_try_open_gamepad_at(t_game *game, const char *path, int slot);
+void			ft_init_gamepad_paths(t_game *game);
 void			ft_init_gamepad(t_game *game);
 void			ft_free_gamepad(t_game *game);
+void			ft_recount_gamepads(t_game *game);
+void			ft_handle_gamepad_error(t_game *game, int slot);
+void			ft_read_gamepad_events(t_game *game, int i);
 void			ft_update_gamepad(t_game *game);
+void			ft_set_player_movement(t_player_actions *act, t_gamepad *gp);
+void			ft_set_player_rotation(t_player_actions *act, t_gamepad *gp);
+void			ft_gamepad_apply_to_player(t_game *game, t_gamepad *gp,
+					int player_idx);
+void			ft_apply_player0_input(t_game *game);
+void			ft_apply_other_players(t_game *game);
 void			ft_gamepad_movement(t_game *game);
 int			audio_play(t_game *game, const char *path, pid_t *pid_out);
 int			audio_stop(pid_t *pid);

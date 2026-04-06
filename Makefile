@@ -58,6 +58,10 @@ SRC		=	src/main.c \
 SRC_BONUS =	src_bonus/main.c \
 			src_bonus/game/ft_controls.c \
 			src_bonus/game/ft_directions.c \
+			src_bonus/game/ft_gamepad_init.c \
+			src_bonus/game/ft_gamepad_utils_1.c \
+			src_bonus/game/ft_gamepad_utils_2.c \
+			src_bonus/game/ft_gamepad_setter.c \
 			src_bonus/game/ft_gamepad.c \
 			src_bonus/game/mouse.c \
 			src_bonus/game/audio_manager.c \
@@ -146,7 +150,7 @@ OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_BONUS = $(patsubst %.c, $(OBJ_DIR_BONUS)/%.o, $(SRC_BONUS))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
 
 all: clear $(NAME) title_print
 

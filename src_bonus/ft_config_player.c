@@ -21,7 +21,7 @@
  * @param game estructura del juego.
  * @param direction_char Carácter que representa la dirección ('N', 'S', 'E', 'W').
  */
-static void	ft_set_player_rotation(t_game *game, char direction_char)
+static void	ft_set_player_spawn_rotation(t_game *game, char direction_char)
 {
 	if (direction_char == 'N')
 		game->player->rotation.x = 90.0;
@@ -59,11 +59,13 @@ void	ft_config_player(t_game *game)
 		game->players[idx].alive = 1;
 		game->players[idx].type = ENTITY_PLAYER;
 		game->ordered_ojects[idx] = &game->players[idx];
-		// Inicializar acciones y cargas del lanzallamas
-		//game->actions[idx].flamethrower_charges = 3;
-		//game->actions[idx].flamethrower_ready = 1;
-		//game->actions[idx].flamethrower_last_time = 0;
-		//game->actions[idx].flamethrower_cooldown_remaining = 0;
+		if (idx < MAX_GAMEPADS)
+		{
+			game->actions[idx].flamethrower_charges = game->config.charges;
+			game->actions[idx].flamethrower_ready = 1;
+			game->actions[idx].flamethrower_last_time = 0;
+			game->actions[idx].flamethrower_cooldown_remaining = 0;
+		}
 		idx++;
 	}
 	game->player = &game->players[0];
@@ -79,7 +81,7 @@ void	ft_config_player(t_game *game)
 			{
 				game->player->position.x = j + 0.5;
 				game->player->position.y = i + 0.5;
-				ft_set_player_rotation(game, game->map[i][j]);
+				ft_set_player_spawn_rotation(game, game->map[i][j]);
 				game->map[i][j] = '0';
 			} 
 			j++;
