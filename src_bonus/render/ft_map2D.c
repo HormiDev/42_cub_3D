@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:45 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:38 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 20:44:03 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ static void	ft_draw_line_minimap(t_game *game, t_vector2 p1,
 	i = 0;
 	while (i <= steps)
 	{
-		if (current.x >= 0 && current.x < 200
-			&& current.y >= 0 && current.y < 200)
+		if (current.x >= 0 && current.x < game->minimap->width
+			&& current.y >= 0 && current.y < game->minimap->height)
 			ft_draw_pixel_in_img(game->minimap->img,
 				(int)current.x, (int)current.y, color);
 		current.x += delta.x;
@@ -57,9 +57,9 @@ static t_vector2	ft_world_corner_to_screen(t_game *game, double wx, double wy)
 	cos_a = ft_format_cos(game->player->rotation.x - 90.0);
 	sin_a = ft_format_sin(game->player->rotation.x - 90.0);
 	screen.x = centre + (relative.x * cos_a - relative.y
-			* sin_a) * MINIMAP_TILE_SIZE;
+			* sin_a) * game->minimap->height / (MAX_RAY_SIZE * 2);
 	screen.y = centre + (relative.x * sin_a + relative.y
-			* cos_a) * MINIMAP_TILE_SIZE;
+			* cos_a) * game->minimap->height / (MAX_RAY_SIZE * 2);
 	return (screen);
 }
 
@@ -100,7 +100,7 @@ static void	ft_draw_minimap_row(t_game *game, int my)
 	int	mx;
 	int	visible_range;
 
-	visible_range = WINDOW_HEIGHT / 80;
+	visible_range = MAX_RAY_SIZE * 1.4;
 	mx = (int)game->player->position.x - visible_range;
 	while (mx <= (int)game->player->position.x + visible_range)
 	{
@@ -198,7 +198,7 @@ void	ft_map2D(t_game *game)
 	int	visible_range;
 
 	ft_draw_minimap_background(game);
-	visible_range = WINDOW_HEIGHT / 80;
+	visible_range = MAX_RAY_SIZE * 1.4;
 	my = (int)game->player->position.y - visible_range;
 	while (my <= (int)game->player->position.y + visible_range)
 	{
