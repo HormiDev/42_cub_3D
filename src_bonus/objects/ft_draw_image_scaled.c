@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_draw_image_scaled.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 01:22:24 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/05 20:11:14 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ void	ft_draw_image_rgba_scaled(t_texture *dst, t_texture *src,
 		start_src.x = tmp_start_src_x;
 		src_pos.x = start_src.x;
 		while (start_dst.x <= end_dst.x)
-		{	if (src->colors_matrix[src_pos.y][src_pos.x] << 24)
-				dst->colors_matrix[start_dst.y][start_dst.x] = src->colors_matrix[src_pos.y][src_pos.x];
+		{	if (src->cmx[src_pos.y][src_pos.x] << 24)
+				dst->cmx[start_dst.y][start_dst.x] = src->cmx[src_pos.y][src_pos.x];
 			start_dst.x++;
 			start_src.x += src_iter.x;
 			//start_src.x = (float)src->width / (float)src_size * (float)(start_dst.x - tmp_start_dst_x);
@@ -174,10 +174,10 @@ void	ft_draw_image_rgba_scaled_plus(t_game *game, t_texture *src,
 		{	
 			if (distance <= game->raycasts[raicast_iter].distance)
 			{
-				if ((src->colors_matrix[src_pos.y][src_pos.x]) > 0x00FFFFFF)
+				if ((src->cmx[src_pos.y][src_pos.x]) > 0x00FFFFFF)
 				{
-					game->render->colors_matrix[start_dst.y][start_dst.x] = src->colors_matrix[src_pos.y][src_pos.x];
-					ft_mix_color_alpha(&game->render->colors_matrix[start_dst.y][start_dst.x], &mist_color, mist_mix);
+					game->render->cmx[start_dst.y][start_dst.x] = src->cmx[src_pos.y][src_pos.x];
+					ft_mix_color_alpha(&game->render->cmx[start_dst.y][start_dst.x], &mist_color, mist_mix);
 				}
 			}
 			raicast_iter--;

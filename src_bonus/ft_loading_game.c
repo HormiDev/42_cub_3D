@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_loading_game.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 03:14:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ void	ft_create_render(t_game *game)
 	}
 	game->render->width = game->config.render_width;
 	game->render->height = game->config.render_height;
-	game->render->colors_matrix = hd_calloc(game->config.render_height,
+	game->render->cmx = hd_calloc(game->config.render_height,
 			sizeof(unsigned int *));
 	i = 0;
 	while (i < game->config.render_height)
 	{
-		game->render->colors_matrix[i] = (unsigned int *)(game->render->img->data
+		game->render->cmx[i] = (unsigned int *)(game->render->img->data
 				+ (i * sizeof(unsigned int) * game->config.render_width));
 		i++;
 	}
@@ -78,12 +78,12 @@ void	ft_create_window_img(t_game *game)
 	}
 	game->window_img->width = WINDOW_WIDTH;
 	game->window_img->height = WINDOW_HEIGHT;
-	game->window_img->colors_matrix = hd_calloc(WINDOW_HEIGHT,
+	game->window_img->cmx = hd_calloc(WINDOW_HEIGHT,
 			sizeof(unsigned int *));
 	i = 0;
 	while (i < WINDOW_HEIGHT)
 	{
-		game->window_img->colors_matrix[i] = (unsigned int *)(game->window_img->img->data
+		game->window_img->cmx[i] = (unsigned int *)(game->window_img->img->data
 				+ (i * sizeof(unsigned int) * WINDOW_WIDTH));
 		i++;
 	}
@@ -109,11 +109,11 @@ void	ft_create_minimap(t_game *game)
 	}
 	game->minimap->width = size;
 	game->minimap->height = size;
-	game->minimap->colors_matrix = hd_calloc(size, sizeof(unsigned int *));
+	game->minimap->cmx = hd_calloc(size, sizeof(unsigned int *));
 	i = 0;
 	while (i < size)
 	{
-		game->minimap->colors_matrix[i] = (unsigned int *)(game->minimap->img->data
+		game->minimap->cmx[i] = (unsigned int *)(game->minimap->img->data
 				+ (i * sizeof(unsigned int) * size));
 		i++;
 	}

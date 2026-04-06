@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 00:39:44 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 17:17:39 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 23:02:44 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ typedef struct s_texture // cambiar nombre a t image
 	unsigned int texture_color;
 	int width;
 	int height;
-	unsigned int **colors_matrix;
+	unsigned int **cmx;
 }					t_texture;
 
 typedef struct s_cursor
@@ -173,6 +173,26 @@ typedef struct s_precalc
 	int				*scale_x_table;
 	int				*scale_y_table;
 }					t_precalc;
+
+typedef struct s_column_ctx
+{
+	int				y;
+	int				render_end;
+	double			texture_start;
+	double			texture_iteration;
+	int				texture_x;
+	int				mist_density;
+	int				last_texture_pixel;
+}	t_column_ctx;
+
+typedef struct s_raycast_ctx
+{
+	int		tile_xy[2];
+	double	sin_cos[2];
+	int		cuadrant;
+	double	angle;
+	t_vector2	distance;
+}	t_raycast_ctx;
 
 typedef struct s_game
 {
@@ -263,14 +283,18 @@ void				ft_move_direction(t_game *game, double angle,
 // ============================================================================
 void				ft_raycast(t_game *game, double angle, t_raycast *ray,
 						double max_size);
+void				ft_ray_type(t_raycast *ray, int cuadrant, int up_right);
 void				ft_calculate_raycasts(t_game *game);
-
+int					ft_row_has_content(char *row);
+int					ft_check_space_surrounded(char **map, int i, int j);
+int					ft_check_up_down(t_game *game);
 // ============================================================================
 // RENDER FUNCTIONS
 // ============================================================================
 void				ft_render_3d(t_game *game);
 void				draw_column(t_game *game, int x, t_raycast *ray);
 void				ft_draw_player(t_game *game);
+void				ft_draw_raycast(t_game *game, t_raycast *ray);
 void				ft_scale_t_image_precalc(t_texture *tex_origin,
 						t_texture *text_destiny, t_game *game);
 void				ft_scale_t_image(t_texture *tex_origin,
@@ -281,15 +305,17 @@ void				ft_calc_distance(int cuadrant, int *tile_ray_xy,
 						t_vector2 player_position, t_vector2 *distance);
 void				ft_rotate_to_cuadrant(int cuadrant, double *distance_x,
 						double *distance_y);
-void				ft_ray_type(t_raycast *ray, int cuadrant, int up_right);
 void				ft_calc_ray_position(t_raycast *ray,
 						t_vector2 *player_position, double distance_x,
 						double distance_y);
-void				ft_raycast_max_size(t_game *game, double angle,
-						t_raycast *ray, double max_size, int cuadrant);
-void				ft_draw_player(t_game *game);
+
+// Render utilities
+long				ft_long_diff(long a, long b);
+int					ft_int_diff(int a, int b);
+int					ft_int_max(int a, int b);
 void				ft_draw_raycast(t_game *game, t_raycast *ray);
 void				draw_background(t_game *game);
+t_texture			*get_texture_for_wall(t_game *game, t_raycast *ray);
 int					ft_calculate_wall_height(t_raycast *ray, int x);
 int					ft_calc_texture_x(t_raycast *ray, t_texture *texture);
 void				calculate_column_data(t_column_data *col, t_raycast *ray,
@@ -301,6 +327,10 @@ void				ft_draw_line_in_image(t_game *game, t_vector2 start,
 void				ft_draw_pixel_in_img(t_img *img, int x, int y, int color);
 void				ft_draw_circle(t_game *game, int cx, int cy, int color);
 void				ft_draw_sq(t_game *game, int x, int y, int color);
+void				ft_draw_sq_at(t_game *game, t_vector2 pos, int size,
+						int color);
+void				ft_draw_minimap_tile(t_game *game, t_vector2 pos, int size,
+						int color);
 void				ft_draw_grid_horizontal(t_game *game, int color);
 void				ft_draw_grid_vertical(t_game *game, int color);
 

@@ -3,34 +3,50 @@
 /*                                                        :::      ::::::::   */
 /*   raycast_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 17:38:41 by ismherna          #+#    #+#             */
-/*   Updated: 2026/01/29 19:36:20 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 23:03:26 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d.h"
 
-long	ft_long_diff(long a, long b) // estas 3 a la libft
+/**
+ * @brief Asigna el tipo de pared al rayo según el cuadrante y la dirección.
+ *
+ * Esta función determina el tipo de pared (Norte, Sur, Este, Oeste)
+ * en función del cuadrante y si el rayo se mueve hacia arriba/derecha
+ * o hacia abajo/izquierda.
+ *
+ * @param ray t_raycast donde se almacenará el tipo de pared.
+ * @param cuadrant Cuadrante actual del rayo (0, 1, 2 o 3).
+ * @param up_right arriba/derecha (0) o hacia abajo/izquierda (1).
+ */
+void	ft_ray_type(t_raycast *ray, int cuadrant, int up_right)
 {
-	if (a > b)
-		return (a - b);
-	return (b - a);
-}
-
-int	ft_int_diff(int a, int b)
-{
-	if (a > b)
-		return (a - b);
-	return (b - a);
-}
-
-int	ft_int_max(int a, int b)
-{
-	if (a > b)
-		return (a);
-	return (b);
+	if (up_right == 0)
+	{
+		if (cuadrant == 0)
+			ray->type = WALL_NO;
+		else if (cuadrant == 1)
+			ray->type = WALL_WE;
+		else if (cuadrant == 2)
+			ray->type = WALL_SO;
+		else
+			ray->type = WALL_EA;
+	}
+	else
+	{
+		if (cuadrant == 0)
+			ray->type = WALL_EA;
+		else if (cuadrant == 1)
+			ray->type = WALL_NO;
+		else if (cuadrant == 2)
+			ray->type = WALL_WE;
+		else
+			ray->type = WALL_SO;
+	}
 }
 
 /**

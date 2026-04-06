@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_paint.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 03:27:12 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void draw_background(t_game *game)
 		x = 0;
 		while (x < game->config.render_width)
 		{
-			game->render->colors_matrix[y][x] = MIST_COLOR;
+			game->render->cmx[y][x] = MIST_COLOR;
 			x++;
 		}
 		y++;
@@ -78,7 +78,7 @@ static unsigned int get_fc_color(t_texture *texture, t_vector2 *pos)
 
     tx = (int)((texture->width) * (pos->x - (int)(pos->x)));
     ty = (int)((texture->height) * (pos->y - (int)(pos->y)));
-    return (texture->colors_matrix[ty][tx]);
+    return (texture->cmx[ty][tx]);
 }
 
 int ft_calculate_wall_height(t_raycast *ray, int x, t_game *game)
@@ -151,10 +151,10 @@ void draw_ceiling_and_floor(t_game *game, int x, int wall_start)
 		floor_texture = get_texture_for_floor(game, &ceiling_floor);
 		//ft_printf("b");
 		color = get_fc_color(ceiling_texture, &ceiling_floor);
-		ft_mix_color(&game->render->colors_matrix[y][x], &color, game->mist_density_fc[y]);
+		ft_mix_color(&game->render->cmx[y][x], &color, game->mist_density_fc[y]);
 		//ft_printf("c");
 		color = get_fc_color(floor_texture, &ceiling_floor);
-		ft_mix_color(&game->render->colors_matrix[game->config.render_height - 1 - y][x], &color, game->mist_density_fc[y]);
+		ft_mix_color(&game->render->cmx[game->config.render_height - 1 - y][x], &color, game->mist_density_fc[y]);
 		//ft_printf("d\n");
 		y++;
 	}
@@ -205,13 +205,13 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 			ceiling_texture = get_texture_for_ceiling(game, &ceiling_floor);
 			floor_texture = get_texture_for_floor(game, &ceiling_floor);
 			//ft_printf("b");
-			//game->render->colors_matrix[ys][x] = get_fc_color(ceiling_texture, &game->render_cloud[ys][x]);
+			//game->render->cmx[ys][x] = get_fc_color(ceiling_texture, &game->render_cloud[ys][x]);
 			unsigned int ceiling_color = get_fc_color(ceiling_texture, &ceiling_floor);
-			ft_mix_color(&game->render->colors_matrix[ys][x], &ceiling_color, game->mist_density_fc[ys]);
+			ft_mix_color(&game->render->cmx[ys][x], &ceiling_color, game->mist_density_fc[ys]);
 			//ft_printf("c");
-			//game->render->colors_matrix[yf][x] = get_fc_color(floor_texture, &game->render_cloud[yf][x]);
+			//game->render->cmx[yf][x] = get_fc_color(floor_texture, &game->render_cloud[yf][x]);
 			unsigned int floor_color = get_fc_color(floor_texture, &ceiling_floor);
-			ft_mix_color(&game->render->colors_matrix[yf][x], &floor_color, game->mist_density_fc[ys]);
+			ft_mix_color(&game->render->cmx[yf][x], &floor_color, game->mist_density_fc[ys]);
 			//ft_printf("d\n");
 			ys++;
 			yf--;
@@ -221,10 +221,10 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 	last_texture_pixel = -1;
 	if (texture->path == NULL) // Si la textura es un color sólido
 	{
-		ft_mix_color(&game->render->colors_matrix[y++][x], &texture->texture_color, mist_density);
+		ft_mix_color(&game->render->cmx[y++][x], &texture->texture_color, mist_density);
 		while (y < render_end)
 		{
-			game->render->colors_matrix[y][x] = game->render->colors_matrix[y - 1][x];
+			game->render->cmx[y][x] = game->render->cmx[y - 1][x];
 			y++;
 		}
 	}
@@ -235,10 +235,10 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		while (y < height_mid)
 		{
 			if (last_texture_pixel == (int)texture_start)
-				game->render->colors_matrix[y][x] = game->render->colors_matrix[y - 1][x];
+				game->render->cmx[y][x] = game->render->cmx[y - 1][x];
 			else
 			{
-				ft_mix_color(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], mist_density);
+				ft_mix_color(&game->render->cmx[y][x], &texture->cmx[(int)texture_start][texture_x], mist_density);
 				last_texture_pixel = (int)texture_start;
 			}
 			texture_start += texture_iteration;
@@ -248,10 +248,10 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 		while (y < render_end)
 		{
 			if (last_texture_pixel == (int)texture_start)
-				game->render->colors_matrix[y][x] = game->render->colors_matrix[y - 1][x];
+				game->render->cmx[y][x] = game->render->cmx[y - 1][x];
 			else
 			{
-				ft_mix_color(&game->render->colors_matrix[y][x], &texture->colors_matrix[(int)texture_start][texture_x], mist_density);
+				ft_mix_color(&game->render->cmx[y][x], &texture->cmx[(int)texture_start][texture_x], mist_density);
 				last_texture_pixel = (int)texture_start;
 			}
 			texture_start += texture_iteration;

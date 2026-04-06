@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:15 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/31 02:41:35 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:21:48 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,4 @@ void	ft_parse_map(t_game *game, t_file *map_file)
 	ft_create_game_map(game, map_file, height_start_end, width_start_end);
 	ft_check_map(game);
 	ft_rotate_map_y(game);
-	
 }

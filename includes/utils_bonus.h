@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/06 20:21:53 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ typedef struct s_texture
 	unsigned int	texture_color;
 	int				width;
 	int				height;
-	unsigned int	**colors_matrix;
+	unsigned int	**cmx;
 } t_texture;
 
 typedef struct s_prerender_model

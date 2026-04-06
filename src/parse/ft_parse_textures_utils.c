@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_textures_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:15 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 19:37:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void	ft_load_texture_from_path(t_game *game, t_texture *tex, char *path)
 			tex->path);
 		ft_close_game(1);
 	}
-	tex->colors_matrix = hd_calloc(tex->height, sizeof(unsigned int *));
+	tex->cmx = hd_calloc(tex->height, sizeof(unsigned int *));
 	i = 0;
 	while (i < tex->height)
 	{
-		tex->colors_matrix[i] = (unsigned int *)(tex->img->data + (i
+		tex->cmx[i] = (unsigned int *)(tex->img->data + (i
 					* sizeof(char) * 4 * tex->width));
 		i++;
 	}

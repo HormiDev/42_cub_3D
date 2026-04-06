@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_render_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:01 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/05 22:07:21 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_mask_alien_by_depth(t_game *game, t_texture *scaled,
 		{
 			y = 0;
 			while (y < scaled->height)
-				scaled->colors_matrix[y++][x] = 0x00FFFFFF;
+				scaled->cmx[y++][x] = 0x00FFFFFF;
 		}
 		x++;
 	}

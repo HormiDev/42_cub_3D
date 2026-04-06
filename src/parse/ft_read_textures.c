@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_read_textures.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/18 02:14:06 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:31:11 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,15 @@ static void	validate_xpm_line(char *line)
 	start_quote = ft_strchr(line, '\"');
 	if (!ft_strchr(start_quote + 1, '\"'))
 	{
-		ft_dprintf(2, RED "Error: Invalid XPM: The quote is not closed: %s\n" RESET, line);
+		ft_dprintf(2, RED "Error: Invalid XPM. %s\n" RESET, line);
 		ft_close_game(1);
 	}
-	sub_str = hd_alloc(ft_substr(start_quote + 1, 0, ft_strchr(start_quote + 1, '\"')
-			- start_quote - 1), free);
+	sub_str = hd_alloc(ft_substr(start_quote + 1, 0, ft_strchr(start_quote + 1,
+					'\"') - start_quote - 1), free);
 	split = hd_alloc(ft_split(sub_str, ' '), ft_hd_alloc_free_split);
 	if (ft_splitlen(split) < 4)
 	{
-		ft_dprintf(2, "Error: Invalid XPM file format in line: %s\n", line);
+		ft_dprintf(2, RED "Error: Invalid XPM %s\n" RESET, line);
 		ft_close_game(1);
 	}
 }

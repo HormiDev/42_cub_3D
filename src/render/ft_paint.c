@@ -3,109 +3,76 @@
 /*                                                        :::      ::::::::   */
 /*   ft_paint.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 03:29:38 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d.h"
 
-/**
- * @brief draw_background - Dibuja el fondo (techo y suelo) de la pantalla
- * @param game: estructura del juego
- */
-void	draw_background(t_game *game)
+static void	ft_paint_setup_column(t_column_ctx *col, int wall_height,
+		t_texture *texture, double ray_distance)
 {
-	int	x;
-	int	y;
-
-	y = 0;
-	while (y < RENDER_HEIGHT)
+	col->texture_iteration = (double)texture->height / (double)wall_height;
+	col->mist_density = -(ray_distance / MAX_RAY_SIZE * 100) + 100;
+	col->last_texture_pixel = -1;
+	if (wall_height > RENDER_HEIGHT)
 	{
-		x = 0;
-		while (x < RENDER_WIDTH)
-		{
-			if (y < RENDER_HEIGHT / 2)
-				game->render->colors_matrix[y][x] = game->ceiling_tex->texture_color;
-			else
-				game->render->colors_matrix[y][x] = game->floor_tex->texture_color;
-			x++;
-		}
-		y++;
-	}
-}
-
-/**
- * @brief get_texture_for_wall
-	- Obtiene la textura correspondiente al tipo de pared
- * @param game: estructura del juego
- * @param wall_type: Tipo de pared (WALL_NO, WALL_SO, WALL_EA, WALL_WE)
- * @return textura o NULL si no se encuentra
- */
-static t_texture	*get_texture_for_wall(t_game *game, t_raycast *ray)
-{
-	if (ray->type == 0 || ray->type == 3)
-		return (game->arraytextures[ray->type][((int)(ray->impact.x)
-				+ (int)(ray->impact.y))
-			% game->larraytex[ray->type]]);
-	return (game->arraytextures[ray->type][game->larraytex[ray->type]
-		- 1 - (((int)(ray->impact.x) + (int)(ray->impact.y))
-			% game->larraytex[ray->type])]);
-}
-
-int	ft_calculate_wall_height(t_raycast *ray, int x)
-{
-	double	angle_rad;
-	double	corrected_dist;
-	int		wall_height;
-
-	angle_rad = ((double)x / (double)RENDER_WIDTH * FOV) - (FOV / 2.0);
-	if (angle_rad < 0.0)
-		angle_rad = -angle_rad;
-	corrected_dist = ray->distance * ft_cos(angle_rad);
-	if (corrected_dist <= 0.01)
-		corrected_dist = 0.01;
-	wall_height = (int)(RENDER_HEIGHT / corrected_dist) * RENDER_WIDTH
-		/ RENDER_HEIGHT;
-	if (wall_height % 2 != 0)
-		wall_height--;
-	return (wall_height);
-}
-
-int	ft_calc_texture_x(t_raycast *ray, t_texture *texture)
-{
-	int	texture_x;
-
-	if (ray->type == WALL_NO || ray->type == WALL_SO)
-	{
-		texture_x = (int)((ray->impact.x - (int)ray->impact.x)
-				* texture->width);
-		if (ray->type == WALL_SO)
-			texture_x = texture->width - texture_x - 1;
+		col->y = 0;
+		col->render_end = RENDER_HEIGHT - 1;
+		col->texture_start = (double)((wall_height - RENDER_HEIGHT) / 2.0)
+			/ (double)wall_height * (double)texture->height;
 	}
 	else
 	{
-		texture_x = (int)((ray->impact.y - (int)ray->impact.y)
-				* texture->width);
-		if (ray->type == WALL_EA)
-			texture_x = texture->width - texture_x - 1;
+		col->y = (RENDER_HEIGHT - wall_height) / 2;
+		col->render_end = col->y + wall_height - 1;
+		col->texture_start = 0.0;
 	}
-	return (texture_x);
+}
+
+static void	ft_paint_solid_color(t_game *game, int x, t_column_ctx *col,
+		t_texture *texture)
+{
+	ft_mix_color(&game->render->cmx[col->y++][x],
+		&texture->texture_color, col->mist_density);
+	while (col->y < col->render_end)
+	{
+		game->render->cmx[col->y][x] = game->render->cmx[col->y
+			- 1][x];
+		col->y++;
+	}
+}
+
+static void	ft_paint_textured(t_game *game, int x, t_column_ctx *col,
+		t_texture *texture)
+{
+	while (col->y < col->render_end)
+	{
+		if (col->last_texture_pixel == (int)col->texture_start)
+		{
+			game->render->cmx[col->y][x] = game->render->cmx[col->y
+				- 1][x];
+		}
+		else
+		{
+			ft_mix_color(&game->render->cmx[col->y][x],
+				&texture->cmx[(int)col->texture_start][col->texture_x],
+				col->mist_density);
+			col->last_texture_pixel = (int)col->texture_start;
+		}
+		col->texture_start += col->texture_iteration;
+		col->y++;
+	}
 }
 
 void	draw_column(t_game *game, int x, t_raycast *ray)
 {
-	int			wall_height;
-	int			y;
-	double		texture_iteration;
-	int			render_end;
-	double		texture_start;
-	int			texture_x;
-	t_texture	*texture;
-	int			mist_density;
-	int			last_texture_pixel;
+	int				wall_height;
+	t_texture		*texture;
+	t_column_ctx	col;
 
 	if (ray->type < 0 || ray->type > 3 || ray->distance <= 0.0)
 		return ;
@@ -113,53 +80,13 @@ void	draw_column(t_game *game, int x, t_raycast *ray)
 	if (wall_height <= 0)
 		return ;
 	texture = get_texture_for_wall(game, ray);
-	texture_iteration = (double)texture->height / (double)wall_height;
-	if (wall_height > RENDER_HEIGHT)
-	{
-		y = 0;
-		render_end = RENDER_HEIGHT - 1;
-		texture_start = (double)((wall_height - RENDER_HEIGHT) / 2.0)
-			/ (double)wall_height * (double)texture->height;
-	}
-	else
-	{
-		y = (RENDER_HEIGHT - wall_height) / 2;
-		render_end = y + wall_height - 1;
-		texture_start = 0.0;
-	}
-	mist_density = -(ray->distance / MAX_RAY_SIZE * 100) + 100;
-	last_texture_pixel = -1;
+	ft_paint_setup_column(&col, wall_height, texture, ray->distance);
 	if (texture->path == NULL)
-	{
-		ft_mix_color(&game->render->colors_matrix[y++][x],
-			&texture->texture_color, mist_density);
-		while (y < render_end)
-		{
-			game->render->colors_matrix[y][x] = game->render->colors_matrix[y
-				- 1][x];
-			y++;
-		}
-	}
+		ft_paint_solid_color(game, x, &col, texture);
 	else
 	{
-		texture_x = ft_calc_texture_x(ray, texture);
-		while (y < render_end)
-		{
-			if (last_texture_pixel == (int)texture_start)
-			{
-				game->render->colors_matrix[y][x] = game->render->colors_matrix[y
-					- 1][x];
-			}
-			else
-			{
-				ft_mix_color(&game->render->colors_matrix[y][x],
-					&texture->colors_matrix[(int)texture_start][texture_x],
-					mist_density);
-				last_texture_pixel = (int)texture_start;
-			}
-			texture_start += texture_iteration;
-			y++;
-		}
+		col.texture_x = ft_calc_texture_x(ray, texture);
+		ft_paint_textured(game, x, &col, texture);
 	}
 }
 

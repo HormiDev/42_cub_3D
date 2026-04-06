@@ -3,73 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_walls_closed.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 21:26:07 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:28:30 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d.h"
-
-static int	ft_row_has_content(char *row);
-static int	ft_check_space_surrounded(char **map, int i, int j);
-
-/**
- * @brief Verifica si las filas superior e inferior del mapa están cerradas.
- *
- * Esta función recorre las filas superior e inferior del mapa y verifica que
- * devuelve 0. Si ambas filas están correctamente cerradas, devuelve 1.
- *
- * @param game estructura del juego que contiene el mapa.
- * @return int 1 si las filas están cerradas, 0 en caso contrario.
- */
-int	ft_check_up_down(t_game *game)
-{
-	int	i;
-	int	last_row;
-	int	has_content;
-	int	j;
-
-	i = 0;
-	while (game->map[0] && game->map[0][i])
-	{
-		if (game->map[0][i] != '1' && game->map[0][i] != ' ')
-			return (ft_print_map(game->map, i, 0), 0);
-		i++;
-	}
-	last_row = 0;
-	while (game->map[last_row])
-		last_row++;
-	last_row--;
-	while (last_row >= 0 && game->map[last_row])
-	{
-		has_content = 0;
-		j = 0;
-		while (game->map[last_row][j])
-		{
-			if (game->map[last_row][j] != ' ' && game->map[last_row][j] != '\t')
-			{
-				has_content = 1;
-				break ;
-			}
-			j++;
-		}
-		if (has_content)
-			break ;
-		last_row--;
-	}
-	if (last_row < 0 || !game->map[last_row])
-		return (ft_print_map(game->map, 0, 0), 0);
-	i = 0;
-	while (game->map[last_row][i])
-	{
-		if (game->map[last_row][i] != '1' && game->map[last_row][i] != ' ')
-			return (ft_print_map(game->map, i, last_row), 0);
-		i++;
-	}
-	return (1);
-}
 
 /**
  * @brief Verifica si los bordes izquierdo y derecho del mapa están cerrados.
@@ -118,7 +59,7 @@ int	ft_check_borders(char **map)
  * @param row Fila del mapa a verificar.
  * @return int 1 si tiene contenido real, 0 si solo tiene espacios.
  */
-static int	ft_row_has_content(char *row)
+int	ft_row_has_content(char *row)
 {
 	int	k;
 
@@ -143,7 +84,7 @@ static int	ft_row_has_content(char *row)
  * @param j Índice de columna del espacio.
  * @return int 1 si está correctamente cerrado, 0 en caso contrario.
  */
-static int	ft_check_space_surrounded(char **map, int i, int j)
+int	ft_check_space_surrounded(char **map, int i, int j)
 {
 	if (i > 0 && map[i - 1][j] != 0 && map[i - 1][j] != '1' && map[i
 		- 1][j] != ' ')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_loading_texture.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 19:02:05 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/01 01:59:21 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void ft_texture_matrix(t_texture *texture)
 {
 	int i;
 
-	texture->colors_matrix = hd_calloc(texture->height, sizeof(unsigned int *));
+	texture->cmx = hd_calloc(texture->height, sizeof(unsigned int *));
 	i = 0;
 	while (i < texture->height)
 	{
-		texture->colors_matrix[i] = (unsigned int *)(texture->img->data +
+		texture->cmx[i] = (unsigned int *)(texture->img->data +
 				(i * sizeof(unsigned int) * texture->width));
 		i++;
 	}

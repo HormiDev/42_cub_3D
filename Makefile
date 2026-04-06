@@ -30,15 +30,21 @@ SRC		=	src/main.c \
 			src/parse/ft_map_origin.c \
 			src/parse/ft_map_origin_utils.c \
 			src/parse/ft_walls_closed.c \
+			src/parse/ft_walls_closed_utils.c \
 			src/parse/ft_print_map.c \
 			src/parse/ft_read_textures.c \
 			src/parse/ft_parse_textures.c \
 			src/parse/ft_parse_textures_utils.c \
 			src/raycast/ft_calculate_raycasts.c \
+			src/raycast/ft_raycast.c \
 			src/render/map_utils.c \
+			src/render/map_utils_2.c \
 			src/render/ft_paint.c \
+			src/render/ft_paint_utils.c \
 			src/render/raycast_utils.c \
+			src/render/render_utils.c \
 			src/render/ft_map2D.c \
+			src/render/ft_map2D_utils.c \
 			src/ft_sqrt.c \
 			src/ft_sin_cos.c \
 			src/ft_loading_game.c \

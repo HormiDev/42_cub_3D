@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_scale_t_image_precalc.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:41:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/03 00:45:16 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void ft_scale_t_image_precalc(t_texture *tex_origin, t_texture *text_destiny, t_
 		dest_x = 0;
 		while (dest_x < text_destiny->width)
 		{
-			text_destiny->colors_matrix[dest_y][dest_x] = tex_origin->colors_matrix
+			text_destiny->cmx[dest_y][dest_x] = tex_origin->cmx
 				[game->precalc.scale_y_table[dest_y]]
 				[game->precalc.scale_x_table[dest_x]];
 			dest_x++;
@@ -86,7 +86,7 @@ void ft_scale_t_image_precalc_two(t_texture *tex_origin, t_texture *text_destiny
 		dest_x = 0;
 		while (dest_x < text_destiny->width)
 		{
-			text_destiny->colors_matrix[dest_y][dest_x] = tex_origin->colors_matrix
+			text_destiny->cmx[dest_y][dest_x] = tex_origin->cmx
 				[game->precalc.scale_y_table[ori_y]]
 				[game->precalc.scale_x_table[dest_x]];
 			dest_x++;
@@ -127,7 +127,7 @@ void ft_scale_t_image_precalc_three(t_texture *tex_origin, t_texture *text_desti
 		}
 		while (dest_x < dest_end_x)
 		{
-			text_destiny->colors_matrix[dest_y][dest_x] = tex_origin->colors_matrix
+			text_destiny->cmx[dest_y][dest_x] = tex_origin->cmx
 				[game->precalc.scale_y_table[ori_y]]
 				[game->precalc.scale_x_table[ori_x]];
 			dest_x++;

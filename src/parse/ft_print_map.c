@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_print_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 19:35:08 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 22:21:27 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
  * @param error_y fila del error (-1 si no hay).
  * @param error_x columna del error (-1 si no hay).
  */
-static void ft_print_cell(char **map, t_vector2 *pos, int error_y, int error_x)
+static void	ft_print_cell(char **map, t_vector2 *pos, int error_y, int error_x)
 {
 	if (pos->x == error_y && pos->y == error_x)
 	{
@@ -40,12 +40,13 @@ static void ft_print_cell(char **map, t_vector2 *pos, int error_y, int error_x)
  * @param error_x columna del error (-1 si no hay).
  * @param error_y fila del error (-1 si no hay).
  */
-void ft_print_map(char **map, int error_x, int error_y)
+void	ft_print_map(char **map, int error_x, int error_y)
 {
-	t_vector2 pos;
+	t_vector2	pos;
 
 	if (error_x != -1 || error_y != -1)
-		ft_dprintf(2, "%sError: in %d, %d\n%s", RED, error_y + 1, error_x + 1, RESET);
+		ft_dprintf(2, "%sError: in %d, %d\n%s", RED, error_y + 1, error_x + 1,
+			RESET);
 	if (!map)
 	{
 		ft_dprintf(2, "Map: (null)\n");
