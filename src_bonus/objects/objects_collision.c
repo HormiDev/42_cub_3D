@@ -25,7 +25,7 @@ void	ft_kill_player(t_player *player)
 	if (!player || !player->alive)
 		return ;
 	player->alive = 0;
-	player->active = 0;
+	//player->active = 0;
 }
 
 /**

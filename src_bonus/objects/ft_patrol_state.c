@@ -1,38 +1,45 @@
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Encuentra el tile del heatmap con mayor prioridad.
+ * @brief Encuentra el tile del heatmap con mayor temperatura.
+ * 
+ * Busca el tile con el valor de calor mas alto en el mapa. Si hay multiples
+ * tiles con la misma temperatura maxima, devuelve el primero encontrado
+ * (iterando de izquierda a derecha, de arriba a abajo).
+ *
  * @param game estructura del juego con el mapa.
  * @param alien puntero al alien (no utilizado).
  * @param pos puntero para guardar la coordenada encontrada.
- * @return 1 si encontró calor, 0 si no.
+ * @return 1 si encontro calor (valor > 0), 0 si no.
  */
-static int	ft_find_hottest_reachable_tile(t_game *game, t_player *alien, t_vector_int *pos)
+static int	ft_find_hottest_reachable_tile(t_game *game, t_player *alien,
+    t_vector_int *pos)
 {
-	char	best_heat;
-	int		y;
-	int		x;
+    int	best_heat;
+    int	y;
+    int	x;
 
-	(void)alien;
-	best_heat = '0';
-	pos->x = -1;
-	pos->y = -1;
-	y = -1;
-	while (++y < game->width_height[1])
-	{
-		x = -1;
-		while (++x < game->width_height[0])
-		{
-			char tile = game->map_heatmap[y][x];
-			if (tile >= '2' && tile <= '4' && tile > best_heat)
-			{
-				best_heat = tile;
-				pos->x = x;
-				pos->y = y;
-			}
-		}
-	}
-	return (best_heat != '0');
+    (void)alien;
+    best_heat = 0;
+    pos->x = -1;
+    pos->y = -1;
+    y = 0;
+    while (y < game->width_height[1])
+    {
+        x = 0;
+        while (x < game->width_height[0])
+        {
+            if (game->map_heatmap[y][x] > best_heat)
+            {
+                best_heat = game->map_heatmap[y][x];
+                pos->x = x;
+                pos->y = y;
+            }
+            x++;
+        }
+        y++;
+    }
+    return (best_heat > 0);
 }
 
 /**
@@ -71,24 +78,33 @@ static void	ft_move_along_path(t_game *game, t_player *alien)
 		direction.x /= norm;
 		direction.y /= norm;
 	}
+	alien->rotation.x = atan2(direction.y, direction.x) * 180.0 / M_PI;
+	alien->rotation.x = ft_normalize_angle(alien->rotation.x);
 	alien->position.x += direction.x * alien->speed * game->delta_time;
 	alien->position.y += direction.y * alien->speed * game->delta_time;
 }
 
-
 /**
- * @brief Maneja el timeout del retry timer.
+ * @brief Maneja el timeout del retry timer y recalculacion de ruta cada 5s.
+ * 
+ * Cada 5 segundos, resetea el objetivo y limpia la ruta actual. Esto obliga
+ * al alien a consultar el heatmap de nuevo y buscar una nueva ruta en caso
+ * de que haya puntos mas calientes o players hayan cambiado de posicion.
+ *
  * @param retry_timer puntero al timer.
  * @param last_goal puntero al último objetivo.
+ * @param path_len puntero al largo del path actual.
  */
-static void	ft_patrol_update_retry_timer(double *retry_timer, t_vector_int *last_goal)
+static void	ft_patrol_update_retry_timer(double *retry_timer, t_vector_int *last_goal,
+	int *path_len)
 {
 	*retry_timer += 0.016;
-	if (*retry_timer >= 5.0)
+	if (*retry_timer >= 2.0 || path_len == 0)
 	{
 		*retry_timer = 0.0;
 		last_goal->x = -1;
 		last_goal->y = -1;
+		*path_len = 0;
 	}
 }
 
@@ -125,7 +141,6 @@ static void	ft_patrol_find_and_search_goal(t_game *game, t_player *alien,
 
 	if (alien->path_len != 0)
 		return ;
-	ft_update_heatmap(game);
 	if (!ft_find_hottest_reachable_tile(game, alien, &goal))
 		return ;
 	ft_patrol_search_path(game, alien, goal, last_goal);
@@ -164,7 +179,7 @@ void	ft_alien_patrol_update(t_game *game, t_player *alien)
 
 	if (!alien || !game)
 		return ;
-	ft_patrol_update_retry_timer(&retry_timer, &last_goal);
+	ft_patrol_update_retry_timer(&retry_timer, &last_goal, &alien->path_len);
 	ft_patrol_find_and_search_goal(game, alien, &last_goal);
 	ft_patrol_move_and_cleanup(game, alien, &last_goal);
 }

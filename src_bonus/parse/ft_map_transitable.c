@@ -6,11 +6,9 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:51 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 01:29:59 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 16:11:52 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../../includes/cub_3d_bonus.h"
 
 #include "../../includes/cub_3d_bonus.h"
 

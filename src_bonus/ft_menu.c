@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 03:02:06 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 16:11:54 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,16 @@ void	ft_draw_buttons_menu(t_menu *menu)
 
 void	ft_draw_menu_background(t_game *game)
 {
-	long	current_time;
 	long	time_diff;
 
-	current_time = ft_get_time();
-	time_diff = ft_long_diff(game->menu.last_frame_time, current_time);
+	time_diff = ft_long_diff(game->menu.last_frame_time, game->current_time);
 	if (time_diff > MENU_FRAME_MS)
 	{
 		game->menu.current_frame++;
 		if (game->menu.current_frame >= game->menu.total_frames 
 			&& game->menu.total_frames > 0)
 			game->menu.current_frame = 0;
-		game->menu.last_frame_time = current_time;
+		game->menu.last_frame_time = game->current_time;
 	}
 	if (game->menu.total_frames > 0)
 	{
@@ -237,7 +235,7 @@ void	ft_loading_menu(t_game *game)
 {
 	ft_bzero(&game->menu, sizeof(t_menu));
 	game->menu.current_frame = 0;
-	game->menu.last_frame_time = ft_get_time();
+	game->menu.last_frame_time = game->current_time;
 	game->menu.render = ft_new_texture(game->mlx, MENU_WIDTH, MENU_HEIGHT);
 	ft_loading_menu_frames(game);
 	ft_load_menu_logo(game);

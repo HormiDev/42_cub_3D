@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 00:39:44 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 03:30:22 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 17:17:39 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,6 +230,7 @@ void				ft_create_game_map(t_game *game, t_file *map_file,
 						const int *height_start_end,
 						const int *width_start_end);
 void				ft_rotate_map_y(t_game *game);
+void				ft_load_texture_from_path(t_game *game, t_texture *tex, char *path);
 bool				is_only_spaces(const char *line);
 bool				is_directive_line(char *line);
 

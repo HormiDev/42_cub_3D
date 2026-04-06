@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:15 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 01:29:59 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 16:08:32 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 /**
  * @brief Crea una copia del mapa para usar como heatmap del pathfinding del alien.
  *
- * Copia game->map a game->map_heatmap. El mapa original se usa para el
- * sistema de heatmap/pathfinding del alien sin modificar el mapa de juego.
+ * Copia game->map a game->map_heatmap como matriz de enteros. El heatmap usa:
+ * -1 para muros ('1') y puertas cerradas ('D')
+ *  0 para tiles transitables
+ * 1/2/4 para calor generado por players según su acción (quieto/andar/correr)
  *
  * @param game estructura del juego con el mapa a copiar.
  */
-static void	ft_create_map_copy(t_game *game)
+static void	ft_create_map_heat(t_game *game)
 {
 	int	i;
 	int	j;
@@ -28,25 +30,23 @@ static void	ft_create_map_copy(t_game *game)
 
 	if (!game || !game->map)
 		return ;
-	game->map_heatmap = hd_calloc(game->width_height[1] + 1, sizeof(char *));
+	game->map_heatmap = hd_calloc(game->width_height[1], sizeof(int *));
 	i = 0;
 	while (i < game->width_height[1])
 	{
-		game->map_heatmap[i] = hd_calloc(game->width_height[0] + 1, sizeof(char));
+		game->map_heatmap[i] = hd_calloc(game->width_height[0], sizeof(int));
 		j = 0;
 		while (j < game->width_height[0])
 		{
 			tile = game->map[i][j];
 			if (tile == '1' || tile == 'D')
-				game->map_heatmap[i][j] = tile;
+				game->map_heatmap[i][j] = -1;
 			else
-				game->map_heatmap[i][j] = '0';
+				game->map_heatmap[i][j] = 0;
 			j++;
 		}
-		game->map_heatmap[i][game->width_height[0]] = '\0';
 		i++;
 	}
-	game->map_heatmap[game->width_height[1]] = NULL;
 }
 
 /**
@@ -84,7 +84,7 @@ void	ft_parse_map(t_game *game, t_file *map_file)
 	ft_create_game_map(game, map_file, height_start_end, width_start_end);
 	ft_check_map(game);
 	ft_rotate_map_y(game);
-	ft_create_map_copy(game);
+	ft_create_map_heat(game);
 	ft_create_map_transitable(game);
 	ft_create_map_transitable_aux(game);
 	ft_print_transitable_map(game);

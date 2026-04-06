@@ -47,15 +47,14 @@ static void	ft_draw_game_over_screen(t_game *game)
  */
 int ft_calc_delta_time(t_game *game)
 {
-	long current_time;
 	long time_diff;
 
-	current_time = ft_get_time();
-	time_diff = ft_long_diff(game->last_frame_time, current_time);
+	game->current_time = ft_get_time();
+	time_diff = ft_long_diff(game->last_frame_time, game->current_time);
 	game->delta_time = time_diff / 1000.0;
 	if (game->delta_time < (1.0 / (double)MAX_FPS))
 		return (0);
-	game->last_frame_time = current_time;
+	game->last_frame_time = game->current_time;
 	return (1);
 }
 
@@ -63,6 +62,7 @@ void ft_one_player(t_game *game)
 {
 	ft_controls(game, 0);
 	ft_update_flamethrower_cooldown(&game->actions[0], game->delta_time);
+	ft_update_heatmap(game);
 	ft_update_aliens(game);
 	ft_update_doors(game);
 	ft_calculate_raycasts(game); 
@@ -108,6 +108,7 @@ void ft_two_players(t_game *game)
 		player_index++;
 	}
 	game->player = &game->players[0];
+	ft_update_heatmap(game);
 	ft_update_aliens(game);
 	mlx_clear_window(game->mlx, game->window);
 	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
@@ -142,6 +143,7 @@ void ft_three_players(t_game *game)
 		player_index++;
 	}
 	game->player = &game->players[0];
+	ft_update_heatmap(game);
 	ft_update_aliens(game);
 	mlx_clear_window(game->mlx, game->window);
 	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
@@ -187,26 +189,27 @@ int ft_update(void *param)
 	if (!ft_calc_delta_time(game))
 		return (0);
 	ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
-	ft_update_gamepad(game);
-	ft_gamepad_movement(game);
+	//ft_update_gamepad(game);
+	//ft_gamepad_movement(game);
 	if (game->show_menu)
 		ft_update_menu(game);
 	else if (game->game_state == GAME_ALIEN_WIN)
 	{
 		ft_draw_game_over_screen(game);
 	}
+	else if (game->game_state == GAME_PLAYERS_WIN)
+	{
+		ft_draw_game_over_screen(game);
+	}
 	else
 	{
 		ft_check_timer(game);
-		if (game->game_state != GAME_PLAYERS_WIN)
-		{
-			if (game->config.n_players == 1)
-				ft_one_player(game);
-			else if (game->config.n_players == 2)
-				ft_two_players(game);
-			else
-				ft_three_players(game);
-		}
+		if (game->config.n_players == 1)
+			ft_one_player(game);
+		else if (game->config.n_players == 2)
+			ft_two_players(game);
+		else
+			ft_three_players(game);
 		mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 		if (ft_should_show_door_prompt(game))
 			mlx_string_put(game->mlx, game->window,

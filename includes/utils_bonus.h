@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/06 03:14:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 20:21:53 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@
 # define G				103
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 960
+#  define WINDOW_WIDTH 1920
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 720
+#  define WINDOW_HEIGHT 1080
 # endif
 
 # define MENU_HEIGHT 720
@@ -286,6 +286,7 @@ typedef struct s_player_actions {
 	int			rotate_left;
 	int			rotate_right;
 	int			run;
+	int 	    walk; 
 	int			interact;
 	int			flamethrower_charges;
     int			flamethrower_ready;
@@ -398,8 +399,10 @@ typedef struct s_config
 
 typedef struct s_game 
 {
+	long				current_time;
 	char				**map;
-	char				**map_heatmap;
+	int					**map_heatmap;
+	long				heat_time;
 	char				**map_transitable;
 	char				**map_transitable_aux;
 	int					width_height[2];

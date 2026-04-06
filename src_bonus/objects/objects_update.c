@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:25 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 01:53:55 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 20:44:00 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ static void	ft_update_alien_state_and_speed(t_player *alien, double distance,
 	if (alien->state != *last_state)
 	{
 		if (alien->state == ALIEN_CHASE)
-			alien->speed = 3.5;
+			alien->speed = 3.2;
 		else
-			alien->speed = 1.5;
+			alien->speed = 3.5;
 		*last_state = alien->state;
 	}
 }
@@ -71,6 +71,11 @@ static void	ft_update_alien_state_and_speed(t_player *alien, double distance,
  */
 static void	ft_execute_alien_behavior(t_game *game, t_player *alien)
 {
+	t_vector_int alienpos;
+
+	alienpos.x = alien->position.x;
+	alienpos.y = alien->position.y;
+	game->map_heatmap[alienpos.y][alienpos.x] = 0;
 	if (alien->state == ALIEN_CHASE)
 		ft_alien_chase_update(game, alien);
 	else
@@ -101,31 +106,34 @@ void	ft_update_aliens(t_game *game)
 
 static void	ft_set_alien_pos(t_game *game, t_vector2 pos)
 {
-    if (!game || !game->players[4].active)
-        return ;
-    game->players[4].position = pos;
-}
+	t_player	*alien;
 
+	alien = &game->players[4];
+	alien->position.x = pos.x;
+	alien->position.y = pos.y;
+	alien->active = 1;
+	alien->state = ALIEN_IDLE;
+}
 
 static void ft_mark_player_areas(t_game *game)
 {
 	int	i;
     int	x;
     int	y;
-    int	diagonal;
+    int	radius;
 
-    diagonal = (int)MAX_RAY_SIZE;
+    radius = (int)(MAX_RAY_SIZE * 1.5);
     i = 0;
     while (i < game->config.n_players)
     {
         if (game->players[i].active && game->players[i].alive)
         {
-            y = (int)game->players[i].position.y - diagonal;
-            while (y <= (int)game->players[i].position.y + diagonal
+            y = (int)game->players[i].position.y - radius;
+            while (y <= (int)game->players[i].position.y + radius
                 && y >= 0 && y < game->width_height[1])
             {
-                x = (int)game->players[i].position.x - diagonal;
-                while (x <= (int)game->players[i].position.x + diagonal
+                x = (int)game->players[i].position.x - radius;
+                while (x <= (int)game->players[i].position.x + radius
                     && x >= 0 && x < game->width_height[0])
                 {
                     game->map_transitable_aux[y][x] = '1';
@@ -226,12 +234,13 @@ void	ft_respawn_alien(t_game *game)
 	avaiable_count = ft_aviable_positions(game);
 	if (avaiable_count > 0)
 	{
-		random_idx = ft_get_time() % avaiable_count;
+		random_idx = game->current_time % avaiable_count;
+		printf("Respawning alien at index %d of %d available positions with time %ld\n", random_idx, avaiable_count, game->current_time);
         ft_get_random_position(game, random_idx, &pos);
 	}
 	else
 	{
-		random_idx = ft_get_time() % ft_aviable_positions(game);
+		random_idx = game->current_time % ft_aviable_positions(game);
         ft_get_random_position(game, random_idx, &pos);
 	}
 	ft_set_alien_pos(game, pos);	

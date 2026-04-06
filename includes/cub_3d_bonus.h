@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/06 01:48:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 17:15:50 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void 			ft_right_left(t_game *game, double move_speed);
 int 			ft_key_press(int keycode, t_game *game);
 int 			ft_key_release(int keycode, t_game *game);
 int				ft_mouse_move(int x, int y, t_game *game);
-void			ft_move_direction(t_game *game, double angle, double move_speed);
+void			ft_move_direction(t_game *game, double angle, double move_speed,
+					int player_index);
 void			ft_move_player(t_game *game, double move_x, double move_y);
 
 
@@ -219,7 +220,7 @@ int				ft_try_toggle_door(t_game *game);
 void			ft_config_alien(t_game *game);
 void			ft_respawn_alien(t_game *game);
 void			ft_update_aliens(t_game *game);
-void			ft_update_heatmap(t_game *game);
+void			ft_search_heatmap(t_game *game);
 
 // BFS Pathfinding functions
 int				ft_bfs_path(t_game *game, t_vector_int start, t_vector_int goal, t_vector_int *path, int *path_len);
@@ -361,4 +362,7 @@ void			ft_decrease_charges(void *game_ptr);
 void			ft_increase_charges(void *game_ptr);
 void			ft_decrease_timer(void *game_ptr);
 void			ft_increase_timer(void *game_ptr);
+
+void	ft_update_heatmap(t_game *game);
+
 #endif

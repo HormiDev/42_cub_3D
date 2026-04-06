@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:26 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 16:11:05 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	ft_flamethrower_attack(t_game *game, t_player *player,
 
 	actions->flamethrower_charges--;
 	actions->flamethrower_ready = 0;
-	actions->flamethrower_last_time = ft_get_time();
+	actions->flamethrower_last_time = game->current_time;
 	actions->flamethrower_cooldown_remaining = 20.0;
 	
 	i = 0;

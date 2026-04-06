@@ -1,83 +1,89 @@
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Encuentra el jugador vivo más cercano al alien.
+ * @brief Verifica si el player está en FOV 180° dentro de 10 unidades y sin obstáculos.
  * @param game estructura del juego.
  * @param alien puntero al alien.
- * @param closest puntero para guardar al jugador más cercano.
- * @return distancia al más cercano o -1 si no hay vivos.
+ * @param target puntero al jugador.
+ * @return 1 si está en rango, FOV y sin muros en el camino, 0 si no.
  */
-static double	ft_find_closest_player(t_game *game, t_player *alien, t_player **closest)
+static int	ft_is_player_visible(t_game *game, t_player *alien, t_player *target)
 {
-	double		min_dist;
 	double		dist;
+	double		angle_to_target;
+	double		angle_diff;
+	double		step_x;
+	double		step_y;
+	double		current_x;
+	double		current_y;
+	int			steps;
 	int			i;
 
-	min_dist = 999.0;
-	*closest = NULL;
-	if (game->player && game->player->alive)
-	{
-		min_dist = ft_vector_distance(alien->position, game->player->position);
-		*closest = game->player;
-	}
+	dist = ft_vector_distance(alien->position, target->position);
+	if (dist > 10.0)
+		return (0);
+	
+	angle_to_target = atan2(target->position.y - alien->position.y,
+			target->position.x - alien->position.x) * 180.0 / M_PI;
+	angle_to_target = ft_normalize_angle(angle_to_target);
+	angle_diff = ft_normalize_relative_angle(angle_to_target - alien->rotation.x);
+	if (angle_diff < -90.0 || angle_diff > 90.0)
+		return (0);
+	
+	steps = (int)(dist * 2);
+	if (steps < 1)
+		steps = 1;
+	step_x = (target->position.x - alien->position.x) / steps;
+	step_y = (target->position.y - alien->position.y) / steps;
+	current_x = alien->position.x;
+	current_y = alien->position.y;
+	
 	i = 0;
-	while (i < game->config.n_players)
+	while (i < steps)
 	{
-		if (game->players[i].active && game->players[i].alive)
-		{
-			dist = ft_vector_distance(alien->position, game->players[i].position);
-			if (dist < min_dist)
-			{
-				min_dist = dist;
-				*closest = &game->players[i];
-			}
-		}
+		current_x += step_x;
+		current_y += step_y;
+		if (game->map_heatmap[(int)current_y][(int)current_x] == -1)
+			return (0);
 		i++;
 	}
-	return (*closest ? min_dist : -1);
+	
+	return (1);
 }
 
 /**
- * @brief Verifica si el alien puede ver al jugador.
+ * @brief Persigue al jugador en linea recta respetando colisiones.
  * @param game estructura del juego.
  * @param alien puntero al alien.
- * @param target puntero al jugador objetivo.
- * @return 1 si distancia < alien->chase_distance, 0 si no.
- */
-static int	ft_has_line_of_sight(t_game *game, t_player *alien, t_player *target)
-{
-	double		dist;
-
-	if (!game || !target || !alien)
-		return (0);
-	dist = ft_vector_distance(alien->position, target->position);
-	return (dist < alien->chase_distance);
-}
-
-/**
- * @brief Persigue al jugador en línea recta.
- * @param game estructura del juego.
- * @param alien puntero al alien a mover.
  * @param target jugador a perseguir.
  */
 static void	ft_move_toward_player(t_game *game, t_player *alien, t_player *target)
 {
-	t_vector2	direction;
-	double		norm;
+	double		angle;
+	double		move_dist;
+	double		next_x;
+	double		next_y;
+	int			tile_x;
+	int			tile_y;
 
-	if (!target)
-		return ;
-	direction.x = target->position.x - alien->position.x;
-	direction.y = target->position.y - alien->position.y;
-	norm = ft_sqrt(direction.x * direction.x + direction.y * direction.y);
-	if (norm > 0.001)
+	angle = atan2(target->position.y - alien->position.y,
+			target->position.x - alien->position.x) * 180.0 / M_PI;
+	angle = ft_normalize_angle(angle);
+	alien->rotation.x = angle;
+	move_dist = alien->speed * game->delta_time;
+	next_x = alien->position.x + ft_cos(angle * M_PI / 180.0) * move_dist;
+	next_y = alien->position.y + ft_sin(angle * M_PI / 180.0) * move_dist;
+	tile_x = (int)next_x;
+	tile_y = (int)next_y;
+	if (tile_x >= 0 && tile_x < game->width_height[0] && 
+		tile_y >= 0 && tile_y < game->width_height[1] &&
+		game->map_heatmap[tile_y][tile_x] != -1)
 	{
-		direction.x /= norm;
-		direction.y /= norm;
+		alien->position.x = next_x;
+		alien->position.y = next_y;
 	}
-	alien->position.x += direction.x * alien->speed * game->delta_time;
-	alien->position.y += direction.y * alien->speed * game->delta_time;
 }
+
 
 /**
  * @brief Actualiza el estado CHASE del alien.
@@ -86,24 +92,51 @@ static void	ft_move_toward_player(t_game *game, t_player *alien, t_player *targe
  */
 void	ft_alien_chase_update(t_game *game, t_player *alien)
 {
+	t_player	*closest;
+	double		closest_dist;
 	double		dist;
-	t_player	*target;
+	int			i;
 
 	if (!alien || !game)
 		return ;
-	dist = ft_find_closest_player(game, alien, &target);
-	if (dist < 0 || !target)
+	
+	closest = NULL;
+	closest_dist = 999.0;
+	
+	if (game->player && game->player->alive)
+	{
+		if (ft_is_player_visible(game, alien, game->player))
+		{
+			closest = game->player;
+			closest_dist = ft_vector_distance(alien->position, game->player->position);
+		}
+	}
+	
+	i = 0;
+	while (i < game->config.n_players)
+	{
+		if (game->players[i].active && game->players[i].alive)
+		{
+			if (ft_is_player_visible(game, alien, &game->players[i]))
+			{
+				dist = ft_vector_distance(alien->position, game->players[i].position);
+				if (dist < closest_dist)
+				{
+					closest = &game->players[i];
+					closest_dist = dist;
+				}
+			}
+		}
+		i++;
+	}
+	
+	if (!closest)
 	{
 		alien->state = ALIEN_PATROL;
 		alien->path_len = 0;
 		return ;
 	}
-	if (!ft_has_line_of_sight(game, alien, target))
-	{
-		alien->state = ALIEN_PATROL;
-		alien->path_len = 0;
-		return ;
-	}
+	
 	alien->path_len = 0;
-	ft_move_toward_player(game, alien, target);
+	ft_move_toward_player(game, alien, closest);
 }

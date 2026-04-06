@@ -33,6 +33,7 @@ SRC		=	src/main.c \
 			src/parse/ft_print_map.c \
 			src/parse/ft_read_textures.c \
 			src/parse/ft_parse_textures.c \
+			src/parse/ft_parse_textures_utils.c \
 			src/raycast/ft_calculate_raycasts.c \
 			src/render/map_utils.c \
 			src/render/ft_paint.c \
@@ -117,8 +118,8 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/objects/objects_init.c \
 			src_bonus/objects/objects_update.c \
 			src_bonus/objects/objects_collision.c \
-			src_bonus/objects/ft_heatmap.c \
 			src_bonus/objects/ft_pathfinder_bfs.c \
+			src_bonus/objects/ft_update_heatmap.c \
 			src_bonus/objects/ft_pathfinder_bfs_utils.c \
 			src_bonus/objects/ft_chase_state.c \
 			src_bonus/objects/ft_patrol_state.c \

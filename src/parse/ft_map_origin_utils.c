@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 21:17:12 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 19:22:02 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ bool is_directive_line(char *line)
 	int i;
 
 	i = 0;
-    const char *dirs[6] = {"NO ", "SO ", "EA ", "WE ", "F ", "C "};
-    while (i < 6)
-    {
-        if (ft_strncmp_p(line, dirs[i], ft_strlen(dirs[i])) == 0)
-            return true;
+	const char *dirs[6] = {"NO ", "SO ", "EA ", "WE ", "F ", "C "};
+	while (i < 6)
+	{
+		if (ft_strncmp_p(line, dirs[i], ft_strlen(dirs[i])) == 0)
+			return true;
 		i++;
-    }
-    return false;
+	}
+	return false;
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:16:38 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/05 17:00:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 18:15:35 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ft_loading_textures_with_path(t_game *game, t_prerender_model *pre, char *p
 	ft_printf("Loading prerender models from: %s\n", path_dir);
 	i = 0;
 	file_name = ft_get_next_file(dir, path_dir);
-	while (file_name)
+	while (file_name && i < (pre->n_angles * pre->n_frames))
 	{
 		ft_sprintf(cwd, "%s%s", path_dir, file_name);
 		ft_printf("Loading texture: %s\n", file_name);
@@ -108,5 +108,5 @@ t_prerender_model	*ft_init_prerender_model(t_game *game, int n_frames, int n_ang
 
 void	ft_loading_prerender_models(t_game *game)
 {
-	game->alien_prerender = ft_init_prerender_model(game, 1, 1, "textures/prerender/");
+	game->alien_prerender = ft_init_prerender_model(game, 1, 36, "textures/prerender/");
 }

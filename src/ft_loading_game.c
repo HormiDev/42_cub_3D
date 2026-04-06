@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 03:14:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 16:56:46 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,12 +110,8 @@ t_game	*ft_loading_game(char *path_map)
 
 	game = hd_calloc(1, sizeof(t_game));
 	ft_config_mlx(game);
-	map_file = hd_alloc(ft_create_file_from_filename(path_map), hd_alloc_free_t_file);
-	if (!map_file)
-	{
-		ft_dprintf(2, "Error: Failed to create map\n");
-		return (0);
-	}
+	map_file = hd_alloc(ft_create_file_from_filename(path_map),
+			hd_alloc_free_t_file);
 	ft_parse_map(game, map_file);
 	ft_read_textures_in_map(game, map_file);
 	ft_build_array_textures(game);

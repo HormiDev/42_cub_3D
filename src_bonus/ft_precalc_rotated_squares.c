@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 22:46:58 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 19:59:17 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,9 @@ t_rotated_square	*ft_precalc_rotated_squares(void)
 	int					angle_idx;
 	double				angle;
 
-	squares = hd_malloc(sizeof(t_rotated_square) * 36000);
+	squares = hd_malloc(sizeof(t_rotated_square) * 1);
 	angle_idx = 0;
-	while (angle_idx < 36000)
+	while (angle_idx < 1)
 	{
 		angle = angle_idx / 100.0;
 		ft_rotate_square(&squares[angle_idx], angle, MINIMAP_TILE_SIZE);

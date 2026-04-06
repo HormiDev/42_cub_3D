@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/19 14:26:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 17:15:37 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,12 @@ void ft_move_player(t_game *game, double move_x, double move_y)
 	game->player->position.y = move_y;
 }
 
-void ft_move_direction(t_game *game, double angle, double move_speed)
+void ft_move_direction(t_game *game, double angle, double move_speed, int player_index)
 {
 	t_raycast ray;
 	t_raycast colision_ray[4];
 
+	game->actions[player_index].walk = 1;
 	angle = ft_normalize_angle(angle);
 	ft_raycast(game, angle, &ray, move_speed * game->delta_time);
 	if (ray.type == -1)
