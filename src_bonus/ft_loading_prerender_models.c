@@ -108,5 +108,5 @@ t_prerender_model	*ft_init_prerender_model(t_game *game, int n_frames, int n_ang
 
 void	ft_loading_prerender_models(t_game *game)
 {
-	game->alien_prerender = ft_init_prerender_model(game, 1, 36, "textures/prerender/");
+	game->alien_prerender = ft_init_prerender_model(game, 1, 1, "textures/prerender/");
 }

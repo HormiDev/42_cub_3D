@@ -150,10 +150,10 @@ int	ft_mouse_click(int button, int x, int y, t_game *game)
                 ft_click_button(game, &game->menu_settings);
             }
         }
-        /*else
+        else
         {
             flamethrower(game, game->kb_player);
-        }*/
+        }
     }
     return (0);
 }

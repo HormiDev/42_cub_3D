@@ -86,11 +86,11 @@
 # define G				103
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 3840
+#  define WINDOW_WIDTH 960
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 2160
+#  define WINDOW_HEIGHT 720
 # endif
 
 # define MENU_HEIGHT 720
@@ -261,13 +261,15 @@ typedef struct s_gamepad {
 	int	y;
 	int	lb;
 	int	rb;
+	int	rt;
 	int	left_stick_x;
 	int	left_stick_y;
 	int	right_stick_x;
 	int	right_stick_y;
 	int right_stick_click;
 	int a_pressed;
-    int b_pressed;
+	int b_pressed;
+	int rt_pressed;
 } t_gamepad;
 
 typedef enum e_input_device
