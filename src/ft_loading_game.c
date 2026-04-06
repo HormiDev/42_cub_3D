@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/17 23:56:19 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 03:14:02 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ void	ft_build_array_textures(t_game *game)
 	while (i < 4)
 	{
 		list = game->textures[i];
-		game->length_textures_array[i] = ft_lstsize(list);
-		if (game->length_textures_array[i] > 0)
+		game->larraytex[i] = ft_lstsize(list);
+		if (game->larraytex[i] > 0)
 		{
-			game->arraytextures[i] = hd_calloc(game->length_textures_array[i],
+			game->arraytextures[i] = hd_calloc(game->larraytex[i],
 					sizeof(t_texture *));
 			j = 0;
 			while (list)

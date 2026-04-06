@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/06 00:41:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 01:48:25 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int				ft_check_map_closed(t_game *game);
 // Map transitable generation and printing
 void			ft_create_map_transitable(t_game *game);
 void			ft_print_transitable_map(t_game *game);
-
+void			ft_create_map_transitable_aux(t_game *game);
 // XPM parsing
 void			check_arguments_xpm(char *path);
 
@@ -263,8 +263,6 @@ void			ft_init_resolutions(t_game *game);
 void			ft_next_resolution(void *game_ptr);
 void			ft_previous_resolution(void *game_ptr);
 void			ft_loading_render(t_game *game, int render_height, int render_width);
-void			ft_decrease_players(void *game_ptr);
-void			ft_increase_players(void *game_ptr);
 
 void			ft_scale_t_image_precalc_two(t_texture *tex_origin,
 		t_texture *text_destiny, t_game *game, int player);
@@ -331,4 +329,13 @@ void	ft_debug_print_visited(t_game *game, int visited[128][64]);
 void	ft_debug_print_path(t_game *game, t_vector_int *path, int path_len, t_vector_int start, t_vector_int goal);
 
 void	ft_menu_button(void *game_ptr);
+// ============================================================================
+// MENU BUTTON FUNCTIONS
+// ============================================================================
+void			ft_decrease_players(void *game_ptr);
+void			ft_increase_players(void *game_ptr);
+void			ft_decrease_charges(void *game_ptr);
+void			ft_increase_charges(void *game_ptr);
+void			ft_decrease_timer(void *game_ptr);
+void			ft_increase_timer(void *game_ptr);
 #endif

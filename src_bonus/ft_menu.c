@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/05 19:56:41 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 03:02:06 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void	ft_update_menu(t_game *game)
 {
 	char resolution[12];
 	char players[20];
+	char charges[20];
+	char timer[20];
 
 	audio_play_menu(game, "music&sounds/menu.wav");
 	ft_draw_menu_background(game);
@@ -94,6 +96,12 @@ void	ft_update_menu(t_game *game)
 		ft_snprintf(players, sizeof(players), "players %d", game->config.n_players);
 		ft_draw_string_hud(game->menu_settings.render, game->font, players,
 			&(t_vector_int){MENU_WIDTH / 2 - (6 * 6 * ft_strlen(players) / 2), 210}, 6);
+		ft_snprintf(charges, sizeof(charges), "charges %d", game->config.charges);
+		ft_draw_string_hud(game->menu_settings.render, game->font, charges,
+			&(t_vector_int){MENU_WIDTH / 2 - (6 * 6 * ft_strlen(charges) / 2), 310}, 6);
+		ft_snprintf(timer, sizeof(timer), "timer %d", game->durations[game->config.duration_index]);
+		ft_draw_string_hud(game->menu_settings.render, game->font, timer,
+			&(t_vector_int){MENU_WIDTH / 2 - (6 * 6 * ft_strlen(timer) / 2), 410}, 6);
 	}
 	ft_draw_string_hud(game->menu.render, game->font, "42 cub3d by hormidev and ismaelucky342", 
 		&(t_vector_int){10, MENU_HEIGHT - 30}, 2);

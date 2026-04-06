@@ -6,31 +6,46 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:51 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:39 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 01:29:59 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
-static void	ft_alloc_game_map(t_game *game)
+#include "../../includes/cub_3d_bonus.h"
+
+/**
+ * @brief Alloca memoria para el mapa transitable.
+ *
+ * @param game estructura del juego.
+ */
+static void	ft_alloc_map_transitable(t_game *game)
 {
+	int	i;
 	int	rows;
 	int	cols;
-	int	i;
 
 	rows = game->width_height[1];
 	cols = game->width_height[0];
-	game->map = hd_calloc(rows + 1, sizeof(char *));
+	game->map_transitable_aux = hd_calloc(rows + 1, sizeof(char *));
 	i = 0;
 	while (i < rows)
 	{
-		game->map[i] = hd_calloc(cols + 1, sizeof(char));
+		game->map_transitable_aux[i] = hd_calloc(cols + 1, sizeof(char));
 		i++;
 	}
-	game->map[rows] = NULL;
+	game->map_transitable_aux[rows] = NULL;
 }
 
-static void	ft_fill_game_map(t_game *game, t_file *map_file, const int *height_start_end, const int *width_start_end)
+/**
+ * @brief Llena el mapa transitable marcando puntos caminables.
+ *
+ * Marca espacios abiertos como '0' (transitables, base para mapa de calor)
+ * y muros/puertas como '1' (no transitables).
+ *
+ * @param game estructura del juego.
+ */
+static void	ft_fill_map_transitable(t_game *game)
 {
 	int	i;
 	int	j;
@@ -42,21 +57,37 @@ static void	ft_fill_game_map(t_game *game, t_file *map_file, const int *height_s
 	i = 0;
 	while (i < rows)
 	{
-		ft_strncpy(game->map[i], &(map_file->array_content)[height_start_end[0] + i][width_start_end[0]], cols);
 		j = 0;
 		while (j < cols)
 		{
-			if (game->map[i][j] == '\n')
-				game->map[i][j] = '\0';
+			if (game->map[i][j] == '0' || game->map[i][j] == 'N' 
+				|| game->map[i][j] == 'S' || game->map[i][j] == 'E' 
+				|| game->map[i][j] == 'W'|| game->map[i][j] == 'D')
+				game->map_transitable_aux[i][j] = '0';
+			else
+				game->map_transitable_aux[i][j] = '1';
 			j++;
 		}
 		i++;
 	}
 }
 
-void	ft_create_map_transitable(t_game *game, t_file *map_file, const int *height_start_end, const int *width_start_end)
+/**
+ * @brief Crea una copia del mapa marcando puntos transitables.
+ *
+ * Copia el mapa original y marca todos los espacios abiertos como '0',
+ * y todos los muros/puertas como '1'. Esto facilita crear un mapa de calor
+ * donde los '0s' pueden incrementarse (1, 2, 3...) según la presencia de jugadores.
+ *
+ * @param game estructura del juego.
+ */
+void	ft_create_map_transitable_aux(t_game *game)
 {
-	ft_alloc_game_map(game);
-	ft_fill_game_map(game, map_file, height_start_end, width_start_end);
+	if (!game || !game->map)
+		return ;
+	
+	ft_alloc_map_transitable(game);
+	ft_fill_map_transitable(game);
 }
+
 

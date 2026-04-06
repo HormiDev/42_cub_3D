@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/03 20:28:17 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 03:27:12 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,17 @@ void draw_background(t_game *game)
 static t_texture *get_texture_for_wall(t_game *game, t_raycast *ray)
 {
 	if (ray->type == 0 || ray->type == 3)
-		return (game->arraytextures[ray->type][((int)(ray->impact.x) + (int)(ray->impact.y)) % game->length_textures_array[ray->type]]);
-	return(game->arraytextures[ray->type][game->length_textures_array[ray->type] - 1 - (((int)(ray->impact.x) + (int)(ray->impact.y)) % game->length_textures_array[ray->type])]);
+		return (game->arraytextures[ray->type][((int)(ray->impact.x) + (int)(ray->impact.y)) % game->larraytex[ray->type]]);
+	return(game->arraytextures[ray->type][game->larraytex[ray->type] - 1 - (((int)(ray->impact.x) + (int)(ray->impact.y)) % game->larraytex[ray->type])]);
 }
 
 static t_texture *get_texture_for_ceiling(t_game *game, t_vector2 *pos)
 {
 	int texture_num;
 
-	texture_num = ((int)pos->x + (int)pos->y) % game->length_textures_array[5];
+	texture_num = ((int)pos->x + (int)pos->y) % game->larraytex[5];
 	if (texture_num < 0)
-		texture_num += game->length_textures_array[5];
+		texture_num += game->larraytex[5];
 	//ft_printf(" %d ", texture_num);
 	return (game->arraytextures[5][texture_num]);
 }
@@ -62,9 +62,9 @@ static t_texture *get_texture_for_floor(t_game *game, t_vector2 *pos)
 {
 	int texture_num;
 
-	texture_num = ((int)pos->x + (int)pos->y) % game->length_textures_array[4];
+	texture_num = ((int)pos->x + (int)pos->y) % game->larraytex[4];
 	if (texture_num < 0)
-		texture_num += game->length_textures_array[4];
+		texture_num += game->larraytex[4];
 	return (game->arraytextures[4][texture_num]);
 }
 

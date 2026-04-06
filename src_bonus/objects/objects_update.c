@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:25 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 00:51:11 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 01:53:55 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,47 @@ void	ft_update_aliens(t_game *game)
 	ft_check_game_end(game);
 }
 
-/**
- * @brief Cuenta puntos caminables ('0') en el mapa_original.
- */
-static int	ft_count_walkable_points(t_game *game)
+static void	ft_set_alien_pos(t_game *game, t_vector2 pos)
+{
+    if (!game || !game->players[4].active)
+        return ;
+    game->players[4].position = pos;
+}
+
+
+static void ft_mark_player_areas(t_game *game)
+{
+	int	i;
+    int	x;
+    int	y;
+    int	diagonal;
+
+    diagonal = (int)MAX_RAY_SIZE;
+    i = 0;
+    while (i < game->config.n_players)
+    {
+        if (game->players[i].active && game->players[i].alive)
+        {
+            y = (int)game->players[i].position.y - diagonal;
+            while (y <= (int)game->players[i].position.y + diagonal
+                && y >= 0 && y < game->width_height[1])
+            {
+                x = (int)game->players[i].position.x - diagonal;
+                while (x <= (int)game->players[i].position.x + diagonal
+                    && x >= 0 && x < game->width_height[0])
+                {
+                    game->map_transitable_aux[y][x] = '1';
+                    x++;
+                }
+                y++;
+            }
+        }
+        i++;
+    }
+}
+
+
+int ft_aviable_positions(t_game *game)
 {
 	int	i;
 	int	j;
@@ -115,7 +152,7 @@ static int	ft_count_walkable_points(t_game *game)
 		j = 0;
 		while (j < game->width_height[0])
 		{
-			if (game->map_transitable[i][j] == '0')
+			if (game->map_transitable_aux[i][j] == '0')
 				count++;
 			j++;
 		}
@@ -124,10 +161,7 @@ static int	ft_count_walkable_points(t_game *game)
 	return (count);
 }
 
-/**
- * @brief Obtiene la posición del n-ésimo punto caminable en map_heatmap.
- */
-static int	ft_get_walkable_point(t_game *game, int index, t_vector2 *pos)
+static int ft_get_random_position(t_game *game, int indez, t_vector2 *pos)
 {
 	int	i;
 	int	j;
@@ -140,9 +174,9 @@ static int	ft_get_walkable_point(t_game *game, int index, t_vector2 *pos)
 		j = 0;
 		while (j < game->width_height[0])
 		{
-			if (game->map_transitable[i][j] == '0')
+			if (game->map_transitable_aux[i][j] == '0')
 			{
-				if (count == index)
+				if (count == indez)
 				{
 					pos->x = j + 0.5;
 					pos->y = i + 0.5;
@@ -154,55 +188,7 @@ static int	ft_get_walkable_point(t_game *game, int index, t_vector2 *pos)
 		}
 		i++;
 	}
-	return (0);
-}
-
-/**
- * @brief Verifica si una posición está dentro del área de exclusión de algún player.
- *
- * Itera sobre todos los jugadores activos y comprueba si la distancia desde
- * la posición dada es menor que MAX_RAY_SIZE (radio de exclusión).
- *
- * @param game estructura del juego.
- * @param pos posición a validar.
- * @return 1 si está dentro de algún área de player, 0 si está libre.
- */
-static int	ft_is_in_player_area(t_game *game, t_vector2 pos)
-{
-    int	k;
-
-    k = 0;
-    while (k < game->config.n_players)
-    {
-        if (game->players[k].active && game->players[k].alive)
-        {
-            if (ft_vector_distance(game->players[k].position, pos) < MAX_RAY_SIZE)
-                return (1);
-        }
-        k++;
-    }
-    return (0);
-}
-
-/**
- * @brief Actualiza la posición del alien y recarga su textura en el juego.
- *
- * Asigna las coordenadas nuevas al alien (índice 4 en el array de jugadores),
- * actualiza su orientación inicial a 0 radianes, marca como vivo y recarga
- * la textura desde cero para garantizar que aparezca correctamente en pantalla.
- *
- * @param game estructura del juego donde se actualiza el alien.
- * @param pos nuevas coordenadas (x, y) para el alien.
- */
-static void	ft_set_alien_pos(t_game *game, t_vector2 pos)
-{
-	t_player	*alien;
-
-	alien = &game->players[4];
-	alien->position.x = pos.x;
-	alien->position.y = pos.y;
-	alien->active = 1;
-	alien->state = ALIEN_IDLE;
+	return (0);	
 }
 
 /**
@@ -217,33 +203,38 @@ static void	ft_set_alien_pos(t_game *game, t_vector2 pos)
  */
 void	ft_respawn_alien(t_game *game)
 {
-    int			count;
-    int			random_idx;
-    t_vector2	pos;
-    int			attempts;
+    int i; 
+	int j; 
+	int avaiable_count;
+	int random_idx;
+	t_vector2 pos;
 
-    if (!game || !game->map_transitable)
+	if(!game || !game->map_transitable || !game->map_transitable_aux)
         return ;
-    count = ft_count_walkable_points(game);
-    if (count == 0)
-        return ;
-    attempts = 0;
-    while (attempts < count)
+	i = 0;
+    while (i < game->width_height[1])
     {
-        random_idx = rand() % count;
-        if (ft_get_walkable_point(game, random_idx, &pos))
+        j = 0;
+        while (j < game->width_height[0])
         {
-            if (!ft_is_in_player_area(game, pos))
-            {
-                ft_set_alien_pos(game, pos);
-                return ;
-            }
+            game->map_transitable_aux[i][j] = game->map_transitable[i][j];
+            j++;
         }
-        attempts++;
+        i++;
     }
-    random_idx = rand() % count;
-    if (ft_get_walkable_point(game, random_idx, &pos))
-        ft_set_alien_pos(game, pos);
+	ft_mark_player_areas(game);
+	avaiable_count = ft_aviable_positions(game);
+	if (avaiable_count > 0)
+	{
+		random_idx = ft_get_time() % avaiable_count;
+        ft_get_random_position(game, random_idx, &pos);
+	}
+	else
+	{
+		random_idx = ft_get_time() % ft_aviable_positions(game);
+        ft_get_random_position(game, random_idx, &pos);
+	}
+	ft_set_alien_pos(game, pos);	
 }
 
 /**

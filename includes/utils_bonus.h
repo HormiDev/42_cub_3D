@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/06 00:51:11 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 03:14:02 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -391,6 +391,7 @@ typedef struct s_config
 	int	render_mist;
 	int	sound_effects;
 	int	duration_index;
+	int	charges;
 } t_config;
 
 typedef struct s_game 
@@ -398,6 +399,7 @@ typedef struct s_game
 	char				**map;
 	char				**map_heatmap;
 	char				**map_transitable;
+	char				**map_transitable_aux;
 	int					width_height[2];
 	int					bfs_queue_size;
 	int					bfs_parent_size;
@@ -405,7 +407,7 @@ typedef struct s_game
 	int					bfs_visited_height;
 	t_list				*textures[6];
 	t_texture 			**arraytextures[6];
-	int					length_textures_array[6];
+	int					larraytex[6];
 	t_list				*doors;
 	t_texture			**door_textures;
 	int					door_texture_count;

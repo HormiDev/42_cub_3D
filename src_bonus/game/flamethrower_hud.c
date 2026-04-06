@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:20 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 01:20:07 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_render_flamethrower_hud(t_game *game, int player_index)
     
     pos.x = game->render->width - (game->render->width / 3);
     pos.y = 10;
-    ft_sprintf(str_charges, "CHARGES:%d / 3", actions->flamethrower_charges);
+    ft_sprintf(str_charges, "CHARGES:%d / %d", actions->flamethrower_charges, game->config.charges);
     ft_draw_string_hud(game->render, game->font, str_charges, &pos, 1);
     
     if (actions->flamethrower_cooldown_remaining > 0)

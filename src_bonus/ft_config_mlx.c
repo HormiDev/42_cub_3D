@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 00:42:30 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/03 14:26:01 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/06 00:59:22 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,4 @@ void	ft_config_mlx(t_game *game)
 {
 	ft_init_mlx_window(game);
 	ft_setup_mlx_hooks(game);
-	srand(ft_get_time() / 1000);
 }
