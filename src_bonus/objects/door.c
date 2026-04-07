@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:08 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 11:16:52 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ static t_door	*ft_create_door(int x, int y)
 	door->state = DOOR_CLOSED;
 	door->animation_progress = 0.0;
 	door->trigger_distance = 3.0;
+	door->auto_reopen_delay = 2.0;
+	door->auto_reopen_timer = -1.0;
 	door->texture_index = 0;
 	return (door);
 }
@@ -79,6 +81,20 @@ void	ft_animate_door(t_door *door, double delta_time)
 	}
 }
 
+static void	ft_update_door_auto_reopen(t_door *door, double delta_time)
+{
+	if (door->state != DOOR_CLOSED)
+		return ;
+	if (door->auto_reopen_timer < 0.0)
+		return ;
+	door->auto_reopen_timer -= delta_time;
+	if (door->auto_reopen_timer <= 0.0)
+	{
+		door->auto_reopen_timer = -1.0;
+		door->state = DOOR_OPENING;
+	}
+}
+
 void	ft_update_doors(t_game *game)
 {
 	t_list	*current;
@@ -89,6 +105,7 @@ void	ft_update_doors(t_game *game)
 	{
 		door = (t_door *)current->content;
 		ft_animate_door(door, game->delta_time);
+		ft_update_door_auto_reopen(door, game->delta_time);
 		current = current->next;
 	}
 }

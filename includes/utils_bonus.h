@@ -6,7 +6,7 @@
 /*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/07 00:45:06 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 11:16:39 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -381,6 +381,8 @@ typedef struct s_door
 	t_door_state	state;
 	double			animation_progress;
 	double			trigger_distance;
+	double			auto_reopen_delay;
+	double			auto_reopen_timer;
 	int				texture_index;
 } t_door;
 

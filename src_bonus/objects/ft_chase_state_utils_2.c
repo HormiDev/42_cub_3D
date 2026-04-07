@@ -6,7 +6,7 @@
 /*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:08 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 01:04:17 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 01:34:03 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_is_blocking_tile(t_game *game, int x, int y)
 {
 	if (x < 0 || x >= game->width_height[0] || y < 0 || y >= game->width_height[1])
 		return (1);
-	if (game->map_heatmap[y][x] == -1)
+	if (ft_is_wall_or_closed_door(game, x, y))
 		return (1);
 	return (0);
 }

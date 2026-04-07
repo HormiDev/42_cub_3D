@@ -41,7 +41,7 @@ int	ft_bfs_is_valid_tile(t_game *game, t_bfs *bfs, t_vector_int next)
 		return (0);
 	if (bfs->visited[next.y][next.x])
 		return (0);
-	if (game->map_heatmap[next.y][next.x] == -1)
+	if (ft_is_wall_or_closed_door(game, next.x, next.y))
 		return (0);
 	return (1);
 }

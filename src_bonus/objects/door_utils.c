@@ -6,7 +6,7 @@
 /*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:21:55 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 23:21:42 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 11:16:52 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,34 @@ static void	ft_trigger_door(t_door *door, double distance)
 	}
 }
 
+static int	ft_is_player_near_door(t_player *player, t_door *door)
+{
+	double	distance;
+
+	if (!player || !player->active || !player->alive)
+		return (0);
+	distance = ft_distance_to_door(player->position, door);
+	if (distance < door->trigger_distance)
+		return (1);
+	return (0);
+}
+
+static int	ft_any_player_near_door(t_game *game, t_door *door)
+{
+	int	i;
+
+	if (ft_is_player_near_door(game->player, door))
+		return (1);
+	i = 0;
+	while (i < game->config.n_players)
+	{
+		if (ft_is_player_near_door(&game->players[i], door))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	ft_try_toggle_door(t_game *game)
 {
 	t_vector_int	door_tile;
@@ -93,9 +121,15 @@ int	ft_try_toggle_door(t_game *game)
 	if (distance > door->trigger_distance)
 		return (0);
 	if (door->state == DOOR_CLOSED || door->state == DOOR_CLOSING)
+	{
 		door->state = DOOR_OPENING;
+		door->auto_reopen_timer = -1.0;
+	}
 	else if (door->state == DOOR_OPEN || door->state == DOOR_OPENING)
+	{
 		door->state = DOOR_CLOSING;
+		door->auto_reopen_timer = door->auto_reopen_delay;
+	}
 	return (1);
 }
 
@@ -103,14 +137,17 @@ void	ft_check_door_triggers(t_game *game)
 {
 	t_list	*current;
 	t_door	*door;
-	double	distance;
+	int		near_player;
 
 	current = game->doors;
 	while (current)
 	{
 		door = (t_door *)current->content;
-		distance = ft_distance_to_door(game->player->position, door);
-		ft_trigger_door(door, distance);
+		near_player = ft_any_player_near_door(game, door);
+		if (near_player)
+			ft_trigger_door(door, 0.0);
+		else
+			ft_trigger_door(door, door->trigger_distance + 1.0);
 		current = current->next;
 	}
 }
