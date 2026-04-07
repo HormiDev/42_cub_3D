@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_paint.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:22:54 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 21:22:45 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,11 @@ void draw_background(t_game *game)
  */
 static t_texture *get_texture_for_wall(t_game *game, t_raycast *ray)
 {
-	if (ray->type == 0 || ray->type == 3)
+	if (ray->type == WALL_NO || ray->type == WALL_WE)
 		return (game->arraytextures[ray->type][((int)(ray->impact.x) + (int)(ray->impact.y)) % game->larraytex[ray->type]]);
-	return(game->arraytextures[ray->type][game->larraytex[ray->type] - 1 - (((int)(ray->impact.x) + (int)(ray->impact.y)) % game->larraytex[ray->type])]);
+	else if (ray->type == WALL_SO || ray->type == WALL_EA)
+		return(game->arraytextures[ray->type][game->larraytex[ray->type] - 1 - (((int)(ray->impact.x) + (int)(ray->impact.y)) % game->larraytex[ray->type])]);
+	return (game->arraytextures[6][0]);
 }
 
 static t_texture *get_texture_for_ceiling(t_game *game, t_vector2 *pos)
@@ -106,16 +108,16 @@ int ft_calc_texture_x(t_raycast *ray, t_texture *texture)
 {
 	int texture_x;
 
-	if (ray->type == WALL_NO || ray->type == WALL_SO)
+	if (ray->type == WALL_NO || ray->type == WALL_SO || ray->type == DOOR_NO || ray->type == DOOR_SO)
 	{
 		texture_x = (int)((ray->impact.x - (int)ray->impact.x) * texture->width);
-		if (ray->type == WALL_SO)
+		if (ray->type == WALL_SO || ray->type == DOOR_SO)
 			texture_x = texture->width - texture_x - 1; // Invertir para el sur
 	}
 	else
 	{
 		texture_x = (int)((ray->impact.y - (int)ray->impact.y) * texture->width);
-		if (ray->type == WALL_EA)
+		if (ray->type == WALL_EA || ray->type == DOOR_EA)
 			texture_x = texture->width - texture_x - 1; // Invertir para el este
 	}
 	return texture_x;
@@ -173,7 +175,7 @@ void draw_column(t_game *game, int x, t_raycast *ray)
 	int				last_texture_pixel;
 	int				height_mid;
 
-	if (ray->type < 0 || ray->type > 3 || ray->distance <= 0.0)
+	if (ray->type < 0 || ray->type > 7 || ray->distance <= 0.0)
 		return (draw_ceiling_and_floor(game, x, game->mist_cloud_height));
 	wall_height = ft_calculate_wall_height(ray, x, game);
 	if (wall_height <= 0)

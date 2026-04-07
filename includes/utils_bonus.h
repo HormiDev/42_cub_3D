@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/07 18:11:33 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 22:09:05 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,15 +125,17 @@ typedef enum e_wall_direction
 	WALL_NO = 0,
 	WALL_SO = 1,
 	WALL_EA = 2,
-	WALL_WE = 3
+	WALL_WE = 3,
+	DOOR_NO = 4,
+	DOOR_SO = 5,
+	DOOR_EA = 6,
+	DOOR_WE = 7
 } t_wall_direction;
 
 typedef enum e_door_state
 {
 	DOOR_CLOSED = 0,
-	DOOR_OPENING = 1,
-	DOOR_OPEN = 2,
-	DOOR_CLOSING = 3
+	DOOR_OPEN = 1
 } t_door_state;
 
 typedef enum e_alien_state
@@ -383,7 +385,6 @@ typedef struct s_door
 	t_vector_int	position;
 	t_door_state	state;
 	double			animation_progress;
-	double			trigger_distance;
 	double			auto_reopen_delay;
 	double			auto_reopen_timer;
 	int				texture_index;
@@ -415,12 +416,10 @@ typedef struct s_game
 	int					bfs_parent_size;
 	int					bfs_visited_width;
 	int					bfs_visited_height;
-	t_list				*textures[6];
-	t_texture 			**arraytextures[6];
-	int					larraytex[6];
+	t_list				*textures[7];
+	t_texture 			**arraytextures[7];
+	int					larraytex[7];
 	t_list				*doors;
-	t_texture			**door_textures;
-	int					door_texture_count;
 	void				*mlx;
 	t_raycast			*raycasts; 
 	void				*window;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:08 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 11:16:52 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 22:14:11 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ static t_door	*ft_create_door(int x, int y)
 	door->position.x = x;
 	door->position.y = y;
 	door->state = DOOR_CLOSED;
-	door->animation_progress = 0.0;
-	door->trigger_distance = 3.0;
-	door->auto_reopen_delay = 2.0;
+	door->auto_reopen_delay = 5.0;
 	door->auto_reopen_timer = -1.0;
 	door->texture_index = 0;
 	return (door);
@@ -59,29 +57,7 @@ void	ft_init_doors(t_game *game)
 	}
 }
 
-void	ft_animate_door(t_door *door, double delta_time)
-{
-	if (door->state == DOOR_OPENING)
-	{
-		door->animation_progress += delta_time * 2.0;
-		if (door->animation_progress >= 1.0)
-		{
-			door->animation_progress = 1.0;
-			door->state = DOOR_OPEN;
-		}
-	}
-	else if (door->state == DOOR_CLOSING)
-	{
-		door->animation_progress -= delta_time * 2.0;
-		if (door->animation_progress <= 0.0)
-		{
-			door->animation_progress = 0.0;
-			door->state = DOOR_CLOSED;
-		}
-	}
-}
-
-static void	ft_update_door_auto_reopen(t_door *door, double delta_time)
+static void	ft_update_door_auto_reopen(t_game *game, t_door *door, double delta_time)
 {
 	if (door->state != DOOR_CLOSED)
 		return ;
@@ -91,7 +67,8 @@ static void	ft_update_door_auto_reopen(t_door *door, double delta_time)
 	if (door->auto_reopen_timer <= 0.0)
 	{
 		door->auto_reopen_timer = -1.0;
-		door->state = DOOR_OPENING;
+		door->state = DOOR_OPEN;
+		game->map[door->position.y][door->position.x] = 'd';
 	}
 }
 
@@ -104,8 +81,7 @@ void	ft_update_doors(t_game *game)
 	while (current)
 	{
 		door = (t_door *)current->content;
-		ft_animate_door(door, game->delta_time);
-		ft_update_door_auto_reopen(door, game->delta_time);
+		ft_update_door_auto_reopen(game, door, game->delta_time);
 		current = current->next;
 	}
 }

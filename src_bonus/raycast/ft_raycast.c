@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/07 17:24:19 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 21:27:39 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,32 @@ void	ft_ray_type(t_raycast *ray, int cuadrant, int up_right)
 			ray->type = WALL_WE;
 		else
 			ray->type = WALL_SO;
+	}
+}
+
+void	ft_ray_type_door(t_raycast *ray, int cuadrant, int up_right)
+{
+	if (up_right == 0)
+	{
+		if (cuadrant == 0)
+			ray->type = DOOR_NO;
+		else if (cuadrant == 1)
+			ray->type = DOOR_WE;
+		else if (cuadrant == 2)
+			ray->type = DOOR_SO;
+		else
+			ray->type = DOOR_EA;
+	}
+	else
+	{
+		if (cuadrant == 0)
+			ray->type = DOOR_EA;
+		else if (cuadrant == 1)
+			ray->type = DOOR_NO;
+		else if (cuadrant == 2)
+			ray->type = DOOR_WE;
+		else
+			ray->type = DOOR_SO;
 	}
 }
 
@@ -75,18 +101,24 @@ static int	ft_raycast_vertical(t_game *game, int *tile_ray_xy,
 	int cuadrant, t_raycast *ray, t_vector2 *distance,
 	double *sin_cos, double max_size, double aux_distance)
 {
+	int	wall_or_dor;
+
 	if (distance->x > max_size + 1)
 	{
 		ft_raycast_max_size(sin_cos[2], ray, max_size, cuadrant);
 		return (1);
 	}
 	ft_ray_iter_up(tile_ray_xy, cuadrant, 1);
-	if (ft_is_wall_or_closed_door(game, tile_ray_xy[0], tile_ray_xy[1]))
+	wall_or_dor = ft_is_wall_or_closed_door(game, tile_ray_xy[0], tile_ray_xy[1]);
+	if (wall_or_dor)
 	{
 		ft_rotate_to_cuadrant(cuadrant, &aux_distance, &distance->y);
 		ft_calc_ray_position(ray, &ray->origin_position,
 			aux_distance, distance->y);
-		ft_ray_type(ray, cuadrant, 0);
+		if (wall_or_dor == 1)
+			ft_ray_type(ray, cuadrant, 0);
+		else
+			ft_ray_type_door(ray, cuadrant, 0);
 		if (ray->distance > max_size)
 			ft_raycast_max_size(sin_cos[2], ray, max_size, cuadrant);
 		return (1);
@@ -98,19 +130,25 @@ static int	ft_raycast_horizontal(t_game *game, int *tile_ray_xy,
 	int cuadrant, t_raycast *ray, t_vector2 *distance,
 	double *sin_cos, double max_size, double aux_distance)
 {
+	int	wall_or_dor;
+
 	if (distance->y > max_size + 1)
 	{
 		ft_raycast_max_size(sin_cos[2], ray, max_size, cuadrant);
 		return (1);
 	}
 	ft_ray_iter_right(tile_ray_xy, cuadrant, 1);
-	if (ft_is_wall_or_closed_door(game, tile_ray_xy[0], tile_ray_xy[1]))
+	wall_or_dor = ft_is_wall_or_closed_door(game, tile_ray_xy[0], tile_ray_xy[1]);
+	if (wall_or_dor)
 	{
 		distance->y = aux_distance;
 		ft_rotate_to_cuadrant(cuadrant, &distance->x, &distance->y);
 		ft_calc_ray_position(ray, &(ray->origin_position),
 			distance->x, distance->y);
-		ft_ray_type(ray, cuadrant, 1);
+		if (wall_or_dor == 1)
+			ft_ray_type(ray, cuadrant, 1);
+		else
+			ft_ray_type_door(ray, cuadrant, 1);
 		if (ray->distance > max_size)
 			ft_raycast_max_size(sin_cos[2], ray, max_size, cuadrant);
 		return (1);

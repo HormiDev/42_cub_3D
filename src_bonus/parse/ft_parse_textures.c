@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_parse_textures.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:10 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 19:59:56 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ t_texture	*ft_create_texture(t_game *game, char *line)
  * @param line Línea que contiene la definición de la textura de pared.
  * BONUS: Modificar 
  */
-static void	ft_parse_floor_ceiling(t_game *game, char *line)
+static void	ft_parse_floor_ceiling_door(t_game *game, char *line)
 {
 	t_texture *new_tex;
 
@@ -99,6 +99,11 @@ static void	ft_parse_floor_ceiling(t_game *game, char *line)
 	{
 		new_tex = ft_create_texture(game, line);
 		ft_lstadd_back(&game->textures[5], hd_alloc(ft_lstnew(new_tex), free));
+	}
+	else if (ft_strncmp_p(line, "D", 1) == 0)
+	{
+		new_tex = ft_create_texture(game, line);
+		ft_lstadd_back(&game->textures[6], hd_alloc(ft_lstnew(new_tex), free));
 	}
 }
 
@@ -136,7 +141,7 @@ void ft_parse_texture_line(t_game *game, char *line)
 		ft_lstadd_back(&game->textures[WALL_EA], hd_alloc(ft_lstnew(new_tex), free));
 	}
 	else
-		ft_parse_floor_ceiling(game, line);
+		ft_parse_floor_ceiling_door(game, line);
 }
 
 
@@ -145,7 +150,7 @@ void ft_parse_texture_line(t_game *game, char *line)
  * @brief Parsea todas las definiciones de texturas y colores desde el archivo del mapa.
  *
  * Recorre cada línea del archivo del mapa, identifica las definiciones de texturas y colores
- * (NO, SO, WE, EA, F, C), y las añade a las listas o campos correspondientes en la estructura del juego.
+ * (NO, SO, WE, EA, F, C, D), y las añade a las listas o campos correspondientes en la estructura del juego.
  *
  * @param game estructura del juego donde se almacenarán las texturas y colores.
  * @param map_file estructura de archivo que contiene el contenido del mapa como un arreglo de cadenas.

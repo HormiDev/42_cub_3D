@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_loading_game.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 20:39:36 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_build_array_textures(t_game *game)
 	int		j;
 
 	i = 0;
-	while (i < 6)
+	while (i < 7)
 	{
 		list = game->textures[i];
 		game->larraytex[i] = ft_lstsize(list);

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:41 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:39 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 20:13:16 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ bool is_directive_line(char *line)
 	int i;
 
 	i = 0;
-    const char *dirs[6] = {"NO ", "SO ", "EA ", "WE ", "F ", "C "};
-    while (i < 6)
+    const char *dirs[7] = {"NO ", "SO ", "EA ", "WE ", "F ", "C ", "D "};
+    while (i < 7)
     {
         if (ft_strncmp_p(line, dirs[i], ft_strlen(dirs[i])) == 0)
             return true;
@@ -69,10 +69,10 @@ bool is_only_spaces(const char *line)
  * @param found Arreglo de booleanos indicando si cada directiva fue encontrada.
  * @param dirs Arreglo de cadenas con los nombres de las directivas requeridas.
  */
-static void check_all_directives_found(bool found[6], const char *dirs[6])
+static void check_all_directives_found(bool found[7], const char *dirs[7])
 {
 	int k = 0;
-	while (k < 6)
+	while (k < 7)
 	{
 		if (!found[k])
 		{
@@ -83,12 +83,12 @@ static void check_all_directives_found(bool found[6], const char *dirs[6])
 	}
 }
 
-static void update_found_directive(char *line, bool found[6], const char *dirs[6])
+static void update_found_directive(char *line, bool found[7], const char *dirs[7])
 {
 	int k;
 
 	k = 0;
-	while (k < 6)
+	while (k < 7)
 	{
 		if (ft_strncmp_p(line, dirs[k], ft_strlen(dirs[k])) == 0)
 		{
@@ -99,7 +99,7 @@ static void update_found_directive(char *line, bool found[6], const char *dirs[6
 	}
 }
 
-static int find_map_start_index(t_file *map_file, bool found[6], const char *dirs[6])
+static int find_map_start_index(t_file *map_file, bool found[7], const char *dirs[7])
 {
 	int		i;
 
@@ -119,8 +119,8 @@ static int find_map_start_index(t_file *map_file, bool found[6], const char *dir
 
 int ft_get_map_start_index(t_file *map_file)
 {
-	bool		found[6] = {false, false, false, false, false, false};
-	const char	*dirs[6] = {"NO ", "SO ", "EA ", "WE ", "F ", "C "};
+	bool		found[7] = {false, false, false, false, false, false, false};
+	const char	*dirs[7] = {"NO ", "SO ", "EA ", "WE ", "F ", "C ", "D "};
 	int				i;
 
 	i = find_map_start_index(map_file, found, dirs);

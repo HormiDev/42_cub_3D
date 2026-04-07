@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/07 16:51:16 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 22:12:09 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,18 @@ void			ft_raycast_max_size(double angle, t_raycast *ray, double max_size, int cu
 // RENDER FUNCTIONS
 // ============================================================================
 void			ft_render_3d(t_game *game);
+void			ft_draw_minimap_border(t_game *game);
+void			ft_draw_minimap_background(t_game *game);
+void			ft_draw_player_indicator(t_game *game);
+void			ft_draw_minimap_row(t_game *game, int my);
+void			ft_draw_minimap_tile(t_game *game, int mx, int my);
+void			ft_draw_tile_edges(t_game *game, int mx, int my, int color);
+int				ft_get_tile_color(char tile_char);
+t_vector2		ft_world_corner_to_screen(t_game *game, double wx, double wy);
+void			ft_draw_line_minimap(t_game *game, t_vector2 p1, t_vector2 p2, int color);
 void			ft_map2D(t_game *game);
+void			ft_draw_objects(t_game *game);
+void			ft_draw_minimap_doors(t_game *game);
 void			draw_column(t_game *game, int x, t_raycast *ray);
 void			ft_draw_player(t_game *game);
 void			ft_scale_t_image_precalc(t_texture *tex_origin, t_texture *text_destiny, t_game *game);
@@ -205,7 +216,6 @@ void			ft_render_timer_hud(t_game *game);
 void			ft_init_doors(t_game *game);
 void			ft_update_doors(t_game *game);
 void			ft_check_door_triggers(t_game *game);
-void			ft_animate_door(t_door *door, double delta_time);
 int				ft_is_door(t_game *game, int x, int y);
 t_door			*ft_get_door_at(t_game *game, int x, int y);
 void			ft_free_doors(t_game *game);

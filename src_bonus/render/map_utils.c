@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 13:26:29 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/05 17:32:20 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 21:43:42 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void ft_draw_sq_at(t_game *game, int x, int y, int size, int color)
  * @param size Tamaño del tile a dibujar.
  * @param color Color del tile a dibujar.
  */
-void ft_draw_minimap_tile(t_game *game, int x, int y, int size, int color)
+/*void ft_draw_minimap_tile(t_game *game, int x, int y, int size, int color)
 {
 	int i, j;
 	
@@ -217,4 +217,4 @@ void ft_draw_minimap_tile(t_game *game, int x, int y, int size, int color)
 		}
 		i++;
 	}
-}
+}*/

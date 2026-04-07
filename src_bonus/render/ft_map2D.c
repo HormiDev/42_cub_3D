@@ -6,13 +6,13 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:45 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 19:32:10 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 22:10:49 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
-static void	ft_draw_line_minimap(t_game *game, t_vector2 p1,
+void	ft_draw_line_minimap(t_game *game, t_vector2 p1,
 	t_vector2 p2, int color)
 {
 	t_vector2		delta;
@@ -43,7 +43,7 @@ static void	ft_draw_line_minimap(t_game *game, t_vector2 p1,
 	}
 }
 
-static t_vector2	ft_world_corner_to_screen(t_game *game, double wx, double wy)
+t_vector2	ft_world_corner_to_screen(t_game *game, double wx, double wy)
 {
 	t_vector2	relative;
 	t_vector2	screen;
@@ -63,7 +63,7 @@ static t_vector2	ft_world_corner_to_screen(t_game *game, double wx, double wy)
 	return (screen);
 }
 
-static int	ft_get_tile_color(char tile_char)
+int	ft_get_tile_color(char tile_char)
 {
 	if (tile_char == '1')
 		return (C_ALIEN_GREEN);
@@ -72,7 +72,7 @@ static int	ft_get_tile_color(char tile_char)
 	return (C_BLACK);
 }
 
-static void	ft_draw_tile_edges(t_game *game, int mx, int my, int color)
+void	ft_draw_tile_edges(t_game *game, int mx, int my, int color)
 {
 	t_vector2	corners[4];
 
@@ -86,7 +86,7 @@ static void	ft_draw_tile_edges(t_game *game, int mx, int my, int color)
 	ft_draw_line_minimap(game, corners[3], corners[0], color);
 }
 
-static void	ft_draw_minimap_tile(t_game *game, int mx, int my)
+void	ft_draw_minimap_tile(t_game *game, int mx, int my)
 {
 	int	color;
 
@@ -95,7 +95,7 @@ static void	ft_draw_minimap_tile(t_game *game, int mx, int my)
 		ft_draw_tile_edges(game, mx, my, color);
 }
 
-static void	ft_draw_minimap_row(t_game *game, int my)
+void	ft_draw_minimap_row(t_game *game, int my)
 {
 	int	mx;
 	int	visible_range;
@@ -111,7 +111,7 @@ static void	ft_draw_minimap_row(t_game *game, int my)
 	}
 }
 
-static void	ft_draw_player_indicator(t_game *game)
+void	ft_draw_player_indicator(t_game *game)
 {
 	t_vector_int	p;
 	t_vector_int	d;
@@ -141,7 +141,7 @@ static void	ft_draw_player_indicator(t_game *game)
 		C_ALIEN_PLAYER);
 }
 
-static void	ft_draw_minimap_background(t_game *game)
+void	ft_draw_minimap_background(t_game *game)
 {
 	t_vector_int	p;
 	int				size;
@@ -161,7 +161,7 @@ static void	ft_draw_minimap_background(t_game *game)
 	}
 }
 
-static void	ft_draw_minimap_border(t_game *game)
+void	ft_draw_minimap_border(t_game *game)
 {
 	t_vector_int	offset;
 	t_vector_int	end;
@@ -208,4 +208,6 @@ void	ft_map2D(t_game *game)
 	}
 	ft_draw_minimap_border(game);
 	ft_draw_player_indicator(game);
+	ft_draw_objects(game);
+	ft_draw_minimap_doors(game);
 }

@@ -27,6 +27,9 @@ WE ./textures/muro_4.xpm
 WE ./textures/muro_5.xpm
 WE ./textures/muro_6.xpm
 
+D ./textures/1.xpm
+
+
 EA ./textures/muro_1.xpm
 EA ./textures/muro_2.xpm
 EA ./textures/muro_3.xpm

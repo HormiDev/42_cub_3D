@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_loading_texture.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 19:02:05 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 20:02:31 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_texture *ft_loading_texture(void *mlx_ptr, char *path)
 	t_img *img;
 	t_texture *texture;
 
-	img = (t_img *)ft_mlx_xpm_file_to_image(mlx_ptr, path, &width, &height);// usar hd alloc
+	img = (t_img *)ft_mlx_xpm_file_to_image(mlx_ptr, path, &width, &height);
 	if (!img)
 	{
 		ft_dprintf(2, RED "Error: Failed to load texture from path: %s\n" RESET, path);
@@ -53,7 +53,7 @@ t_texture *ft_new_texture(void *mlx_ptr, int width, int height)
 	t_texture *texture;
 
 	texture = hd_calloc(1, sizeof(t_texture));
-	texture->img = ft_create_image(mlx_ptr, width, height);// usar hd_alloc
+	texture->img = ft_create_image(mlx_ptr, width, height);
 	if (!texture->img)
 	{
 		ft_dprintf(2, RED "Error: Failed to create new texture image\n" RESET);
