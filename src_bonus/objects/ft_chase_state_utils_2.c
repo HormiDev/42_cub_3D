@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chase_state_utils_2.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:08 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 01:34:03 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 18:52:58 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,39 @@ int	ft_is_blocking_tile(t_game *game, int x, int y)
  * @param target puntero al jugador.
  * @return 1 si está en rango y FOV, 0 si no.
  */
-int	ft_is_player_visible(t_player *alien, t_player *target)
+int	ft_is_player_visible(t_game *game, t_player *alien, t_player *target, double distance)
 {
-	double		dist;
 	double		angle_to_target;
 	double		angle_diff;
+	t_raycast	ray;
+	double		pre_angle;
 
-	dist = ft_vector_distance(alien->position, target->position);
-	if (dist > MAX_RAY_SIZE)
+	//printf("Checking player visibility alen angle: %.2f\n", alien->rotation.x);
+	pre_angle = alien->rotation.x;
+	if (distance > MAX_RAY_SIZE)
 		return (0);
+	//printf("OriginalDistance: %.2f\n", distance);	
+	//printf("atan2 values: %.2f, %.2f\n", target->position.y - alien->position.y, target->position.x - alien->position.x);
 	angle_to_target = atan2(target->position.y - alien->position.y,
 			target->position.x - alien->position.x) / ft_angle_rad(1.0);
+	//printf("Angle to target: %.2f\n", angle_to_target);
 	angle_to_target = ft_normalize_angle(angle_to_target);
+	//printf("Angle to target: %.2f\n", angle_to_target);
 	angle_diff = ft_normalize_relative_angle(angle_to_target - alien->rotation.x);
-	if (angle_diff < -90.0 || angle_diff > 90.0)
-		return (0);
-	return (1);
+	//printf("Angle diff: %.2f\n", angle_diff);
+	if (angle_diff > -90.0 && angle_diff < 90.0)
+	{
+		//ft_printf("Player is in fov\n");
+		ft_raycast(game, angle_to_target, &ray, distance, alien->position);
+		if (ray.type == -1)
+		{
+			//ft_printf("Player is visible\n");
+			alien->rotation.x = angle_to_target;
+			return (1);
+		}
+		//else
+			//printf("Player is not visible impact to %f, %f\n", ray.impact.x, ray.impact.y);
+	}
+	alien->rotation.x = pre_angle;
+	return (0);
 }

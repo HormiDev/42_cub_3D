@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door_raycast.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:03 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 23:21:34 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 17:13:57 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,15 +86,17 @@ int	ft_raycast_door_hit(t_game *game, double angle, double max_size,
 
 int	ft_is_wall_or_closed_door(t_game *game, int x, int y)
 {
-	t_door	*door;
+	//t_door	*door;
 
 	if (game->map[y][x] == '1')
 		return (1);
+
+	/*
 	if (game->map[y][x] == 'D')
 	{
 		door = ft_get_door_at(game, x, y);
 		if (door && ft_get_door_height(door) > 0.0)
 			return (1);
-	}
+	}*/
 	return (0);
 }

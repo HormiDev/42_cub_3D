@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_directions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 23:15:08 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 16:51:20 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,17 +62,17 @@ void	ft_move_direction(t_game *game, double angle, double move_speed,
 
 	game->actions[player_index].walk = 1;
 	angle = ft_normalize_angle(angle);
-	ft_raycast(game, angle, &ray, move_speed * game->delta_time);
+	ft_raycast(game, angle, &ray, move_speed * game->delta_time, game->player->position);
 	if (ray.type == -1)
 		ft_move_player(game, ray.impact.x, ray.impact.y);
 	else if (ray.type == WALL_NO || ray.type == WALL_SO)
 		ft_move_player(game, ray.impact.x, game->player->position.y);
 	else if (ray.type == WALL_EA || ray.type == WALL_WE)
 		ft_move_player(game, game->player->position.x, ray.impact.y);
-	ft_raycast(game, 0.0, &colision_ray[0], DCP);
-	ft_raycast(game, 90.0, &colision_ray[1], DCP);
-	ft_raycast(game, 180.0, &colision_ray[2], DCP);
-	ft_raycast(game, 270.0, &colision_ray[3], DCP);
+	ft_raycast(game, 0.0, &colision_ray[0], DCP, game->player->position);
+	ft_raycast(game, 90.0, &colision_ray[1], DCP, game->player->position);
+	ft_raycast(game, 180.0, &colision_ray[2], DCP, game->player->position);
+	ft_raycast(game, 270.0, &colision_ray[3], DCP, game->player->position);
 	if (colision_ray[0].type != -1)
 		game->player->position.x = (int)(game->player->position.x) + 1.0 - DCP;
 	if (colision_ray[1].type != -1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_update.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:25 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 00:48:53 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 19:06:22 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,29 +16,32 @@
  * @brief Calcula la distancia mínima del alien a todos los jugadores.
  * @param game estructura del juego.
  * @param alien puntero al alien.
- * @return distancia mínima encontrada.
+ * @return puntero al jugador más cercano visible.
  */
-static double	ft_update_alien_distance(t_game *game, t_player *alien)
+static t_player	*ft_check_objetive(t_game *game, t_player *alien)
 {
 	double	distance;
 	double	player_dist;
 	int		i;
+	t_player *objetive;
 
-	distance = 999.0;
-	if (game->player && game->player->alive)
-		distance = ft_vector_distance(alien->position, game->player->position);
+	distance = 999999.0;
+	objetive = 0;
 	i = 0;
 	while (i < game->config.n_players)
 	{
 		if (game->players[i].active && game->players[i].alive)
 		{
 			player_dist = ft_vector_distance(alien->position, game->players[i].position);
-			if (player_dist < distance)
+			if (player_dist < MAX_RAY_SIZE && player_dist < distance && ft_is_player_visible(game, alien, &game->players[i], player_dist))
+			{
 				distance = player_dist;
+				objetive = &game->players[i];
+			}
 		}
 		i++;
 	}
-	return (distance);
+	return (objetive);
 }
 
 /**
@@ -47,39 +50,42 @@ static double	ft_update_alien_distance(t_game *game, t_player *alien)
  * @param distance distancia al jugador más cercano.
  * @param last_state puntero al estado anterior.
  */
-static void	ft_update_alien_state_and_speed(t_player *alien, double distance,
-	t_alien_state *last_state)
+static void	ft_update_alien_state_and_speed(t_player *alien, t_player *objetive)
 {
-	if (distance <= alien->chase_distance)
-		alien->state = ALIEN_CHASE;
-	else
-		alien->state = ALIEN_PATROL;
-	if (alien->state != *last_state)
+	
+	if (objetive)
 	{
-		if (alien->state == ALIEN_CHASE)
-			alien->speed = 3.2;
-		else
-			alien->speed = 3.5;
-		*last_state = alien->state;
+		alien->state = ALIEN_CHASE;
+		printf("Alien state: CHASE\n");
+		alien->speed = 3.5;
+		alien->path_len = 0;
+	}
+	else
+	{
+		alien->state = ALIEN_PATROL;
+		printf("Alien state: PATROL\n");
+		alien->speed = 4.0;
 	}
 }
 
 /**
- * @brief Ejecuta el comportamiento del alien según su estado.
- * @param game estructura del juego.
- * @param alien puntero al alien.
- */
-static void	ft_execute_alien_behavior(t_game *game, t_player *alien)
+* @brief Ejecuta el comportamiento del alien según su estado.
+* @param game estructura del juego.
+* @param alien puntero al alien.
+*/
+static void	ft_execute_alien_behavior(t_game *game, t_player *alien, t_player *objetive)
 {
-	t_vector_int alienpos;
-
-	alienpos.x = alien->position.x;
-	alienpos.y = alien->position.y;
-	game->map_heatmap[alienpos.y][alienpos.x] = 0;
+	game->map_heatmap[(int)alien->position.y][(int)alien->position.x] = 0;
 	if (alien->state == ALIEN_CHASE)
-		ft_alien_chase_update(game, alien);
+	{
+		ft_chase_player(game, alien);
+		printf("Alien is chasing player at position (%.2f, %.2f)\n", objetive->position.x, objetive->position.y);
+	}
 	else
+	{
 		ft_alien_patrol_update(game, alien);
+		printf("Alien is patrolling at position (%.2f, %.2f)\n", alien->position.x, alien->position.y);
+	}
 }
 
 /**
@@ -90,16 +96,16 @@ static void	ft_execute_alien_behavior(t_game *game, t_player *alien)
  */
 void	ft_update_aliens(t_game *game)
 {
-	t_player			*alien;
-	double				distance;
-	static t_alien_state	last_state = -1;
+	t_player				*alien;
+	t_player				*objetive;
 
 	if (!game || !game->players[4].active)
 		return ;
 	alien = &game->players[4];
-	distance = ft_update_alien_distance(game, alien);
-	ft_update_alien_state_and_speed(alien, distance, &last_state);
-	ft_execute_alien_behavior(game, alien);
+	printf("checking objective");
+	objetive = ft_check_objetive(game, alien);
+	ft_update_alien_state_and_speed(alien, objetive);
+	ft_execute_alien_behavior(game, alien, objetive);
 	ft_check_alien_collision(game);
 	ft_check_game_end(game);
 }
@@ -282,7 +288,7 @@ void	ft_respawn_alien(t_game *game)
 		random_idx = 0;
 		ft_get_random_position(game, random_idx, &pos);
 	}
-	ft_set_alien_pos(game, pos);	
+	ft_set_alien_pos(game, pos);
 }
 
 /**

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:15:03 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 16:51:25 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void ft_calculate_raycasts(t_game *game)
 	while (i < game->config.render_width)
 	{
 		current_angle = start_angle + i * angle_step;
-		ft_raycast(game, current_angle, &game->raycasts[i], MAX_RAY_SIZE);
+		ft_raycast(game, current_angle, &game->raycasts[i], MAX_RAY_SIZE, game->player->position);
 		i++;
 	}
 }

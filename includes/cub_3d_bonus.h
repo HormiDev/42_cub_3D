@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/07 11:31:23 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 16:51:16 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int			input_handle_menu_b(t_game *game);
 // ============================================================================
 // RAYCAST FUNCTIONS
 // ============================================================================
-void			ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size);
+void			ft_raycast(t_game *game, double angle, t_raycast *ray, double max_size, t_vector2 origin_position);
 void			ft_calculate_raycasts(t_game *game);
 void			ft_ray_iter_up(int *position_xy, int cuadrant, int iter);
 void			ft_ray_iter_right(int *position_xy, int cuadrant, int iter);
@@ -135,7 +135,7 @@ void			ft_calc_distance(int cuadrant, int *tile_ray_xy, t_vector2 player_positio
 void			ft_rotate_to_cuadrant(int cuadrant, double *distance_x, double *distance_y);
 void			ft_calc_ray_position(t_raycast *ray, t_vector2 *player_position, double distance_x, double distance_y);
 void			ft_ray_type(t_raycast *ray, int cuadrant, int up_right);
-void			ft_raycast_max_size(t_game *game, double angle, t_raycast *ray, double max_size, int cuadrant);
+void			ft_raycast_max_size(double angle, t_raycast *ray, double max_size, int cuadrant);
 
 // ============================================================================
 // RENDER FUNCTIONS
@@ -225,7 +225,7 @@ void			ft_search_heatmap(t_game *game);
 
 // ALIEN AI
 int				ft_is_blocking_tile(t_game *game, int x, int y);
-int				ft_is_player_visible(t_player *alien, t_player *target);
+int				ft_is_player_visible(t_game *game, t_player *alien, t_player *target, double distance);
 int				ft_chase_prepare_step(t_player *alien, t_vector2 *target,
 					t_vector2 *direction, double *dist);
 void			ft_chase_apply_step(t_game *game, t_player *alien,
@@ -238,7 +238,7 @@ void			ft_chase_try_target(t_player *alien, t_player *candidate,
 					t_player **closest, double *closest_dist);
 void			ft_chase_scan_players(t_game *game, t_player *alien,
 					t_player **closest, double *closest_dist);
-void			ft_chase_player(t_game *game, t_player *alien, t_player *target);
+void			ft_chase_player(t_game *game, t_player *alien);
 t_player		*ft_chase_find_closest_target(t_game *game, t_player *alien);
 int				ft_find_hottest_reachable_tile(t_game *game, t_player *alien,
 					t_vector_int *pos);

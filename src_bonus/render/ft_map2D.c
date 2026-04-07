@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:45 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 20:44:03 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 19:32:10 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,4 +209,3 @@ void	ft_map2D(t_game *game)
 	ft_draw_minimap_border(game);
 	ft_draw_player_indicator(game);
 }
-

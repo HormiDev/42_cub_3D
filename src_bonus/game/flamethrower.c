@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flamethrower.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:26 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 23:08:54 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 13:44:33 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	ft_flamethrower_attack(t_game *game, t_player *player,
 		{
 			if (is_alien_in_range(player, &game->players[i]))
 			{
-				game->players[i].active = 0;
+				game->players[i].alive = 1;
 				ft_respawn_alien(game);
 				break ;
 			}

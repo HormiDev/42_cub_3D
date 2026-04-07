@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/07 11:31:23 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 18:11:33 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 720
+#  define WINDOW_HEIGHT 540
 # endif
 
 # define MENU_HEIGHT 720
@@ -197,6 +197,7 @@ typedef struct s_vector_int
 */
 typedef struct s_raycast
 {
+	t_vector2	origin_position;
 	double		distance;
 	t_vector2	impact;
 	int			type;
