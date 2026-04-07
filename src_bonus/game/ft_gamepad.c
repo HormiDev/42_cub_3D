@@ -6,11 +6,28 @@
 /*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 23:10:19 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 11:31:23 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
+
+void	ft_gamepad_handle_system_buttons(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < MAX_GAMEPADS)
+	{
+		if (game->gamepads[i].connected && game->gamepads[i].menu_pressed)
+		{
+			if (!game->show_menu)
+				input_handle_menu_b(game);
+			game->gamepads[i].menu_pressed = 0;
+		}
+		i++;
+	}
+}
 
 /*
 ** ft_apply_player0_input - Maneja input del jugador 0

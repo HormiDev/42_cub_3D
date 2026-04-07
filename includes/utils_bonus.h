@@ -6,7 +6,7 @@
 /*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/07 11:16:39 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 11:31:23 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,8 +267,10 @@ typedef struct s_gamepad {
 	int	right_stick_x;
 	int	right_stick_y;
 	int right_stick_click;
+	int	menu;
 	int a_pressed;
 	int b_pressed;
+	int	menu_pressed;
 	int rt_pressed;
 } t_gamepad;
 

@@ -205,6 +205,7 @@ int	ft_update(void *param)
 		return (0);
 	ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
 	ft_update_gamepad(game);
+	ft_gamepad_handle_system_buttons(game);
 	ft_gamepad_movement(game);
 	if (game->show_menu)
 		ft_update_menu(game);

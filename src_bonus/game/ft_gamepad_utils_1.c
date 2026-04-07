@@ -6,7 +6,7 @@
 /*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 23:09:32 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 11:31:23 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,10 @@ void	ft_reset_single_gamepad(t_gamepad *gp)
 	gp->right_stick_x = 0;
 	gp->right_stick_y = 0;
 	gp->right_stick_click = 0;
+	gp->menu = 0;
 	gp->a_pressed = 0;
 	gp->b_pressed = 0;
+	gp->menu_pressed = 0;
 	gp->rt_pressed = 0;
 }
 
@@ -119,11 +121,11 @@ void	ft_process_button_event(t_game *game, t_gamepad *gp,
 		gp->lb = event.value;
 	else if (event.number == 5)
 		gp->rb = event.value;
-	else if (event.number == 7)
+	else if (event.number == 6 || event.number == 7 || event.number == 8)
 	{
-		gp->rt = event.value;
+		gp->menu = event.value;
 		if (event.value == 1)
-			gp->rt_pressed = 1;
+			gp->menu_pressed = 1;
 	}
 	else if (event.number == 9)
 		gp->right_stick_click = event.value;

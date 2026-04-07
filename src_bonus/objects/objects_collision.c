@@ -12,6 +12,29 @@
 
 #include "../../includes/cub_3d_bonus.h"
 
+static int	ft_can_alien_hit_player(t_game *game, t_player *alien,
+	t_player *player)
+{
+	double	dx;
+	double	dy;
+	double	distance;
+	int		mid_x;
+	int		mid_y;
+
+	dx = player->position.x - alien->position.x;
+	dy = player->position.y - alien->position.y;
+	distance = ft_sqrt(dx * dx + dy * dy);
+	if (distance < 0.8)
+		return (1);
+	if (distance > 1.05)
+		return (0);
+	mid_x = (int)((player->position.x + alien->position.x) * 0.5);
+	mid_y = (int)((player->position.y + alien->position.y) * 0.5);
+	if (ft_is_wall_or_closed_door(game, mid_x, mid_y))
+		return (0);
+	return (1);
+}
+
 /**
  * @brief Mata a un jugador y lo marca como inactivo.
  *
@@ -40,9 +63,6 @@ void	ft_check_alien_collision(t_game *game)
 {
 	t_player	*alien;
 	int			i;
-	double		dx;
-	double		dy;
-	double		distance;
 
 	if (!game)
 		return ;
@@ -52,14 +72,9 @@ void	ft_check_alien_collision(t_game *game)
 	i = 0;
 	while (i < game->config.n_players && i < 4)
 	{
-		if (game->players[i].alive)
-		{
-			dx = game->players[i].position.x - alien->position.x;
-			dy = game->players[i].position.y - alien->position.y;
-			distance = ft_sqrt(dx * dx + dy * dy);
-			if (distance < 0.8)
-				ft_kill_player(&game->players[i]);
-		}
+		if (game->players[i].alive
+			&& ft_can_alien_hit_player(game, alien, &game->players[i]))
+			ft_kill_player(&game->players[i]);
 		i++;
 	}
 }

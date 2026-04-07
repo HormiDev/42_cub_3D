@@ -6,7 +6,7 @@
 /*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/07 01:02:42 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 11:31:23 by nirmata          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void			ft_gamepad_apply_to_player(t_game *game, t_gamepad *gp,
 void			ft_apply_player0_input(t_game *game);
 void			ft_apply_other_players(t_game *game);
 void			ft_gamepad_movement(t_game *game);
+void			ft_gamepad_handle_system_buttons(t_game *game);
 int			audio_play(t_game *game, const char *path, pid_t *pid_out);
 int			audio_stop(pid_t *pid);
 int			audio_play_steps(t_game *game, const char *path);
