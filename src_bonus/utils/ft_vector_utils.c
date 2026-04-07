@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_vector_utils.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:37 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   ft_vector_utils.c                                 :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2025/10/07 00:00:00 by username         #+#    #+#              */
+/*   Updated: 2026/04/07 23:02:42 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Devuelve el valor absoluto de un entero.
- * @param n El entero del cual obtener el valor absoluto.
- * @return El valor absoluto de n.
- */
+* @brief Devuelve el valor absoluto de un entero.
+* @param n El entero del cual obtener el valor absoluto.
+* @return El valor absoluto de n.
+*/
+
 int	ft_abs(int n)
 {
 	if (n < 0)
@@ -25,9 +26,10 @@ int	ft_abs(int n)
 }
 
 /**
- * @brief Devuelve el valor absoluto de un vector de enteros.
- * @param v El vector del cual obtener el valor absoluto.
- */
+* @brief Devuelve el valor absoluto de un vector de enteros.
+* @param v El vector del cual obtener el valor absoluto.
+*/
+
 void	ft_vector_int_abs(t_vector_int *v)
 {
 	v->x = ft_abs(v->x);
@@ -35,10 +37,11 @@ void	ft_vector_int_abs(t_vector_int *v)
 }
 
 /**
- * @brief Devuelve el valor máximo de un vector de enteros.
- * @param v El vector del cual obtener el valor máximo.
- * @return El valor máximo de v.
- */
+* @brief Devuelve el valor máximo de un vector de enteros.
+* @param v El vector del cual obtener el valor máximo.
+* @return El valor máximo de v.
+*/
+
 int	ft_vector_int_max(t_vector_int v)
 {
 	if (v.x > v.y)

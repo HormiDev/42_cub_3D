@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:08 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 22:14:11 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 23:42:33 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	ft_init_doors(t_game *game)
 				if (!door)
 					ft_close_game(1);
 				ft_lstadd_back(&game->doors, hd_alloc(ft_lstnew(door), free));
+				game->map[y][x] = 'd';
 			}
 		}
 	}

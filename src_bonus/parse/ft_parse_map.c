@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:15 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 16:08:32 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 23:52:00 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,15 @@ static void	ft_create_map_heat(t_game *game)
  */
 void	ft_parse_map(t_game *game, t_file *map_file)
 {
-	int height_start_end[2];
-	int width_start_end[2];
+	int h_start_end[2];
+	int w_start_end[2];
 
-	height_start_end[0] = ft_start_line_map(map_file);
-	height_start_end[1] = ft_end_line_map(map_file, height_start_end[0]);
-	game->width_height[1] = height_start_end[1] - height_start_end[0] + 1;
-	width_start_end[0] = ft_start_column_map(map_file, height_start_end);
-	width_start_end[1] = ft_end_column_map(map_file, height_start_end);
-	game->width_height[0] = width_start_end[1] - width_start_end[0] + 1;
+	h_start_end[0] = ft_start_line_map(map_file);
+	h_start_end[1] = ft_end_line_map(map_file, h_start_end[0]);
+	game->width_height[1] = h_start_end[1] - h_start_end[0] + 1;
+	w_start_end[0] = ft_start_column_map(map_file, h_start_end);
+	w_start_end[1] = ft_end_column_map(map_file, h_start_end);
+	game->width_height[0] = w_start_end[1] - w_start_end[0] + 1;
 	if (game->width_height[0] < 3 || game->width_height[1] < 3)
 	{
 		ft_dprintf(2, "%sError: Failed to load map: it's small\n%s", RED, RESET);
@@ -81,7 +81,7 @@ void	ft_parse_map(t_game *game, t_file *map_file)
 	game->bfs_parent_size = game->width_height[0] * game->width_height[1];
 	game->bfs_visited_width = game->width_height[0];
 	game->bfs_visited_height = game->width_height[1];
-	ft_create_game_map(game, map_file, height_start_end, width_start_end);
+	ft_create_game_map(game, map_file, h_start_end, w_start_end);
 	ft_check_map(game);
 	ft_rotate_map_y(game);
 	ft_create_map_heat(game);

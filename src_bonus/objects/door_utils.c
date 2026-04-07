@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 16:21:55 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 22:15:02 by ide-dieg         ###   ########.fr       */
+/*   Created: 2026/04/02 16:21:55 by username          #+#    #+#             */
+/*   Updated: 2026/04/08 00:04:45 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,23 +16,47 @@ static void	ft_get_door_position(t_raycast *ray, t_vector_int *door_pos)
 {
 	if (ray->type == DOOR_NO)
 	{
-		(*door_pos).x = (int)ray->impact.x;
-		(*door_pos).y = (int)ray->impact.y + 1;
+		(*door_pos).x = (int) ray->impact.x;
+		(*door_pos).y = (int) ray->impact.y + 0.5;
 	}
 	else if (ray->type == DOOR_SO)
 	{
-		(*door_pos).x = (int)ray->impact.x;
-		(*door_pos).y = (int)ray->impact.y - 1;
+		(*door_pos).x = (int) ray->impact.x;
+		(*door_pos).y = (int) ray->impact.y - 0.5;
 	}
 	else if (ray->type == DOOR_WE)
 	{
-		(*door_pos).x = (int)ray->impact.x - 1;
-		(*door_pos).y = (int)ray->impact.y;
+		(*door_pos).x = (int) ray->impact.x - 0.5;
+		(*door_pos).y = (int) ray->impact.y;
 	}
 	else if (ray->type == DOOR_EA)
 	{
-		(*door_pos).x = (int)ray->impact.x + 1;
-		(*door_pos).y = (int)ray->impact.y;
+		(*door_pos).x = (int) ray->impact.x + 0.5;
+		(*door_pos).y = (int) ray->impact.y;
+	}
+}
+
+static void	ft_get_door_position_with_wall(t_raycast *ray, t_vector_int *door_pos)
+{
+	if (ray->type == WALL_NO)
+	{
+		(*door_pos).x = (int) ray->impact.x;
+		(*door_pos).y = (int) ray->impact.y - 0.5;
+	}
+	else if (ray->type == WALL_SO)
+	{
+		(*door_pos).x = (int) ray->impact.x;
+		(*door_pos).y = (int) ray->impact.y + 0.5;
+	}
+	else if (ray->type == WALL_WE)
+	{
+		(*door_pos).x = (int) ray->impact.x + 0.5;
+		(*door_pos).y = (int) ray->impact.y;
+	}
+	else if (ray->type == WALL_EA)
+	{
+		(*door_pos).x = (int) ray->impact.x - 0.5;
+		(*door_pos).y = (int) ray->impact.y;
 	}
 }
 
@@ -44,11 +68,11 @@ static void	ft_search_door(t_game *game, t_vector_int *door_pos, t_door **door)
 	current = game->doors;
 	while (current)
 	{
-		door_tmp = (t_door *)current->content;
+		door_tmp = (t_door *) current->content;
 		if (door_tmp->position.x == door_pos->x && door_tmp->position.y == door_pos->y)
 		{
 			*door = door_tmp;
-			return;
+			return ;
 		}
 		current = current->next;
 	}
@@ -59,6 +83,7 @@ static void	ft_close_door(t_game *game, t_door *door)
 {
 	game->map[door->position.y][door->position.x] = 'D';
 	door->state = DOOR_CLOSED;
+	door->auto_reopen_timer = door->auto_reopen_delay;
 }
 
 static void	ft_open_door(t_game *game, t_door *door)
@@ -69,26 +94,28 @@ static void	ft_open_door(t_game *game, t_door *door)
 
 int	ft_try_toggle_door(t_game *game)
 {
-	(void)game;
-	
+	(void) game;
 	t_door			*door;
 	t_raycast		ray;
 	t_vector_int	door_pos;
 
 	ft_raycast(game, game->player->rotation.x, &ray, 1.0, game->player->position);
-	if (ray.type == -1)//si no es una puerta o esta abierta
-		return (0);
-	if (!(ray.type >= DOOR_NO && ray.type <= DOOR_WE))
+	if (ray.type == -1)
 	{
+		door_pos.x = (int) ray.impact.x;
+		door_pos.y = (int) ray.impact.y;
+	}
+	if ((ray.type >= DOOR_NO && ray.type <= DOOR_WE))
 		ft_get_door_position(&ray, &door_pos);
-		ft_search_door(game, &door_pos, &door);
-		if (door)
-		{
-			if (door->state == DOOR_OPEN)
-				ft_close_door(game, door);
-			else
-				ft_open_door(game, door);
-		}
+	if ((ray.type >= WALL_NO && ray.type <= WALL_WE))
+		ft_get_door_position_with_wall(&ray, &door_pos);
+	ft_search_door(game, &door_pos, &door);
+	if (door)
+	{
+		if (door->state == DOOR_OPEN)
+			ft_close_door(game, door);
+		else
+			ft_open_door(game, door);
 	}
 	return (0);
 }

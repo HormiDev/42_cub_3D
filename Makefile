@@ -90,6 +90,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/parse/ft_check_map.c \
 			src_bonus/parse/ft_create_game_map.c \
 			src_bonus/parse/ft_map_origin.c \
+			src_bonus/parse/ft_map_origin_utils.c \
 			src_bonus/parse/ft_walls_closed.c \
 			src_bonus/parse/ft_read_textures.c \
 			src_bonus/parse/ft_parse_textures.c \
@@ -99,6 +100,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/render/map_utils.c \
 			src_bonus/render/ft_paint.c \
 			src_bonus/render/raycast_utils.c \
+			src_bonus/render/raycast_utils_2.c \
 			src_bonus/render/ft_map2D.c \
 			src_bonus/render/ft_map2D_utils.c \
 			src_bonus/ft_sqrt.c \
@@ -162,7 +164,7 @@ OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_BONUS = $(patsubst %.c, $(OBJ_DIR_BONUS)/%.o, $(SRC_BONUS))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 
 all: clear $(NAME) title_print
 

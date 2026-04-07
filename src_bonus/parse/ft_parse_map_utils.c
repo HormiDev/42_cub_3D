@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:00 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:39 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 23:52:00 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,22 +79,22 @@ int	ft_end_line_map(t_file *map_file, int start_line)
 /**
  * @brief Encuentra la primera columna no vacía en el mapa.
  *
- * Recorre las líneas del mapa desde height_start_end[0] hasta height_start_end[1]
+ * Recorre las líneas del mapa desde h_start_end[0] hasta h_start_end[1]
  * y determina la primera columna que contiene un carácter distinto de espacio o salto de línea.
  *
  * @param map_file estructura del archivo que contiene el mapa.
- * @param height_start_end Array con los índices de inicio y fin de las líneas del mapa.
+ * @param h_start_end Array con los índices de inicio y fin de las líneas del mapa.
  * @return int Índice de la primera columna no vacía.
  */
-int	ft_start_column_map(t_file *map_file, const int *height_start_end)
+int	ft_start_column_map(t_file *map_file, const int *h_start_end)
 {
 	int i;
 	int j;
 	int	start_column;
 
-	i = height_start_end[0];
+	i = h_start_end[0];
 	start_column = INT_MAX;
-	while (i <= height_start_end[1])
+	while (i <= h_start_end[1])
 	{
 		j = 0;
 		while (map_file->array_content[i][j])
@@ -113,22 +113,22 @@ int	ft_start_column_map(t_file *map_file, const int *height_start_end)
 /**
  * @brief Encuentra la última columna no vacía en el mapa.
  *
- * Recorre las líneas del mapa desde height_start_end[0] hasta height_start_end[1]
+ * Recorre las líneas del mapa desde h_start_end[0] hasta h_start_end[1]
  * y determina la última columna que contiene un carácter distinto de espacio o salto de línea.
  *
  * @param map_file estructura del archivo que contiene el mapa.
- * @param height_start_end Array con los índices de inicio y fin de las líneas del mapa.
+ * @param h_start_end Array con los índices de inicio y fin de las líneas del mapa.
  * @return int Índice de la última columna no vacía.
  */
-int	ft_end_column_map(t_file *map_file, const int *height_start_end)
+int	ft_end_column_map(t_file *map_file, const int *h_start_end)
 {
 	int i;
 	int j;
 	int end_column;
 
 	end_column = 0;
-	i = height_start_end[0];
-	while (i <= height_start_end[1])
+	i = h_start_end[0];
+	while (i <= h_start_end[1])
 	{
 		j = ft_strlen(map_file->array_content[i]) - 1;
 		while (j >= 0)

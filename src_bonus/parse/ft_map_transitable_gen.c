@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:46 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 01:27:52 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 00:18:10 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,9 @@ void	ft_create_map_transitable(t_game *game)
 {
 	if (!game || !game->map)
 		return ;
-	
 	ft_alloc_map_transitable(game);
 	ft_fill_map_transitable(game);
 }
-
 
 /**
  * @brief Imprime el mapa transitable en terminal para debug.
@@ -96,12 +94,11 @@ void	ft_create_map_transitable(t_game *game)
  */
 void	ft_print_transitable_map(t_game *game)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	if (!game || !game->map_transitable)
 		return ;
-	
 	ft_dprintf(1, "\n=== MAPA TRANSITABLE ===\n");
 	i = 0;
 	while (game->map_transitable[i])

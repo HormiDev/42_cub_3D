@@ -5,23 +5,24 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 16:24:34 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/05 23:31:12 by ide-dieg         ###   ########.fr       */
+/*   Created: 2026/04/02 16:24:34 by username          #+#    #+#             */
+/*   Updated: 2026/04/07 23:39:03 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Realiza la operación principal de la función seleccionada.
- * 
- * @param parametro1 Descripción del primer parámetro.
- * @param parametro2 Descripción del segundo parámetro.
- */
+* @brief Realiza la operación principal de la función seleccionada.
+*
+* @param parametro1 Descripción del primer parámetro.
+* @param parametro2 Descripción del segundo parámetro.
+*/
+
 void	ft_check_map_valid_characters(char **map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (map[i])
@@ -29,13 +30,14 @@ void	ft_check_map_valid_characters(char **map)
 		j = 0;
 		while (map[i][j])
 		{
-			if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != 'N' 
-				&& map[i][j] != 'S' && map[i][j] != 'E' && map[i][j] != 'W'
-				&& map[i][j] != ' '  && map[i][j] != '\t'  && map[i][j] != '\n'
-				&& map[i][j] != 'D')
+			if (map[i][j] != '1' && map[i][j] != '0' && map[i][j] != 'N'
+					&& map[i][j] != 'S' && map[i][j] != 'E' && map[i][j] != 'W'
+			&& map[i][j] != ' ' && map[i][j] != '\t' && map[i][j] != '\n'
+			&& map[i][j] != 'D')
 			{
 				ft_print_map(map, j, i);
-				ft_dprintf(2, "%s%c Invalid character in map%s\n", RED, map[i][j], RESET);
+				ft_dprintf(2,
+					"%s%c Invalid character in map%s\n", RED, map[i][j], RESET);
 				ft_close_game(1);
 			}
 			j++;
@@ -43,20 +45,22 @@ void	ft_check_map_valid_characters(char **map)
 		i++;
 	}
 }
+
 /**
- * @brief Cuenta el número de jugadores en el mapa.
- * 
- * Recorre el mapa y cuenta cuántas veces aparecen los caracteres que representan
- * a los jugadores ('N', 'S', 'E', 'W'). Debe haber exactamente un jugador.
- * 
- * @param game estructura del juego que contiene el mapa.
- * @return int Número de jugadores encontrados en el mapa.
- */
+* @brief Cuenta el número de jugadores en el mapa.
+*
+* Recorre el mapa y cuenta cuántas veces aparecen los caracteres que representan
+* a los jugadores ('N', 'S', 'E', 'W'). Debe haber exactamente un jugador.
+*
+* @param game estructura del juego que contiene el mapa.
+* @return int Número de jugadores encontrados en el mapa.
+*/
+
 int	ft_check_map_count_player(t_game *game)
 {
-	int i;
-	int j;
-	int player_count;
+	int	i;
+	int	j;
+	int	player_count;
 
 	i = 0;
 	player_count = 0;
@@ -65,8 +69,8 @@ int	ft_check_map_count_player(t_game *game)
 		j = 0;
 		while (game->map[i][j])
 		{
-			if (game->map[i][j] == 'N' || game->map[i][j] == 'S' 
-				|| game->map[i][j] == 'E' || game->map[i][j] == 'W')
+			if (game->map[i][j] == 'N' || game->map[i][j] == 'S'
+					|| game->map[i][j] == 'E' || game->map[i][j] == 'W')
 				player_count++;
 			j++;
 		}
@@ -76,18 +80,19 @@ int	ft_check_map_count_player(t_game *game)
 }
 
 /**
- * @brief Verifica si el mapa está cerrado.
- * 
- * Comprueba si el mapa está cerrado, es decir, si todas las áreas accesibles
- * están rodeadas por paredes ('1'). Si el mapa no está cerrado, se imprime un
- * mensaje de error y se cierra el juego.
- * 
- * @param game estructura del juego que contiene el mapa.
- * @return int 1 si el mapa está cerrado, 0 si no lo está.
- */
+* @brief Verifica si el mapa está cerrado.
+*
+* Comprueba si el mapa está cerrado, es decir, si todas las áreas accesibles
+* están rodeadas por paredes ('1'). Si el mapa no está cerrado, se imprime un
+* mensaje de error y se cierra el juego.
+*
+* @param game estructura del juego que contiene el mapa.
+* @return int 1 si el mapa está cerrado, 0 si no lo está.
+*/
+
 void	ft_check_map(t_game *game)
 {
-	int player_count;
+	int	player_count;
 
 	ft_check_map_valid_characters(game->map);
 	player_count = ft_check_map_count_player(game);
@@ -102,9 +107,9 @@ void	ft_check_map(t_game *game)
 		}
 		ft_close_game(1);
 	}
-	if(!ft_check_map_closed(game))
+	if (!ft_check_map_closed(game))
 	{
 		ft_dprintf(2, RED "Error: Map is not closed\n" RESET);
 		ft_close_game(1);
-	}	
+	}
 }

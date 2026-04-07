@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:15:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 23:52:01 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,18 +84,18 @@ int	ft_end_line_map(t_file *map_file, int start_line)
  * Recorre las líneas del mapa
  *
  * @param map_file estructura del archivo que contiene el mapa.
- * @param height_start_end Array con los índices de inicio y fin de las líneas
+ * @param h_start_end Array con los índices de inicio y fin de las líneas
  * @return int Índice de la primera columna no vacía.
  */
-int	ft_start_column_map(t_file *map_file, const int *height_start_end)
+int	ft_start_column_map(t_file *map_file, const int *h_start_end)
 {
 	int	i;
 	int	j;
 	int	start_column;
 
-	i = height_start_end[0];
+	i = h_start_end[0];
 	start_column = INT_MAX;
-	while (i <= height_start_end[1])
+	while (i <= h_start_end[1])
 	{
 		j = 0;
 		while (map_file->array_content[i][j])
@@ -118,18 +118,18 @@ int	ft_start_column_map(t_file *map_file, const int *height_start_end)
  * Recorre las líneas del mapa desde
  *
  * @param map_file estructura del archivo que contiene el mapa.
- * @param height_start_end Array con los índices de inicio y fin de las líneas
+ * @param h_start_end Array con los índices de inicio y fin de las líneas
  * @return int Índice de la última columna no vacía.
  */
-int	ft_end_column_map(t_file *map_file, const int *height_start_end)
+int	ft_end_column_map(t_file *map_file, const int *h_start_end)
 {
 	int	i;
 	int	j;
 	int	end_column;
 
 	end_column = 0;
-	i = height_start_end[0];
-	while (i <= height_start_end[1])
+	i = h_start_end[0];
+	while (i <= h_start_end[1])
 	{
 		j = ft_strlen(map_file->array_content[i]) - 1;
 		while (j >= 0)

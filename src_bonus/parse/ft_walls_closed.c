@@ -6,14 +6,14 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:21 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:38 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/07 23:50:09 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
-static int	ft_row_has_content(char *row);
-static int	ft_check_space_surrounded(char **map, int i, int j);
+static int ft_row_has_content(char *row);
+static int ft_check_space_surrounded(char **map, int i, int j);
 
 /**
  * @brief Verifica si las filas superior e inferior del mapa están cerradas.
@@ -27,7 +27,7 @@ static int	ft_check_space_surrounded(char **map, int i, int j);
  */
 int ft_check_up_down(t_game *game)
 {
-    int i;
+	int i;
 	int last_row;
 
 	i = 0;
@@ -41,7 +41,7 @@ int ft_check_up_down(t_game *game)
 	while (game->map[last_row])
 		last_row++;
 	last_row--; // Ajustar al índice de la última fila
-	
+
 	// Buscar hacia atrás hasta encontrar una fila con contenido real
 	while (last_row >= 0 && game->map[last_row])
 	{
@@ -60,20 +60,19 @@ int ft_check_up_down(t_game *game)
 			break;
 		last_row--;
 	}
-	
+
 	// Verificar que last_row sea válido
 	if (last_row < 0 || !game->map[last_row])
 		return (ft_print_map(game->map, 0, 0), 0);
-	
+
 	i = 0;
 	while (game->map[last_row][i])
 	{
-		if (game->map[last_row][i] != '1' 
-			&& game->map[last_row][i] != ' ')
+		if (game->map[last_row][i] != '1' && game->map[last_row][i] != ' ')
 			return (ft_print_map(game->map, i, last_row), 0);
 		i++;
 	}
-    return (1); 
+	return (1);
 }
 
 /**
@@ -88,31 +87,31 @@ int ft_check_up_down(t_game *game)
  */
 int ft_check_borders(char **map)
 {
-    int i;
-    int len; 
-    int j; 
-    int last;
+	int i;
+	int len;
+	int j;
+	int last;
 
-    i = 0; 
-    while (map[i])
-    {
-        if (ft_row_has_content(map[i]))
-        {
-            len = ft_strlen_p(map[i]);
-            j = 0; 
-            while(map[i][j] == ' ')
-                j++; 
-            if(map[i][j] != '1')
-                return(ft_print_map(map, j, i), 0);
-            last = len - 1;
-            while (last > 0 && map[i][last] == ' ')
-                last--;
-            if (map[i][last] != '1')
-                return (ft_print_map(map, last, i), 0);
-        }
-        i++;
-    }
-    return (1); 
+	i = 0;
+	while (map[i])
+	{
+		if (ft_row_has_content(map[i]))
+		{
+			len = ft_strlen_p(map[i]);
+			j = 0;
+			while (map[i][j] == ' ')
+				j++;
+			if (map[i][j] != '1')
+				return (ft_print_map(map, j, i), 0);
+			last = len - 1;
+			while (last > 0 && map[i][last] == ' ')
+				last--;
+			if (map[i][last] != '1')
+				return (ft_print_map(map, last, i), 0);
+		}
+		i++;
+	}
+	return (1);
 }
 
 /**
@@ -124,9 +123,9 @@ int ft_check_borders(char **map)
  * @param row Fila del mapa a verificar.
  * @return int 1 si tiene contenido real, 0 si solo tiene espacios.
  */
-static int	ft_row_has_content(char *row)
+static int ft_row_has_content(char *row)
 {
-	int	k;
+	int k;
 
 	k = 0;
 	while (row[k])
@@ -149,7 +148,7 @@ static int	ft_row_has_content(char *row)
  * @param j Índice de columna del espacio.
  * @return int 1 si está correctamente cerrado, 0 en caso contrario.
  */
-static int	ft_check_space_surrounded(char **map, int i, int j)
+static int ft_check_space_surrounded(char **map, int i, int j)
 {
 	if (i > 0 && map[i - 1][j] != 0 && map[i - 1][j] != '1' && map[i - 1][j] != ' ' && map[i - 1][j] != 'D')
 		return (ft_print_map(map, j, i - 1), 0);
@@ -172,10 +171,10 @@ static int	ft_check_space_surrounded(char **map, int i, int j)
  * @param map Mapa a verificar.
  * @return int 1 si el mapa está cerrado, 0 en caso contrario.
  */
-int	ft_check_map_closed_in(char **map)
+int ft_check_map_closed_in(char **map)
 {
-	int	i;
-	int	j;
+	int i;
+	int j;
 
 	i = 0;
 	while (map[i])
@@ -211,11 +210,11 @@ int	ft_check_map_closed_in(char **map)
  */
 int ft_check_map_closed(t_game *game)
 {
-    if(!ft_check_up_down(game))
-        return (0);
-    if(!ft_check_borders(game->map))
-        return (0);
-    if(!ft_check_map_closed_in(game->map))
-        return (0);
-    return (1);
+	if (!ft_check_up_down(game))
+		return (0);
+	if (!ft_check_borders(game->map))
+		return (0);
+	if (!ft_check_map_closed_in(game->map))
+		return (0);
+	return (1);
 }

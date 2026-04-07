@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 00:39:44 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 23:02:44 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/07 23:52:00 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,12 +243,12 @@ int					ft_get_map_start_index(t_file *map_file);
 int					ft_start_line_map(t_file *map_file);
 int					ft_end_line_map(t_file *map_file, int start_line);
 int					ft_start_column_map(t_file *map_file,
-						const int *height_start_end);
+						const int *h_start_end);
 int					ft_end_column_map(t_file *map_file,
-						const int *height_start_end);
+						const int *h_start_end);
 void				ft_create_game_map(t_game *game, t_file *map_file,
-						const int *height_start_end,
-						const int *width_start_end);
+						const int *h_start_end,
+						const int *w_start_end);
 void				ft_rotate_map_y(t_game *game);
 void				ft_load_texture_from_path(t_game *game, t_texture *tex, char *path);
 bool				is_only_spaces(const char *line);
@@ -277,6 +277,7 @@ int					ft_key_press(int keycode, t_game *game);
 int					ft_key_release(int keycode, t_game *game);
 void				ft_move_direction(t_game *game, double angle,
 						double move_speed);
+int					ft_row_has_content(char *row);
 
 // ============================================================================
 // RAYCAST FUNCTIONS
@@ -285,7 +286,6 @@ void				ft_raycast(t_game *game, double angle, t_raycast *ray,
 						double max_size);
 void				ft_ray_type(t_raycast *ray, int cuadrant, int up_right);
 void				ft_calculate_raycasts(t_game *game);
-int					ft_row_has_content(char *row);
 int					ft_check_space_surrounded(char **map, int i, int j);
 int					ft_check_up_down(t_game *game);
 // ============================================================================

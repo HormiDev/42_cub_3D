@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_mlx_hd_alloc_functions.c                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/03/17 19:12:03 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/04 21:09:02 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   ft_mlx_hd_alloc_functions.c                       :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/03/17 19:12:03 by username         #+#    #+#              */
+/*   Updated: 2026/04/07 23:25:04 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 static void	ft_free_mlx_window(void *ptr)
 {
-	void **mlx_window;
-	mlx_window = (void **)ptr;
+	void	**mlx_window;
+
+	mlx_window = (void **) ptr;
 	if (mlx_window[0] && mlx_window[1])
 		mlx_destroy_window(mlx_window[0], mlx_window[1]);
 	free(mlx_window);
@@ -23,7 +24,7 @@ static void	ft_free_mlx_window(void *ptr)
 
 void	*ft_create_window(void *mlx, int size_x, int size_y, char *title)
 {
-	void **mlx_window;
+	void	**mlx_window;
 
 	mlx_window = hd_alloc(ft_calloc(1, sizeof(void *) * 2), ft_free_mlx_window);
 	if (!mlx_window)
@@ -40,8 +41,9 @@ void	*ft_create_window(void *mlx, int size_x, int size_y, char *title)
 
 static void	ft_free_mlx_image(void *ptr)
 {
-	void **mlx_image;
-	mlx_image = (void **)ptr;
+	void	**mlx_image;
+
+	mlx_image = (void **) ptr;
 	if (mlx_image[0] && mlx_image[1])
 		mlx_destroy_image(mlx_image[0], mlx_image[1]);
 	free(mlx_image);
@@ -49,7 +51,7 @@ static void	ft_free_mlx_image(void *ptr)
 
 void	*ft_create_image(void *mlx, int size_x, int size_y)
 {
-	void **mlx_image;
+	void	**mlx_image;
 
 	mlx_image = hd_alloc(ft_calloc(1, sizeof(void *) * 2), ft_free_mlx_image);
 	if (!mlx_image)
@@ -64,10 +66,10 @@ void	*ft_create_image(void *mlx, int size_x, int size_y)
 	return (mlx_image[1]);
 }
 
-void	*ft_mlx_xpm_file_to_image(void *mlx, char *filename,
-			int *width, int *height)
+void * ft_mlx_xpm_file_to_image(void * mlx, char * filename,
+	int	*width, int *height)
 {
-	void **mlx_image;
+	void	**mlx_image;
 
 	mlx_image = hd_alloc(ft_calloc(1, sizeof(void *) * 2), ft_free_mlx_image);
 	if (!mlx_image)

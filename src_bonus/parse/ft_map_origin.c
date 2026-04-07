@@ -6,86 +6,43 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:41 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 20:13:16 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 00:04:10 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Verifica si una línea es una directiva del mapa.
- *
- * Esta función comprueba si la línea comienza con alguna de las directivas
- * requeridas para el mapa, como "NO ", "SO ", "EA ", "WE ", "F ", o "C ".
- *
- * @param line Línea a verificar.
- * @return true Si la línea es una directiva.
- * @return false Si la línea no es una directiva.
- */
-bool is_directive_line(char *line)
-{
-	int i;
-
-	i = 0;
-    const char *dirs[7] = {"NO ", "SO ", "EA ", "WE ", "F ", "C ", "D "};
-    while (i < 7)
-    {
-        if (ft_strncmp_p(line, dirs[i], ft_strlen(dirs[i])) == 0)
-            return true;
-		i++;
-    }
-    return false;
-}
-
-/**
- * @brief Verifica si una línea contiene solo espacios, tabulaciones o saltos de línea.
- *
- * Esta función recorre cada carácter de la línea y devuelve true si todos los caracteres
- * son espacios, tabulaciones o saltos de línea. De lo contrario, devuelve false.
- *
- * @param line Línea a verificar.
- * @return true Si la línea contiene solo espacios, tabulaciones o saltos de línea.
- * @return false Si la línea contiene algún otro carácter.
- */
-bool is_only_spaces(const char *line)
-{
-	int j = 0;
-	while (line[j])
-	{
-		if (line[j] != ' ' && line[j] != '\t' && line[j] != '\n')
-			return false;
-		j++;
-	}
-	return true;
-}
-
-/**
  * @brief Verifica si todas las directivas requeridas están presentes en el mapa.
  *
  * Esta función comprueba un arreglo de booleanos que indica si cada directiva
- * ha sido encontrada. Si alguna directiva no se encuentra, imprime un mensaje de error
+ * ha sido encontrada. Si no se encuentra, imprime un mensaje de error
  * y finaliza el programa.
  *
  * @param found Arreglo de booleanos indicando si cada directiva fue encontrada.
  * @param dirs Arreglo de cadenas con los nombres de las directivas requeridas.
  */
-static void check_all_directives_found(bool found[7], const char *dirs[7])
+static void	check_all_directives_found(bool found[7], const char *dirs[7])
 {
-	int k = 0;
+	int		k;
+
+	k = 0;
 	while (k < 7)
 	{
 		if (!found[k])
 		{
-			ft_dprintf(2, RED "Error: Missing texture or color definition: %s\n" RESET, dirs[k]);
+			ft_dprintf(2,
+				RED "Error: Missing texture or color: %s\n" RESET, dirs[k]);
 			ft_close_game(1);
 		}
 		k++;
 	}
 }
 
-static void update_found_directive(char *line, bool found[7], const char *dirs[7])
+static void	update_found_directive(char *line,
+				bool found[7], const char *dirs[7])
 {
-	int k;
+	int		k;
 
 	k = 0;
 	while (k < 7)
@@ -93,13 +50,14 @@ static void update_found_directive(char *line, bool found[7], const char *dirs[7
 		if (ft_strncmp_p(line, dirs[k], ft_strlen(dirs[k])) == 0)
 		{
 			found[k] = true;
-			break;
+			break ;
 		}
 		k++;
 	}
 }
 
-static int find_map_start_index(t_file *map_file, bool found[7], const char *dirs[7])
+static int	find_map_start_index(t_file *map_file,
+				bool found[7], const char *dirs[7])
 {
 	int		i;
 
@@ -110,20 +68,34 @@ static int find_map_start_index(t_file *map_file, bool found[7], const char *dir
 		{
 			update_found_directive(map_file->array_content[i], found, dirs);
 			if (!is_directive_line(map_file->array_content[i]))
-				break;
+				break ;
 		}
 		i++;
 	}
-	return i;
+	return (i);
 }
 
-int ft_get_map_start_index(t_file *map_file)
+int	ft_get_map_start_index(t_file *map_file)
 {
-	bool		found[7] = {false, false, false, false, false, false, false};
-	const char	*dirs[7] = {"NO ", "SO ", "EA ", "WE ", "F ", "C ", "D "};
-	int				i;
+	bool		found[7];
+	const char	*dirs[7];
+	int			i;
+	int			k;
 
+	k = 0;
+	while (k < 7)
+	{
+		found[k] = false;
+		k++;
+	}
+	dirs[0] = "NO ";
+	dirs[1] = "SO ";
+	dirs[2] = "EA ";
+	dirs[3] = "WE ";
+	dirs[4] = "F ";
+	dirs[5] = "C ";
+	dirs[6] = "D ";
 	i = find_map_start_index(map_file, found, dirs);
 	check_all_directives_found(found, dirs);
-	return i;
+	return (i);
 }
