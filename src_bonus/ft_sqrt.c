@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sqrt.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 16:57:27 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 23:20:44 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/08 02:50:12 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  *
  * @param value Valor del cual se desea calcular la raíz cuadrada.
  * @return La raíz cuadrada del valor dado.
- */
+*/
 double	ft_sqrt(double value)
 {
 	static double	*sqrt_table;

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by username          #+#    #+#             */
-/*   Updated: 2026/04/08 02:19:45 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 13:44:54 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void ft_move_direction(t_game * game, double angle, double move_speed,
 void	ft_move_player(t_game *game, double move_x, double move_y);
 
 // Gamepad functions
+void	ft_remap_gamepads(t_game *game);
 int		ft_normalize_axis_value(int raw_value);
 void	ft_reset_single_gamepad(t_gamepad *gp);
 int		ft_gamepad_has_input(t_gamepad *gp);

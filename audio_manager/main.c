@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 19:39:51 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/29 19:06:10 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 13:10:03 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,11 +134,14 @@ int	main(int argc, char **argv, char **env)
 	if (!audio_manager)
 		return (1);
 	audio_manager_send(audio_manager, "music&sounds/menu.wav");
-	for(int i = 0; i < 10; i++)
+	for(int i = 0; i < 2; i++)
 	{
 		sleep(1);
 		audio_manager_send(audio_manager, "music&sounds/Andar.wav");
 	}
+	sleep(1);
+	audio_manager_send(audio_manager, "music&sounds/menu.wav");
+	sleep(2);
 	audio_manager_stop(audio_manager);
 	hd_alloc_clear();
 	return (0);

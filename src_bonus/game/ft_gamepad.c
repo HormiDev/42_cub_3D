@@ -3,14 +3,51 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gamepad.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/07 11:31:23 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/08 13:46:14 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
+
+/*
+** ft_remap_gamepads - Remapea gamepads cuando cambia n_players
+** @game: estructura del juego
+**
+** Cierra gamepads >= n_players e intenta abrir nuevos para los slots necesarios.
+*/
+void	ft_remap_gamepads(t_game *game)
+{
+	int		i;
+	int		slot;
+	const char	*paths[] = {"/dev/input/js0", "/dev/input/js1",
+		"/dev/input/js2", "/dev/input/js3", "/dev/input/event0",
+		"/dev/input/event1", "/dev/input/event2", "/dev/input/event3",
+		NULL};
+
+	slot = game->config.n_players;
+	while (slot < MAX_GAMEPADS)
+	{
+		if (game->gamepads[slot].fd != -1)
+			close(game->gamepads[slot].fd);
+		ft_reset_single_gamepad(&game->gamepads[slot]);
+		slot++;
+	}
+	i = 0;
+	slot = 0;
+	while (paths[i] && slot < game->config.n_players)
+	{
+		if (!game->gamepads[slot].connected)
+			ft_try_open_gamepad_at(game, paths[i], slot);
+		if (game->gamepads[slot].connected)
+			slot++;
+		i++;
+	}
+	ft_recount_gamepads(game);
+}
+
 
 void	ft_gamepad_handle_system_buttons(t_game *game)
 {

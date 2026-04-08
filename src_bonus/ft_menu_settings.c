@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 20:17:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 13:38:45 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 13:44:54 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void ft_menu_button(void *game_ptr)
 			game->resolutions[game->config.resolution_index].width);
 		ft_config_player(game);
 		ft_config_alien(game);
+		ft_remap_gamepads(game);
 	}
 	if (game->config.charges != game->tmp_config.charges)
 		ft_config_player(game);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   objects_update.c                                  :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/04/02 16:24:25 by username         #+#    #+#              */
-/*   Updated: 2026/04/07 23:05:56 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   objects_update.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/02 16:24:25 by username          #+#    #+#             */
+/*   Updated: 2026/04/08 13:15:08 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 * @param alien puntero al alien.
 * @return puntero al jugador más cercano visible.
 */
-
 static t_player	*ft_check_objetive(t_game *game, t_player *alien)
 {
 	double		distance;
@@ -51,7 +50,6 @@ static t_player	*ft_check_objetive(t_game *game, t_player *alien)
 * @param distance distancia al jugador más cercano.
 * @param last_state puntero al estado anterior.
 */
-
 static void	ft_update_alien_state_and_speed(t_player *alien, t_player *objetive)
 {
 	if (objetive)
@@ -72,7 +70,6 @@ static void	ft_update_alien_state_and_speed(t_player *alien, t_player *objetive)
 * @param game estructura del juego.
 * @param alien puntero al alien.
 */
-
 static void	ft_execute_alien_behavior(t_game *game, t_player *alien)
 {
 	game->map_heatmap[(int) alien->position.y][(int) alien->position.x] = 0;
@@ -88,7 +85,6 @@ static void	ft_execute_alien_behavior(t_game *game, t_player *alien)
 * Verifica colisiones con jugadores, actualiza el estado del alien,
 * ejecuta la lógica de persecución/patrulla y verifica fin del juego.
 */
-
 void	ft_update_aliens(t_game *game)
 {
 	t_player	*alien;
