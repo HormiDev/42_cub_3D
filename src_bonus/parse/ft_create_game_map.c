@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:18:49 by username          #+#    #+#             */
-/*   Updated: 2026/04/07 23:53:41 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 01:14:24 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	ft_create_game_map(t_game *game, t_file *map_file,
 		game->map[i] = hd_calloc(game->width_height[0] + 1, sizeof(char));
 		ft_strncpy(game->map[i],
 			&(map_file->array_content)[h_start_end[0] + i][w_start_end[0]],
-		game->width_height[0]);
+			game->width_height[0]);
 		j = 0;
 		while (j < game->width_height[0])
 		{

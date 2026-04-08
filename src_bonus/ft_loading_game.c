@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/07 20:39:36 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 02:07:17 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ t_game	*ft_loading_game(char *path_map)
 	t_file	*map_file;
 
 	game = hd_calloc(1, sizeof(t_game));
+	game->x_dcp = sqrt((DCP * DCP) + (DCP * DCP));
 	ft_config_mlx(game);
 	map_file = hd_alloc(ft_create_file_from_filename(path_map), hd_alloc_free_t_file);
 	if (!map_file)

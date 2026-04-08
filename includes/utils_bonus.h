@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by username          #+#    #+#             */
-/*   Updated: 2026/04/08 00:15:42 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 01:32:29 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -479,6 +479,7 @@ typedef struct s_game
 	t_vector_int		*bfs_queue;
 	int					*bfs_parent;
 	int					**bfs_visited;
+	double				x_dcp;
 }	t_game;
 
 #endif

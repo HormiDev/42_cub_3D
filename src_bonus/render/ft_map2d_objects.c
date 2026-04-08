@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_map2D_utils.c                                   :+:      :+:    :+:   */
+/*   ft_map2d_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:45 by username          #+#    #+#             */
-/*   Updated: 2026/04/08 00:16:14 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 01:42:37 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
-static void ft_draw_minimap_point(t_game * game, t_vector2 world_pos,
-	int	radius, int color)
+static void	ft_draw_minimap_point(t_game *game, t_vector2 world_pos,
+						int radius, int color)
 {
 	t_vector2		screen;
 	t_vector_int	p;
@@ -33,9 +33,9 @@ static void ft_draw_minimap_point(t_game * game, t_vector2 world_pos,
 			d.x = p.x - cx;
 			d.y = p.y - cy;
 			if (d.x * d.x + d.y * d.y <= radius * radius
-					&& p.x >= 0 && p.x < game->minimap->width
-			&& p.y >= 0 && p.y < game->minimap->height)
-			ft_draw_pixel_in_img(game->minimap->img, p.x, p.y, color);
+				&& p.x >= 0 && p.x < game->minimap->width
+				&& p.y >= 0 && p.y < game->minimap->height)
+				ft_draw_pixel_in_img(game->minimap->img, p.x, p.y, color);
 			p.x++;
 		}
 		p.y++;
@@ -56,12 +56,12 @@ void	ft_draw_minimap_doors(t_game *game)
 		while (mx <= (int) game->player->position.x + visible_range)
 		{
 			if (mx >= 0 && mx < game->width_height[0]
-					&& my >= 0 && my < game->width_height[1]
-			&& game->map[my][mx] == 'D')
+				&& my >= 0 && my < game->width_height[1]
+				&& game->map[my][mx] == 'D')
 				ft_draw_tile_edges(game, mx, my, C_ALIEN_CYAN);
 			else if (mx >= 0 && mx < game->width_height[0]
-					&& my >= 0 && my < game->width_height[1]
-			&& game->map[my][mx] == 'd')
+				&& my >= 0 && my < game->width_height[1]
+				&& game->map[my][mx] == 'd')
 				ft_draw_tile_edges(game, mx, my, C_ALIEN_YELLOW);
 			mx++;
 		}
@@ -77,12 +77,14 @@ void	ft_draw_objects(t_game *game)
 	while (i < MAX_PLAYERS)
 	{
 		if (game->players[i].active && game->players[i].alive
-				&& &game->players[i] != game->player)
+			&& &game->players[i] != game->player)
 		{
 			if (game->players[i].type == ENTITY_ALIEN)
-				ft_draw_minimap_point(game, game->players[i].position, 3, C_RED);
+				ft_draw_minimap_point(game,
+					game->players[i].position, 3, C_RED);
 			else if (game->players[i].type == ENTITY_PLAYER)
-				ft_draw_minimap_point(game, game->players[i].position, 3, C_BLUE);
+				ft_draw_minimap_point(game,
+					game->players[i].position, 3, C_BLUE);
 		}
 		i++;
 	}

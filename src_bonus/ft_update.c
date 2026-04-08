@@ -66,7 +66,7 @@ void	ft_one_player(t_game *game)
 	ft_calculate_raycasts(game);
 	ft_render_3d(game);
 	ft_render_all_sprites(game);
-	ft_map2D(game);
+	ft_map2d(game);
 	ft_render_timer_hud(game);
 	ft_render_flamethrower_hud(game, 0);
 	if (game->config.render_height != WINDOW_HEIGHT
@@ -104,7 +104,7 @@ void	ft_two_players(t_game *game)
 		ft_calculate_raycasts(game);
 		ft_render_3d(game);
 		ft_render_all_sprites(game);
-		ft_map2D(game);
+		ft_map2d(game);
 		ft_render_timer_hud(game);
 		ft_render_flamethrower_hud(game, player_index);
 		ft_scale_t_image_precalc_two(game->render, game->window_img, game,
@@ -136,7 +136,7 @@ void	ft_three_players(t_game *game)
 		ft_calculate_raycasts(game);
 		ft_render_3d(game);
 		ft_render_all_sprites(game);
-		ft_map2D(game);
+		ft_map2d(game);
 		ft_render_timer_hud(game);
 		ft_render_flamethrower_hud(game, player_index);
 		ft_scale_t_image_precalc_three(game->render, game->window_img, game,

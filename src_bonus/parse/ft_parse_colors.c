@@ -6,15 +6,15 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:56 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:39 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 00:21:49 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Parsea una cadena de color RGB y la convierte a un valor entero sin signo
- * @param color_str Cadena con formato "R,G,B" donde R, G, B son valores entre 0-255
+ * @brief Parsea una cadena RGB y la convierte a un valor entero sin signo
+ * @param color_str Cadena "R,G,B" donde R, G, B son valores entre 0-255
  * @return Valor entero sin signo que representa el color en formato RGBA
  */
 unsigned int	ft_parse_color_rgb(char *color_str)
@@ -38,7 +38,7 @@ unsigned int	ft_parse_color_rgb(char *color_str)
  * @return 1 si la cadena contiene solo dígitos, 0 en caso contrario
  * @note Esta función debería moverse a la libft en el futuro
  */
-int ft_str_isnumber(char *str) // para pasar a la libft
+int	ft_str_isnumber(char *str)
 {
 	while (*str)
 	{
@@ -55,11 +55,11 @@ int ft_str_isnumber(char *str) // para pasar a la libft
 /**
  * @brief Determina si una cadena es una ruta de archivo o un color RGB
  * @param str Cadena a analizar
- * @return 1 si es una ruta de archivo, 2 si es un color RGB válido, 0 si es inválido
+ * @return 1 si es una ruta de archivo, 2 si es RGB válido, 0 si es inválido
  * @note Detecta rutas por la presencia del carácter '/'
  * @note Valida colores RGB verificando que sean 3 valores entre 0-255
  */
-int ft_path_or_color(char *str)
+int	ft_path_or_color(char *str)
 {
 	char	**split;
 	int		rgb[3];
@@ -67,7 +67,7 @@ int ft_path_or_color(char *str)
 	if (ft_strchr(str, '/'))
 		return (1);
 	split = hd_alloc(ft_split_chars(str, ",\n\t"), ft_hd_alloc_free_split);
-	if (ft_splitlen(split) == 3) 
+	if (ft_splitlen(split) == 3)
 	{
 		rgb[0] = ft_atoi(split[0]);
 		rgb[1] = ft_atoi(split[1]);
@@ -77,12 +77,13 @@ int ft_path_or_color(char *str)
 			|| !ft_str_isnumber(split[0]) || !ft_str_isnumber(split[1])
 			|| !ft_str_isnumber(split[2]))
 		{
-			ft_dprintf(2, RED "Error: Invalid color format. Expected R,G,B. %s\n" RESET, str); 
+			ft_dprintf(2,
+				RED "Error: Invalid color: Expected R,G,B. %s\n" RESET, str);
 			return (0);
 		}
 		else
 			return (2);
 	}
-    ft_dprintf(2, RED "Error: Invalid color format. Expected R,G,B.\n" RESET);
-	return (0); 
+	ft_dprintf(2, RED "Error: Invalid color format. Expected R,G,B.\n" RESET);
+	return (0);
 }

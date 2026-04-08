@@ -6,29 +6,47 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:21 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 23:50:09 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 01:13:20 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
-static int ft_row_has_content(char *row);
-static int ft_check_space_surrounded(char **map, int i, int j);
+static int	ft_get_last_content_row(char **map)
+{
+	int	last_row;
+	int	j;
+
+	last_row = 0;
+	while (map[last_row])
+		last_row++;
+	while (--last_row >= 0)
+	{
+		j = 0;
+		while (map[last_row][j] && (map[last_row][j] == ' '
+			|| map[last_row][j] == '\t'))
+			j++;
+		if (map[last_row][j])
+			return (last_row);
+	}
+	return (-1);
+}
 
 /**
  * @brief Verifica si las filas superior e inferior del mapa están cerradas.
  *
  * Esta función recorre las filas superior e inferior del mapa y verifica que
- * todos los caracteres sean '1' o espacios. Si encuentra algún carácter diferente,
+ * todos los caracteres sean '1' o espacios. 
+ * Si encuentra algún carácter diferente,
  * devuelve 0. Si ambas filas están correctamente cerradas, devuelve 1.
  *
  * @param game estructura del juego que contiene el mapa.
  * @return int 1 si las filas están cerradas, 0 en caso contrario.
  */
-int ft_check_up_down(t_game *game)
+int	ft_check_up_down(t_game *game)
 {
-	int i;
-	int last_row;
+	int		i;
+	int		last_row;
 
 	i = 0;
 	while (game->map[0] && game->map[0][i])
@@ -37,34 +55,9 @@ int ft_check_up_down(t_game *game)
 			return (ft_print_map(game->map, i, 0), 0);
 		i++;
 	}
-	last_row = 0;
-	while (game->map[last_row])
-		last_row++;
-	last_row--; // Ajustar al índice de la última fila
-
-	// Buscar hacia atrás hasta encontrar una fila con contenido real
-	while (last_row >= 0 && game->map[last_row])
-	{
-		int has_content = 0;
-		int j = 0;
-		while (game->map[last_row][j])
-		{
-			if (game->map[last_row][j] != ' ' && game->map[last_row][j] != '\t')
-			{
-				has_content = 1;
-				break;
-			}
-			j++;
-		}
-		if (has_content)
-			break;
-		last_row--;
-	}
-
-	// Verificar que last_row sea válido
+	last_row = ft_get_last_content_row(game->map);
 	if (last_row < 0 || !game->map[last_row])
 		return (ft_print_map(game->map, 0, 0), 0);
-
 	i = 0;
 	while (game->map[last_row][i])
 	{
@@ -76,21 +69,24 @@ int ft_check_up_down(t_game *game)
 }
 
 /**
- * @brief Verifica si los bordes izquierdo y derecho del mapa están cerrados.
+ * @brief Verifica si los bordes izquierdo y derecho del 
+ * mapa están cerrados.
  *
- * Esta función recorre cada fila del mapa y verifica que el primer y último carácter
- * de cada fila sea '1'. Si encuentra alguna fila que no cumpla con esta condición,
+ * Esta función recorre cada fila del mapa y verifica 
+ * que el primer y último carácter
+ * de cada fila sea '1'. Si encuentra alguna fila que no
+ *  cumpla con esta condición,
  * devuelve 0. Si todas las filas están correctamente cerradas, devuelve 1.
  *
  * @param map Mapa a verificar.
  * @return int 1 si los bordes están cerrados, 0 en caso contrario.
  */
-int ft_check_borders(char **map)
+int	ft_check_borders(char **map)
 {
-	int i;
-	int len;
-	int j;
-	int last;
+	int		i;
+	int		len;
+	int		j;
+	int		last;
 
 	i = 0;
 	while (map[i])
@@ -115,53 +111,6 @@ int ft_check_borders(char **map)
 }
 
 /**
- * @brief Verifica si una fila tiene contenido real (no solo espacios).
- *
- * Esta función auxiliar verifica si una fila contiene caracteres que no sean
- * espacios o tabulaciones.
- *
- * @param row Fila del mapa a verificar.
- * @return int 1 si tiene contenido real, 0 si solo tiene espacios.
- */
-static int ft_row_has_content(char *row)
-{
-	int k;
-
-	k = 0;
-	while (row[k])
-	{
-		if (row[k] != ' ' && row[k] != '\t')
-			return (1);
-		k++;
-	}
-	return (0);
-}
-
-/**
- * @brief Verifica si un espacio está correctamente cerrado.
- *
- * Esta función auxiliar verifica que un espacio vacío esté rodeado por
- * paredes ('1') o por otros espacios vacíos.
- *
- * @param map Mapa a verificar.
- * @param i Índice de fila del espacio.
- * @param j Índice de columna del espacio.
- * @return int 1 si está correctamente cerrado, 0 en caso contrario.
- */
-static int ft_check_space_surrounded(char **map, int i, int j)
-{
-	if (i > 0 && map[i - 1][j] != 0 && map[i - 1][j] != '1' && map[i - 1][j] != ' ' && map[i - 1][j] != 'D')
-		return (ft_print_map(map, j, i - 1), 0);
-	if (map[i + 1] && map[i + 1][j] != 0 && map[i + 1][j] != '1' && map[i + 1][j] != ' ' && map[i + 1][j] != 'D')
-		return (ft_print_map(map, j, i + 1), 0);
-	if (j > 0 && map[i][j - 1] != 0 && map[i][j - 1] != '1' && map[i][j - 1] != ' ' && map[i][j - 1] != 'D')
-		return (ft_print_map(map, j - 1, i), 0);
-	if (map[i][j + 1] != 0 && map[i][j + 1] != '1' && map[i][j + 1] != ' ' && map[i][j + 1] != 'D')
-		return (ft_print_map(map, j + 1, i), 0);
-	return (1);
-}
-
-/**
  * @brief Verifica si el mapa está cerrado internamente.
  *
  * Esta función recorre el mapa y verifica que cada espacio vacío (' ')
@@ -171,10 +120,10 @@ static int ft_check_space_surrounded(char **map, int i, int j)
  * @param map Mapa a verificar.
  * @return int 1 si el mapa está cerrado, 0 en caso contrario.
  */
-int ft_check_map_closed_in(char **map)
+int	ft_check_map_closed_in(char **map)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (map[i])
@@ -208,7 +157,7 @@ int ft_check_map_closed_in(char **map)
  * @param game estructura del juego que contiene el mapa.
  * @return int 1 si el mapa está cerrado, 0 en caso contrario.
  */
-int ft_check_map_closed(t_game *game)
+int	ft_check_map_closed(t_game *game)
 {
 	if (!ft_check_up_down(game))
 		return (0);

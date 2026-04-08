@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by username          #+#    #+#             */
-/*   Updated: 2026/04/08 00:01:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 02:19:45 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,25 +51,26 @@ int		ft_start_column_map(t_file *map_file, const int *h_start_end);
 int		ft_end_column_map(t_file *map_file, const int *h_start_end);
 void	ft_create_game_map(t_game *game, t_file *map_file, const int *h_start_end, const int *w_start_end);
 void	ft_rotate_map_y(t_game *game);
+int ft_check_space_surrounded(char **map, int i, int j);
+int ft_row_has_content(char *row);
 
 // Map validation
 void	ft_check_map(t_game *game);
 int		ft_check_map_closed(t_game *game);
-
 // Map transitable generation and printing
 void	ft_create_map_transitable(t_game *game);
 void	ft_print_transitable_map(t_game *game);
 void	ft_create_map_transitable_aux(t_game *game);
 // XPM parsing
 void	check_arguments_xpm(char *path);
-bool	is_only_spaces(const char *line);
-bool	is_directive_line(char *line);
 
 // ============================================================================
 // GAME LOOP & UPDATE FUNCTIONS
 // ============================================================================
 int		ft_update(void *param);
 long	ft_get_time(void);
+bool	is_directive_line(char *line);
+bool	is_only_spaces(const char *line);
 
 // ============================================================================
 // MOVEMENT & INPUT FUNCTIONS
@@ -141,24 +142,32 @@ void	ft_raycast_max_size(double angle, t_raycast *ray, double max_size, int cuad
 // ============================================================================
 // RENDER FUNCTIONS
 // ============================================================================
-void		ft_render_3d(t_game *game);
-void		ft_draw_minimap_border(t_game *game);
-void		ft_draw_minimap_background(t_game *game);
-void		ft_draw_player_indicator(t_game *game);
-void		ft_draw_minimap_row(t_game *game, int my);
-void		ft_draw_minimap_tile(t_game *game, int mx, int my);
-void		ft_draw_tile_edges(t_game *game, int mx, int my, int color);
-int			ft_get_tile_color(char tile_char);
-t_vector2	ft_world_corner_to_screen(t_game *game, double wx, double wy);
-void		ft_draw_line_minimap(t_game *game, t_vector2 p1, t_vector2 p2, int color);
-void		ft_map2D(t_game *game);
-void		ft_draw_objects(t_game *game);
-void		ft_draw_minimap_doors(t_game *game);
-void		draw_column(t_game *game, int x, t_raycast *ray);
-void		ft_draw_player(t_game *game);
-void		ft_scale_t_image_precalc(t_texture *tex_origin, t_texture *text_destiny, t_game *game);
-void		ft_scale_t_image(t_texture *tex_origin, t_texture *text_destiny);
-
+void			ft_render_3d(t_game *game);
+void			ft_draw_minimap_border(t_game *game);
+void			ft_draw_minimap_background(t_game *game);
+void			ft_draw_player_indicator(t_game *game);
+void			ft_draw_minimap_row(t_game *game, int my);
+void			ft_draw_minimap_tile(t_game *game, int mx, int my);
+void			ft_draw_tile_edges(t_game *game, int mx, int my, int color);
+int				ft_get_tile_color(char tile_char);
+t_vector2		ft_world_corner_to_screen(t_game *game, double wx, double wy);
+void			ft_draw_line_minimap(t_game *game, t_vector2 p1, t_vector2 p2, int color);
+void			ft_map2d(t_game *game);
+void			ft_draw_objects(t_game *game);
+void			ft_draw_minimap_doors(t_game *game);
+void			draw_column(t_game *game, int x, t_raycast *ray);
+void			ft_draw_player(t_game *game);
+void			ft_scale_t_image_precalc(t_texture *tex_origin, t_texture *text_destiny, t_game *game);
+void			ft_scale_t_image(t_texture *tex_origin, t_texture *text_destiny);
+void			draw_background(t_game *game);
+t_texture		*get_texture_for_wall(t_game *game, t_raycast *ray);
+t_texture		*get_texture_for_ceiling(t_game *game, t_vector2 *pos);
+t_texture		*get_texture_for_floor(t_game *game, t_vector2 *pos);
+unsigned int	get_fc_color(t_texture *texture, t_vector2 *pos);
+int 			ft_calculate_wall_height(t_raycast *ray, int x, t_game *game);
+int 			ft_calc_texture_x(t_raycast *ray, t_texture *texture);
+t_vector2		ft_reposition_vector2(t_game *game, t_vector2 vec);
+void			draw_ceiling_and_floor(t_game *game, int x, int wall_start);
 // Drawing utilities
 void	ft_draw_line_in_image(t_game *game, t_vector2 start, t_vector2 end, int color);
 void	ft_draw_pixel_in_img(t_img *img, int x, int y, int color);

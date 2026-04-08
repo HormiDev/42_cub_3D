@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:10 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 19:59:56 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 00:36:46 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,44 @@
 
 /**
  * @file ft_parse_textures.c
- * @brief Funciones para analizar las texturas del archivo del mapa y cargarlas en el juego.
+ * @brief Funciones para analizar las texturas del archivo 
+ * del mapa y cargarlas en el juego.
  *
- * Este archivo contiene funciones para manejar el análisis de texturas, incluyendo la carga de texturas desde rutas de archivos
+ * Este archivo contiene funciones para manejar el 
+ * análisis de texturas, incluyendo la carga de texturas desde rutas de archivos
  * y la creación de objetos de textura para paredes, suelos y techos.
  */
 static void	ft_load_texture_from_path(t_game *game, t_texture *tex, char *path)
 {
-	int	i;
+	int		i;
 
-	
 	check_arguments_xpm(path);
 	tex->path = hd_alloc(ft_strdup(path), free);
-	tex->img = (t_img *)ft_mlx_xpm_file_to_image(game->mlx, tex->path, &tex->width, &tex->height);
+	tex->img = (t_img *)ft_mlx_xpm_file_to_image(game->mlx,
+			tex->path, &tex->width, &tex->height);
 	if (!tex->img)
 	{
-		ft_dprintf(2, RED "Error: Failed to load texture from path: %s\n" RESET, tex->path);
+		ft_dprintf(2,
+			RED "Error: Failed to load from path: %s\n" RESET, tex->path);
 		ft_close_game(1);
 	}
 	tex->cmx = hd_calloc(tex->height, sizeof(unsigned int *));
 	i = 0;
 	while (i < tex->height)
 	{
-		tex->cmx[i] = (unsigned int *)(tex->img->data + (i * sizeof(char) * 4 * tex->width));
+		tex->cmx[i] = (unsigned int *)(tex->img->data
+				+ (i * sizeof(char) * 4 * tex->width));
 		i++;
 	}
 }
 
 /**
- * @brief Crea una textura a partir de una línea de definición y la carga en el juego.
+ * @brief Crea una textura con  línea de definición y la carga en el juego.
  *
- * Esta función analiza la línea proporcionada, determina si es una ruta de textura o un color,
- * y crea un objeto de textura correspondiente. Si es una ruta, carga la textura desde el archivo.
+ * Esta función analiza la línea proporcionada, determina 
+ * si es una ruta de textura o un color,
+ * y crea un objeto de textura correspondiente. Si es una ruta, 
+ * carga la textura desde el archivo.
  * Si es un color, lo convierte a formato RGB.
  *
  * @param game estructura del juego donde se almacenará la textura.
@@ -54,7 +60,7 @@ static void	ft_load_texture_from_path(t_game *game, t_texture *tex, char *path)
  */
 t_texture	*ft_create_texture(t_game *game, char *line)
 {
-	t_texture 	*tex;
+	t_texture	*tex;
 	char		**split;
 	int			path_or_color;
 
@@ -75,85 +81,58 @@ t_texture	*ft_create_texture(t_game *game, char *line)
 	return (tex);
 }
 
-
-/**
- * @brief Procesa una línea de definición de textura de pared y la añade a la lista de texturas del juego.
- *
- * Esta función identifica el tipo de textura de pared (NO, SO, WE, EA) en la línea proporcionada,
- * crea un objeto de textura y lo añade a la lista correspondiente en la estructura del juego.
- *
- * @param game estructura del juego donde se almacenarán las texturas.
- * @param line Línea que contiene la definición de la textura de pared.
- * BONUS: Modificar 
- */
-static void	ft_parse_floor_ceiling_door(t_game *game, char *line)
+static void	ft_add_wall_texture(t_game *game, char *line, int wall_id)
 {
-	t_texture *new_tex;
+	t_texture	*new_tex;
 
-	if (ft_strncmp_p(line, "F", 1) == 0)
-	{
-		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[4], hd_alloc(ft_lstnew(new_tex), free));
-	}
-	else if (ft_strncmp_p(line, "C", 1) == 0)
-	{
-		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[5], hd_alloc(ft_lstnew(new_tex), free));
-	}
-	else if (ft_strncmp_p(line, "D", 1) == 0)
-	{
-		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[6], hd_alloc(ft_lstnew(new_tex), free));
-	}
+	new_tex = ft_create_texture(game, line);
+	ft_lstadd_back(&game->textures[wall_id],
+		hd_alloc(ft_lstnew(new_tex), free));
 }
 
 /**
- * @brief Procesa una línea de definición de textura y la añade a la lista de texturas del juego.
+ * @brief Procesa una línea de definición de textura y la añade 
+ * a la lista de texturas del juego.
  *
- * Esta función identifica el tipo de textura (NO, SO, WE, EA) en la línea proporcionada,
- * crea un objeto de textura y lo añade a la lista correspondiente en la estructura del juego.
+ * Esta función identifica el tipo de textura (NO, SO, WE, EA) 
+ * en la línea proporcionada,
+ * crea un objeto de textura y lo añade a la lista correspondiente 
+ * en la estructura del juego.
  *
  * @param game estructura del juego donde se almacenarán las texturas.
  * @param line Línea que contiene la definición de la textura.
  */
-void ft_parse_texture_line(t_game *game, char *line)
+void	ft_parse_texture_line(t_game *game, char *line)
 {
-	t_texture *new_tex;
-
 	if (ft_strncmp_p(line, "NO", 2) == 0)
-	{
-		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[WALL_NO], hd_alloc(ft_lstnew(new_tex), free));
-	}
+		ft_add_wall_texture(game, line, WALL_NO);
 	else if (ft_strncmp_p(line, "SO", 2) == 0)
-	{
-		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[WALL_SO], hd_alloc(ft_lstnew(new_tex), free));
-	}
+		ft_add_wall_texture(game, line, WALL_SO);
 	else if (ft_strncmp_p(line, "WE", 2) == 0)
-	{
-		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[WALL_WE], hd_alloc(ft_lstnew(new_tex), free));
-	}
+		ft_add_wall_texture(game, line, WALL_WE);
 	else if (ft_strncmp_p(line, "EA", 2) == 0)
-	{
-		new_tex = ft_create_texture(game, line);
-		ft_lstadd_back(&game->textures[WALL_EA], hd_alloc(ft_lstnew(new_tex), free));
-	}
-	else
-		ft_parse_floor_ceiling_door(game, line);
+		ft_add_wall_texture(game, line, WALL_EA);
+	else if (ft_strncmp_p(line, "F", 1) == 0)
+		ft_add_wall_texture(game, line, 4);
+	else if (ft_strncmp_p(line, "C", 1) == 0)
+		ft_add_wall_texture(game, line, 5);
+	else if (ft_strncmp_p(line, "D", 1) == 0)
+		ft_add_wall_texture(game, line, 6);
 }
 
-
-
 /**
- * @brief Parsea todas las definiciones de texturas y colores desde el archivo del mapa.
+ * @brief Parsea todas las definiciones de texturas 
+ * y colores desde el archivo del mapa.
  *
- * Recorre cada línea del archivo del mapa, identifica las definiciones de texturas y colores
- * (NO, SO, WE, EA, F, C, D), y las añade a las listas o campos correspondientes en la estructura del juego.
+ * Recorre cada línea del archivo del mapa, identifica 
+ * las definiciones de texturas y colores
+ * (NO, SO, WE, EA, F, C, D), y las añade a las listas o 
+ * campos correspondientes en la estructura del juego.
  *
- * @param game estructura del juego donde se almacenarán las texturas y colores.
- * @param map_file estructura de archivo que contiene el contenido del mapa como un arreglo de cadenas.
+ * @param game estructura del juego donde se almacenarán 
+ * las texturas y colores.
+ * @param map_file estructura de archivo que contiene 
+ * el contenido del mapa como un arreglo de cadenas.
  */
 void	ft_read_textures_in_map(t_game *game, t_file *map_file)
 {

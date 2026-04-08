@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 18:15:03 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/07 16:51:25 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 01:17:36 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,30 @@
 /**
  * @brief Calcula los raycasts para cada columna de la ventana.
  *
- * Esta función recorre cada columna de la ventana y calcula el raycast correspondiente
- * utilizando la función ft_raycast. Los resultados se almacenan en el array de raycasts
+ * Esta función recorre cada columna de la ventana y 
+ * calcula el raycast correspondiente
+ * utilizando la función ft_raycast. Los resultados 
+ * se almacenan en el array de raycasts
  * del juego.
  *
- * @param game estructura del juego que contiene la información del jugador y los raycasts.
+ * @param game estructura del juego que contiene 
+ * la información del jugador y los raycasts.
  */
-void ft_calculate_raycasts(t_game *game)
+void	ft_calculate_raycasts(t_game *game)
 {
-	int i;
-	double angle_step = FOV / game->config.render_width;
-	double start_angle = game->player->rotation.x - (FOV / 2);
-	double current_angle;
+	int			i;
+	double		angle_step;
+	double		start_angle;
+	double		current_angle;
 
+	start_angle = game->player->rotation.x - (FOV / 2);
+	angle_step = FOV / game->config.render_width;
 	i = 0;
 	while (i < game->config.render_width)
 	{
 		current_angle = start_angle + i * angle_step;
-		ft_raycast(game, current_angle, &game->raycasts[i], MAX_RAY_SIZE, game->player->position);
+		ft_raycast(game, current_angle,
+			&game->raycasts[i], MAX_RAY_SIZE, game->player->position);
 		i++;
 	}
 }

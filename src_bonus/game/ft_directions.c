@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/07 16:51:20 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 02:27:11 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	ft_move_direction(t_game *game, double angle, double move_speed,
 		int player_index)
 {
 	t_raycast	ray;
-	t_raycast	colision_ray[4];
+	t_raycast	colision_ray[8];
 
 	game->actions[player_index].walk = 1;
 	angle = ft_normalize_angle(angle);
@@ -73,12 +73,16 @@ void	ft_move_direction(t_game *game, double angle, double move_speed,
 	ft_raycast(game, 90.0, &colision_ray[1], DCP, game->player->position);
 	ft_raycast(game, 180.0, &colision_ray[2], DCP, game->player->position);
 	ft_raycast(game, 270.0, &colision_ray[3], DCP, game->player->position);
-	if (colision_ray[0].type != -1)
-		game->player->position.x = (int)(game->player->position.x) + 1.0 - DCP;
-	if (colision_ray[1].type != -1)
-		game->player->position.y = (int)(game->player->position.y) + 1.0 - DCP;
-	if (colision_ray[2].type != -1)
-		game->player->position.x = (int)(game->player->position.x) + DCP;
-	if (colision_ray[3].type != -1)
-		game->player->position.y = (int)(game->player->position.y) + DCP;
+	/*ft_raycast(game, 45.0, &colision_ray[4], DCP, game->player->position);
+	ft_raycast(game, 135.0, &colision_ray[5], DCP, game->player->position);
+	ft_raycast(game, 225.0, &colision_ray[6], DCP, game->player->position);
+	ft_raycast(game, 315.0, &colision_ray[7], DCP, game->player->position);*/
+	if (colision_ray[0].type != -1/* || colision_ray[4].type != -1 || colision_ray[7].type != -1*/)
+		game->player->position.x = (int)(game->player->position.x) + 1.0 - DCP;// derecha
+	if (colision_ray[1].type != -1/* || colision_ray[5].type != -1 || colision_ray[4].type != -1*/)
+		game->player->position.y = (int)(game->player->position.y) + 1.0 - DCP;// arriba
+	if (colision_ray[2].type != -1/* || colision_ray[6].type != -1 || colision_ray[5].type != -1*/)
+		game->player->position.x = (int)(game->player->position.x) + DCP;// abajo
+	if (colision_ray[3].type != -1/* || colision_ray[7].type != -1 || colision_ray[6].type != -1*/)
+		game->player->position.y = (int)(game->player->position.y) + DCP;// izquierda
 }

@@ -6,14 +6,14 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:15 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/07 23:52:00 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 00:28:02 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Crea una copia del mapa para usar como heatmap del pathfinding del alien.
+ * @brief copia del mapa para usar como heatmap del pathfinding del alien.
  *
  * Copia game->map a game->map_heatmap como matriz de enteros. El heatmap usa:
  * -1 para muros ('1') y puertas cerradas ('D')
@@ -24,8 +24,8 @@
  */
 static void	ft_create_map_heat(t_game *game)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	tile;
 
 	if (!game || !game->map)
@@ -49,6 +49,28 @@ static void	ft_create_map_heat(t_game *game)
 	}
 }
 
+static void	ft_set_map_dimensions_and_bfs(t_game *game, t_file *map_file,
+		int h_start_end[2], int w_start_end[2])
+{
+	h_start_end[0] = ft_start_line_map(map_file);
+	h_start_end[1] = ft_end_line_map(map_file, h_start_end[0]);
+	game->width_height[1] = h_start_end[1] - h_start_end[0] + 1;
+	w_start_end[0] = ft_start_column_map(map_file, h_start_end);
+	w_start_end[1] = ft_end_column_map(map_file, h_start_end);
+	game->width_height[0] = w_start_end[1] - w_start_end[0] + 1;
+	if (game->width_height[0] < 3 || game->width_height[1] < 3)
+	{
+		ft_dprintf(2, "%sError: Failed to load small map\n%s", RED, RESET);
+		ft_close_game(1);
+	}
+	game->bfs_queue_size = game->width_height[0] * game->width_height[1];
+	if (game->bfs_queue_size > 8192)
+		game->bfs_queue_size = 8192;
+	game->bfs_parent_size = game->width_height[0] * game->width_height[1];
+	game->bfs_visited_width = game->width_height[0];
+	game->bfs_visited_height = game->width_height[1];
+}
+
 /**
  * @brief Parsea el mapa del juego.
  *
@@ -61,26 +83,10 @@ static void	ft_create_map_heat(t_game *game)
  */
 void	ft_parse_map(t_game *game, t_file *map_file)
 {
-	int h_start_end[2];
-	int w_start_end[2];
+	int	h_start_end[2];
+	int	w_start_end[2];
 
-	h_start_end[0] = ft_start_line_map(map_file);
-	h_start_end[1] = ft_end_line_map(map_file, h_start_end[0]);
-	game->width_height[1] = h_start_end[1] - h_start_end[0] + 1;
-	w_start_end[0] = ft_start_column_map(map_file, h_start_end);
-	w_start_end[1] = ft_end_column_map(map_file, h_start_end);
-	game->width_height[0] = w_start_end[1] - w_start_end[0] + 1;
-	if (game->width_height[0] < 3 || game->width_height[1] < 3)
-	{
-		ft_dprintf(2, "%sError: Failed to load map: it's small\n%s", RED, RESET);
-		ft_close_game(1);
-	}
-	game->bfs_queue_size = game->width_height[0] * game->width_height[1];
-	if (game->bfs_queue_size > 8192)
-		game->bfs_queue_size = 8192;
-	game->bfs_parent_size = game->width_height[0] * game->width_height[1];
-	game->bfs_visited_width = game->width_height[0];
-	game->bfs_visited_height = game->width_height[1];
+	ft_set_map_dimensions_and_bfs(game, map_file, h_start_end, w_start_end);
 	ft_create_game_map(game, map_file, h_start_end, w_start_end);
 	ft_check_map(game);
 	ft_rotate_map_y(game);
@@ -102,16 +108,19 @@ void	ft_parse_map(t_game *game, t_file *map_file)
  */
 void	ft_alloc_bfs_structures(t_game *game)
 {
-	int	i;
-	
+	int		i;
+
 	if (game->bfs_queue_size > 8192)
 		game->bfs_queue_size = 8192;
 	if (game->bfs_parent_size > 8192)
 		game->bfs_parent_size = 8192;
-	game->bfs_queue = (t_vector_int *)hd_calloc(game->bfs_queue_size, sizeof(t_vector_int));
+	game->bfs_queue
+		= (t_vector_int *)hd_calloc(game->bfs_queue_size, sizeof(t_vector_int));
 	game->bfs_parent = (int *)hd_calloc(game->bfs_parent_size, sizeof(int));
-	game->bfs_visited = (int **)hd_calloc(game->bfs_visited_height, sizeof(int *));
+	game->bfs_visited
+		= (int **)hd_calloc(game->bfs_visited_height, sizeof(int *));
 	i = -1;
 	while (++i < game->bfs_visited_height)
-		game->bfs_visited[i] = (int *)hd_calloc(game->bfs_visited_width, sizeof(int));
+		game->bfs_visited[i]
+			= (int *)hd_calloc(game->bfs_visited_width, sizeof(int));
 }

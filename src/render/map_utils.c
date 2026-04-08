@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/29 17:38:41 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 23:02:59 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/08 02:40:01 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,35 +91,6 @@ void	ft_draw_grid_horizontal(t_game *game, int color)
 			x++;
 		}
 		i += TILE_MAP_SIZE;
-	}
-}
-
-/**
- * @brief Dibuja un cuadrado en una posición específica del mapa.
- *
- * Esta función dibuja un cuadrado de tamaño especificado en las coordenadas
- * con el color proporcionado. Se utiliza para representar tiles en el minimapa.
- * @param game estructura del juego que contiene la imagen del mapa.
- * @param pos Posición (x, y) donde se dibujará el cuadrado.
- * @param size Tamaño del cuadrado a dibujar.
- * @param color Color del cuadrado a dibujar.
- */
-void	ft_draw_sq_at(t_game *game, t_vector2 pos, int size, int color)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < size)
-	{
-		j = 0;
-		while (j < size)
-		{
-			ft_draw_pixel_in_img(game->img_map->img, (int)pos.x + j,
-				(int)pos.y + i, color);
-			j++;
-		}
-		i++;
 	}
 }
 

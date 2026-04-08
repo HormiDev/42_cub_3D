@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:46 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/08 00:18:10 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 00:18:50 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ static void	ft_fill_map_transitable(t_game *game)
 		j = 0;
 		while (j < cols)
 		{
-			if (game->map[i][j] == '0' || game->map[i][j] == 'N' 
-				|| game->map[i][j] == 'S' || game->map[i][j] == 'E' 
-				|| game->map[i][j] == 'W'|| game->map[i][j] == 'D')
+			if (game->map[i][j] == '0' || game->map[i][j] == 'N'
+				|| game->map[i][j] == 'S' || game->map[i][j] == 'E'
+				|| game->map[i][j] == 'W' || game->map[i][j] == 'D')
 				game->map_transitable[i][j] = '0';
 			else
 				game->map_transitable[i][j] = '1';
@@ -75,7 +75,7 @@ static void	ft_fill_map_transitable(t_game *game)
  *
  * Copia el mapa original y marca todos los espacios abiertos como '0',
  * y todos los muros/puertas como '1'. Esto facilita crear un mapa de calor
- * donde los '0s' pueden incrementarse (1, 2, 3...) según la presencia de jugadores.
+ * donde los '0s' pueden incrementarse según la presencia de jugadores.
  *
  * @param game estructura del juego.
  */

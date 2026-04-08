@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   ft_mlx_hd_alloc_functions.c                       :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/03/17 19:12:03 by username         #+#    #+#              */
-/*   Updated: 2026/04/07 23:25:04 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   ft_mlx_hd_alloc_functions.c                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/03/17 19:12:03 by username          #+#    #+#             */
+/*   Updated: 2026/04/08 01:15:38 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	*ft_create_image(void *mlx, int size_x, int size_y)
 	return (mlx_image[1]);
 }
 
-void * ft_mlx_xpm_file_to_image(void * mlx, char * filename,
+void	*ft_mlx_xpm_file_to_image(void *mlx, char *filename,
 	int	*width, int *height)
 {
 	void	**mlx_image;
