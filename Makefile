@@ -72,7 +72,6 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/game/ft_gamepad.c \
 			src_bonus/game/mouse.c \
 			src_bonus/game/audio_manager.c \
-			src_bonus/game/audio_manager_utils.c \
 			src_bonus/game/flamethrower.c \
 			src_bonus/game/flamethrower_hud.c \
 			src_bonus/game/input_manager.c \
@@ -110,7 +109,6 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/render/ft_map2d_objects.c \
 			src_bonus/ft_sqrt.c \
 			src_bonus/ft_image_transparent.c \
-			src_bonus/ft_play_audio.c \
 			src_bonus/ft_sin_cos.c \
 			src_bonus/ft_loading_game.c \
 			src_bonus/ft_close_game.c \
@@ -156,6 +154,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_loading_prerender_models.c \
 			src_bonus/hd_alloc_functions/ft_hd_alloc_closedir.c \
 			src_bonus/ft_menu_function_buttons.c \
+			src_bonus/ft_create_null_texture.c
 
 OBJ_DIR  = objects
 OBJ_DIR_BONUS  = objects_bonus
@@ -163,7 +162,7 @@ OBJ_DIR_BONUS  = objects_bonus
 LIBSA = minilibx-linux/libmlx.a \
 		42_Libft/libft.a \
 
-LFLAGS = -lXext -lX11 -lm
+LFLAGS = -lXext -lX11 -lm 
 
 OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_BONUS = $(patsubst %.c, $(OBJ_DIR_BONUS)/%.o, $(SRC_BONUS))

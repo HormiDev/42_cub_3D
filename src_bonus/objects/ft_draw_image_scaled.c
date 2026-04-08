@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_draw_image_scaled.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/01 01:22:24 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/09 00:23:55 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,14 +183,12 @@ void	ft_draw_image_rgba_scaled_plus(t_game *game, t_texture *src,
 			raicast_iter--;
 			start_dst.x++;
 			start_src.x += src_iter.x;
-			//start_src.x = (float)src->width / (float)src_size * (float)(start_dst.x - tmp_start_dst_x);
 			src_pos.x = (int)start_src.x;
 			if (src_pos.x >= src->width)
 				src_pos.x = src->width - 1;
 		}
 		start_dst.y++;
 		start_src.y += src_iter.y;
-		//start_src.y = (float)src->height / (float)src_size * (float)(start_dst.y - tmp_start_dst_y);
 		src_pos.y = (int)start_src.y;
 		if (src_pos.y >= src->height)
 			src_pos.y = src->height - 1;

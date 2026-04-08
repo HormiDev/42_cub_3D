@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 19:39:51 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/08 13:10:03 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 00:11:10 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,10 @@ static void	audio_manager_run(t_audio_manager *audio_manager)
 	while (line)
 	{
 		line[ft_strlen_p(line) - 1] = '\0';
-		ft_play_audio(line, audio_manager->env);
+		if (ft_strncmp_p(line, "stop", 5) == 0)
+			hd_alloc_clear();
+		else
+			ft_play_audio(line, audio_manager->env);
 		hd_free(line);
 		line = hd_alloc(get_next_line(0), free);
 	}
@@ -134,6 +137,9 @@ int	main(int argc, char **argv, char **env)
 	if (!audio_manager)
 		return (1);
 	audio_manager_send(audio_manager, "music&sounds/menu.wav");
+	sleep(2);
+	audio_manager_send(audio_manager, "stop");
+	sleep(2);
 	for(int i = 0; i < 2; i++)
 	{
 		sleep(1);

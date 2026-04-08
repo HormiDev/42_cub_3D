@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:16:38 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/07 12:45:06 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 20:03:05 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static char *ft_get_next_file(DIR *dir, char *path_dir)
 	entry = readdir(dir);
 	while (entry)
 	{
-		ft_sprintf(full_path, "%s%s", path_dir, entry->d_name);
+		ft_snprintf(full_path, sizeof(full_path), "%s%s", path_dir,
+			entry->d_name);
 		if (stat(full_path, &st) == 0 && S_ISREG(st.st_mode))
 			return (entry->d_name);
 		entry = readdir(dir);
@@ -46,17 +47,22 @@ void	ft_loading_textures_with_path(t_game *game, t_prerender_model *pre, char *p
 	ft_printf("Loading prerender models from: %s\n", path_dir);
 	i = 0;
 	file_name = ft_get_next_file(dir, path_dir);
-	while (file_name && i < (pre->n_angles * pre->n_frames))
+	while (i < (pre->n_angles * pre->n_frames))
 	{
-		ft_sprintf(cwd, "%s%s", path_dir, file_name);
-		ft_printf("Loading texture: %s\n", file_name);
-		pre->texture[i] = ft_loading_texture(game->mlx, cwd);
-		if (!pre->texture[i])
+		if (ft_strnstr(file_name + ft_strlen(file_name) - 4, ".xpm", 4))
 		{
-			ft_printf("Error loading texture: %s\n", file_name);
-			return ;
+			if (file_name)
+			{
+				ft_snprintf(cwd, sizeof(cwd), "%s%s", path_dir, file_name);
+				ft_printf("Loading texture: %s\n", file_name);
+				pre->texture[i] = ft_loading_texture(game->mlx, cwd);
+				if (!pre->texture[i])
+					pre->texture[i] = game->null_texture;
+			}
+			else if (!file_name)
+				pre->texture[i] = game->null_texture;
+			i++;
 		}
-		i++;
 		file_name = ft_get_next_file(dir, path_dir);
 	}
 	hd_free(dir);
@@ -74,7 +80,7 @@ void	ft_ordered_textures(t_prerender_model *pre)
 		j = i + 1;
 		while (j < (pre->n_angles * pre->n_frames))
 		{
-			if (ft_strncmp_p(pre->texture[i]->path, pre->texture[j]->path, ft_strlen(pre->texture[j]->path)) > 0)
+			if (pre->texture[i]->path && pre->texture[j]->path && ft_strncmp_p(pre->texture[i]->path, pre->texture[j]->path, ft_strlen(pre->texture[j]->path)) > 0)
 			{
 				tmp = pre->texture[i];
 				pre->texture[i] = pre->texture[j];

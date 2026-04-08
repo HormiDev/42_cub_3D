@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 23:14:45 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/09 00:36:04 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	input_handle_menu_a(t_game *game)
 {
 	if (!game || !game->show_menu)
 		return (-1);
-	audio_stop_menu(game);
+	audio_manager_stop(game->audio_manager);
 	game->show_menu = 0;
 	return (0);
 }
@@ -81,13 +81,13 @@ int	input_handle_menu_b(t_game *game)
 	if (!game)
 		return (-1);
 	if (game->show_menu == 1)
-	{
-		audio_stop_menu(game);
 		ft_close_game(0);
-	}
 	else if (game->show_menu == 2)
 		ft_menu_button(game);
 	else
+	{
+		audio_manager_send(game->audio_manager, "music&sounds/menu.wav");
 		game->show_menu = 1;
+	}
 	return (0);
 }

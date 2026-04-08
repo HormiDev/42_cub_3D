@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 16:11:54 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 00:30:33 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	ft_update_menu(t_game *game)
 	char charges[20];
 	char timer[20];
 
-	audio_play_menu(game, "music&sounds/menu.wav");
 	ft_draw_menu_background(game);
 	if (game->show_menu == 1)
 	{
@@ -112,25 +111,22 @@ void	ft_loading_menu_frames(t_game *game)
 {
 	char		path[256];
 	int			i;
-	int			j;
 	t_texture	*frame;
 
 	i = 0;
-	j = 0;
 	hd_alloc_set_error_func(0);
 	while (i < 200)
 	{
 		ft_snprintf(path, sizeof(path), "menu_frames/frame_%d.xpm", i);
 		frame = ft_loading_texture(game->mlx, path);
 		if (frame)
-		{
-			game->menu.frames_textures[j] = frame;
-			j++;
-		}
+			game->menu.frames_textures[i] = frame;
+		else
+			game->menu.frames_textures[i] = game->null_texture;
 		i++;
 	}
 	hd_alloc_set_error_func(hd_alloc_error_func_d);
-	game->menu.total_frames = j;
+	game->menu.total_frames = i;
 }
 
 /**
@@ -144,7 +140,7 @@ void	ft_start_button(void *game_ptr)
 	game = (t_game *)game_ptr;
 	if (!game)
 		return ;
-	audio_stop_menu(game);
+	audio_manager_send(game->audio_manager, "stop");
 	game->show_menu = 0;
 }
 

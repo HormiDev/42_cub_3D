@@ -14,29 +14,34 @@
 #include "../includes/cub_3d_bonus.h"
 
 /**
- * @brief Dibuja la pantalla de fin de juego (GAME OVER).
+ * @brief Dibuja la pantalla de victoria de los jugadores.
  *
- * Renderiza una pantalla negra con un mensaje de derrota cuando el alien
- * ha eliminado a todos los jugadores.
+ * Renderiza la imagen PANTALLA-WIN.xpm escalada como fondo con transparencia,
+ * y dibuja "players win" centrado.
  *
  * @param game estructura del juego.
  */
-static void	ft_draw_game_over_screen(t_game *game)
+static void	ft_draw_win_screen(t_game *game)
 {
-	int	center_x;
-	int	center_y;
+	t_texture		*scaled_img;
+	t_vector_int	text_pos;
+	int				text_len;
 
-	center_x = WINDOW_WIDTH / 2;
-	center_y = WINDOW_HEIGHT / 2;
+	if (!game->screen_end_img)
+		return ;
+	scaled_img = ft_new_texture(game->mlx, game->render->width, game->render->height);
+	if (scaled_img)
+	{
+		ft_scale_t_image(game->screen_end_img, scaled_img);
+		ft_draw_image_rgba(game->render, scaled_img, 0, 0);
+		hd_free(scaled_img);
+	}
+	text_len = ft_strlen("players win");
+	text_pos.x = game->render->width / 2 - (text_len * 6 * 4) / 2;
+	text_pos.y = game->render->height / 2 - (game->font->height * 4) / 2;
+	ft_draw_string_hud(game->render, game->font, "players win", &text_pos, 4);
 	mlx_clear_window(game->mlx, game->window);
-	mlx_string_put(game->mlx, game->window, center_x - 200, center_y - 100,
-		0xFFFF0000, "GAME OVER");
-	mlx_string_put(game->mlx, game->window, center_x - 150, center_y,
-		0xFFFFFFFF, "YOU LOST");
-	mlx_string_put(game->mlx, game->window, center_x - 250, center_y + 100,
-		0xFFFFFF00, "The alien has eliminated all players...");
-	mlx_string_put(game->mlx, game->window, center_x - 100, center_y + 200,
-		0xFF00FF00, "Press ESC to exit");
+	mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
 }
 
 /**
@@ -68,7 +73,7 @@ void	ft_one_player(t_game *game)
 	ft_render_all_sprites(game);
 	ft_map2d(game);
 	ft_render_timer_hud(game);
-	ft_render_flamethrower_hud(game, 0);
+	//ft_render_flamethrower_hud(game, 0);
 	if (game->config.render_height != WINDOW_HEIGHT
 		|| game->config.render_width != WINDOW_WIDTH)
 	{
@@ -106,7 +111,7 @@ void	ft_two_players(t_game *game)
 		ft_render_all_sprites(game);
 		ft_map2d(game);
 		ft_render_timer_hud(game);
-		ft_render_flamethrower_hud(game, player_index);
+		//ft_render_flamethrower_hud(game, player_index);
 		ft_scale_t_image_precalc_two(game->render, game->window_img, game,
 			player_index);
 		ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH / 100,
@@ -138,7 +143,7 @@ void	ft_three_players(t_game *game)
 		ft_render_all_sprites(game);
 		ft_map2d(game);
 		ft_render_timer_hud(game);
-		ft_render_flamethrower_hud(game, player_index);
+		//ft_render_flamethrower_hud(game, player_index);
 		ft_scale_t_image_precalc_three(game->render, game->window_img, game,
 			player_index);
 		if (player_index == 0)
@@ -181,7 +186,7 @@ int	ft_update(void *param)
 	game = (t_game *)param;
 	if (!ft_calc_delta_time(game))
 		return (0);
-	ft_sprintf(string_fps, "Fps: %d", (int)(1 / game->delta_time));
+	ft_snprintf(string_fps, sizeof(string_fps), "Fps: %d", (int)(1 / game->delta_time));
 	//ft_update_gamepad(game);
 	//ft_gamepad_handle_system_buttons(game);
 	//ft_gamepad_movement(game);
@@ -189,11 +194,11 @@ int	ft_update(void *param)
 		ft_update_menu(game);
 	else if (game->game_state == GAME_ALIEN_WIN)
 	{
-		ft_draw_game_over_screen(game);
+		ft_draw_win_screen(game);
 	}
 	else if (game->game_state == GAME_PLAYERS_WIN)
 	{
-		ft_draw_game_over_screen(game);
+		ft_draw_win_screen(game);
 	}
 	else
 	{
@@ -206,7 +211,6 @@ int	ft_update(void *param)
 			ft_three_players(game);
 		mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
 		ft_render_timer_hud(game);
-		ft_debug_alien(game);
 	}
 	return (0);
 }

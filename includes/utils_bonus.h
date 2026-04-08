@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by username          #+#    #+#             */
-/*   Updated: 2026/04/08 01:32:29 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 00:50:07 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <stdbool.h>
 # include <sys/wait.h>
 # include <signal.h>
+#include <sys/types.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
@@ -258,6 +259,7 @@ typedef struct s_player
 	int					path_len;
 	int					curr_step;
 	t_vector_int		last_heatmap_pos;
+	int					chase_sound_played;
 }	t_player;
 
 typedef struct s_gamepad
@@ -303,9 +305,7 @@ typedef struct s_player_actions
 	int		flamethrower_charges;
 	int		flamethrower_ready;
 	long	flamethrower_last_time;
-	// Timestamp del último disparo
 	double	flamethrower_cooldown_remaining;
-	// Tiempo restante en segundos
 }	t_player_actions;
 
 typedef enum e_duration
@@ -364,6 +364,13 @@ typedef struct s_precalc
 	int					*scale_y_table;
 	t_rotated_square	*rotated_squares;
 }	t_precalc;
+
+typedef struct s_audio_manager
+{
+	pid_t	pid;
+	int		pipe[2];
+	char	**env;
+}	t_audio_manager;
 
 typedef struct s_button
 {
@@ -452,8 +459,8 @@ typedef struct s_game
 	t_menu				menu;
 	t_menu				menu_settings;
 	char				**env;
+	t_audio_manager		*audio_manager;
 	double				*fish_eye_correction;
-	pid_t				steps_audio_pid;
 	int					is_walking;
 	// 1 si anda, 0 si está parado
 	int			is_running;
@@ -480,6 +487,8 @@ typedef struct s_game
 	int					*bfs_parent;
 	int					**bfs_visited;
 	double				x_dcp;
+	t_texture			*null_texture;
+	t_texture			*screen_end_img;
 }	t_game;
 
 #endif

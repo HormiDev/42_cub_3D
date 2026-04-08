@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/08 02:07:17 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 20:07:38 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ t_game	*ft_loading_game(char *path_map)
 		ft_dprintf(2, "Error: Failed to create map\n");
 		return (0);
 	}
+	ft_create_null_texture(game);
 	ft_parse_map(game, map_file);
 	ft_read_textures_in_map(game, map_file);
 	ft_build_array_textures(game);
@@ -171,6 +172,9 @@ t_game	*ft_loading_game(char *path_map)
 	game->font = ft_loading_texture(game->mlx, "textures/fuente.xpm");
 	if (!game->font)
 		ft_dprintf(2, RED "Error: Failed to load font texture\n" RESET);
+	game->screen_end_img = ft_loading_texture(game->mlx, "textures/PANTALLA-WIN.xpm");
+	if (!game->screen_end_img)
+		ft_dprintf(2, RED "Error: Failed to load end screen texture\n" RESET);
 	game->config.n_players = 1;
 	game->config.duration_index = 2;
 	game->config.charges = 3;

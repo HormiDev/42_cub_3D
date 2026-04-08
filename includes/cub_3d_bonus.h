@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by username          #+#    #+#             */
-/*   Updated: 2026/04/08 13:44:54 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/08 23:24:30 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,16 @@ void	ft_apply_player0_input(t_game *game);
 void	ft_apply_other_players(t_game *game);
 void	ft_gamepad_movement(t_game *game);
 void	ft_gamepad_handle_system_buttons(t_game *game);
-int		audio_play(t_game *game, const char *path, pid_t *pid_out);
-int		audio_stop(pid_t *pid);
-int		audio_play_steps(t_game *game, const char *path);
-int		audio_stop_steps(t_game *game);
-int		audio_play_menu(t_game *game, const char *path);
-int		audio_stop_menu(t_game *game);
+
+// ============================================================================
+// AUDIO MANAGER FUNCTIONS
+// ============================================================================
+t_audio_manager	*init_audio_manager(char **env);
+int				audio_manager_send(t_audio_manager *audio_manager, const char *msg);
+void			audio_manager_stop(t_audio_manager *audio_manager);
+pid_t			ft_play_audio(const char *filename, char **env);
+int				ft_stop_audio(pid_t pid);
+
 void	input_detect_device(t_game *game);
 void	input_merge_sources(t_game *game);
 void	input_reset_gamepad(t_game *game);
@@ -425,5 +429,6 @@ void	ft_decrease_timer(void *game_ptr);
 void	ft_increase_timer(void *game_ptr);
 
 void	ft_update_heatmap(t_game *game);
+void	ft_create_null_texture(t_game *game);
 
 #endif

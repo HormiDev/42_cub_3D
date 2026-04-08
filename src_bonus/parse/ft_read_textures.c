@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:17 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/08 00:38:33 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 00:46:02 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,9 @@ void	check_arguments_xpm(char *path)
 	t_file		*file;
 	t_strlist	*current;
 
+	hd_alloc_set_error_func(0);
 	file = hd_alloc(ft_create_file_from_filename(path), hd_alloc_free_t_file);
+	hd_alloc_set_error_func(hd_alloc_error_func_d);
 	if (!file)
 	{
 		ft_dprintf(2, RED "Error: Failed to open XPM file: %s\n" RESET, path);

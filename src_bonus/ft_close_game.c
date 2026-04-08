@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:25:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/29 23:33:43 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 00:35:30 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	ft_close_game_for_mlx(t_game *game)
 {
 	if (game)
 	{
+		audio_manager_stop(game->audio_manager);
 		ft_free_gamepad(game);
 		ft_free_doors(game);
 	}
