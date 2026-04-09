@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 19:39:51 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/09 00:11:10 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 13:04:12 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ pid_t ft_play_audio(const char *filename, char **env)
 	if (pid == 0)
 	{
 		hd_alloc_clear();
+		close(2);
 		//ft_printf("[Audio] recibido: %s\n", audio);
 		execve("/usr/bin/aplay", argv, env);
 		exit(1);
