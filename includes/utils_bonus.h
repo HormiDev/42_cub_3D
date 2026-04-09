@@ -6,7 +6,7 @@
 /*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
 /*                                               +#+#+#+#+#+   +#+            */
 /*   Created: 2026/04/05 12:17:03 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 03:21:48 by username        ###   ########.fr        */
+/*   Updated: 2026/04/09 13:25:23 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@
 # define A 97
 # define S 115
 # define D 100
+# define F 102
 # define E 101
 # define Q 113
 # define P 112
@@ -480,6 +481,9 @@ typedef struct s_game
 	int					durations_size;
 	t_game_state		game_state;
 	long				game_start_time;
+	t_vector2			player_spawn_position;
+	double				player_spawn_rotation;
+	int					player_spawn_initialized;
 	t_player			players[MAX_PLAYERS];
 	t_player			*ordered_ojects[MAX_PLAYERS];
 	t_texture			*font;

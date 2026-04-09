@@ -6,7 +6,7 @@
 /*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
 /*                                               +#+#+#+#+#+   +#+            */
 /*   Created: 2025/10/07 00:00:00 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 02:53:13 by username        ###   ########.fr        */
+/*   Updated: 2026/04/09 13:14:25 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ void	ft_restart_match(t_game *game)
 		i++;
 	}
 	ft_config_player(game);
+	if (game->player_spawn_initialized)
+	{
+		game->players[0].position = game->player_spawn_position;
+		game->players[0].rotation.x = game->player_spawn_rotation;
+	}
 	ft_config_alien(game);
 	current = game->doors;
 	while (current)
