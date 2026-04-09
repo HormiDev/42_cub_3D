@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_bonus.h                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/05 12:17:03 by username          #+#    #+#             */
-/*   Updated: 2026/04/09 18:23:29 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   utils_bonus.h                                     :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/04/05 12:17:03 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 19:49:47 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,11 @@
 # define G 103
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 1920
+#  define WINDOW_WIDTH 960
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 1080
+#  define WINDOW_HEIGHT 720
 # endif
 
 # define MENU_HEIGHT 720
@@ -164,40 +164,40 @@ typedef enum e_game_state
 
 typedef struct s_texture
 {
-	t_img				*img;
-	char				*path;
-	unsigned int		texture_color;
-	int					width;
-	int					height;
-	unsigned int		**cmx;
+	t_img			*img;
+	char			*path;
+	unsigned int	texture_color;
+	int				width;
+	int				height;
+	unsigned int	**cmx;
 }	t_texture;
 
 typedef struct s_prerender_model
 {
-	t_texture			**texture;
-	int					n_frames;
-	int					n_angles;
-	int					active_frame;
-	long				last_update_time;
+	t_texture	**texture;
+	int			n_frames;
+	int			n_angles;
+	int			active_frame;
+	long		last_update_time;
 }	t_prerender_model;
 
 typedef struct s_cursor
 {
-	int					x;
-	int					y;
-	int					dir;
+	int	x;
+	int	y;
+	int	dir;
 }	t_cursor;
 
 typedef struct s_vector2
 {
-	double				x;
-	double				y;
+	double	x;
+	double	y;
 }	t_vector2;
 
 typedef struct s_vector_int
 {
-	int					x;
-	int					y;
+	int	x;
+	int	y;
 }	t_vector_int;
 
 /**
@@ -209,31 +209,31 @@ typedef struct s_vector_int
 */
 typedef struct s_raycast
 {
-	t_vector2			origin_position;
-	double				distance;
-	t_vector2			impact;
-	int					type;
+	t_vector2	origin_position;
+	double		distance;
+	t_vector2	impact;
+	int			type;
 }	t_raycast;
 
 typedef struct s_render_objets
 {
-	int					object_type;
-	t_vector2			*position;
-	double				angle;
-	double				distance;
-	double				size;
+	int			object_type;
+	t_vector2	*position;
+	double		angle;
+	double		distance;
+	double		size;
 }	t_render_objects;
 
 typedef struct s_bfs
 {
-	t_vector_int		*queue;
-	int					*parent;
-	int					**visited;
-	int					queue_start;
-	int					queue_end;
-	int					max_queue;
-	int					width;
-	int					height;
+	t_vector_int	*queue;
+	int				*parent;
+	int				**visited;
+	int				queue_start;
+	int				queue_end;
+	int				max_queue;
+	int				width;
+	int				height;
 }	t_bfs;
 
 typedef enum e_entity_type
@@ -267,25 +267,25 @@ typedef struct s_player
 
 typedef struct s_gamepad
 {
-	int					fd;
-	int					connected;
-	int					a;
-	int					b;
-	int					x;
-	int					y;
-	int					lb;
-	int					rb;
-	int					rt;
-	int					left_stick_x;
-	int					left_stick_y;
-	int					right_stick_x;
-	int					right_stick_y;
-	int					right_stick_click;
-	int					menu;
-	int					a_pressed;
-	int					b_pressed;
-	int					menu_pressed;
-	int					rt_pressed;
+	int	fd;
+	int	connected;
+	int	a;
+	int	b;
+	int	x;
+	int	y;
+	int	lb;
+	int	rb;
+	int	rt;
+	int	left_stick_x;
+	int	left_stick_y;
+	int	right_stick_x;
+	int	right_stick_y;
+	int	right_stick_click;
+	int	menu;
+	int	a_pressed;
+	int	b_pressed;
+	int	menu_pressed;
+	int	rt_pressed;
 }	t_gamepad;
 
 typedef enum e_input_device
@@ -296,22 +296,22 @@ typedef enum e_input_device
 
 typedef struct s_player_actions
 {
-	int					front;
-	int					back;
-	int					left;
-	int					right;
-	int					rotate_left;
-	int					rotate_right;
-	int					run;
-	int					walk;
-	int					interact;
-	int					flamethrower_charges;
-	int					flamethrower_ready;
-	long				flamethrower_last_time;
-	double				flamethrower_cooldown_remaining;
-	int					flamethrower_anim_frame;
-	double				flamethrower_anim_time;
-	int					flamethrower_animating;
+	int		front;
+	int		back;
+	int		left;
+	int		right;
+	int		rotate_left;
+	int		rotate_right;
+	int		run;
+	int		walk;
+	int		interact;
+	int		flamethrower_charges;
+	int		flamethrower_ready;
+	long	flamethrower_last_time;
+	double	flamethrower_cooldown_remaining;
+	int		flamethrower_anim_frame;
+	double	flamethrower_anim_time;
+	int		flamethrower_animating;
 }	t_player_actions;
 
 typedef enum e_duration
@@ -340,27 +340,27 @@ typedef enum e_resolutions
 
 typedef struct s_objet_draw
 {
-	t_texture			*scaled;
-	int					screen_x;
-	int					screen_y;
-	int					size;
-	double				distance;
-	int					angle;
+	t_texture	*scaled;
+	int			screen_x;
+	int			screen_y;
+	int			size;
+	double		distance;
+	int			angle;
 }	t_objet_draw;
 
 typedef struct s_image
 {
-	void				*img;
-	char				*img_data;
-	int					bits_pixel;
-	int					image_len;
-	int					end;
+	void	*img;
+	char	*img_data;
+	int		bits_pixel;
+	int		image_len;
+	int		end;
 }	t_image;
 
 typedef struct s_rotated_square
 {
-	int					x[4];
-	int					y[4];
+	int	x[4];
+	int	y[4];
 }	t_rotated_square;
 
 typedef struct s_precalc
@@ -373,57 +373,82 @@ typedef struct s_precalc
 
 typedef struct s_audio_manager
 {
-	pid_t				pid;
-	int					pipe[2];
-	char				**env;
+	pid_t	pid;
+	int		pipe[2];
+	char	**env;
 }	t_audio_manager;
 
 typedef struct s_button
 {
-	t_vector_int		position;
-	t_vector_int		size;
-	void				(*on_click)(void *game);
-	t_texture			*texture;
-	t_texture			*hover_texture;
-	int					is_hovered;
+	t_vector_int	position;
+	t_vector_int	size;
+	void	(*on_click)(void *game);
+	t_texture	*texture;
+	t_texture	*hover_texture;
+	int			is_hovered;
 }	t_button;
 
 typedef struct s_menu
 {
-	t_texture			*render;
-	t_texture			*frames_textures[200];
-	int					total_frames;
-	int					current_frame;
-	long				last_frame_time;
-	t_texture			*logo;
-	t_button			*buttons;
-	int					n_buttons;
-	pid_t				menu_music_pid;
-	t_vector_int		mouse_position;
+	t_texture		*render;
+	t_texture		*frames_textures[200];
+	int				total_frames;
+	int				current_frame;
+	long			last_frame_time;
+	t_texture		*logo;
+	t_button		*buttons;
+	int				n_buttons;
+	pid_t			menu_music_pid;
+	t_vector_int	mouse_position;
 }	t_menu;
 
 typedef struct s_door
 {
-	t_vector_int		position;
-	t_door_state		state;
-	double				animation_progress;
-	double				auto_reopen_delay;
-	double				auto_reopen_timer;
-	int					texture_index;
+	t_vector_int	position;
+	t_door_state	state;
+	double			animation_progress;
+	double			auto_reopen_delay;
+	double			auto_reopen_timer;
+	int				texture_index;
 }	t_door;
 
 typedef struct s_config
 {
-	int					n_players;
-	int					render_width;
-	int					render_height;
-	int					resolution_index;
-	int					render_celling;
-	int					render_mist;
-	int					sound_effects;
-	int					duration_index;
-	int					charges;
+	int	n_players;
+	int	render_width;
+	int	render_height;
+	int	resolution_index;
+	int	render_celling;
+	int	render_mist;
+	int	sound_effects;
+	int	duration_index;
+	int	charges;
 }	t_config;
+
+typedef struct s_raycast_ctx
+{
+	double		angle;
+	double		max_size;
+	t_vector2	origin_position;
+	int			tile_xy[2];
+	t_vector2	distance;
+	double		sin_cos[3];
+	int			cuadrant;
+}	t_raycast_ctx;
+
+typedef struct s_column_ctx
+{
+	int			wall_height;
+	int			y;
+	double		texture_iteration;
+	int			render_end;
+	double		texture_start;
+	int			texture_x;
+	t_texture	*texture;
+	int			mist_density;
+	int			last_texture_pixel;
+	int			height_mid;
+}	t_column_ctx;
 
 typedef struct s_game
 {

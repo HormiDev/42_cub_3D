@@ -96,11 +96,13 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/parse/ft_parse_textures.c \
 			src_bonus/raycast/ft_calculate_raycasts.c \
 			src_bonus/raycast/ft_raycast.c \
+			src_bonus/raycast/ft_raycast_type.c \
 			src_bonus/raycast/ft_raycast_utils.c \
 			src_bonus/render/map_utils.c \
 			src_bonus/render/ft_paint.c \
 			src_bonus/render/ft_paint_utils.c \
 			src_bonus/render/ft_paint_calculus.c \
+			src_bonus/render/ft_paint_columns.c \
 			src_bonus/render/raycast_utils.c \
 			src_bonus/render/raycast_utils_2.c \
 			src_bonus/render/ft_map2d.c \
