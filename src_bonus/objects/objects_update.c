@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   objects_update.c                                  :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/04/02 16:24:25 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 16:26:52 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   objects_update.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/02 16:24:25 by username          #+#    #+#             */
+/*   Updated: 2026/04/09 18:32:22 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,13 @@ void	ft_update_aliens(t_game *game)
 		return ;
 	alien = &game->players[4];
 	objetive = ft_check_objetive(game, alien);
+	if (alien->model->last_update_time < game->current_time + 1000 / alien->model->n_frames)
+	{
+		alien->model->last_update_time = game->current_time;
+		alien->model->active_frame++;
+		if (alien->model->active_frame > alien->model->n_frames)
+			alien->model->active_frame = 1;
+	}
 	ft_update_alien_state_and_speed(game, alien, objetive);
 	ft_execute_alien_behavior(game, alien);
 	ft_check_alien_collision(game);

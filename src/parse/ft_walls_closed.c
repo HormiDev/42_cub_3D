@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   ft_walls_closed.c                                 :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2025/05/17 01:18:49 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 02:47:50 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   ft_walls_closed.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/17 01:18:49 by username          #+#    #+#             */
+/*   Updated: 2026/04/09 18:23:55 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,13 @@ int	ft_check_space_surrounded(char **map, int i, int j)
 {
 	if (i > 0 && map[i - 1][j] != 0 && map[i - 1][j] != '1' && map[i
 				-1][j] != ' ')
-	return (ft_print_map(map, j, i - 1), 0);
+		return (ft_print_map(map, j, i - 1), 0);
 	if (map[i + 1] && map[i + 1][j] != 0 && map[i + 1][j] != '1' && map[i
 				+1][j] != ' ')
-	return (ft_print_map(map, j, i + 1), 0);
+		return (ft_print_map(map, j, i + 1), 0);
 	if (j > 0 && map[i][j - 1] != 0 && map[i][j - 1] != '1' && map[i][j
 				-1] != ' ')
-	return (ft_print_map(map, j - 1, i), 0);
+		return (ft_print_map(map, j - 1, i), 0);
 	if (map[i][j + 1] != 0 && map[i][j + 1] != '1' && map[i][j + 1] != ' ')
 		return (ft_print_map(map, j + 1, i), 0);
 	return (1);

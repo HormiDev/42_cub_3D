@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:16:38 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/08 20:03:05 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 18:55:49 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ void	ft_ordered_textures(t_prerender_model *pre)
 		}
 		i++;
 	}
+	ft_printf("Ordered textures: %d   %d\n", i, pre->n_angles * pre->n_frames);
 	i = 0;
 	while (i < (pre->n_angles * pre->n_frames) - 1)
 	{
@@ -109,10 +110,12 @@ t_prerender_model	*ft_init_prerender_model(t_game *game, int n_frames, int n_ang
 	ft_printf("Initializing prerender model with %d frames and %d angles\n", n_frames, n_angles);
 	ft_loading_textures_with_path(game, pre, path);
 	ft_ordered_textures(pre);
+	if (n_frames)
+		pre->active_frame = n_frames;
 	return (pre);
 }
 
 void	ft_loading_prerender_models(t_game *game)
 {
-	game->alien_prerender = ft_init_prerender_model(game, 1, 32, "textures/prerender/");
+	game->alien_prerender = ft_init_prerender_model(game, 12, 36, "textures/prerender_alien/");
 }

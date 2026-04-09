@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   flamethrower_hud.c                                :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/04/02 16:22:20 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 16:34:11 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   flamethrower_hud.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/02 16:22:20 by username          #+#    #+#             */
+/*   Updated: 2026/04/09 17:54:50 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static t_texture	*ft_get_flamethrower_frame(t_game *game, t_player_actions *acti
 	return (flame);
 }
 
-void	ft_render_flamethrower_sprite(t_game *game, int player_index)
+void	ft_render_flamethrower(t_game *game, int player_index)
 {
 	t_texture			*flame;
 	t_player_actions	*actions;
@@ -94,7 +94,7 @@ static void ft_draw_flamethrower_cooldown(t_game * game,
 	ft_draw_string_hud(target, game->font, str, &pos, scale);
 }
 
-void ft_render_flamethrower_hud_viewport(t_game * game, int player_index,
+void ft_flamethrower_hud(t_game * game, int player_index,
 	t_texture	*target, int offset_x, int offset_y, t_vector_int viewport)
 {
 	t_player_actions	*actions;
@@ -122,6 +122,6 @@ void	ft_render_flamethrower_hud(t_game *game, int player_index)
 	target = game->window_img;
 	viewport.x = target->width;
 	viewport.y = target->height;
-	ft_render_flamethrower_hud_viewport(game, player_index, target, 0, 0,
+	ft_flamethrower_hud(game, player_index, target, 0, 0,
 		viewport);
 }

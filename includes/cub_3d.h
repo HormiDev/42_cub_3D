@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   cub_3d.h                                          :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/04/03 00:39:44 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 02:48:48 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   cub_3d.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/03 00:39:44 by username          #+#    #+#             */
+/*   Updated: 2026/04/09 17:36:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@
 
 # define ESC 65307
 # define M 109
-# define m 77
 # define W 119
 # define A 97
 # define S 115
@@ -176,13 +175,13 @@ typedef struct s_precalc
 
 typedef struct s_column_ctx
 {
-	int		y;
-	int		render_end;
-	double	texture_start;
-	double	texture_iteration;
-	int		texture_x;
-	int		mist_density;
-	int		last_texture_pixel;
+	int			y;
+	int			render_end;
+	double		texture_start;
+	double		texture_iteration;
+	int			texture_x;
+	int			mist_density;
+	int			last_texture_pixel;
 }	t_column_ctx;
 
 typedef struct s_raycast_ctx
@@ -196,10 +195,9 @@ typedef struct s_raycast_ctx
 
 typedef struct s_game
 {
-	char	**map;
-	int		width_height[2];
-	t_list	*textures[4];
-	// Array of textures for North, South, East, West
+	char		**map;
+	int			width_height[2];
+	t_list		*textures[4];
 	t_texture	**arraytextures[4];
 	int			larraytex[4];
 	t_texture	*floor_tex;
@@ -220,125 +218,125 @@ typedef struct s_game
 // ============================================================================
 // MAIN FUNCTIONS
 // ============================================================================
-int		ft_check_args(int argc, char **argv);
-t_game	*ft_loading_game(char *path_map);
-void	ft_close_game(int exit_code);
-int		ft_close_game_for_mlx(void);
+int				ft_check_args(int argc, char **argv);
+t_game			*ft_loading_game(char *path_map);
+void			ft_close_game(int exit_code);
+int				ft_close_game_for_mlx(void);
 
 // ============================================================================
 // CONFIGURATION FUNCTIONS
 // ============================================================================
-void	ft_config_mlx(t_game *game);
-void	ft_config_player(t_game *game);
+void			ft_config_mlx(t_game *game);
+void			ft_config_player(t_game *game);
 
 // ============================================================================
 // PARSING FUNCTIONS
 // ============================================================================
-void	ft_parse_map(t_game *game, t_file *map_file);
-void	ft_parse_colors(t_game *game, t_file *map_file);
-void	ft_read_textures_in_map(t_game *game, t_file *map_file);
-int		ft_path_or_color(char *str);
+void			ft_parse_map(t_game *game, t_file *map_file);
+void			ft_parse_colors(t_game *game, t_file *map_file);
+void			ft_read_textures_in_map(t_game *game, t_file *map_file);
+int				ft_path_or_color(char *str);
 
 // Map parsing utilities
-int	ft_get_map_start_index(t_file *map_file);
-int	ft_start_line_map(t_file *map_file);
-int	ft_end_line_map(t_file *map_file, int start_line);
-int ft_start_column_map(t_file * map_file,
-	const int	*h_start_end);
-int ft_end_column_map(t_file * map_file,
-	const int	*h_start_end);
-void ft_create_game_map(t_game * game, t_file * map_file,
-	const int	*h_start_end,
-const int	*w_start_end);
-void	ft_rotate_map_y(t_game *game);
-void	ft_load_texture_from_path(t_game *game, t_texture *tex, char *path);
-bool is_only_spaces(const char *line);
-bool is_directive_line(char *line);
-void	ft_normalize_map_rectangular(t_game *game);
+int				ft_get_map_start_index(t_file *map_file);
+int				ft_start_line_map(t_file *map_file);
+int				ft_end_line_map(t_file *map_file, int start_line);
+int				ft_start_column_map(t_file *map_file,
+					const int	*h_start_end);
+int				ft_end_column_map(t_file *map_file,
+					const int	*h_start_end);
+void			ft_create_game_map(t_game *game, t_file *map_file,
+					const int	*h_start_end, const int	*w_start_end);
+void			ft_rotate_map_y(t_game *game);
+void			ft_load_texture_from_path(t_game *game,
+					t_texture *tex, char *path);
+bool			is_only_spaces(const char *line);
+bool			is_directive_line(char *line);
+void			ft_normalize_map_rectangular(t_game *game);
 // Map validation
-void	ft_check_map(t_game *game);
-int		ft_check_map_closed(t_game *game);
+void			ft_check_map(t_game *game);
+int				ft_check_map_closed(t_game *game);
 
 // XPM parsing
-void	check_arguments_xpm(char *path);
+void			check_arguments_xpm(char *path);
 
 // ============================================================================
 // GAME LOOP & UPDATE FUNCTIONS
 // ============================================================================
-int		ft_update(void *param);
-long	ft_get_time(void);
+int				ft_update(void *param);
+long			ft_get_time(void);
 
 // ============================================================================
 // MOVEMENT & INPUT FUNCTIONS
 // ============================================================================
-void	ft_controls(t_game *game);
-void	ft_forwad_back(t_game *game, double move_speed);
-void	ft_right_left(t_game *game, double move_speed);
-int		ft_key_press(int keycode, t_game *game);
-int		ft_key_release(int keycode, t_game *game);
-void ft_move_direction(t_game * game, double angle,
-	double	move_speed);
-int	ft_row_has_content(char *row);
+void			ft_controls(t_game *game);
+void			ft_forwad_back(t_game *game, double move_speed);
+void			ft_right_left(t_game *game, double move_speed);
+int				ft_key_press(int keycode, t_game *game);
+int				ft_key_release(int keycode, t_game *game);
+void			ft_move_direction(t_game *game, double angle,
+					double move_speed);
+int				ft_row_has_content(char *row);
 
 // ============================================================================
 // RAYCAST FUNCTIONS
 // ============================================================================
-void ft_raycast(t_game * game, double angle, t_raycast * ray,
-	double	max_size);
-void	ft_ray_type(t_raycast *ray, int cuadrant, int up_right);
-void	ft_calculate_raycasts(t_game *game);
-int		ft_check_space_surrounded(char **map, int i, int j);
-int		ft_check_up_down(t_game *game);
+void			ft_raycast(t_game *game, double angle, t_raycast *ray,
+					double max_size);
+void			ft_ray_type(t_raycast *ray, int cuadrant, int up_right);
+void			ft_calculate_raycasts(t_game *game);
+int				ft_check_space_surrounded(char **map, int i, int j);
+int				ft_check_up_down(t_game *game);
 // ============================================================================
 // RENDER FUNCTIONS
 // ============================================================================
-void	ft_render_3d(t_game *game);
-void	draw_column(t_game *game, int x, t_raycast *ray);
-void	ft_draw_player(t_game *game);
-void	ft_draw_raycast(t_game *game, t_raycast *ray);
-void ft_scale_t_image_precalc(t_texture * tex_origin,
-	t_texture	*text_destiny, t_game *game);
-void ft_scale_t_image(t_texture * tex_origin,
-	t_texture	*text_destiny);
-void	ft_ray_iter_up(int *position_xy, int cuadrant, int iter);
-void	ft_ray_iter_right(int *position_xy, int cuadrant, int iter);
-void ft_calc_distance(int cuadrant, int * tile_ray_xy,
-	t_vector2	player_position, t_vector2 *distance);
-void ft_rotate_to_cuadrant(int cuadrant, double * distance_x,
-	double	*distance_y);
-void ft_calc_ray_position(t_raycast * ray,
-	t_vector2	*player_position, double distance_x,
-double	distance_y);
+void			ft_render_3d(t_game *game);
+void			draw_column(t_game *game, int x, t_raycast *ray);
+void			ft_draw_player(t_game *game);
+void			ft_draw_raycast(t_game *game, t_raycast *ray);
+void			ft_scale_t_image_precalc(t_texture *tex_origin,
+					t_texture	*text_destiny, t_game *game);
+void			ft_scale_t_image(t_texture *tex_origin,
+					t_texture	*text_destiny);
+void			ft_ray_iter_up(int *position_xy, int cuadrant, int iter);
+void			ft_ray_iter_right(int *position_xy, int cuadrant, int iter);
+void			ft_calc_distance(int cuadrant, int *tile_ray_xy,
+					t_vector2	player_position, t_vector2 *distance);
+void			ft_rotate_to_cuadrant(int cuadrant, double *distance_x,
+					double	*distance_y);
+void			ft_calc_ray_position(t_raycast *ray,
+					t_vector2	*player_position, double distance_x,
+					double distance_y);
 
 // Render utilities
-long		ft_long_diff(long a, long b);
-int			ft_int_diff(int a, int b);
-int			ft_int_max(int a, int b);
-void		ft_draw_raycast(t_game *game, t_raycast *ray);
-void		draw_background(t_game *game);
-t_texture	*get_texture_for_wall(t_game *game, t_raycast *ray);
-int			ft_calculate_wall_height(t_raycast *ray, int x);
-int			ft_calc_texture_x(t_raycast *ray, t_texture *texture);
-void calculate_column_data(t_column_data * col, t_raycast * ray,
-	t_texture	*texture, int wall_height);
+long			ft_long_diff(long a, long b);
+int				ft_int_diff(int a, int b);
+int				ft_int_max(int a, int b);
+void			ft_draw_raycast(t_game *game, t_raycast *ray);
+void			draw_background(t_game *game);
+t_texture		*get_texture_for_wall(t_game *game, t_raycast *ray);
+int				ft_calculate_wall_height(t_raycast *ray, int x);
+int				ft_calc_texture_x(t_raycast *ray, t_texture *texture);
+void			calculate_column_data(t_column_data *col, t_raycast *ray,
+					t_texture	*texture, int wall_height);
 
 // Drawing utilities
-void ft_draw_line_in_image(t_game * game, t_vector2 start,
-	t_vector2	end, int color);
-void	ft_draw_pixel_in_img(t_img *img, int x, int y, int color);
-void	ft_draw_circle(t_game *game, int cx, int cy, int color);
-void	ft_draw_sq(t_game *game, int x, int y, int color);
-void ft_draw_sq_at(t_game * game, t_vector2 pos, int size,
-	int	color);
-void ft_draw_minimap_tile(t_game * game, t_vector2 pos, int size,
-	int	color);
-void	ft_draw_grid_horizontal(t_game *game, int color);
-void	ft_draw_grid_vertical(t_game *game, int color);
+void			ft_draw_line_in_image(t_game *game, t_vector2 start,
+					t_vector2	end, int color);
+void			ft_draw_pixel_in_img(t_img *img, int x, int y, int color);
+void			ft_draw_circle(t_game *game, int cx, int cy, int color);
+void			ft_draw_sq(t_game *game, int x, int y, int color);
+void			ft_draw_sq_at(t_game *game, t_vector2 pos, int size,
+					int color);
+void			ft_draw_minimap_tile(t_game *game, t_vector2 pos, int size,
+					int color);
+void			ft_draw_grid_horizontal(t_game *game, int color);
+void			ft_draw_grid_vertical(t_game *game, int color);
 
 // Utility functions
-double	ft_double_diff(double a, double b);
-double	ft_vector_distance(t_vector2 a, t_vector2 b);
-double	ft_normalize_angle(double angle);
+double			ft_double_diff(double a, double b);
+double			ft_vector_distance(t_vector2 a, t_vector2 b);
+double			ft_normalize_angle(double angle);
 
 // ============================================================================
 // MATH & PRECALC FUNCTIONS
@@ -354,10 +352,10 @@ int				*ft_scale_precalc_y(void);
 // ============================================================================
 // COLOR FUNCTIONS
 // ============================================================================
-void ft_mix_color_precalc(unsigned int * color,
-	unsigned int	*mix_color, int percent, t_game *game);
-void ft_mix_color(unsigned int * color, unsigned int * mix_color,
-	int	percent);
+void			ft_mix_color_precalc(unsigned int *color,
+					unsigned int	*mix_color, int percent, t_game *game);
+void			ft_mix_color(unsigned int *color, unsigned int *mix_color,
+					int percent);
 unsigned int	ft_parse_color_rgb(char *color_str);
 int				ft_path_or_color(char *str);
 int				ft_str_isnumber(char *str);
@@ -365,21 +363,21 @@ int				ft_str_isnumber(char *str);
 // ============================================================================
 // DEBUG FUNCTIONS
 // ============================================================================
-void	ft_debug_game(t_game *game);
-void	ft_print_map(char **map, int error_x, int error_y);
-void	debug_print_textures(t_game *game);
-long	ft_long_diff(long a, long b);
+void			ft_debug_game(t_game *game);
+void			ft_print_map(char **map, int error_x, int error_y);
+void			debug_print_textures(t_game *game);
+long			ft_long_diff(long a, long b);
 
 // ============================================================================
 // MLX HD_ALLOC FUNCTIONS
 // ============================================================================
-void * ft_create_window(void * mlx, int size_x, int size_y,
-	char	*title);
-void	*ft_create_image(void *mlx, int size_x, int size_y);
-void * ft_mlx_xpm_file_to_image(void * mlx, char * filename,
-	int	*width, int *height);
-void	hd_alloc_free_t_file(void *ptr);
-void	ft_hd_alloc_mlx_destroy(void *ptr);
-void	ft_hd_alloc_free_split(void *ptr);
+void			*ft_create_window(void *mlx, int size_x, int size_y,
+					char	*title);
+void			*ft_create_image(void *mlx, int size_x, int size_y);
+void			*ft_mlx_xpm_file_to_image(void *mlx, char *filename,
+					int	*width, int *height);
+void			hd_alloc_free_t_file(void *ptr);
+void			ft_hd_alloc_mlx_destroy(void *ptr);
+void			ft_hd_alloc_free_split(void *ptr);
 
 #endif

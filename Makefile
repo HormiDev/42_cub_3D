@@ -114,9 +114,13 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_close_game.c \
 			src_bonus/ft_config_player.c \
 			src_bonus/ft_config_mlx.c \
+			src_bonus/ft_one_player.c \
+			src_bonus/ft_two_players.c \
+			src_bonus/ft_three_players.c \
 			src_bonus/ft_mix_color_precalc.c \
 			src_bonus/ft_mix_color.c \
 			src_bonus/ft_update.c \
+			src_bonus/ft_update_utils.c \
 			src_bonus/DEBUG/ft_debug_textures.c \
 			src_bonus/ft_get_time.c \
 			src_bonus/ft_scale_t_image_precalc.c \

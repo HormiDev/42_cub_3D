@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:54:01 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/09 00:31:56 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 18:24:36 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	t_game	*game;
-	t_audio_manager *audio_manager;
+	t_game				*game;
+	t_audio_manager		*audio_manager;
 
 	hd_alloc_set_error_func(hd_alloc_error_func_d);
 	audio_manager = init_audio_manager(env);

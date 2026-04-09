@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:09 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/05 22:05:39 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 18:41:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,17 @@ static void	ft_setup_sprite_draw(t_game *game, t_objet_draw *draw,
 		+ draw->size / 8;
 }
 
-t_texture	*ft_select_texture(t_prerender_model *model, double angle, int frame, double rotation)
+t_texture	*ft_select_texture(t_prerender_model *model, double angle, double rotation)
 {
 	int angle_model;
+	int frame;
 
 	angle = ft_normalize_angle(angle - rotation + 180 - (365.0 / model->n_angles / 2));
 	angle_model = -(int)(angle * model->n_angles / 360.0) + model->n_angles;
 	angle_model = ft_normalize_angle(angle_model);
+	frame = model->n_angles * (model->active_frame - 1) + angle_model;
 	//ft_printf("Angle model: %d\n", angle_model * frame - 1);
-	return (model->texture[angle_model * frame - 1]);
+	return (model->texture[frame - 1]);
 }
 
 /**
@@ -47,7 +49,6 @@ void	ft_render_player_sprite(t_game *game, t_player *object)
 	t_objet_draw	draw;
 	int				screen_col;
 	t_vector2		diff;
-	int frame = 1;
 
 	if (!object->active || !object->model)
 		return ;
@@ -59,7 +60,7 @@ void	ft_render_player_sprite(t_game *game, t_player *object)
 	screen_col = ft_project_sprite_column(game, diff.x, diff.y, &draw);
 	if (screen_col == INT_MIN)
 		return ;
-	draw.scaled = ft_select_texture(object->model, draw.angle, frame, object->rotation.x);
+	draw.scaled = ft_select_texture(object->model, draw.angle, object->rotation.x);
 	ft_setup_sprite_draw(game, &draw, screen_col, object->size);
 	//ft_draw_image_rgba_scaled(game->render, draw.scaled, draw.screen_x, draw.screen_y, draw.size);
 	ft_draw_image_rgba_scaled_plus(game, draw.scaled, draw.screen_x, draw.screen_y, draw.size, draw.distance);
