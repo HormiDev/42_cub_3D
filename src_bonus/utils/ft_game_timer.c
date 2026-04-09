@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_game_timer.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 16:26:17 by username          #+#    #+#             */
-/*   Updated: 2026/04/08 18:10:41 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   ft_game_timer.c                                   :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/04/02 16:26:17 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 16:34:06 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,43 @@ static void	get_timer_string(char *str, int remaining)
 	str[len] = '\0';
 }
 
+static int	ft_get_hud_scale(int viewport_height)
+{
+	int	scale;
+
+	scale = viewport_height / (WINDOW_HEIGHT / 2);
+	if (scale < 2)
+		scale = 2;
+	return (scale);
+}
+
+void ft_render_timer_hud_viewport(t_game * game, t_texture * target,
+	int	offset_x, int offset_y, t_vector_int viewport)
+{
+	char			str[16];
+	int				remaining;
+	int				timer_width;
+	int				text_len;
+	int				scale;
+	t_vector_int	pos;
+
+	scale = ft_get_hud_scale(viewport.y);
+	if (game->game_state == GAME_PLAYERS_WIN)
+	{
+		text_len = ft_strlen("players win");
+		pos.x = offset_x + viewport.x / 2 - (text_len * 6 * scale) / 2;
+		pos.y = offset_y + viewport.y / 2 - (game->font->height * scale) / 2;
+		ft_draw_string_hud(target, game->font, "players win", &pos, scale);
+		return ;
+	}
+	remaining = ft_get_remaining(game);
+	get_timer_string(str, remaining);
+	timer_width = ft_strlen(str) * 6 * scale;
+	pos.x = offset_x + viewport.x / 2 - timer_width - (10 * scale);
+	pos.y = offset_y + (10 * scale);
+	ft_draw_string_hud(target, game->font, str, &pos, scale);
+}
+
 /**
 * @brief Renderiza el HUD del temporizador en pantalla.
 *
@@ -105,23 +142,15 @@ static void	get_timer_string(char *str, int remaining)
 
 void	ft_render_timer_hud(t_game *game)
 {
-	char			str[16];
-	int				remaining;
-	int				timer_width;
-	t_vector_int	pos;
+	t_texture		*target;
+	t_vector_int	viewport;
 
-	if (game->game_state == GAME_PLAYERS_WIN)
-	{
-		pos.x = WINDOW_WIDTH / 4 - 33;
-		pos.y = WINDOW_HEIGHT / 2;
-		ft_draw_string_hud(game->render, game->font,
-			"players win", &pos, 2);
-		return ;
-	}
-	remaining = ft_get_remaining(game);
-	get_timer_string(str, remaining);
-	timer_width = 6 * 4;
-	pos.x = game->render->width / 2 - timer_width - 10;
-	pos.y = 10;
-	ft_draw_string_hud(game->render, game->font, str, &pos, 2);
+	target = game->render;
+	if (game->config.n_players == 1
+			&& (game->config.render_height != WINDOW_HEIGHT
+		|| game->config.render_width != WINDOW_WIDTH))
+	target = game->window_img;
+	viewport.x = target->width;
+	viewport.y = target->height;
+	ft_render_timer_hud_viewport(game, target, 0, 0, viewport);
 }

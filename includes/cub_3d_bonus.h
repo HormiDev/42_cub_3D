@@ -6,7 +6,7 @@
 /*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
 /*                                               +#+#+#+#+#+   +#+            */
 /*   Created: 2026/04/05 12:17:15 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 14:19:46 by username        ###   ########.fr        */
+/*   Updated: 2026/04/09 16:50:06 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ void	ft_gamepad_handle_system_buttons(t_game *game);
 t_audio_manager	*init_audio_manager(char **env);
 int				audio_manager_send(t_audio_manager *audio_manager, const char *msg);
 void			audio_manager_stop(t_audio_manager *audio_manager);
-pid_t			ft_play_audio(const char *filename, char **env);
 int				ft_stop_audio(pid_t pid);
 
 void	input_detect_device(t_game *game);
@@ -227,6 +226,8 @@ void	ft_check_timer(t_game *game);
 void	ft_next_duration(void *game_ptr);
 void	ft_previous_duration(void *game_ptr);
 void	ft_render_timer_hud(t_game *game);
+void ft_render_timer_hud_viewport(t_game * game, t_texture * target,
+	int	offset_x, int offset_y, t_vector_int viewport);
 
 // ============================================================================
 // DOOR FUNCTIONS
@@ -396,6 +397,8 @@ void	flamethrower(t_game *game, int player_index);
 void	ft_update_flamethrower_cooldown(t_player_actions *actions, double delta_time);
 void	ft_render_flamethrower_sprite(t_game *game, int player_index);
 void	ft_render_flamethrower_hud(t_game *game, int player_index);
+void ft_render_flamethrower_hud_viewport(t_game * game, int player_index,
+	t_texture	*target, int offset_x, int offset_y, t_vector_int viewport);
 
 // ============================================================================
 // PRERENDER MODELS

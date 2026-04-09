@@ -6,7 +6,7 @@
 /*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
 /*                                               +#+#+#+#+#+   +#+            */
 /*   Created: 2026/04/02 16:24:25 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 03:14:12 by username        ###   ########.fr        */
+/*   Updated: 2026/04/09 16:26:52 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void ft_try_play_alien_spot_scream(t_game * game, t_player * alien,
 	if (last_scream_time != 0 && ft_long_diff(last_scream_time, now) < 1200)
 		return ;
 	if (game->audio_manager)
-		audio_manager_send(game->audio_manager, "music&sounds/Andar.wav");
+		audio_manager_send(game->audio_manager, "music&sounds/alien-grito.wav");
 	last_scream_time = now;
 	alien->chase_sound_played = 1;
 }

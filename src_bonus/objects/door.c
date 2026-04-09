@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   door.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 16:22:08 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 23:42:33 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   door.c                                            :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/04/02 16:22:08 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 16:38:16 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static t_door	*ft_create_door(int x, int y)
 	door->texture_index = 0;
 	return (door);
 }
+
 void	ft_free_doors(t_game *game)
 {
 	if (game->doors)
@@ -70,6 +71,8 @@ static void	ft_update_door_auto_reopen(t_game *game, t_door *door, double delta_
 		door->auto_reopen_timer = -1.0;
 		door->state = DOOR_OPEN;
 		game->map[door->position.y][door->position.x] = 'd';
+		if (game->audio_manager)
+			audio_manager_send(game->audio_manager, "music&sounds/puerta.wav");
 	}
 }
 
@@ -81,7 +84,7 @@ void	ft_update_doors(t_game *game)
 	current = game->doors;
 	while (current)
 	{
-		door = (t_door *)current->content;
+		door = (t_door *) current->content;
 		ft_update_door_auto_reopen(game, door, game->delta_time);
 		current = current->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
 /*                                               +#+#+#+#+#+   +#+            */
 /*   Created: 2026/04/02 16:22:20 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 14:36:56 by username        ###   ########.fr        */
+/*   Updated: 2026/04/09 16:34:11 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,44 +63,65 @@ void	ft_render_flamethrower_sprite(t_game *game, int player_index)
 	ft_draw_image_rgba_scaled(game->render, flame, x, y, size);
 }
 
-static void	ft_draw_flamethrower_charges(t_game *game, t_player_actions *actions)
+static int	ft_get_hud_scale(int viewport_height)
 {
-	t_vector_int	pos;
-	char			str[32];
-	int				scale;
+	int	scale;
 
-	scale = game->render->height / 360;
-	if (scale < 1)
-		scale = 1;
-	pos.x = game->render->width - (game->render->width / 4);
-	pos.y = game->render->height / 20;
-	ft_sprintf(str, "CHARGES:%d / %d", actions->flamethrower_charges,
-		game->config.charges);
-	ft_draw_string_hud(game->render, game->font, str, &pos, scale);
+	scale = viewport_height / (WINDOW_HEIGHT / 2);
+	if (scale < 2)
+		scale = 2;
+	return (scale);
 }
 
-static void	ft_draw_flamethrower_cooldown(t_game *game, t_player_actions *actions)
+static void ft_draw_flamethrower_charges(t_game * game,
+	t_player_actions	*actions, t_texture *target, t_vector_int pos, int scale)
 {
-	t_vector_int	pos;
-	char			str[32];
-	int				scale;
+	char	str[32];
+
+	ft_sprintf(str, "CHARGES:%d / %d", actions->flamethrower_charges,
+		game->config.charges);
+	ft_draw_string_hud(target, game->font, str, &pos, scale);
+}
+
+static void ft_draw_flamethrower_cooldown(t_game * game,
+	t_player_actions	*actions, t_texture *target, t_vector_int pos, int scale)
+{
+	char	str[32];
 
 	if (actions->flamethrower_cooldown_remaining <= 0)
 		return ;
-	scale = game->render->height / 360;
-	if (scale < 1)
-		scale = 1;
-	pos.x = game->render->width - (game->render->width / 4);
-	pos.y = game->render->height / 12;
 	ft_sprintf(str, "COOLDOWN:%ds", (int) actions->flamethrower_cooldown_remaining);
-	ft_draw_string_hud(game->render, game->font, str, &pos, scale);
+	ft_draw_string_hud(target, game->font, str, &pos, scale);
+}
+
+void ft_render_flamethrower_hud_viewport(t_game * game, int player_index,
+	t_texture	*target, int offset_x, int offset_y, t_vector_int viewport)
+{
+	t_player_actions	*actions;
+	t_vector_int		pos;
+	int					scale;
+
+	actions = &game->actions[player_index];
+	scale = ft_get_hud_scale(viewport.y);
+	pos.x = offset_x + viewport.x - (viewport.x / 4);
+	pos.y = offset_y + viewport.y / 20;
+	ft_draw_flamethrower_charges(game, actions, target, pos, scale);
+	pos.y = offset_y + viewport.y / 12;
+	ft_draw_flamethrower_cooldown(game, actions, target, pos, scale);
 }
 
 void	ft_render_flamethrower_hud(t_game *game, int player_index)
 {
-	t_player_actions	*actions;
+	t_texture		*target;
+	t_vector_int	viewport;
 
-	actions = &game->actions[player_index];
-	ft_draw_flamethrower_charges(game, actions);
-	ft_draw_flamethrower_cooldown(game, actions);
+	target = game->render;
+	if (game->config.n_players == 1
+			&& (game->config.render_height != WINDOW_HEIGHT
+		|| game->config.render_width != WINDOW_WIDTH))
+	target = game->window_img;
+	viewport.x = target->width;
+	viewport.y = target->height;
+	ft_render_flamethrower_hud_viewport(game, player_index, target, 0, 0,
+		viewport);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   door_utils.c                                       :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 16:21:55 by username          #+#    #+#             */
-/*   Updated: 2026/04/08 01:06:24 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   door_utils.c                                      :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/04/02 16:21:55 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 16:38:16 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,14 +81,14 @@ static void	ft_search_door(t_game *game, t_vector_int *door_pos, t_door **door)
 
 static void	ft_close_door(t_game *game, t_door *door)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
-	while(i < MAX_PLAYERS)
+	while (i < MAX_PLAYERS)
 	{
 		if (game->players[i].active)
 		{
-			if ((int)game->players[i].position.x == door->position.x && (int)game->players[i].position.y == door->position.y)
+			if ((int) game->players[i].position.x == door->position.x && (int) game->players[i].position.y == door->position.y)
 				return ;
 		}
 		i++;
@@ -96,12 +96,16 @@ static void	ft_close_door(t_game *game, t_door *door)
 	game->map[door->position.y][door->position.x] = 'D';
 	door->state = DOOR_CLOSED;
 	door->auto_reopen_timer = door->auto_reopen_delay;
+	if (game->audio_manager)
+		audio_manager_send(game->audio_manager, "music&sounds/puerta.wav");
 }
 
 static void	ft_open_door(t_game *game, t_door *door)
 {
 	game->map[door->position.y][door->position.x] = 'd';
 	door->state = DOOR_OPEN;
+	if (game->audio_manager)
+		audio_manager_send(game->audio_manager, "music&sounds/puerta.wav");
 }
 
 int	ft_try_toggle_door(t_game *game)

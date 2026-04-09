@@ -6,7 +6,7 @@
 /*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
 /*                                               +#+#+#+#+#+   +#+            */
 /*   Created: 2026/04/02 16:22:26 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 14:18:57 by username        ###   ########.fr        */
+/*   Updated: 2026/04/09 16:38:16 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static void ft_flamethrower_attack(t_game * game, t_player * player,
 	actions->flamethrower_animating = 1;
 	actions->flamethrower_anim_time = game->current_time;
 	actions->flamethrower_anim_frame = 1;
+	if (game->audio_manager)
+		audio_manager_send(game->audio_manager, "music&sounds/lanzallams.wav");
 	i = 0;
 	while (i < MAX_PLAYERS)
 	{

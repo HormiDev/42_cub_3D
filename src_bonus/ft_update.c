@@ -6,7 +6,7 @@
 /*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
 /*                                               +#+#+#+#+#+   +#+            */
 /*   Created: 2026/04/09 13:43:53 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 14:33:29 by username        ###   ########.fr        */
+/*   Updated: 2026/04/09 16:31:40 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,6 @@ void	ft_one_player(t_game *game)
 	ft_render_3d(game);
 	ft_render_all_sprites(game);
 	ft_map2d(game);
-	ft_render_timer_hud(game);
-	ft_render_flamethrower_hud(game, 0);
 	ft_render_flamethrower_sprite(game, 0);
 	if (game->config.render_height != WINDOW_HEIGHT
 			|| game->config.render_width != WINDOW_WIDTH)
@@ -109,6 +107,8 @@ void	ft_one_player(t_game *game)
 		ft_scale_t_image_precalc(game->render, game->window_img, game);
 		ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH / 100,
 			WINDOW_HEIGHT / 100);
+		ft_render_timer_hud(game);
+		ft_render_flamethrower_hud(game, 0);
 		mlx_clear_window(game->mlx, game->window);
 		mlx_put_image_to_window(game->mlx, game->window, game->window_img->img,
 			0, 0);
@@ -117,6 +117,8 @@ void	ft_one_player(t_game *game)
 	{
 		ft_draw_image_rgba(game->render, game->minimap, WINDOW_WIDTH / 100,
 			WINDOW_HEIGHT / 100);
+		ft_render_timer_hud(game);
+		ft_render_flamethrower_hud(game, 0);
 		mlx_clear_window(game->mlx, game->window);
 		mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0,
 			0);
@@ -125,9 +127,14 @@ void	ft_one_player(t_game *game)
 
 void	ft_two_players(t_game *game)
 {
-	int	player_index;
+	int				player_index;
+	int				offset_x;
+	int				offset_y;
+	t_vector_int	viewport;
 
 	player_index = 0;
+	viewport.x = game->window_img->width;
+	viewport.y = game->window_img->height / 2;
 	while (player_index < 2)
 	{
 		game->player = &game->players[player_index];
@@ -139,13 +146,17 @@ void	ft_two_players(t_game *game)
 		ft_render_3d(game);
 		ft_render_all_sprites(game);
 		ft_map2d(game);
-		ft_render_timer_hud(game);
-		ft_render_flamethrower_hud(game, player_index);
 		ft_render_flamethrower_sprite(game, player_index);
 		ft_scale_t_image_precalc_two(game->render, game->window_img, game,
 			player_index);
 		ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH / 100,
 			WINDOW_HEIGHT / 100 + (WINDOW_HEIGHT / 2 * (player_index)));
+		offset_x = 0;
+		offset_y = viewport.y * player_index;
+		ft_render_timer_hud_viewport(game, game->window_img,
+			offset_x, offset_y, viewport);
+		ft_render_flamethrower_hud_viewport(game, player_index,
+			game->window_img, offset_x, offset_y, viewport);
 		player_index++;
 	}
 	game->player = &game->players[0];
@@ -158,9 +169,14 @@ void	ft_two_players(t_game *game)
 
 void	ft_three_players(t_game *game)
 {
-	int	player_index;
+	int				player_index;
+	int				offset_x;
+	int				offset_y;
+	t_vector_int	viewport;
 
 	player_index = 0;
+	viewport.x = game->window_img->width / 2;
+	viewport.y = game->window_img->height / 2;
 	while (player_index < game->config.n_players)
 	{
 		game->player = &game->players[player_index];
@@ -172,8 +188,6 @@ void	ft_three_players(t_game *game)
 		ft_render_3d(game);
 		ft_render_all_sprites(game);
 		ft_map2d(game);
-		ft_render_timer_hud(game);
-		ft_render_flamethrower_hud(game, player_index);
 		ft_render_flamethrower_sprite(game, player_index);
 		ft_scale_t_image_precalc_three(game->render, game->window_img, game,
 			player_index);
@@ -190,6 +204,21 @@ void	ft_three_players(t_game *game)
 			ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH
 			/ 100 + (WINDOW_WIDTH / 2), WINDOW_HEIGHT / 100 + (WINDOW_HEIGHT
 			/ 2));
+		offset_x = 0;
+		offset_y = 0;
+		if (player_index == 1)
+			offset_y = viewport.y;
+		else if (player_index == 2)
+			offset_x = viewport.x;
+		else if (player_index == 3)
+		{
+			offset_x = viewport.x;
+			offset_y = viewport.y;
+		}
+		ft_render_timer_hud_viewport(game, game->window_img,
+			offset_x, offset_y, viewport);
+		ft_render_flamethrower_hud_viewport(game, player_index,
+			game->window_img, offset_x, offset_y, viewport);
 		player_index++;
 	}
 	game->player = &game->players[0];
@@ -237,7 +266,6 @@ int	ft_update(void *param)
 		else
 			ft_three_players(game);
 		mlx_string_put(game->mlx, game->window, 10, 40, 0xffde87, string_fps);
-		ft_render_timer_hud(game);
 	}
 	return (0);
 }
