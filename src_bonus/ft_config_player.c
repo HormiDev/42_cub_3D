@@ -6,7 +6,7 @@
 /*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
 /*                                               +#+#+#+#+#+   +#+            */
 /*   Created: 2025/05/12 13:30:01 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 13:14:18 by username        ###   ########.fr        */
+/*   Updated: 2026/04/09 14:24:03 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ void	ft_config_player(t_game *game)
 			game->actions[idx].flamethrower_ready = 1;
 			game->actions[idx].flamethrower_last_time = 0;
 			game->actions[idx].flamethrower_cooldown_remaining = 0;
+			game->actions[idx].flamethrower_animating = 0;
+			game->actions[idx].flamethrower_anim_time = 0;
+			game->actions[idx].flamethrower_anim_frame = 0;
 		}
 		idx++;
 	}

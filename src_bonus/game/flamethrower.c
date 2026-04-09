@@ -1,28 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   flamethrower.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/02 16:22:26 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 13:44:33 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   flamethrower.c                                    :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/04/02 16:22:26 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 14:18:57 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Calcula si un alien está dentro del rango de ataque del lanzallamas.
- *
- * distancia euclidiana para determinar 
- * si la distancia entre el jugador
- * y el alien es menor o igual a 5.0 unidades.
- *
- * @param player Puntero a la estructura del jugador atacante.
- * @param alien Puntero a la estructura del alien a verificar.
- * @return 1 si el alien está en rango, 0 en caso contrario.
- */
+* @brief Calcula si un alien está dentro del rango de ataque del lanzallamas.
+*
+* distancia euclidiana para determinar
+* si la distancia entre el jugador
+* y el alien es menor o igual a 5.0 unidades.
+*
+* @param player Puntero a la estructura del jugador atacante.
+* @param alien Puntero a la estructura del alien a verificar.
+* @return 1 si el alien está en rango, 0 en caso contrario.
+*/
+
 static int	is_alien_in_range(t_player *player, t_player *alien)
 {
 	double	dx;
@@ -36,32 +37,33 @@ static int	is_alien_in_range(t_player *player, t_player *alien)
 }
 
 /**
- * @brief Verifica si el lanzallamas está en cooldown y puede volver a disparar.
- *
- * Comprueba si el cooldown ha expirado usando flamethrower_cooldown_remaining.
- * Si el cooldown es 0 o menos, permite disparar (retorna 1).
- * Si aún hay cooldown activo, retorna 0.
- *
- * @return 1 si el cooldown ha expirado y se puede disparar,
-	0 si aún está en cooldown.
- */
+* @brief Verifica si el lanzallamas está en cooldown y puede volver a disparar.
+*
+* Comprueba si el cooldown ha expirado usando flamethrower_cooldown_remaining.
+* Si el cooldown es 0 o menos, permite disparar (retorna 1).
+* Si aún hay cooldown activo, retorna 0.
+*
+* @return 1 si el cooldown ha expirado y se puede disparar,
+0 si aún está en cooldown.
+*/
+
 static int	ft_check_flamethrower_cooldown(t_player_actions *actions)
 {
 	return (actions->flamethrower_cooldown_remaining <= 0);
 }
 
 /**
- * @brief Ejecuta el ataque del lanzallamas contra aliens en rango.
- *
- * Decrementa el contador de cargas, actualiza el timestamp del último disparo,
- * Cuando se mata un alien, lo respawnea en otro punto del mapa.
- * Solo desactiva el primer alien que encuentre en rango.
- *
- * @param game Puntero a la estructura del juego.
- * @param player Puntero a la estructura del jugador que dispara.
- */
-static void	ft_flamethrower_attack(t_game *game, t_player *player,
-		t_player_actions *actions)
+* @brief Ejecuta el ataque del lanzallamas contra aliens en rango.
+*
+* Decrementa el contador de cargas, actualiza el timestamp del último disparo,
+* Cuando se mata un alien, lo respawnea en otro punto del mapa.
+* Solo desactiva el primer alien que encuentre en rango.
+*
+* @param game Puntero a la estructura del juego.
+* @param player Puntero a la estructura del jugador que dispara.
+*/
+static void ft_flamethrower_attack(t_game * game, t_player * player,
+	t_player_actions	*actions)
 {
 	int	i;
 
@@ -69,6 +71,9 @@ static void	ft_flamethrower_attack(t_game *game, t_player *player,
 	actions->flamethrower_ready = 0;
 	actions->flamethrower_last_time = game->current_time;
 	actions->flamethrower_cooldown_remaining = 20.0;
+	actions->flamethrower_animating = 1;
+	actions->flamethrower_anim_time = game->current_time;
+	actions->flamethrower_anim_frame = 1;
 	i = 0;
 	while (i < MAX_PLAYERS)
 	{
@@ -86,15 +91,16 @@ static void	ft_flamethrower_attack(t_game *game, t_player *player,
 }
 
 /**
- * @brief Interfaz principal para disparar el lanzallamas del jugador.
- *
- * Valida que el jugador tenga cargas disponibles, verifica que el cooldown
- * haya expirado y ejecuta el ataque si estas condiciones se cumplen.
- * Llamada cuando el jugador hace click con el ratón.
- *
- * @param game Puntero a la estructura del juego.
- * @param player_index Índice del jugador en el array de jugadores.
- */
+* @brief Interfaz principal para disparar el lanzallamas del jugador.
+*
+* Valida que el jugador tenga cargas disponibles, verifica que el cooldown
+* haya expirado y ejecuta el ataque si estas condiciones se cumplen.
+* Llamada cuando el jugador hace click con el ratón.
+*
+* @param game Puntero a la estructura del juego.
+* @param player_index Índice del jugador en el array de jugadores.
+*/
+
 void	flamethrower(t_game *game, int player_index)
 {
 	t_player			*player;
@@ -111,19 +117,19 @@ void	flamethrower(t_game *game, int player_index)
 }
 
 /**
- * @brief Actualiza el estado del cooldown del lanzallamas en cada frame.
- *
+* @brief Actualiza el estado del cooldown del lanzallamas en cada frame.
+*
 
- * Cuando el cooldown llega a 0,
-	marca el lanzallamas como listo (flamethrower_ready = 1).
- * Si no hay cooldown activo y aún hay cargas disponibles,
-	el lanzallamas está listo para disparar.
- *
- * @param actions Puntero a la estructura de acciones del jugador.
- * @param delta_time Tiempo transcurrido en el frame actual (en segundos).
- */
-void	ft_update_flamethrower_cooldown(t_player_actions *actions,
-		double delta_time)
+* Cuando el cooldown llega a 0,
+marca el lanzallamas como listo (flamethrower_ready = 1).
+* Si no hay cooldown activo y aún hay cargas disponibles,
+el lanzallamas está listo para disparar.
+*
+* @param actions Puntero a la estructura de acciones del jugador.
+* @param delta_time Tiempo transcurrido en el frame actual (en segundos).
+*/
+void ft_update_flamethrower_cooldown(t_player_actions * actions,
+	double	delta_time)
 {
 	if (actions->flamethrower_cooldown_remaining > 0)
 	{

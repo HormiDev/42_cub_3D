@@ -6,7 +6,7 @@
 /*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
 /*                                               +#+#+#+#+#+   +#+            */
 /*   Created: 2026/04/05 12:17:15 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 03:34:16 by username        ###   ########.fr        */
+/*   Updated: 2026/04/09 14:19:46 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -394,6 +394,7 @@ void ft_draw_image_rgba_scaled_plus(t_game * game, t_texture * src,
 // ============================================================================
 void	flamethrower(t_game *game, int player_index);
 void	ft_update_flamethrower_cooldown(t_player_actions *actions, double delta_time);
+void	ft_render_flamethrower_sprite(t_game *game, int player_index);
 void	ft_render_flamethrower_hud(t_game *game, int player_index);
 
 // ============================================================================

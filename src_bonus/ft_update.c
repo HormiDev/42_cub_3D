@@ -1,10 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
+/*                                                       :::      ::::::::    */
+/*   ft_update.c                                       :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/04/09 13:43:53 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 14:33:29 by username        ###   ########.fr        */
+/*                                                                            */
+/* ************************************************************************** */
+
+/* ************************************************************************** */
+/*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   ft_update.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42.fr>            +#+  +:+      
-	+#+        */
+/*   By: ismherna <ismherna@student.42.fr>            +#+  +:+
++#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 17:57:25 by ide-dieg          #+#    #+#             */
 /*   Updated: 2026/03/29 23:41:05 by ismherna          ###   ########.fr       */
@@ -14,13 +26,14 @@
 #include "../includes/cub_3d_bonus.h"
 
 /**
- * @brief Dibuja la pantalla de victoria de los jugadores.
- *
- * Renderiza la imagen PANTALLA-WIN.xpm escalada como fondo con transparencia,
- * y dibuja "players win" centrado.
- *
- * @param game estructura del juego.
- */
+* @brief Dibuja la pantalla de victoria de los jugadores.
+*
+* Renderiza la imagen PANTALLA-WIN.xpm escalada como fondo con transparencia,
+* y dibuja "players win" centrado.
+*
+* @param game estructura del juego.
+*/
+
 static void	ft_draw_win_screen(t_game *game)
 {
 	t_vector_int	text_pos;
@@ -36,13 +49,14 @@ static void	ft_draw_win_screen(t_game *game)
 }
 
 /**
- * @brief Dibuja la pantalla de victoria de los jugadores.
- *
- * Renderiza la imagen PANTALLA-WIN.xpm escalada como fondo con transparencia,
- * y dibuja "players win" centrado.
- *
- * @param game estructura del juego.
- */
+* @brief Dibuja la pantalla de victoria de los jugadores.
+*
+* Renderiza la imagen PANTALLA-WIN.xpm escalada como fondo con transparencia,
+* y dibuja "players win" centrado.
+*
+* @param game estructura del juego.
+*/
+
 static void	ft_draw_game_over_screen(t_game *game)
 {
 	t_vector_int	text_pos;
@@ -58,9 +72,10 @@ static void	ft_draw_game_over_screen(t_game *game)
 }
 
 /**
- * @brief Calcula el tiempo transcurrido desde el último frame.
- * Luego, actualiza el tiempo del último frame y calcula el delta_time.
- */
+* @brief Calcula el tiempo transcurrido desde el último frame.
+* Luego, actualiza el tiempo del último frame y calcula el delta_time.
+*/
+
 int	ft_calc_delta_time(t_game *game)
 {
 	long	time_diff;
@@ -68,7 +83,7 @@ int	ft_calc_delta_time(t_game *game)
 	game->current_time = ft_get_time();
 	time_diff = ft_long_diff(game->last_frame_time, game->current_time);
 	game->delta_time = time_diff / 1000.0;
-	if (game->delta_time < (1.0 / (double)MAX_FPS))
+	if (game->delta_time < (1.0 / (double) MAX_FPS))
 		return (0);
 	game->last_frame_time = game->current_time;
 	return (1);
@@ -86,9 +101,10 @@ void	ft_one_player(t_game *game)
 	ft_render_all_sprites(game);
 	ft_map2d(game);
 	ft_render_timer_hud(game);
-	//ft_render_flamethrower_hud(game, 0);
+	ft_render_flamethrower_hud(game, 0);
+	ft_render_flamethrower_sprite(game, 0);
 	if (game->config.render_height != WINDOW_HEIGHT
-		|| game->config.render_width != WINDOW_WIDTH)
+			|| game->config.render_width != WINDOW_WIDTH)
 	{
 		ft_scale_t_image_precalc(game->render, game->window_img, game);
 		ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH / 100,
@@ -124,7 +140,8 @@ void	ft_two_players(t_game *game)
 		ft_render_all_sprites(game);
 		ft_map2d(game);
 		ft_render_timer_hud(game);
-		//ft_render_flamethrower_hud(game, player_index);
+		ft_render_flamethrower_hud(game, player_index);
+		ft_render_flamethrower_sprite(game, player_index);
 		ft_scale_t_image_precalc_two(game->render, game->window_img, game,
 			player_index);
 		ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH / 100,
@@ -156,22 +173,23 @@ void	ft_three_players(t_game *game)
 		ft_render_all_sprites(game);
 		ft_map2d(game);
 		ft_render_timer_hud(game);
-		//ft_render_flamethrower_hud(game, player_index);
+		ft_render_flamethrower_hud(game, player_index);
+		ft_render_flamethrower_sprite(game, player_index);
 		ft_scale_t_image_precalc_three(game->render, game->window_img, game,
 			player_index);
 		if (player_index == 0)
 			ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH
-				/ 100, WINDOW_HEIGHT / 100);
+			/ 100, WINDOW_HEIGHT / 100);
 		else if (player_index == 1)
 			ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH
-				/ 100, WINDOW_HEIGHT / 100 + (WINDOW_HEIGHT / 2));
+			/ 100, WINDOW_HEIGHT / 100 + (WINDOW_HEIGHT / 2));
 		else if (player_index == 2)
 			ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH
-				/ 100 + (WINDOW_WIDTH / 2), WINDOW_HEIGHT / 100);
+			/ 100 + (WINDOW_WIDTH / 2), WINDOW_HEIGHT / 100);
 		else
 			ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH
-				/ 100 + (WINDOW_WIDTH / 2), WINDOW_HEIGHT / 100 + (WINDOW_HEIGHT
-					/ 2));
+			/ 100 + (WINDOW_WIDTH / 2), WINDOW_HEIGHT / 100 + (WINDOW_HEIGHT
+			/ 2));
 		player_index++;
 	}
 	game->player = &game->players[0];
@@ -183,20 +201,20 @@ void	ft_three_players(t_game *game)
 }
 
 /**
- * @brief Actualiza el estado del juego y renderiza la escena.
- * Esta función se llama en cada frame del juego. Calcula el tiempo delta,
- * maneja los movimientos del jugador, limpia la ventana, realiza raycasts
- * y renderiza la escena 3D. Finalmente, dibuja el mapa y actualiza la ventana.
- * @param param estructura del juego que contiene toda la información necesaria.
- * @return 0 para indicar que la actualización se realizó correctamente.
- */
+* @brief Actualiza el estado del juego y renderiza la escena.
+* Esta función se llama en cada frame del juego. Calcula el tiempo delta,
+* maneja los movimientos del jugador, limpia la ventana, realiza raycasts
+* y renderiza la escena 3D. Finalmente, dibuja el mapa y actualiza la ventana.
+* @param param estructura del juego que contiene toda la información necesaria.
+* @return 0 para indicar que la actualización se realizó correctamente.
+*/
 
 int	ft_update(void *param)
 {
 	t_game	*game;
 	char	string_fps[32];
 
-	game = (t_game *)param;
+	game = (t_game *) param;
 	if (!ft_calc_delta_time(game))
 		return (0);
 	ft_snprintf(string_fps, sizeof(string_fps), "Fps: %d", (int)(1 / game->delta_time));

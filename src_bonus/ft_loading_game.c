@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_loading_game.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/09 01:45:39 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   ft_loading_game.c                                 :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2025/08/19 18:35:28 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 14:18:57 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,11 @@ void	ft_build_array_textures(t_game *game)
 		if (game->larraytex[i] > 0)
 		{
 			game->arraytextures[i] = hd_calloc(game->larraytex[i],
-					sizeof(t_texture *));
+				sizeof(t_texture *));
 			j = 0;
 			while (list)
 			{
-				game->arraytextures[i][j] = (t_texture *)list->content;
+				game->arraytextures[i][j] = (t_texture *) list->content;
 				list = list->next;
 				j++;
 			}
@@ -45,7 +45,7 @@ void	ft_create_render(t_game *game)
 
 	game->render = hd_calloc(1, sizeof(t_texture));
 	game->render->img = ft_create_image(game->mlx, game->config.render_width,
-			game->config.render_height);
+		game->config.render_height);
 	if (!game->render->img)
 	{
 		ft_dprintf(2, "Error: Failed to create render image\n");
@@ -54,12 +54,12 @@ void	ft_create_render(t_game *game)
 	game->render->width = game->config.render_width;
 	game->render->height = game->config.render_height;
 	game->render->cmx = hd_calloc(game->config.render_height,
-			sizeof(unsigned int *));
+		sizeof(unsigned int *));
 	i = 0;
 	while (i < game->config.render_height)
 	{
 		game->render->cmx[i] = (unsigned int *)(game->render->img->data
-				+ (i * sizeof(unsigned int) * game->config.render_width));
+			+(i * sizeof(unsigned int) * game->config.render_width));
 		i++;
 	}
 }
@@ -70,7 +70,7 @@ void	ft_create_window_img(t_game *game)
 
 	game->window_img = hd_calloc(1, sizeof(t_texture));
 	game->window_img->img = ft_create_image(game->mlx, WINDOW_WIDTH,
-			WINDOW_HEIGHT);
+		WINDOW_HEIGHT);
 	if (!game->window_img->img)
 	{
 		ft_dprintf(2, "Error: Failed to create window image\n");
@@ -79,21 +79,22 @@ void	ft_create_window_img(t_game *game)
 	game->window_img->width = WINDOW_WIDTH;
 	game->window_img->height = WINDOW_HEIGHT;
 	game->window_img->cmx = hd_calloc(WINDOW_HEIGHT,
-			sizeof(unsigned int *));
+		sizeof(unsigned int *));
 	i = 0;
 	while (i < WINDOW_HEIGHT)
 	{
 		game->window_img->cmx[i] = (unsigned int *)(game->window_img->img->data
-				+ (i * sizeof(unsigned int) * WINDOW_WIDTH));
+			+(i * sizeof(unsigned int) * WINDOW_WIDTH));
 		i++;
 	}
 }
 
 /**
- * @brief Crea la imagen del minimapa.
- * @param game estructura del juego.
- * @details La función crea una imagen de 200x200 píxeles para el minimapa.
- */
+* @brief Crea la imagen del minimapa.
+* @param game estructura del juego.
+* @details La función crea una imagen de 200x200 píxeles para el minimapa.
+*/
+
 void	ft_create_minimap(t_game *game)
 {
 	int	i;
@@ -114,7 +115,7 @@ void	ft_create_minimap(t_game *game)
 	while (i < size)
 	{
 		game->minimap->cmx[i] = (unsigned int *)(game->minimap->img->data
-				+ (i * sizeof(unsigned int) * size));
+			+(i * sizeof(unsigned int) * size));
 		i++;
 	}
 }
@@ -137,25 +138,26 @@ void	ft_loading_render(t_game *game, int render_height, int render_width)
 }
 
 /**
- * @brief Carga el juego desde un archivo de mapa.
- *
- * Esta función crea una nueva estructura de juego,
-	carga el mapa desde el archivo
- * especificado, y configura las texturas,
-	colores y raycasts necesarios para el juego.
- * Si ocurre algún error durante la carga,
-	se imprime un mensaje de error y se retorna NULL.
- *
- * @param path_map Ruta al archivo del mapa.
- * @return estructura del juego cargado o NULL en caso de error.
- */
+* @brief Carga el juego desde un archivo de mapa.
+*
+* Esta función crea una nueva estructura de juego,
+carga el mapa desde el archivo
+* especificado, y configura las texturas,
+colores y raycasts necesarios para el juego.
+* Si ocurre algún error durante la carga,
+se imprime un mensaje de error y se retorna NULL.
+*
+* @param path_map Ruta al archivo del mapa.
+* @return estructura del juego cargado o NULL en caso de error.
+*/
+
 t_game	*ft_loading_game(char *path_map)
 {
 	t_game	*game;
 	t_file	*map_file;
 
 	game = hd_calloc(1, sizeof(t_game));
-	game->x_dcp = sqrt((DCP * DCP) + (DCP * DCP));
+	game->x_dcp = sqrt((DCP *DCP) + (DCP *DCP));
 	ft_config_mlx(game);
 	map_file = hd_alloc(ft_create_file_from_filename(path_map), hd_alloc_free_t_file);
 	if (!map_file)
@@ -178,6 +180,16 @@ t_game	*ft_loading_game(char *path_map)
 	game->screen_alien_img = ft_loading_texture(game->mlx, "textures/Alien-win.xpm");
 	if (!game->screen_alien_img)
 		ft_dprintf(2, RED "Error: Failed to load end screen texture\n" RESET);
+	game->flamethrower_frames[0] = ft_loading_texture(game->mlx,
+		"textures/AlienIsolation/lanzallamas/lanzallamas quieto.xpm");
+	if (!game->flamethrower_frames[0])
+		ft_dprintf(2, RED "Error: Failed to load flamethrower texture\n" RESET);
+	game->flamethrower_frames[1] = ft_loading_texture(game->mlx,
+		"textures/AlienIsolation/lanzallamas/lanzallamas disparo 1.xpm");
+	game->flamethrower_frames[2] = ft_loading_texture(game->mlx,
+		"textures/AlienIsolation/lanzallamas/lanzallamas disparo 2.xpm");
+	game->flamethrower_frames[3] = ft_loading_texture(game->mlx,
+		"textures/AlienIsolation/lanzallamas/lanzallamas disparo 3.xpm");
 	game->config.n_players = 1;
 	game->config.duration_index = 2;
 	game->config.charges = 3;
