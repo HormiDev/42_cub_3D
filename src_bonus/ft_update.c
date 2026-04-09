@@ -23,25 +23,38 @@
  */
 static void	ft_draw_win_screen(t_game *game)
 {
-	t_texture		*scaled_img;
 	t_vector_int	text_pos;
 	int				text_len;
 
-	if (!game->screen_end_img)
-		return ;
-	scaled_img = ft_new_texture(game->mlx, game->render->width, game->render->height);
-	if (scaled_img)
-	{
-		ft_scale_t_image(game->screen_end_img, scaled_img);
-		ft_draw_image_rgba(game->render, scaled_img, 0, 0);
-		hd_free(scaled_img);
-	}
+	ft_scale_t_image(game->screen_end_img, game->window_img);
 	text_len = ft_strlen("players win");
-	text_pos.x = game->render->width / 2 - (text_len * 6 * 4) / 2;
-	text_pos.y = game->render->height / 2 - (game->font->height * 4) / 2;
-	ft_draw_string_hud(game->render, game->font, "players win", &text_pos, 4);
+	text_pos.x = game->window_img->width / 2 - (text_len * 6 * 8) / 2;
+	text_pos.y = game->window_img->height / 2 - (game->font->height * 8) / 2;
+	ft_draw_string_hud(game->window_img, game->font, "players win", &text_pos, 8);
 	mlx_clear_window(game->mlx, game->window);
-	mlx_put_image_to_window(game->mlx, game->window, game->render->img, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
+}
+
+/**
+ * @brief Dibuja la pantalla de victoria de los jugadores.
+ *
+ * Renderiza la imagen PANTALLA-WIN.xpm escalada como fondo con transparencia,
+ * y dibuja "players win" centrado.
+ *
+ * @param game estructura del juego.
+ */
+static void	ft_draw_game_over_screen(t_game *game)
+{
+	t_vector_int	text_pos;
+	int				text_len;
+
+	ft_scale_t_image(game->screen_alien_img, game->window_img);
+	text_len = ft_strlen("Game Over");
+	text_pos.x = game->window_img->width / 2 - (text_len * 6 * 8) / 2;
+	text_pos.y = game->window_img->height / 4 - (game->font->height * 8) / 2;
+	ft_draw_string_hud(game->window_img, game->font, "Game Over", &text_pos, 8);
+	mlx_clear_window(game->mlx, game->window);
+	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0, 0);
 }
 
 /**
@@ -193,13 +206,9 @@ int	ft_update(void *param)
 	if (game->show_menu)
 		ft_update_menu(game);
 	else if (game->game_state == GAME_ALIEN_WIN)
-	{
-		ft_draw_win_screen(game);
-	}
+		ft_draw_game_over_screen(game);
 	else if (game->game_state == GAME_PLAYERS_WIN)
-	{
 		ft_draw_win_screen(game);
-	}
 	else
 	{
 		ft_check_timer(game);

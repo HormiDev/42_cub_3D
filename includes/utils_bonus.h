@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by username          #+#    #+#             */
-/*   Updated: 2026/04/09 00:50:07 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 01:46:01 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -489,6 +489,7 @@ typedef struct s_game
 	double				x_dcp;
 	t_texture			*null_texture;
 	t_texture			*screen_end_img;
+	t_texture           *screen_alien_img;
 }	t_game;
 
 #endif

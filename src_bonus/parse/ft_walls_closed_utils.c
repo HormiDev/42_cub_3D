@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:21 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/08 01:14:06 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 02:13:14 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,16 @@ int	ft_row_has_content(char *row)
 int	ft_check_space_surrounded(char **map, int i, int j)
 {
 	if (i > 0 && map[i - 1][j] != 0 && map[i - 1][j] != '1'
-		&& map[i - 1][j] != ' ' && map[i - 1][j] != 'D')
+		&& map[i - 1][j] != ' ')
 		return (ft_print_map(map, j, i - 1), 0);
 	if (map[i + 1] && map[i + 1][j] != 0 && map[i + 1][j] != '1'
-		&& map[i + 1][j] != ' ' && map[i + 1][j] != 'D')
+		&& map[i + 1][j] != ' ')
 		return (ft_print_map(map, j, i + 1), 0);
 	if (j > 0 && map[i][j - 1] != 0 && map[i][j - 1] != '1'
-		&& map[i][j - 1] != ' ' && map[i][j - 1] != 'D')
+		&& map[i][j - 1] != ' ')
 		return (ft_print_map(map, j - 1, i), 0);
 	if (map[i][j + 1] != 0 && map[i][j + 1] != '1'
-		&& map[i][j + 1] != ' ' && map[i][j + 1] != 'D')
+		&& map[i][j + 1] != ' ')
 		return (ft_print_map(map, j + 1, i), 0);
 	return (1);
 }

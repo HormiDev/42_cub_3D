@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:21 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/08 01:13:20 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 02:18:29 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ int	ft_check_map_closed_in(char **map)
  */
 int	ft_check_map_closed(t_game *game)
 {
+	
 	if (!ft_check_up_down(game))
 		return (0);
 	if (!ft_check_borders(game->map))

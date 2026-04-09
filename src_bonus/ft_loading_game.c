@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/08 20:07:38 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 01:45:39 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,6 +174,9 @@ t_game	*ft_loading_game(char *path_map)
 		ft_dprintf(2, RED "Error: Failed to load font texture\n" RESET);
 	game->screen_end_img = ft_loading_texture(game->mlx, "textures/PANTALLA-WIN.xpm");
 	if (!game->screen_end_img)
+		ft_dprintf(2, RED "Error: Failed to load end screen texture\n" RESET);
+	game->screen_alien_img = ft_loading_texture(game->mlx, "textures/Alien-win.xpm");
+	if (!game->screen_alien_img)
 		ft_dprintf(2, RED "Error: Failed to load end screen texture\n" RESET);
 	game->config.n_players = 1;
 	game->config.duration_index = 2;
