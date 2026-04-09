@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/05 12:17:15 by username          #+#    #+#             */
-/*   Updated: 2026/04/08 23:24:30 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   cub_3d_bonus.h                                    :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/04/05 12:17:15 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 03:34:16 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int		ft_close_game_for_mlx(t_game *game);
 void	ft_loading_menu(t_game *game);
 void	ft_update_menu(t_game *game);
 void	ft_draw_menu_text(t_game *game);
+void	ft_restart_match(t_game *game);
 
 // ============================================================================
 // CONFIGURATION FUNCTIONS
@@ -41,9 +42,9 @@ void	ft_alloc_bfs_structures(t_game *game);
 void	ft_parse_colors(t_game *game, t_file *map_file);
 void	ft_read_textures_in_map(t_game *game, t_file *map_file);
 int		ft_path_or_color(char *str);
-
+void	ft_normalize_map_rectangular(t_game *game);
 // Map parsing utilities
-int		ft_get_map_start_index(t_file *map_file);
+int	ft_get_map_start_index(t_file *map_file);
 
 int		ft_start_line_map(t_file *map_file);
 int		ft_end_line_map(t_file *map_file, int start_line);
@@ -51,8 +52,8 @@ int		ft_start_column_map(t_file *map_file, const int *h_start_end);
 int		ft_end_column_map(t_file *map_file, const int *h_start_end);
 void	ft_create_game_map(t_game *game, t_file *map_file, const int *h_start_end, const int *w_start_end);
 void	ft_rotate_map_y(t_game *game);
-int ft_check_space_surrounded(char **map, int i, int j);
-int ft_row_has_content(char *row);
+int		ft_check_space_surrounded(char **map, int i, int j);
+int		ft_row_has_content(char *row);
 
 // Map validation
 void	ft_check_map(t_game *game);
@@ -69,8 +70,8 @@ void	check_arguments_xpm(char *path);
 // ============================================================================
 int		ft_update(void *param);
 long	ft_get_time(void);
-bool	is_directive_line(char *line);
-bool	is_only_spaces(const char *line);
+bool is_directive_line(char *line);
+bool is_only_spaces(const char *line);
 
 // ============================================================================
 // MOVEMENT & INPUT FUNCTIONS
@@ -169,8 +170,8 @@ t_texture		*get_texture_for_wall(t_game *game, t_raycast *ray);
 t_texture		*get_texture_for_ceiling(t_game *game, t_vector2 *pos);
 t_texture		*get_texture_for_floor(t_game *game, t_vector2 *pos);
 unsigned int	get_fc_color(t_texture *texture, t_vector2 *pos);
-int 			ft_calculate_wall_height(t_raycast *ray, int x, t_game *game);
-int 			ft_calc_texture_x(t_raycast *ray, t_texture *texture);
+int				ft_calculate_wall_height(t_raycast *ray, int x, t_game *game);
+int				ft_calc_texture_x(t_raycast *ray, t_texture *texture);
 t_vector2		ft_reposition_vector2(t_game *game, t_vector2 vec);
 void			draw_ceiling_and_floor(t_game *game, int x, int wall_start);
 // Drawing utilities

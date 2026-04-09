@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   input_manager.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/09 00:36:04 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   input_manager.c                                   :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2025/08/21 00:22:23 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 03:16:26 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 **
 ** Pone a cero todas las acciones (movimiento y rotación) del jugador indicado.
 */
+
 void	input_reset_actions(t_game *game, int player_index)
 {
 	if (player_index < 0 || player_index >= MAX_GAMEPADS)
@@ -40,9 +41,10 @@ void	input_reset_actions(t_game *game, int player_index)
 ** Recorre todos los jugadores activos y resetea las acciones de aquellos
 ** que están usando gamepad. Los jugadores con teclado no se resetean.
 */
+
 void	input_merge_sources(t_game *game)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (i < game->config.n_players)
@@ -60,11 +62,14 @@ void	input_merge_sources(t_game *game)
 ** Cierra el menú y detiene la música si el menú está activo.
 ** Return: 0 si éxito, -1 si error o menú no activo
 */
+
 int	input_handle_menu_a(t_game *game)
 {
 	if (!game || !game->show_menu)
 		return (-1);
-	audio_manager_stop(game->audio_manager);
+	if (game->game_state != GAME_PLAYING)
+		ft_restart_match(game);
+	audio_manager_send(game->audio_manager, "stop");
 	game->show_menu = 0;
 	return (0);
 }
@@ -76,6 +81,7 @@ int	input_handle_menu_a(t_game *game)
 ** Si el menú está activo, cierra el juego. Si no, abre el menú.
 ** Return: 0 si éxito, -1 si error
 */
+
 int	input_handle_menu_b(t_game *game)
 {
 	if (!game)

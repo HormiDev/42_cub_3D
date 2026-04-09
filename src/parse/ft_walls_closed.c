@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_walls_closed.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/17 01:18:49 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 22:28:30 by nirmata          ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   ft_walls_closed.c                                 :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2025/05/17 01:18:49 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 02:47:50 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d.h"
 
 /**
- * @brief Verifica si los bordes izquierdo y derecho del mapa están cerrados.
- *
- * recorre cada fila del mapa y verifica que el primer y último carácter
- * devuelve 0. Si todas las filas están correctamente cerradas, devuelve 1.
- *
- * @param map Mapa a verificar.
- * @return int 1 si los bordes están cerrados, 0 en caso contrario.
- */
+* @brief Verifica si los bordes izquierdo y derecho del mapa están cerrados.
+*
+* recorre cada fila del mapa y verifica que el primer y último carácter
+* devuelve 0. Si todas las filas están correctamente cerradas, devuelve 1.
+*
+* @param map Mapa a verificar.
+* @return int 1 si los bordes están cerrados, 0 en caso contrario.
+*/
+
 int	ft_check_borders(char **map)
 {
 	int	i;
@@ -51,14 +52,15 @@ int	ft_check_borders(char **map)
 }
 
 /**
- * @brief Verifica si una fila tiene contenido real (no solo espacios).
- *
- * Esta función auxiliar verifica si una fila contiene caracteres que no sean
- * espacios o tabulaciones.
- *
- * @param row Fila del mapa a verificar.
- * @return int 1 si tiene contenido real, 0 si solo tiene espacios.
- */
+* @brief Verifica si una fila tiene contenido real (no solo espacios).
+*
+* Esta función auxiliar verifica si una fila contiene caracteres que no sean
+* espacios o tabulaciones.
+*
+* @param row Fila del mapa a verificar.
+* @return int 1 si tiene contenido real, 0 si solo tiene espacios.
+*/
+
 int	ft_row_has_content(char *row)
 {
 	int	k;
@@ -74,42 +76,44 @@ int	ft_row_has_content(char *row)
 }
 
 /**
- * @brief Verifica si un espacio está correctamente cerrado.
- *
- * Esta función auxiliar verifica que un espacio vacío esté rodeado por
- * paredes ('1') o por otros espacios vacíos.
- *
- * @param map Mapa a verificar.
- * @param i Índice de fila del espacio.
- * @param j Índice de columna del espacio.
- * @return int 1 si está correctamente cerrado, 0 en caso contrario.
- */
+* @brief Verifica si un espacio está correctamente cerrado.
+*
+* Esta función auxiliar verifica que un espacio vacío esté rodeado por
+* paredes ('1') o por otros espacios vacíos.
+*
+* @param map Mapa a verificar.
+* @param i Índice de fila del espacio.
+* @param j Índice de columna del espacio.
+* @return int 1 si está correctamente cerrado, 0 en caso contrario.
+*/
+
 int	ft_check_space_surrounded(char **map, int i, int j)
 {
 	if (i > 0 && map[i - 1][j] != 0 && map[i - 1][j] != '1' && map[i
-		- 1][j] != ' ')
-		return (ft_print_map(map, j, i - 1), 0);
+				-1][j] != ' ')
+	return (ft_print_map(map, j, i - 1), 0);
 	if (map[i + 1] && map[i + 1][j] != 0 && map[i + 1][j] != '1' && map[i
-		+ 1][j] != ' ')
-		return (ft_print_map(map, j, i + 1), 0);
+				+1][j] != ' ')
+	return (ft_print_map(map, j, i + 1), 0);
 	if (j > 0 && map[i][j - 1] != 0 && map[i][j - 1] != '1' && map[i][j
-		- 1] != ' ')
-		return (ft_print_map(map, j - 1, i), 0);
+				-1] != ' ')
+	return (ft_print_map(map, j - 1, i), 0);
 	if (map[i][j + 1] != 0 && map[i][j + 1] != '1' && map[i][j + 1] != ' ')
 		return (ft_print_map(map, j + 1, i), 0);
 	return (1);
 }
 
 /**
- * @brief Verifica si el mapa está cerrado internamente.
- *
- * Esta función recorre el mapa y verifica que cada espacio vacío (' ')
- * esté rodeado por paredes ('1') o por otros espacios vacíos. Si encuentra
- * un espacio vacío que no cumple con esta condición, devuelve 0.
- *
- * @param map Mapa a verificar.
- * @return int 1 si el mapa está cerrado, 0 en caso contrario.
- */
+* @brief Verifica si el mapa está cerrado internamente.
+*
+* Esta función recorre el mapa y verifica que cada espacio vacío (' ')
+* esté rodeado por paredes ('1') o por otros espacios vacíos. Si encuentra
+* un espacio vacío que no cumple con esta condición, devuelve 0.
+*
+* @param map Mapa a verificar.
+* @return int 1 si el mapa está cerrado, 0 en caso contrario.
+*/
+
 int	ft_check_map_closed_in(char **map)
 {
 	int	i;
@@ -137,18 +141,20 @@ int	ft_check_map_closed_in(char **map)
 }
 
 /**
- * @brief Verifica si el mapa está cerrado.
- *
- * Esta función comprueba si el mapa cumple con las siguientes condiciones:
- * 1. Las filas superior e inferior están completamente cerradas con '1'.
- * 2. Los bordes izquierdo y derecho de cada fila están cerrados con '1'.
- * 3. No hay espacios vacíos que no estén rodeados por paredes.
- *
- * @param game estructura del juego que contiene el mapa.
- * @return int 1 si el mapa está cerrado, 0 en caso contrario.
- */
+* @brief Verifica si el mapa está cerrado.
+*
+* Esta función comprueba si el mapa cumple con las siguientes condiciones:
+* 1. Las filas superior e inferior están completamente cerradas con '1'.
+* 2. Los bordes izquierdo y derecho de cada fila están cerrados con '1'.
+* 3. No hay espacios vacíos que no estén rodeados por paredes.
+*
+* @param game estructura del juego que contiene el mapa.
+* @return int 1 si el mapa está cerrado, 0 en caso contrario.
+*/
+
 int	ft_check_map_closed(t_game *game)
 {
+	ft_normalize_map_rectangular(game);
 	if (!ft_check_up_down(game))
 		return (0);
 	if (!ft_check_borders(game->map))

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils_bonus.h                                      :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/05 12:17:03 by username          #+#    #+#             */
-/*   Updated: 2026/04/09 01:46:01 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   utils_bonus.h                                     :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/04/05 12:17:03 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 03:21:48 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <stdbool.h>
 # include <sys/wait.h>
 # include <signal.h>
-#include <sys/types.h>
+# include <sys/types.h>
 # include <stdio.h>
 # include <fcntl.h>
 # include <math.h>
@@ -92,11 +92,11 @@
 # define G 103
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 1920
+#  define WINDOW_WIDTH 960
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 1080
+#  define WINDOW_HEIGHT 720
 # endif
 
 # define MENU_HEIGHT 720
@@ -117,8 +117,8 @@
 # define ANGLE_STEP 0.01
 # define MIN_ALIEN_SIZE 15
 
-# define ALIEN_SPEED_ATTACK 0.0 //3.5
-# define ALIEN_SPEED_PATROL 0.0 //4.0
+# define ALIEN_SPEED_ATTACK 3.5 //3.5
+# define ALIEN_SPEED_PATROL 4.0 //4.0
 
 # define MIST_COLOR 0xFF323232
 # define MAX_GAMEPADS 4
@@ -306,6 +306,9 @@ typedef struct s_player_actions
 	int		flamethrower_ready;
 	long	flamethrower_last_time;
 	double	flamethrower_cooldown_remaining;
+	int		flamethrower_anim_frame;
+	double	flamethrower_anim_time;
+	int		flamethrower_animating;
 }	t_player_actions;
 
 typedef enum e_duration
@@ -487,9 +490,13 @@ typedef struct s_game
 	int					*bfs_parent;
 	int					**bfs_visited;
 	double				x_dcp;
+	t_texture			*flamethrower_frames[4];
+	t_texture			*flamethrower_scaled;
+	int					flamethrower_scaled_w;
+	int					flamethrower_scaled_h;
 	t_texture			*null_texture;
 	t_texture			*screen_end_img;
-	t_texture           *screen_alien_img;
+	t_texture			*screen_alien_img;
 }	t_game;
 
 #endif

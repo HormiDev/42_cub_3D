@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_draw_image_scaled.c                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/01 01:22:24 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/09 00:23:55 by ide-dieg         ###   ########.fr       */
+/*                                                       :::      ::::::::    */
+/*   ft_draw_image_scaled.c                            :+:      :+:    :+:    */
+/*                                                   +:+ +:+         +:+      */
+/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
+/*                                               +#+#+#+#+#+   +#+            */
+/*   Created: 2026/04/01 01:22:24 by username         #+#    #+#              */
+/*   Updated: 2026/04/09 03:33:16 by username        ###   ########.fr        */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Dibuja una imagen con transparencia sobre otra imagen.
- * 
- * @param dst Textura destino donde se dibujara.
- * @param src Textura origen con canal alpha.
- * @param start_x Coordenada X inicial en destino.
- * @param start_y Coordenada Y inicial en destino.
- */
-void	ft_draw_image_rgba_scaled(t_texture *dst, t_texture *src,
-			int pos_x, int pos_y, int src_size)
+* @brief Dibuja una imagen con transparencia sobre otra imagen.
+*
+* @param dst Textura destino donde se dibujara.
+* @param src Textura origen con canal alpha.
+* @param start_x Coordenada X inicial en destino.
+* @param start_y Coordenada Y inicial en destino.
+*/
+void ft_draw_image_rgba_scaled(t_texture * dst, t_texture * src,
+	int	pos_x, int pos_y, int src_size)
 {
 	t_vector_int	start_dst;
 	t_vector_int	end_dst;
 	t_vector2		start_src;
 	t_vector_int	end_src;
-
 
 	start_dst.x = pos_x;
 	start_dst.y = pos_y;
@@ -38,14 +37,14 @@ void	ft_draw_image_rgba_scaled(t_texture *dst, t_texture *src,
 		start_src.x = 0;
 	else
 	{
-		start_src.x = -(float)start_dst.x / (float)src_size * src->width;
+		start_src.x = -(float) start_dst.x / (float) src_size * src->width;
 		start_dst.x = 0;
 	}
 	if (start_dst.y >= 0)
 		start_src.y = 0;
 	else
 	{
-		start_src.y = -(float)start_dst.y / (float)src_size * src->height;
+		start_src.y = -(float) start_dst.y / (float) src_size * src->height;
 		start_dst.y = 0;
 	}
 	if (end_dst.x < dst->width)
@@ -63,20 +62,20 @@ void	ft_draw_image_rgba_scaled(t_texture *dst, t_texture *src,
 		end_dst.y = dst->height - 1;
 	}
 
-	int tmp_start_dst_x;
-	(void)end_src;
+	int	tmp_start_dst_x;
+	(void) end_src;
 	tmp_start_dst_x = start_dst.x;
-	float tmp_start_src_x;
+	float	tmp_start_src_x;
 	tmp_start_src_x = start_src.x;
-	t_vector_int src_pos;
-	t_vector2 src_iter;
+	t_vector_int	src_pos;
+	t_vector2		src_iter;
 	//int	tmp_start_dst_y;
 	//tmp_start_dst_y = start_dst.y;
 
-	src_pos.y = (int)start_src.y;
+	src_pos.y = (int) start_src.y;
 
-	src_iter.x = (float)src->width / (float)src_size;
-	src_iter.y = (float)src->height / (float)src_size;
+	src_iter.x = (float) src->width / (float) src_size;
+	src_iter.y = (float) src->height / (float) src_size;
 
 	while (start_dst.y <= end_dst.y)
 	{
@@ -84,33 +83,32 @@ void	ft_draw_image_rgba_scaled(t_texture *dst, t_texture *src,
 		start_src.x = tmp_start_src_x;
 		src_pos.x = start_src.x;
 		while (start_dst.x <= end_dst.x)
-		{	if (src->cmx[src_pos.y][src_pos.x] << 24)
+		{
+			if ((src->cmx[src_pos.y][src_pos.x] >> 24) != 0)
 				dst->cmx[start_dst.y][start_dst.x] = src->cmx[src_pos.y][src_pos.x];
 			start_dst.x++;
 			start_src.x += src_iter.x;
 			//start_src.x = (float)src->width / (float)src_size * (float)(start_dst.x - tmp_start_dst_x);
-			src_pos.x = (int)start_src.x;
+			src_pos.x = (int) start_src.x;
 			if (src_pos.x >= src->width)
 				src_pos.x = src->width - 1;
 		}
 		start_dst.y++;
 		start_src.y += src_iter.y;
 		//start_src.y = (float)src->height / (float)src_size * (float)(start_dst.y - tmp_start_dst_y);
-		src_pos.y = (int)start_src.y;
+		src_pos.y = (int) start_src.y;
 		if (src_pos.y >= src->height)
 			src_pos.y = src->height - 1;
 	}
 }
 
-
-void	ft_draw_image_rgba_scaled_plus(t_game *game, t_texture *src,
-			int pos_x, int pos_y, int src_size, double distance)
+void ft_draw_image_rgba_scaled_plus(t_game * game, t_texture * src,
+	int	pos_x, int pos_y, int src_size, double distance)
 {
 	t_vector_int	start_dst;
 	t_vector_int	end_dst;
 	t_vector2		start_src;
 	t_vector_int	end_src;
-
 
 	start_dst.x = pos_x;
 	start_dst.y = pos_y;
@@ -121,14 +119,14 @@ void	ft_draw_image_rgba_scaled_plus(t_game *game, t_texture *src,
 		start_src.x = 0;
 	else
 	{
-		start_src.x = -(float)start_dst.x / (float)src_size * src->width;
+		start_src.x = -(float) start_dst.x / (float) src_size * src->width;
 		start_dst.x = 0;
 	}
 	if (start_dst.y >= 0)
 		start_src.y = 0;
 	else
 	{
-		start_src.y = -(float)start_dst.y / (float)src_size * src->height;
+		start_src.y = -(float) start_dst.y / (float) src_size * src->height;
 		start_dst.y = 0;
 	}
 	if (end_dst.x < game->render->width)
@@ -146,23 +144,23 @@ void	ft_draw_image_rgba_scaled_plus(t_game *game, t_texture *src,
 		end_dst.y = game->render->height - 1;
 	}
 
-	int tmp_start_dst_x;
-	(void)end_src;
+	int	tmp_start_dst_x;
+	(void) end_src;
 	tmp_start_dst_x = start_dst.x;
-	float tmp_start_src_x;
+	float	tmp_start_src_x;
 	tmp_start_src_x = start_src.x;
-	t_vector_int src_pos;
-	t_vector2 src_iter;
+	t_vector_int	src_pos;
+	t_vector2		src_iter;
 	//int	tmp_start_dst_y;
 	//tmp_start_dst_y = start_dst.y;
-	unsigned int mist_color = MIST_COLOR;
-	int mist_mix = 255 * distance / MAX_RAY_SIZE;
+	unsigned int	mist_color = MIST_COLOR;
+	int				mist_mix = 255 *distance / MAX_RAY_SIZE;
 
-	src_pos.y = (int)start_src.y;
+	src_pos.y = (int) start_src.y;
 
-	src_iter.x = (float)src->width / (float)src_size;
-	src_iter.y = (float)src->height / (float)src_size;
-	int raicast_iter;
+	src_iter.x = (float) src->width / (float) src_size;
+	src_iter.y = (float) src->height / (float) src_size;
+	int	raicast_iter;
 
 	while (start_dst.y <= end_dst.y)
 	{
@@ -171,7 +169,7 @@ void	ft_draw_image_rgba_scaled_plus(t_game *game, t_texture *src,
 		src_pos.x = start_src.x;
 		raicast_iter = -start_dst.x + game->config.render_width - 1;
 		while (start_dst.x <= end_dst.x)
-		{	
+		{
 			if (distance <= game->raycasts[raicast_iter].distance)
 			{
 				if ((src->cmx[src_pos.y][src_pos.x]) > 0x00FFFFFF)
@@ -183,13 +181,13 @@ void	ft_draw_image_rgba_scaled_plus(t_game *game, t_texture *src,
 			raicast_iter--;
 			start_dst.x++;
 			start_src.x += src_iter.x;
-			src_pos.x = (int)start_src.x;
+			src_pos.x = (int) start_src.x;
 			if (src_pos.x >= src->width)
 				src_pos.x = src->width - 1;
 		}
 		start_dst.y++;
 		start_src.y += src_iter.y;
-		src_pos.y = (int)start_src.y;
+		src_pos.y = (int) start_src.y;
 		if (src_pos.y >= src->height)
 			src_pos.y = src->height - 1;
 	}
