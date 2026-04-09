@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:34 by username          #+#    #+#             */
-/*   Updated: 2026/04/07 23:39:03 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 23:29:11 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,28 @@ int	ft_check_map_count_player(t_game *game)
 	return (player_count);
 }
 
+static int	ft_check_map_dimensions(t_game *game)
+{
+	int	height;
+	int	max_width;
+	int	row_len;
+
+	height = 0;
+	max_width = 0;
+	while (game->map[height])
+	{
+		row_len = ft_strlen(game->map[height]);
+		if (row_len > 0 && game->map[height][row_len - 1] == '\n')
+			row_len--;
+		if (row_len > max_width)
+			max_width = row_len;
+		height++;
+	}
+	if (height > 1000 || max_width > 1000)
+		return (0);
+	return (1);
+}
+
 /**
 * @brief Verifica si el mapa está cerrado.
 *
@@ -95,6 +117,11 @@ void	ft_check_map(t_game *game)
 	int	player_count;
 
 	ft_check_map_valid_characters(game->map);
+	if (!ft_check_map_dimensions(game))
+	{
+		ft_dprintf(2, RED "Error: Map dimensions exceed 1000x1000\n" RESET);
+		ft_close_game(1);
+	}
 	player_count = ft_check_map_count_player(game);
 	if (player_count != 1)
 	{

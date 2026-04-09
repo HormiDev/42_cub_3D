@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   cub_3d_bonus.h                                    :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/04/05 12:17:15 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 19:55:40 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/05 12:17:15 by username          #+#    #+#             */
+/*   Updated: 2026/04/10 00:39:22 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,9 +141,7 @@ int	input_handle_menu_b(t_game *game);
 // RAYCAST FUNCTIONS
 // ============================================================================
 
-void ft_raycast(t_game * game, double angle,
-	t_raycast	*ray, double max_size,
-t_vector2	origin_position);
+void	ft_raycast(t_raycast_input *input);
 void	ft_calculate_raycasts(t_game *game);
 void	ft_ray_iter_up(int *position_xy, int cuadrant, int iter);
 void	ft_ray_iter_right(int *position_xy, int cuadrant, int iter);
@@ -425,8 +423,7 @@ void ft_update_flamethrower_cooldown(t_player_actions * actions,
 void	ft_render_flamethrower(t_game *game, int player_index);
 void	ft_render_flamethrower_hud(t_game *game, int player_index);
 void ft_flamethrower_hud(t_game * game, int player_index,
-	t_texture	*target, int offset_x,
-int	offset_y, t_vector_int viewport);
+	t_texture	*target, t_vector_int pos_offset);
 
 // ============================================================================
 // PRERENDER MODELS

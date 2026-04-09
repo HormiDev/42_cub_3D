@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   utils_bonus.h                                     :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/04/05 12:17:03 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 19:49:47 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   utils_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/05 12:17:03 by username          #+#    #+#             */
+/*   Updated: 2026/04/10 00:40:07 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,11 +93,27 @@
 # define G 103
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 960
+#  define WINDOW_WIDTH 1920
+# endif
+# if WINDOW_WIDTH < 192
+#  undef WINDOW_WIDTH
+#  define WINDOW_WIDTH 1920
+# endif
+# if WINDOW_WIDTH > 4000
+#  undef WINDOW_WIDTH
+#  define WINDOW_WIDTH 1920
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 720
+#  define WINDOW_HEIGHT 1080
+# endif
+# if WINDOW_HEIGHT < 108
+#  undef WINDOW_HEIGHT
+#  define WINDOW_HEIGHT 1080
+# endif
+# if WINDOW_HEIGHT > 4000
+#  undef WINDOW_HEIGHT
+#  define WINDOW_HEIGHT 1080
 # endif
 
 # define MENU_HEIGHT 720
@@ -118,8 +134,8 @@
 # define ANGLE_STEP 0.01
 # define MIN_ALIEN_SIZE 15
 
-# define ALIEN_SPEED_ATTACK 0.0 //3.5
-# define ALIEN_SPEED_PATROL 0.0 //4.0
+# define ALIEN_SPEED_ATTACK 3.2 //3.5
+# define ALIEN_SPEED_PATROL 4.0 //4.0
 
 # define MIST_COLOR 0xFF323232
 # define MAX_GAMEPADS 4
@@ -214,6 +230,15 @@ typedef struct s_raycast
 	t_vector2	impact;
 	int			type;
 }	t_raycast;
+
+typedef struct s_raycast_input
+{
+	struct s_game	*game;
+	double		angle;
+	t_raycast	*ray;
+	double		max_size;
+	t_vector2	origin_position;
+} 	t_raycast_input;
 
 typedef struct s_render_objets
 {
@@ -433,8 +458,16 @@ typedef struct s_raycast_ctx
 	int			tile_xy[2];
 	t_vector2	distance;
 	double		sin_cos[3];
+	int			wall_or_dor;
 	int			cuadrant;
 }	t_raycast_ctx;
+
+typedef struct s_hud_draw
+{
+	t_texture	*target;
+	t_vector_int	pos;
+	int			scale;
+}					t_hud_draw;
 
 typedef struct s_column_ctx
 {
@@ -526,6 +559,7 @@ typedef struct s_game
 	t_texture			*null_texture;
 	t_texture			*screen_end_img;
 	t_texture			*screen_alien_img;
+	t_texture           *dead_image;
 }	t_game;
 
 #endif

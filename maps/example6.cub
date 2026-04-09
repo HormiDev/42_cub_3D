@@ -10,7 +10,9 @@ F ./textures/AlienIsolation/techos&suelos/floor-3.xpm
 
 
 
-D ./textures/1.xpm
+D ./textures/AlienIsolation/Puertas/puerta-textura.xpm
+D ./textures/AlienIsolation/Puertas/door-ceiling.xpm
+D ./textures/AlienIsolation/Puertas/door-floor.xpm
 
 NO ./textures/AlienIsolation/Paredes/pixel-pared-N-1.xpm
 NO ./textures/AlienIsolation/Paredes/pixel-pared-2-N.xpm

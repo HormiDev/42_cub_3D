@@ -6,62 +6,11 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:20 by username          #+#    #+#             */
-/*   Updated: 2026/04/09 17:54:50 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 00:39:48 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
-
-static t_texture	*ft_get_flamethrower_frame(t_game *game, t_player_actions *actions)
-{
-	t_texture	*flame;
-	int			frame_index;
-	double		elapsed_time;
-	double		frame_duration;
-
-	flame = game->flamethrower_frames[0];
-	if (!actions->flamethrower_animating)
-		return (flame);
-	elapsed_time = game->current_time - actions->flamethrower_anim_time;
-	frame_duration = 200;
-	if (elapsed_time < frame_duration * 3)
-	{
-		frame_index = (int)(elapsed_time / frame_duration) + 1;
-		if (frame_index > 3)
-			frame_index = 3;
-		if (game->flamethrower_frames[frame_index])
-			flame = game->flamethrower_frames[frame_index];
-	}
-	else
-		actions->flamethrower_animating = 0;
-	return (flame);
-}
-
-void	ft_render_flamethrower(t_game *game, int player_index)
-{
-	t_texture			*flame;
-	t_player_actions	*actions;
-	int					size;
-	int					max_size;
-	int					x;
-	int					y;
-
-	actions = &game->actions[player_index];
-	flame = ft_get_flamethrower_frame(game, actions);
-	if (!flame)
-		return ;
-	size = (game->render->height * 180) / 100;
-	if (size < flame->height)
-		size = flame->height;
-	max_size = (game->render->height * 200) / 100;
-	if (game->render->width < game->render->height)
-		max_size = (game->render->width * 200) / 100;
-	if (size > max_size)
-		size = max_size;
-	x = game->render->width - size + (game->render->width / 15);
-	y = game->render->height - size + (game->render->height / 2.2);
-	ft_draw_image_rgba_scaled(game->render, flame, x, y, size);
-}
 
 static int	ft_get_hud_scale(int viewport_height)
 {
@@ -74,54 +23,56 @@ static int	ft_get_hud_scale(int viewport_height)
 }
 
 static void ft_draw_flamethrower_charges(t_game * game,
-	t_player_actions	*actions, t_texture *target, t_vector_int pos, int scale)
+	t_player_actions	*actions, t_hud_draw *hud)
 {
 	char	str[32];
 
 	ft_sprintf(str, "CHARGES:%d / %d", actions->flamethrower_charges,
 		game->config.charges);
-	ft_draw_string_hud(target, game->font, str, &pos, scale);
+	ft_draw_string_hud(hud->target, game->font, str, &hud->pos, hud->scale);
 }
 
 static void ft_draw_flamethrower_cooldown(t_game * game,
-	t_player_actions	*actions, t_texture *target, t_vector_int pos, int scale)
+	t_player_actions	*actions, t_hud_draw *hud)
 {
 	char	str[32];
 
 	if (actions->flamethrower_cooldown_remaining <= 0)
 		return ;
 	ft_sprintf(str, "COOLDOWN:%ds", (int) actions->flamethrower_cooldown_remaining);
-	ft_draw_string_hud(target, game->font, str, &pos, scale);
+	ft_draw_string_hud(hud->target, game->font, str, &hud->pos, hud->scale);
 }
 
 void ft_flamethrower_hud(t_game * game, int player_index,
-	t_texture	*target, int offset_x, int offset_y, t_vector_int viewport)
+	t_texture	*target, t_vector_int pos_offset)
 {
 	t_player_actions	*actions;
+	t_hud_draw			hud;
 	t_vector_int		pos;
-	int					scale;
 
 	actions = &game->actions[player_index];
-	scale = ft_get_hud_scale(viewport.y);
-	pos.x = offset_x + viewport.x - (viewport.x / 4);
-	pos.y = offset_y + viewport.y / 20;
-	ft_draw_flamethrower_charges(game, actions, target, pos, scale);
-	pos.y = offset_y + viewport.y / 12;
-	ft_draw_flamethrower_cooldown(game, actions, target, pos, scale);
+	hud.target = target;
+	hud.scale = ft_get_hud_scale(target->height);
+	pos.x = pos_offset.x + target->width - (target->width / 4);
+	pos.y = pos_offset.y + target->height / 20;
+	hud.pos = pos;
+	ft_draw_flamethrower_charges(game, actions, &hud);
+	pos.y = pos_offset.y + target->height / 12;
+	hud.pos = pos;
+	ft_draw_flamethrower_cooldown(game, actions, &hud);
 }
 
 void	ft_render_flamethrower_hud(t_game *game, int player_index)
 {
 	t_texture		*target;
-	t_vector_int	viewport;
+	t_vector_int	pos_offset;
 
 	target = game->render;
 	if (game->config.n_players == 1
-			&& (game->config.render_height != WINDOW_HEIGHT
-		|| game->config.render_width != WINDOW_WIDTH))
-	target = game->window_img;
-	viewport.x = target->width;
-	viewport.y = target->height;
-	ft_flamethrower_hud(game, player_index, target, 0, 0,
-		viewport);
+		&& (game->config.render_height != WINDOW_HEIGHT
+			|| game->config.render_width != WINDOW_WIDTH))
+		target = game->window_img;
+	pos_offset.x = 0;
+	pos_offset.y = 0;
+	ft_flamethrower_hud(game, player_index, target, pos_offset);
 }

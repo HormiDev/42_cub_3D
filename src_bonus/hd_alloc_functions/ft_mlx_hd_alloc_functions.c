@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/17 19:12:03 by username          #+#    #+#             */
-/*   Updated: 2026/04/08 23:19:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 00:15:58 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	*ft_mlx_xpm_file_to_image(void *mlx, char *filename,
 	mlx_image[1] = mlx_xpm_file_to_image(mlx, filename, width, height);
 	if (!mlx_image[1])
 	{
-		ft_dprintf(2, RED "Error: Failed to load XPM file: %s\n" RESET, filename);
+		ft_dprintf(2,
+			RED "Error: Failed to load XPM file: %s\n" RESET, filename);
 		hd_alloc(0, 0);
 		return (NULL);
 	}

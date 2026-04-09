@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   ft_paint.c                                        :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2025/08/19 18:22:54 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 19:21:28 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   ft_paint.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/19 18:22:54 by username          #+#    #+#             */
+/*   Updated: 2026/04/10 00:30:28 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	ft_render_3d(t_game *game)
 	i = 0;
 	while (i < game->config.render_width)
 	{
-		draw_column(game, game->config.render_width - i - 1, &game->raycasts[i]);
+		draw_column(game,
+			game->config.render_width - i - 1, &game->raycasts[i]);
 		i++;
 	}
 }

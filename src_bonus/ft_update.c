@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:43:53 by username          #+#    #+#             */
-/*   Updated: 2026/04/09 18:38:44 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 20:16:26 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ int	ft_update(void *param)
 	//ft_gamepad_handle_system_buttons(game);
 	//ft_gamepad_movement(game);
 	if (game->show_menu)
-	ft_update_menu(game);
-else if (game->game_state == GAME_ALIEN_WIN)
-ft_draw_game_over_screen(game);
+		ft_update_menu(game);
+	else if (game->game_state == GAME_ALIEN_WIN)
+		ft_draw_game_over_screen(game);
 	else if (game->game_state == GAME_PLAYERS_WIN)
 		ft_draw_win_screen(game);
 	else

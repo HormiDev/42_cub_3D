@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 18:23:15 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/08 00:28:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 20:54:59 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,6 @@ void	ft_parse_map(t_game *game, t_file *map_file)
 	ft_create_map_heat(game);
 	ft_create_map_transitable(game);
 	ft_create_map_transitable_aux(game);
-	ft_print_transitable_map(game);
 	ft_alloc_bfs_structures(game);
 }
 

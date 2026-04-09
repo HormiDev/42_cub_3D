@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   door_utils.c                                      :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/04/02 16:21:55 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 16:38:16 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   door_utils.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/02 16:21:55 by username          #+#    #+#             */
+/*   Updated: 2026/04/10 00:19:49 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ static void	ft_close_door(t_game *game, t_door *door)
 	}
 	game->map[door->position.y][door->position.x] = 'D';
 	door->state = DOOR_CLOSED;
+	game->players[4].path_len = 0;
 	door->auto_reopen_timer = door->auto_reopen_delay;
 	if (game->audio_manager)
 		audio_manager_send(game->audio_manager, "music&sounds/puerta.wav");
@@ -115,7 +116,8 @@ int	ft_try_toggle_door(t_game *game)
 	t_raycast		ray;
 	t_vector_int	door_pos;
 
-	ft_raycast(game, game->player->rotation.x, &ray, 1.0, game->player->position);
+	ft_raycast(&(t_raycast_input){game, game->player->rotation.x,
+		&ray, 1.0, game->player->position});
 	if (ray.type == -1)
 	{
 		door_pos.x = (int) ray.impact.x;

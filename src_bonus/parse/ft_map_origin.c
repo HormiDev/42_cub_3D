@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:41 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/08 00:04:10 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 23:59:02 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ static int	find_map_start_index(t_file *map_file,
 	int		i;
 
 	i = 0;
+	
 	while (map_file->array_content[i])
 	{
 		if (!is_only_spaces(map_file->array_content[i]))
@@ -88,6 +89,7 @@ int	ft_get_map_start_index(t_file *map_file)
 		found[k] = false;
 		k++;
 	}
+	found[6] = true;
 	dirs[0] = "NO ";
 	dirs[1] = "SO ";
 	dirs[2] = "EA ";

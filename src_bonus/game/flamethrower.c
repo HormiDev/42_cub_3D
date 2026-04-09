@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   flamethrower.c                                    :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/04/02 16:22:26 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 16:38:16 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   flamethrower.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/02 16:22:26 by username          #+#    #+#             */
+/*   Updated: 2026/04/09 20:50:32 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static void ft_flamethrower_attack(t_game * game, t_player * player,
 	actions->flamethrower_charges--;
 	actions->flamethrower_ready = 0;
 	actions->flamethrower_last_time = game->current_time;
-	actions->flamethrower_cooldown_remaining = 20.0;
+	actions->flamethrower_cooldown_remaining = 5.0;
 	actions->flamethrower_animating = 1;
 	actions->flamethrower_anim_time = game->current_time;
 	actions->flamethrower_anim_frame = 1;

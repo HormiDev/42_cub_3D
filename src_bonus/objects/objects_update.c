@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:25 by username          #+#    #+#             */
-/*   Updated: 2026/04/09 18:32:22 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 22:54:45 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -321,7 +321,6 @@ void	ft_respawn_alien(t_game *game)
 /**
 * @brief Actualiza las distancias de render de todos los jugadores.
 */
-
 void	ft_update_render_distances(t_game *game)
 {
 	int	i;

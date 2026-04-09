@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:08 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 17:47:50 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 00:19:55 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ void	ft_chase_player(t_game *game, t_player *alien)
 {
 	t_raycast	ray;
 
-	ft_raycast(game, alien->rotation.x, &ray, alien->speed * game->delta_time, alien->position);
+	ft_raycast(&(t_raycast_input){game, alien->rotation.x, &ray,
+		alien->speed * game->delta_time, alien->position});
 	if (ray.type == -1)
 	{
 		alien->position.x = ray.impact.x;

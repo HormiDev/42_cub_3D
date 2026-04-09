@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   ft_raycast_type.c                                 :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2025/10/07 00:00:00 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 19:28:11 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   ft_raycast_type.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/07 00:00:00 by username          #+#    #+#             */
+/*   Updated: 2026/04/10 00:16:29 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	ft_ray_type_door(t_raycast *ray, int cuadrant, int up_right)
 	}
 }
 
-void ft_raycast_max_size(double angle,
+void	ft_raycast_max_size(double angle,
 	t_raycast	*ray, double max_size, int cuadrant)
 {
 	t_vector2	distance;
@@ -81,7 +81,7 @@ void ft_raycast_max_size(double angle,
 	ray->type = -1;
 }
 
-void ft_raycast_init(double * angle,
+void	ft_raycast_init(double *angle,
 	int	*cuadrant, int *tile_ray_xy, t_vector2 origin_position)
 {
 	if (*angle < 0)

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:08 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 18:52:58 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 00:19:56 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,8 @@ int	ft_is_player_visible(t_game *game, t_player *alien, t_player *target, double
 	if (angle_diff > -90.0 && angle_diff < 90.0)
 	{
 		//ft_printf("Player is in fov\n");
-		ft_raycast(game, angle_to_target, &ray, distance, alien->position);
+		ft_raycast(&(t_raycast_input){game, angle_to_target, &ray,
+			distance, alien->position});
 		if (ray.type == -1)
 		{
 			//ft_printf("Player is visible\n");

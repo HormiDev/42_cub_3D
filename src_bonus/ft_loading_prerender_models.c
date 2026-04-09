@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:16:38 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/09 18:55:49 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/09 20:12:45 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,12 @@ void	ft_loading_textures_with_path(t_game *game, t_prerender_model *pre, char *p
 	file_name = ft_get_next_file(dir, path_dir);
 	while (i < (pre->n_angles * pre->n_frames))
 	{
-		if (ft_strnstr(file_name + ft_strlen(file_name) - 4, ".xpm", 4))
+		if (!file_name)
+		{
+			pre->texture[i] = game->null_texture;
+			i++;
+		}
+		else if (ft_strnstr(file_name + ft_strlen(file_name) - 4, ".xpm", 4))
 		{
 			if (file_name)
 			{
@@ -59,8 +64,6 @@ void	ft_loading_textures_with_path(t_game *game, t_prerender_model *pre, char *p
 				if (!pre->texture[i])
 					pre->texture[i] = game->null_texture;
 			}
-			else if (!file_name)
-				pre->texture[i] = game->null_texture;
 			i++;
 		}
 		file_name = ft_get_next_file(dir, path_dir);
