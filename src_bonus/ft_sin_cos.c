@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sin_cos.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/08 18:02:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 23:21:00 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
  */
 double	ft_angle_rad(double degrees)
 {
-	return ((degrees)*M_PI / 180.0);
+	return ((degrees) * M_PI / 180.0);
 }
 
 /**
@@ -92,6 +92,7 @@ double	ft_cos(double angle)
 		angle -= 9000;
 	return (cos_table[(int)(angle) % 9000]);
 }
+
 /**
 	@brief Ajusta el valor del seno según el cuadrante del ángulo.
 	@param value Ángulo en grados.

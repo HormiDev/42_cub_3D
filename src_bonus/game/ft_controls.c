@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_controls.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 02:14:00 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   audio_manager.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/03/15 19:39:51 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/10 02:25:44 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	exit_audio_manager(int exit_code)
 static void	audio_manager_run(t_audio_manager *audio_manager)
 {
 	char	*line;
+	pid_t	pid;
 
 	close(audio_manager->pipe[1]);
 	if (dup2(audio_manager->pipe[0], 0) < 0)
@@ -34,13 +35,17 @@ static void	audio_manager_run(t_audio_manager *audio_manager)
 	close(audio_manager->pipe[0]);
 	hd_alloc(malloc(1), free_gnl);
 	line = hd_alloc(get_next_line(0), free);
+	pid = -1;
 	while (line)
 	{
 		line[ft_strlen_p(line) - 1] = '\0';
-		if (ft_strncmp_p(line, "stop", 5) == 0)
-			hd_alloc_clear();
+		if (ft_strncmp_p(line, "stop", 5) == 0 && pid > 0)
+		{
+			kill(pid, SIGKILL);
+			pid = -1;
+		}
 		else
-			ft_play_audio(line, audio_manager->env);
+			pid = ft_play_audio(line, audio_manager->env);
 		hd_free(line);
 		line = hd_alloc(get_next_line(0), free);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_config_player_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:30:01 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 04:02:04 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ int	ft_find_player_spawn(t_game *game)
 	return (0);
 }
 
-void	ft_restore_spawn_if_not_found(t_game *game, int found_spawn)
+void	ft_restore_spawn_if_not_found(t_game *game,
+			int found_spawn)
 {
 	if (!found_spawn && game->player_spawn_initialized)
 	{
@@ -56,7 +57,11 @@ void	ft_restore_spawn_if_not_found(t_game *game, int found_spawn)
 
 void	ft_setup_secondary_player(t_game *game, int idx)
 {
+	t_prerender_model	*tmp;
+
+	tmp = game->players[idx].model;
 	ft_memcpy(&game->players[idx], &game->players[0], sizeof(t_player));
+	game->players[idx].model = tmp;
 	game->players[idx].active = 1;
 	game->players[idx].alive = 1;
 	game->players[idx].type = ENTITY_PLAYER;
@@ -71,7 +76,7 @@ void	ft_setup_secondary_player(t_game *game, int idx)
 
 void	ft_init_multiplayer_players(t_game *game)
 {
-	int idx;
+	int		idx;
 
 	idx = 1;
 	while (idx < game->config.n_players && idx < 4)

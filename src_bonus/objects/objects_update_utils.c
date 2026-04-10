@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_update_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:25 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 01:42:51 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,8 +128,8 @@ void	ft_update_aliens(t_game *game)
 		return ;
 	alien = &game->players[4];
 	objetive = ft_check_objetive(game, alien);
-	if (alien->model->last_update_time < game->current_time + 1000
-		/ alien->model->n_frames)
+	if (game->current_time > alien->model->last_update_time + (500
+			/ alien->model->n_frames))
 	{
 		alien->model->last_update_time = game->current_time;
 		alien->model->active_frame++;

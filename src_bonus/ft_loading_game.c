@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_loading_game.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 02:55:44 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_finalize_world(t_game *game)
 {
-	ft_loading_prerender_models(game);
 	ft_config_player(game);
+	ft_loading_prerender_models(game);
 	ft_config_alien(game);
 	ft_init_doors(game);
 }
@@ -56,7 +56,6 @@ t_game	*ft_loading_game(char *path_map)
 	t_file	*map_file;
 
 	game = hd_calloc(1, sizeof(t_game));
-	game->x_dcp = sqrt((DCP * DCP) + (DCP * DCP));
 	ft_config_mlx(game);
 	map_file = hd_alloc(ft_create_file_from_filename(path_map),
 			hd_alloc_free_t_file);

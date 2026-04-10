@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_loading_prerender_utils.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 03:05:00 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/10 03:09:33 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_load_prerender_texture(t_game *game, t_prerender_model *pre,
 	if (!load_ctx.file_name)
 		pre->texture[load_ctx.idx] = game->null_texture;
 	else if (ft_strnstr(load_ctx.file_name + ft_strlen(load_ctx.file_name) - 4,
-		".xpm", 4))
+			".xpm", 4))
 	{
 		ft_snprintf(cwd, sizeof(cwd), "%s%s", load_ctx.path_dir,
 			load_ctx.file_name);
@@ -86,7 +86,7 @@ void	ft_print_sorted_textures(t_prerender_model *pre)
 	size = pre->n_angles * pre->n_frames;
 	ft_printf("Ordered textures: %d   %d\n", size - 1, size);
 	i = 0;
-	while (i < size - 1)
+	while (i < size - 1 && pre->texture[i])
 	{
 		ft_printf("Ordered texture: %s\n", pre->texture[i]->path);
 		i++;

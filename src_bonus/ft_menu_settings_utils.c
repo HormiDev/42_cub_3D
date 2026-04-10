@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_menu_settings_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 20:17:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/10 02:43:32 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:17 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
 
-
 void	ft_setup_settings_button(t_game *game, int idx,
-		t_vector_int pos, const char *base_hover[2], void (*on_click)(void *))
+		t_vector_int pos, t_settings_btn_cfg *cfg)
 {
-	ft_button_position_size(&game->menu_settings.buttons[idx], pos.x, pos.y,
-		MENU_BUTTON_HEIGHT, MENU_BUTTON_HEIGHT);
+	t_vector_int	size;
+
+	size.x = MENU_BUTTON_HEIGHT;
+	size.y = MENU_BUTTON_HEIGHT;
+	ft_button_position_size(&game->menu_settings.buttons[idx], pos, size);
 	ft_loading_texture_buttons(game, &game->menu_settings.buttons[idx],
-		(char *)base_hover[0], (char *)base_hover[1]);
-	game->menu_settings.buttons[idx].on_click = on_click;
+		(char *)cfg->hover[0], (char *)cfg->hover[1]);
+	game->menu_settings.buttons[idx].on_click = cfg->on_click;
 }
 
 void	ft_fill_settings_callbacks(void (*callbacks[9])(void *))

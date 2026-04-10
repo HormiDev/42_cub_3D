@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_hd_alloc_closedir.c                             :+:      :+:    :+:   */
+/*   ft_pre_vector_cloud_utils.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/04/10 19:53:36 by ismherna          #+#    #+#             */
+/*   Created: 2025/11/17 16:17:05 by ide-dieg          #+#    #+#             */
 /*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/cub_3d_bonus.h"
-#include <sys/types.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <unistd.h>
+#include "../includes/cub_3d_bonus.h"
 
-void	ft_hd_alloc_closedir(void *ptr)
+double	ft_calculate_ray_distance(double fov_y, int i,
+		int render_height)
 {
-	if (ptr)
-		closedir((DIR *) ptr);
+	double	vertical_angle;
+
+	vertical_angle = (fov_y / 2.0) - (i * fov_y / (double)render_height);
+	return (0.5 / ft_sin(vertical_angle) * ft_cos(vertical_angle));
 }

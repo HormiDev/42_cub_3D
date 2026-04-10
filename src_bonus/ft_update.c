@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_update.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:43:53 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 04:08:53 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
 
-void ft_update_players(t_game *game)
+void	ft_update_players(t_game *game)
 {
 	ft_check_timer(game);
 	if (game->config.n_players == 1)
@@ -35,11 +35,12 @@ int	ft_update(void *param)
 {
 	t_game	*game;
 	char	string_fps[32];
-	
+
 	game = (t_game *) param;
 	if (!ft_calc_delta_time(game))
 		return (0);
-	ft_snprintf(string_fps, sizeof(string_fps), "Fps: %d", (int)(1 / game->delta_time));
+	ft_snprintf(string_fps, sizeof(string_fps),
+		"Fps: %d", (int)(1 / game->delta_time));
 	ft_update_gamepad(game);
 	ft_gamepad_handle_system_buttons(game);
 	ft_gamepad_movement(game);

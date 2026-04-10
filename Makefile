@@ -124,6 +124,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_loading_game_utils_2.c \
 			src_bonus/ft_close_game.c \
 			src_bonus/ft_config_player.c \
+			src_bonus/ft_image_to_text_utils.c \
 			src_bonus/ft_config_player_utils.c \
 			src_bonus/ft_config_player_utils_2.c \
 			src_bonus/ft_config_mlx.c \
@@ -133,8 +134,12 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_mix_color_precalc.c \
 			src_bonus/ft_mix_color.c \
 			src_bonus/ft_update.c \
+			src_bonus/ft_pre_vector_cloud_utils.c \
 			src_bonus/ft_update_utils.c \
 			src_bonus/ft_get_time.c \
+			src_bonus/ft_loading_menu.c \
+			src_bonus/ft_menu_buttons.c \
+			src_bonus/ft_restart_match.c \
 			src_bonus/ft_print_map.c \
 			src_bonus/ft_scale_t_image_precalc.c \
 			src_bonus/ft_scale_t_image.c \
@@ -169,6 +174,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_resolutions.c \
 			src_bonus/ft_loading_texture.c \
 			src_bonus/ft_menu_settings.c \
+			src_bonus/ft_menu_settings_2.c \
 			src_bonus/ft_scale_t_image_utils.c \
 			src_bonus/ft_menu_settings_utils.c \
 			src_bonus/hd_alloc_functions/ft_mlx_hd_alloc_functions.c \
@@ -180,7 +186,8 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/hd_alloc_functions/ft_hd_alloc_closedir.c \
 			src_bonus/ft_menu_function_buttons.c \
 			src_bonus/ft_menu_function_buttons_utils.c \
-			src_bonus/ft_create_null_texture.c
+			src_bonus/ft_create_null_texture.c \
+			src_bonus/ft_update_player_frame.c
 
 OBJ_DIR  = objects
 OBJ_DIR_BONUS  = objects_bonus

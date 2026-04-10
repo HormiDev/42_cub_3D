@@ -3,85 +3,139 @@
 /*                                                        :::      ::::::::   */
 /*   ft_menu_settings.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 20:17:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/10 02:44:09 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:01:21 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
 
-void	ft_init_settings_button_assets(const char **right_btn,
-		const char **left_btn, void (*callbacks[9])(void *),
-		t_vector_int positions[9])
+void	ft_loading_settings_buttons_resolution(t_game *game)
 {
-	right_btn[0] = "textures/menu/button_right.xpm";
-	right_btn[1] = "textures/menu/button_right_hover.xpm";
-	left_btn[0] = "textures/menu/button_left.xpm";
-	left_btn[1] = "textures/menu/button_left_hover.xpm";
-	ft_fill_settings_callbacks(callbacks);
-	ft_fill_settings_positions(positions);
+	t_vector_int	pos;
+	t_vector_int	size;
+
+	pos.x = (MENU_WIDTH / 2) - MENU_BUTTON_WIDTH - MENU_BUTTON_HEIGHT / 2;
+	pos.y = MENU_BUTTON_HEIGHT + 20;
+	size.x = MENU_BUTTON_HEIGHT;
+	size.y = MENU_BUTTON_HEIGHT;
+	ft_button_position_size(&game->menu_settings.buttons[1],
+		pos, size);
+	ft_loading_texture_buttons(game, &game->menu_settings.buttons[1],
+		"textures/menu/button_right.xpm",
+		"textures/menu/button_right_hover.xpm");
+	game->menu_settings.buttons[1].on_click = ft_previous_resolution;
+	pos.x = (MENU_WIDTH / 2) + MENU_BUTTON_WIDTH - MENU_BUTTON_HEIGHT / 2;
+	pos.y = MENU_BUTTON_HEIGHT + 20;
+	size.x = MENU_BUTTON_HEIGHT;
+	size.y = MENU_BUTTON_HEIGHT;
+	ft_button_position_size(&game->menu_settings.buttons[2],
+		pos, size);
+	ft_loading_texture_buttons(game, &game->menu_settings.buttons[2],
+		"textures/menu/button_left.xpm", "textures/menu/button_left_hover.xpm");
+	game->menu_settings.buttons[2].on_click = ft_next_resolution;
 }
 
-void	ft_menu_button(void *game_ptr)
+void	ft_loading_settings_buttons_players(t_game *game)
 {
-	t_game	*game;
+	t_vector_int	pos;
+	t_vector_int	size;
 
-	game = (t_game *)game_ptr;
-	if (!game)
-		return ;
-	if (game->config.resolution_index != game->tmp_config.resolution_index)
-		ft_loading_render(game,
-			game->resolutions[game->config.resolution_index].height,
-			game->resolutions[game->config.resolution_index].width);
-	if (game->config.n_players != game->tmp_config.n_players)
-	{
-		ft_loading_render(game,
-			game->resolutions[game->config.resolution_index].height,
-			game->resolutions[game->config.resolution_index].width);
-		ft_config_player(game);
-		ft_config_alien(game);
-		ft_remap_gamepads(game);
-	}
-	if (game->config.charges != game->tmp_config.charges)
-		ft_config_player(game);
-	if (game->config.duration_index != game->tmp_config.duration_index)
-	{
-		ft_init_timer(game);
-	}
-	game->show_menu = 1;
+	pos.x = (MENU_WIDTH / 2) - MENU_BUTTON_WIDTH - MENU_BUTTON_HEIGHT / 2;
+	pos.y = MENU_BUTTON_HEIGHT + 120;
+	size.x = MENU_BUTTON_HEIGHT;
+	size.y = MENU_BUTTON_HEIGHT;
+	ft_button_position_size(&game->menu_settings.buttons[3],
+		pos, size);
+	ft_loading_texture_buttons(game, &game->menu_settings.buttons[3],
+		"textures/menu/button_right.xpm",
+		"textures/menu/button_right_hover.xpm");
+	game->menu_settings.buttons[3].on_click = ft_decrease_players;
+	pos.x = (MENU_WIDTH / 2) + MENU_BUTTON_WIDTH - MENU_BUTTON_HEIGHT / 2;
+	pos.y = MENU_BUTTON_HEIGHT + 120;
+	size.x = MENU_BUTTON_HEIGHT;
+	size.y = MENU_BUTTON_HEIGHT;
+	ft_button_position_size(&game->menu_settings.buttons[4],
+		pos, size);
+	ft_loading_texture_buttons(game, &game->menu_settings.buttons[4],
+		"textures/menu/button_left.xpm", "textures/menu/button_left_hover.xpm");
+	game->menu_settings.buttons[4].on_click = ft_increase_players;
+}
+
+void	ft_loading_settings_buttons_charges(t_game *game)
+{
+	t_vector_int	pos;
+	t_vector_int	size;
+
+	pos.x = (MENU_WIDTH / 2) - MENU_BUTTON_WIDTH - MENU_BUTTON_HEIGHT / 2;
+	pos.y = MENU_BUTTON_HEIGHT + 220;
+	size.x = MENU_BUTTON_HEIGHT;
+	size.y = MENU_BUTTON_HEIGHT;
+	ft_button_position_size(&game->menu_settings.buttons[5],
+		pos, size);
+	ft_loading_texture_buttons(game, &game->menu_settings.buttons[5],
+		"textures/menu/button_right.xpm",
+		"textures/menu/button_right_hover.xpm");
+	game->menu_settings.buttons[5].on_click = ft_decrease_charges;
+	pos.x = (MENU_WIDTH / 2) + MENU_BUTTON_WIDTH - MENU_BUTTON_HEIGHT / 2;
+	pos.y = MENU_BUTTON_HEIGHT + 220;
+	size.x = MENU_BUTTON_HEIGHT;
+	size.y = MENU_BUTTON_HEIGHT;
+	ft_button_position_size(&game->menu_settings.buttons[6],
+		pos, size);
+	ft_loading_texture_buttons(game, &game->menu_settings.buttons[6],
+		"textures/menu/button_left.xpm", "textures/menu/button_left_hover.xpm");
+	game->menu_settings.buttons[6].on_click = ft_increase_charges;
+}
+
+void	ft_loading_settings_buttons_timer(t_game *game)
+{
+	t_vector_int	pos;
+	t_vector_int	size;
+
+	pos.x = (MENU_WIDTH / 2) - MENU_BUTTON_WIDTH - MENU_BUTTON_HEIGHT / 2;
+	pos.y = MENU_BUTTON_HEIGHT + 320;
+	size.x = MENU_BUTTON_HEIGHT;
+	size.y = MENU_BUTTON_HEIGHT;
+	ft_button_position_size(&game->menu_settings.buttons[7],
+		pos, size);
+	ft_loading_texture_buttons(game, &game->menu_settings.buttons[7],
+		"textures/menu/button_right.xpm",
+		"textures/menu/button_right_hover.xpm");
+	game->menu_settings.buttons[7].on_click = ft_decrease_timer;
+	pos.x = (MENU_WIDTH / 2) + MENU_BUTTON_WIDTH - MENU_BUTTON_HEIGHT / 2;
+	pos.y = MENU_BUTTON_HEIGHT + 320;
+	size.x = MENU_BUTTON_HEIGHT;
+	size.y = MENU_BUTTON_HEIGHT;
+	ft_button_position_size(&game->menu_settings.buttons[8],
+		pos, size);
+	ft_loading_texture_buttons(game, &game->menu_settings.buttons[8],
+		"textures/menu/button_left.xpm", "textures/menu/button_left_hover.xpm");
+	game->menu_settings.buttons[8].on_click = ft_increase_timer;
 }
 
 void	ft_loading_settings_buttons(t_game *game)
 {
-	const char		*right_btn[2];
-	const char		*left_btn[2];
-	void			(*callbacks[9])(void *);
-	t_vector_int	positions[9];
-	int				i;
+	t_vector_int	pos;
+	t_vector_int	size;
 
-	ft_init_settings_button_assets(right_btn, left_btn, callbacks, positions);
 	game->menu_settings.n_buttons = 9;
 	game->menu_settings.buttons = hd_calloc(game->menu_settings.n_buttons,
 			sizeof(t_button));
-	i = 0;
-	while (i < game->menu_settings.n_buttons)
-	{
-		if (i == 0 || i % 2 == 1)
-			ft_setup_settings_button(game, i, positions[i], right_btn,
-				callbacks[i]);
-		else
-			ft_setup_settings_button(game, i, positions[i], left_btn,
-				callbacks[i]);
-		i++;
-	}
-}
-
-void	ft_loading_menu_settings(t_game *game)
-{
-	ft_bzero(&game->menu_settings, sizeof(t_menu));
-	game->menu_settings.current_frame = 0;
-	game->menu_settings.render = game->menu.render;
-	ft_loading_settings_buttons(game);
+	pos.x = 20;
+	pos.y = 20;
+	size.x = MENU_BUTTON_HEIGHT;
+	size.y = MENU_BUTTON_HEIGHT;
+	ft_button_position_size(&game->menu_settings.buttons[0],
+		pos, size);
+	ft_loading_texture_buttons(game, &game->menu_settings.buttons[0],
+		"textures/menu/button_right.xpm",
+		"textures/menu/button_right_hover.xpm");
+	game->menu_settings.buttons[0].on_click = ft_menu_button;
+	ft_loading_settings_buttons_resolution(game);
+	ft_loading_settings_buttons_players(game);
+	ft_loading_settings_buttons_charges(game);
+	ft_loading_settings_buttons_timer(game);
 }

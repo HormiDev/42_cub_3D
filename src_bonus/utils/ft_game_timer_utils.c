@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:26:13 by username          #+#    #+#             */
-/*   Updated: 2026/04/07 23:37:39 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,31 @@ int	ft_get_remaining(t_game *game)
 		return (remaining);
 	else
 		return (0);
+}
+
+/**
+
+* @brief Construye la cadena del temporizador 
+ * en formato "MM SS" desde segundos.
+ *
+ * Convierte `remaining` en minutos y segundos, y escribe la representación
+ * en `str` usando `append_two_digits` para garantizar el ancho de dos dígitos.
+ *
+ * @param str Buffer donde se escribirá la cadena resultante.
+ * @param remaining Segundos restantes totales.
+ */
+
+void	get_timer_string(char *str, int remaining)
+{
+	int	len;
+	int	minutes;
+	int	seconds;
+
+	len = 0;
+	minutes = remaining / 60;
+	seconds = remaining % 60;
+	len = append_two_digits(str, len, minutes);
+	str[len++] = ' ';
+	len = append_two_digits(str, len, seconds);
+	str[len] = '\0';
 }

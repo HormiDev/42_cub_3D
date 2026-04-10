@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_three_players.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:43:53 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 02:36:09 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	ft_render_three_player_scene(t_game *game, int player_index)
 {
 	game->player = &game->players[player_index];
 	ft_controls(game, player_index);
+	ft_update_player_frame(game);
 	if (game->player->alive)
 	{
 		ft_update_flamethrower_cooldown(&game->actions[player_index],

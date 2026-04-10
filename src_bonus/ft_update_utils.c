@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_update_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:43:53 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 04:02:50 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,19 @@
 
 void	ft_draw_win_screen(t_game *game)
 {
-	t_vector_int	text_pos;
+	t_string_ctx	ctx;
 	int				text_len;
 
 	ft_scale_t_image(game->screen_end_img, game->window_img);
 	text_len = ft_strlen("players win");
-	text_pos.x = game->window_img->width / 2 - (text_len * 6 * 8) / 2;
-	text_pos.y = game->window_img->height / 2 - (game->font->height * 8) / 2;
-	ft_draw_string_hud(game->window_img, game->font, "players win", &text_pos,
-		8);
+	ctx.dst = game->window_img;
+	ctx.font = game->font;
+	ctx.scale = 8;
+	ctx.pos = (t_vector_int){
+		game->window_img->width / 2 - (text_len * 6 * 8) / 2,
+		game->window_img->height / 2 - (game->font->height * 8) / 2
+	};
+	ft_draw_string_hud(ctx.dst, ctx.font, "players win", &ctx);
 	mlx_clear_window(game->mlx, game->window);
 	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0,
 		0);
@@ -48,14 +52,19 @@ void	ft_draw_win_screen(t_game *game)
 
 void	ft_draw_game_over_screen(t_game *game)
 {
-	t_vector_int	text_pos;
+	t_string_ctx	ctx;
 	int				text_len;
 
 	ft_scale_t_image(game->screen_alien_img, game->window_img);
 	text_len = ft_strlen("Game Over");
-	text_pos.x = game->window_img->width / 2 - (text_len * 6 * 8) / 2;
-	text_pos.y = game->window_img->height / 4 - (game->font->height * 8) / 2;
-	ft_draw_string_hud(game->window_img, game->font, "Game Over", &text_pos, 8);
+	ctx.dst = game->window_img;
+	ctx.font = game->font;
+	ctx.scale = 8;
+	ctx.pos = (t_vector_int){
+		game->window_img->width / 2 - (text_len * 6 * 8) / 2,
+		game->window_img->height / 4 - (game->font->height * 8) / 2
+	};
+	ft_draw_string_hud(ctx.dst, ctx.font, "Game Over", &ctx);
 	mlx_clear_window(game->mlx, game->window);
 	mlx_put_image_to_window(game->mlx, game->window, game->window_img->img, 0,
 		0);

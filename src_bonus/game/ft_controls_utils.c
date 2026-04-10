@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_controls_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/11 17:32:01 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 02:14:23 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,18 @@ izquierda, derecha)
 */
 int	ft_handle_player_movement(t_game *game, double move_speed, int player_index)
 {
-	int					moving;
 	t_player_actions	*actions;
 
 	actions = &game->actions[player_index];
-	moving = ft_move_player_front(game, actions, move_speed, player_index);
-	moving |= ft_move_player_back(game, actions, move_speed, player_index);
-	moving |= ft_move_player_strafe(game, actions, move_speed, player_index);
-	return (moving);
+	game->player->in_movement = 0;
+	if (ft_move_player_front(game, actions, move_speed, player_index))
+		game->player->in_movement = 1;
+	if (ft_move_player_back(game, actions, move_speed, player_index))
+		game->player->in_movement = -1;
+	if (ft_move_player_strafe(game, actions, move_speed, player_index)
+		&& game->player->in_movement == 0)
+		game->player->in_movement = 1;
+	return (game->player->in_movement);
 }
 
 int	ft_move_player_front(t_game *game, t_player_actions *actions,

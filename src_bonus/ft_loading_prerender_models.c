@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_loading_prerender_models.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:16:38 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/10 03:09:52 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_prerender_model	*ft_init_prerender_model(t_game *game, int n_frames,
 		n_frames, n_angles);
 	ft_loading_textures_with_path(game, pre, path);
 	ft_ordered_textures(pre);
+	ft_printf("Finished loading prerender model from: %s\n", path);
 	if (n_frames)
 		pre->active_frame = n_frames;
 	return (pre);
@@ -66,6 +67,22 @@ t_prerender_model	*ft_init_prerender_model(t_game *game, int n_frames,
 
 void	ft_loading_prerender_models(t_game *game)
 {
+	int	i;
+
 	game->alien_prerender = ft_init_prerender_model(game, 12, 36,
 			"textures/prerender_alien/");
+	game->player->model = ft_init_prerender_model(game, 12, 36,
+			"textures/prerender_astro/");
+	ft_printf("Loading player prerender model from: \n");
+	i = 1;
+	while (i < 4)
+	{
+		game->players[i].model = hd_calloc(1, sizeof(t_prerender_model));
+		game->players[i].model->active_frame = 1;
+		game->players[i].model->n_frames = 12;
+		game->players[i].model->n_angles = 36;
+		game->players[i].model->texture = game->player->model->texture;
+		i++;
+		ft_printf("Assigned player %d prerender model to player 0 model\n", i);
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_one_player.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:43:53 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 03:54:36 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_one_player_aux(t_game *game)
 void	ft_one_player(t_game *game)
 {
 	ft_controls(game, 0);
+	ft_update_player_frame(game);
 	ft_update_flamethrower_cooldown(&game->actions[0], game->delta_time);
 	ft_update_heatmap(game);
 	ft_update_aliens(game);

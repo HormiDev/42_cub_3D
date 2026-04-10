@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_config_player_utils_2.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 13:30:01 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 04:02:07 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,6 @@ void	ft_set_player_spawn_rotation(t_game *game, char direction_char)
 	y luego reemplaza el carácter
  * en el mapa con '0'.
  *
-
-	* @param game estructura del juego que contiene el mapa y la información del jugador.
  */
 
 void	ft_init_all_players(t_game *game)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flamethrower_hud.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:20 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 02:03:54 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,23 +25,33 @@ static int	ft_get_hud_scale(int viewport_height)
 static void	ft_draw_flamethrower_charges(t_game *game,
 		t_player_actions *actions, t_hud_draw *hud)
 {
-	char	str[32];
+	char			str[32];
+	t_string_ctx	ctx;
 
 	ft_sprintf(str, "CHARGES:%d / %d", actions->flamethrower_charges,
 		game->config.charges);
-	ft_draw_string_hud(hud->target, game->font, str, &hud->pos, hud->scale);
+	ctx.dst = hud->target;
+	ctx.font = game->font;
+	ctx.scale = hud->scale;
+	ctx.pos = hud->pos;
+	ft_draw_string_hud(ctx.dst, ctx.font, str, &ctx);
 }
 
 static void	ft_draw_flamethrower_cooldown(t_game *game,
 		t_player_actions *actions, t_hud_draw *hud)
 {
-	char	str[32];
+	char			str[32];
+	t_string_ctx	ctx;
 
 	if (actions->flamethrower_cooldown_remaining <= 0)
 		return ;
 	ft_sprintf(str, "COOLDOWN:%ds",
 		(int)actions->flamethrower_cooldown_remaining);
-	ft_draw_string_hud(hud->target, game->font, str, &hud->pos, hud->scale);
+	ctx.dst = hud->target;
+	ctx.font = game->font;
+	ctx.scale = hud->scale;
+	ctx.pos = hud->pos;
+	ft_draw_string_hud(ctx.dst, ctx.font, str, &ctx);
 }
 
 void	ft_flamethrower_hud(t_game *game, int player_index, t_texture *target,
@@ -54,8 +64,8 @@ void	ft_flamethrower_hud(t_game *game, int player_index, t_texture *target,
 	actions = &game->actions[player_index];
 	hud.target = target;
 	hud.scale = ft_get_hud_scale(target->height);
-	pos.x = pos_offset.x + target->width - (target->width / 4);
-	pos.y = pos_offset.y + target->height / 20;
+	pos.x = pos_offset.x + target->width - (target->width / 1.01);
+	pos.y = pos_offset.y + target->height / 4.5;
 	hud.pos = pos;
 	ft_draw_flamethrower_charges(game, actions, &hud);
 	pos.y = pos_offset.y + target->height / 12;

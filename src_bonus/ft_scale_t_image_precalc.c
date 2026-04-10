@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_scale_t_image_precalc.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:41:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/10 02:58:06 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	ft_scale_precalc_two_bounds(int player, t_texture *text_destiny,
 	}
 }
 
-void	ft_scale_t_image_precalc_two(t_texture *tex_origin,
+void	ft_scale_t_image_precalc_two(t_texture *to,
 		t_texture *text_destiny, t_game *game, int player)
 {
 	t_vector_int	dest;
@@ -40,7 +40,7 @@ void	ft_scale_t_image_precalc_two(t_texture *tex_origin,
 		while (dest.x < text_destiny->width)
 		{
 			text_destiny->cmx[dest.y][dest.x]
-				= tex_origin->cmx[game->precalc.syt[ori.y]]
+				= to->cmx[game->precalc.syt[ori.y]]
 			[game->precalc.sxt[dest.x]];
 			dest.x++;
 		}
@@ -49,49 +49,52 @@ void	ft_scale_t_image_precalc_two(t_texture *tex_origin,
 	}
 }
 
-static void	ft_scale_precalc_three_bounds(int player, t_texture *text_destiny,
-		t_vector_int *dest, t_vector_int *dest_end)
+static void	ft_scale_t_image_precalc_three_aux(t_texture **to_td, t_game *game,
+				int player, t_vector_int *d_e_o)
 {
-	*dest = (t_vector_int){0, 0};
-	*dest_end = (t_vector_int){0, 0};
-	if (player == 0 || player == 2)
-		dest_end->y = text_destiny->height / 2;
-	else
+	while (d_e_o[0].y < d_e_o[1].y)
 	{
-		dest_end->y = text_destiny->height;
-		dest->y = text_destiny->height / 2;
-	}
-	if (player == 0 || player == 1)
-		dest_end->x = text_destiny->width / 2;
-	else
-	{
-		dest_end->x = text_destiny->width;
-		dest->x = text_destiny->width / 2;
+		d_e_o[0].x = 0;
+		d_e_o[2].x = 0;
+		if (player == 0 || player == 1)
+			d_e_o[1].x = to_td[1]->width / 2;
+		else
+		{
+			d_e_o[1].x = to_td[1]->width;
+			d_e_o[0].x = to_td[1]->width / 2;
+		}
+		while (d_e_o[0].x < d_e_o[1].x)
+		{
+			to_td[1]->cmx[d_e_o[0].y][d_e_o[0].x]
+				= to_td[0]->cmx[game->precalc.syt[d_e_o[2].y]]
+			[game->precalc.sxt[d_e_o[2].x]];
+			d_e_o[0].x++;
+			d_e_o[2].x++;
+		}
+		d_e_o[0].y++;
+		d_e_o[2].y++;
 	}
 }
 
-void	ft_scale_t_image_precalc_three(t_texture *tex_origin,
-		t_texture *text_destiny, t_game *game, int player)
+/*
+ * deo es dest end y origin 
+*/
+void	ft_scale_t_image_precalc_three(t_texture *to, t_texture *text_destiny,
+			t_game *game, int player)
 {
-	t_vector_int	dest;
-	t_vector_int	ori;
-	t_vector_int	dest_end;
+	t_vector_int	d_e_o[3];
+	t_texture		*to_td[2];
 
-	ft_scale_precalc_three_bounds(player, text_destiny, &dest, &dest_end);
-	ori = (t_vector_int){0, 0};
-	while (dest.y < dest_end.y)
+	to_td[0] = to;
+	to_td[1] = text_destiny;
+	d_e_o[0].y = 0;
+	d_e_o[2].y = 0;
+	if (player == 0 || player == 2)
+		d_e_o[1].y = to_td[1]->height / 2;
+	else
 	{
-		dest.x = 0;
-		ori.x = 0;
-		while (dest.x < dest_end.x)
-		{
-			text_destiny->cmx[dest.y][dest.x]
-				= tex_origin->cmx[game->precalc.syt[ori.y]]
-			[game->precalc.sxt[ori.x]];
-			dest.x++;
-			ori.x++;
-		}
-		dest.y++;
-		ori.y++;
+		d_e_o[1].y = to_td[1]->height;
+		d_e_o[0].y = to_td[1]->height / 2;
 	}
+	ft_scale_t_image_precalc_three_aux(to_td, game, player, d_e_o);
 }
