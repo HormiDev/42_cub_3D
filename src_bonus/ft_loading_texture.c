@@ -3,40 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   ft_loading_texture.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 19:02:05 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/07 20:02:31 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 03:54:16 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
 
-void ft_texture_matrix(t_texture *texture)
+void	ft_texture_matrix(t_texture *texture)
 {
-	int i;
+	int	i;
 
 	texture->cmx = hd_calloc(texture->height, sizeof(unsigned int *));
 	i = 0;
 	while (i < texture->height)
 	{
-		texture->cmx[i] = (unsigned int *)(texture->img->data +
-				(i * sizeof(unsigned int) * texture->width));
+		texture->cmx[i] = (unsigned int *)(texture->img->data + (i
+					* sizeof(unsigned int) * texture->width));
 		i++;
 	}
 }
 
-t_texture *ft_loading_texture(void *mlx_ptr, char *path)
+t_texture	*ft_loading_texture(void *mlx_ptr, char *path)
 {
-	int width;
-	int height;
-	t_img *img;
-	t_texture *texture;
+	int			width;
+	int			height;
+	t_img		*img;
+	t_texture	*texture;
 
 	img = (t_img *)ft_mlx_xpm_file_to_image(mlx_ptr, path, &width, &height);
 	if (!img)
 	{
-		ft_dprintf(2, RED "Error: Failed to load texture from path: %s\n" RESET, path);
+		ft_dprintf(2, RED "Error: Failed to load texture from path: %s\n" RESET,
+			path);
 		return (NULL);
 	}
 	texture = hd_calloc(1, sizeof(t_texture));
@@ -48,9 +49,9 @@ t_texture *ft_loading_texture(void *mlx_ptr, char *path)
 	return (texture);
 }
 
-t_texture *ft_new_texture(void *mlx_ptr, int width, int height)
+t_texture	*ft_new_texture(void *mlx_ptr, int width, int height)
 {
-	t_texture *texture;
+	t_texture	*texture;
 
 	texture = hd_calloc(1, sizeof(t_texture));
 	texture->img = ft_create_image(mlx_ptr, width, height);

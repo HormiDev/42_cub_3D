@@ -6,7 +6,7 @@
 /*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 03:09:33 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 03:51:11 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -516,6 +516,23 @@ typedef struct s_hud_draw
 	t_vector_int	pos;
 	int			scale;
 }					t_hud_draw;
+
+
+typedef struct s_clip_context
+{
+	t_vector_int	*src_range;
+	t_vector_int	*dst_start;
+	t_texture		*dst;
+	t_texture		*src;
+}	t_clip_context;
+
+typedef struct s_process_line_ctx
+{
+	t_texture		*dst;
+	t_texture		*src;
+	t_vector_int	x_range;
+	t_vector_int	dst_start;
+}	t_process_line_ctx;
 
 typedef struct s_column_ctx
 {

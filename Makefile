@@ -117,12 +117,15 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/render/ft_map2d_objects.c \
 			src_bonus/ft_sqrt.c \
 			src_bonus/ft_image_transparent.c \
+			src_bonus/ft_image_transparent_utils.c \
 			src_bonus/ft_sin_cos.c \
 			src_bonus/ft_loading_game.c \
 			src_bonus/ft_loading_game_utils.c \
 			src_bonus/ft_loading_game_utils_2.c \
 			src_bonus/ft_close_game.c \
 			src_bonus/ft_config_player.c \
+			src_bonus/ft_config_player_utils.c \
+			src_bonus/ft_config_player_utils_2.c \
 			src_bonus/ft_config_mlx.c \
 			src_bonus/ft_one_player.c \
 			src_bonus/ft_two_players.c \

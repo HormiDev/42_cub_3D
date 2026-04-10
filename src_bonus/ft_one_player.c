@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_one_player.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:43:53 by username          #+#    #+#             */
-/*   Updated: 2026/04/09 20:59:53 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 03:54:36 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
 
-void ft_one_player_aux(t_game *game)
+void	ft_one_player_aux(t_game *game)
 {
 	if (game->config.render_height != WINDOW_HEIGHT
 		|| game->config.render_width != WINDOW_WIDTH)

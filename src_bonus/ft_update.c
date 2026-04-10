@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_update.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:43:53 by username          #+#    #+#             */
-/*   Updated: 2026/04/09 20:16:26 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 04:08:53 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	ft_update(void *param)
 	if (!ft_calc_delta_time(game))
 		return (0);
 	ft_snprintf(string_fps, sizeof(string_fps), "Fps: %d", (int)(1 / game->delta_time));
-	//ft_update_gamepad(game);
-	//ft_gamepad_handle_system_buttons(game);
-	//ft_gamepad_movement(game);
+	ft_update_gamepad(game);
+	ft_gamepad_handle_system_buttons(game);
+	ft_gamepad_movement(game);
 	if (game->show_menu)
 		ft_update_menu(game);
 	else if (game->game_state == GAME_ALIEN_WIN)

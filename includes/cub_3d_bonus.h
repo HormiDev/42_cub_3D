@@ -6,7 +6,7 @@
 /*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 03:09:50 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/10 04:01:19 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ void	ft_restart_match(t_game *game);
 // ============================================================================
 void	ft_config_mlx(t_game *game);
 void	ft_config_player(t_game *game);
+void	ft_set_player_spawn_rotation(t_game *game, char direction_char);
+void	ft_init_all_players(t_game *game);
+void	ft_init_player_actions(t_game *game);
+void	ft_init_flamethrower_state(t_game *game);
+int		ft_is_spawn_char(char c);
+void	ft_set_player_spawn(t_game *game, t_vector_int pos);
+int		ft_find_player_spawn(t_game *game);
+void	ft_restore_spawn_if_not_found(t_game *game, int found_spawn);
+void	ft_setup_secondary_player(t_game *game, int idx);
+void	ft_init_multiplayer_players(t_game *game);
 
 // ============================================================================
 // PARSING FUNCTIONS
@@ -194,6 +204,13 @@ t_vector2 ft_world_corner_to_screen(t_game * game,
 void ft_draw_line_minimap(t_game * game,
 	t_vector2	p1, t_vector2 p2, int color);
 void	ft_map2d(t_game *game);
+void	ft_init_clipping(t_vector_int *src_range, t_vector_int *dst_start,
+	t_texture *src, t_vector_int start);
+void	ft_clip_horizontal(t_clip_context ctx, int start_x);
+t_vector_int	ft_clip_vertical(t_texture *dst, t_texture *src, int start_y);
+void	ft_blend_pixel(unsigned int *dst_ptr, unsigned int src_color,
+	int alpha, t_vector_int pos);
+void	ft_process_line(t_process_line_ctx ctx, t_vector_int y);
 void	ft_draw_objects(t_game *game);
 void	ft_draw_minimap_doors(t_game *game);
 void	draw_column(t_game *game, int x, t_raycast *ray);
