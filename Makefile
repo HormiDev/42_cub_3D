@@ -64,14 +64,18 @@ SRC		=	src/main.c \
 
 SRC_BONUS =	src_bonus/main.c \
 			src_bonus/game/ft_controls.c \
+			src_bonus/game/ft_controls_utils.c \
 			src_bonus/game/ft_directions.c \
+			src_bonus/game/ft_move_direction.c \
 			src_bonus/game/ft_gamepad_init.c \
 			src_bonus/game/ft_gamepad_utils_1.c \
 			src_bonus/game/ft_gamepad_utils_2.c \
 			src_bonus/game/ft_gamepad_setter.c \
 			src_bonus/game/ft_gamepad.c \
 			src_bonus/game/mouse.c \
+			src_bonus/game/mouse_utils.c \
 			src_bonus/game/audio_manager.c \
+			src_bonus/game/audio_manager_utils.c \
 			src_bonus/game/flamethrower.c \
 			src_bonus/game/flamethrower_hud.c \
 			src_bonus/game/flamethrower_hud_utils.c \
@@ -81,6 +85,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/utils/ft_vector_utils.c \
 			src_bonus/utils/ft_game_timer.c \
 			src_bonus/utils/ft_game_timer_utils.c \
+			src_bonus/utils/ft_game_timer_utils_2.c \
 			src_bonus/parse/ft_check_args.c \
 			src_bonus/parse/ft_parse_map.c \
 			src_bonus/parse/ft_map_transitable_gen.c \
@@ -114,6 +119,8 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_image_transparent.c \
 			src_bonus/ft_sin_cos.c \
 			src_bonus/ft_loading_game.c \
+			src_bonus/ft_loading_game_utils.c \
+			src_bonus/ft_loading_game_utils_2.c \
 			src_bonus/ft_close_game.c \
 			src_bonus/ft_config_player.c \
 			src_bonus/ft_config_mlx.c \
@@ -124,8 +131,8 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_mix_color.c \
 			src_bonus/ft_update.c \
 			src_bonus/ft_update_utils.c \
-			src_bonus/DEBUG/ft_debug_textures.c \
 			src_bonus/ft_get_time.c \
+			src_bonus/ft_print_map.c \
 			src_bonus/ft_scale_t_image_precalc.c \
 			src_bonus/ft_scale_t_image.c \
 			src_bonus/ft_precalc_rotated_squares.c \
@@ -134,9 +141,14 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_prec_vector_cloud.c \
 			src_bonus/objects/door.c \
 			src_bonus/objects/door_utils.c \
+			src_bonus/objects/door_utils_2.c \
 			src_bonus/objects/door_raycast.c \
+			src_bonus/objects/ft_draw_scaled_utils.c \
 			src_bonus/objects/objects_init.c \
 			src_bonus/objects/objects_update.c \
+			src_bonus/objects/objects_update_utils.c \
+			src_bonus/objects/objects_update_utils_2.c \
+			src_bonus/objects/objects_update_utils_3.c \
 			src_bonus/objects/objects_collision.c \
 			src_bonus/objects/ft_pathfinder_bfs.c \
 			src_bonus/objects/ft_update_heatmap.c \
@@ -154,13 +166,17 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/ft_resolutions.c \
 			src_bonus/ft_loading_texture.c \
 			src_bonus/ft_menu_settings.c \
+			src_bonus/ft_scale_t_image_utils.c \
+			src_bonus/ft_menu_settings_utils.c \
 			src_bonus/hd_alloc_functions/ft_mlx_hd_alloc_functions.c \
 			src_bonus/hd_alloc_functions/hd_alloc_free_t_file.c \
 			src_bonus/hd_alloc_functions/ft_hd_alloc_mlx_destroy.c \
 			src_bonus/hd_alloc_functions/ft_hd_alloc_free_split.c \
 			src_bonus/ft_loading_prerender_models.c \
+			src_bonus/ft_loading_prerender_utils.c \
 			src_bonus/hd_alloc_functions/ft_hd_alloc_closedir.c \
 			src_bonus/ft_menu_function_buttons.c \
+			src_bonus/ft_menu_function_buttons_utils.c \
 			src_bonus/ft_create_null_texture.c
 
 OBJ_DIR  = objects

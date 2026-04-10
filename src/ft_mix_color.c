@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_mix_color.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/23 22:18:57 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/29 18:18:52 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 02:01:01 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_mix_color(unsigned int *color, unsigned int *mix_color, int percent)
  * @param mix_color Puntero al color con el que se va a mezclar.
  * @param mix Nivel de mezcla (0 a 255).
  */
-void	ft_mix_color_alpha(unsigned int *color, unsigned int *mix_color,
+void	ft_mix_rgba(unsigned int *color, unsigned int *mix_color,
 		int mix)
 {
 	unsigned char	*rgba_c;

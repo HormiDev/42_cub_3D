@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/03 00:39:44 by username          #+#    #+#             */
-/*   Updated: 2026/04/09 17:36:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 02:55:44 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,8 +169,8 @@ typedef struct s_image // ELIMINAR CUANDO TRANSICIONE A TTEXTURE
 typedef struct s_precalc
 {
 	unsigned char	***mix_colors;
-	int				*scale_x_table;
-	int				*scale_y_table;
+	int				*sxt;
+	int				*syt;
 }	t_precalc;
 
 typedef struct s_column_ctx

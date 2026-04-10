@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_loading_game.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 18:35:28 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/10 02:55:44 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ t_game	*ft_loading_game(char *path_map)
 	ft_sin(0);
 	ft_cos(0);
 	ft_sqrt(0);
-	game->precalc.scale_x_table = ft_scale_precalc_x();
-	game->precalc.scale_y_table = ft_scale_precalc_y();
+	game->precalc.sxt = ft_scale_precalc_x();
+	game->precalc.syt = ft_scale_precalc_y();
 	hd_free(map_file);
 	return (game);
 }

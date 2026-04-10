@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_scale_t_image_precalc.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 12:41:12 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/10 02:55:44 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,36 @@
 
 int	*ft_scale_precalc_y(void)
 {
-	int	*scale_y_table;
+	int	*syt;
 	int	i;
 
-	printf("Creating scale_y_table with size: %d\n", WINDOW_HEIGHT);
-	scale_y_table = hd_malloc(sizeof(int) * WINDOW_HEIGHT);
+	printf("Creating syt with size: %d\n", WINDOW_HEIGHT);
+	syt = hd_malloc(sizeof(int) * WINDOW_HEIGHT);
 	i = 0;
 	while (i < WINDOW_HEIGHT)
 	{
-		scale_y_table[i] = (int)((double)i * (double)RENDER_HEIGHT
+		syt[i] = (int)((double)i * (double)RENDER_HEIGHT
 				/ (double)WINDOW_HEIGHT);
 		i++;
 	}
-	return (scale_y_table);
+	return (syt);
 }
 
 int	*ft_scale_precalc_x(void)
 {
-	int	*scale_x_table;
+	int	*sxt;
 	int	i;
 
-	printf("Creating scale_x_table with size: %d\n", WINDOW_WIDTH);
-	scale_x_table = hd_malloc(sizeof(int) * WINDOW_WIDTH);
+	printf("Creating sxt with size: %d\n", WINDOW_WIDTH);
+	sxt = hd_malloc(sizeof(int) * WINDOW_WIDTH);
 	i = 0;
 	while (i < WINDOW_WIDTH)
 	{
-		scale_x_table[i] = (int)((double)i * (double)RENDER_WIDTH
+		sxt[i] = (int)((double)i * (double)RENDER_WIDTH
 				/ (double)WINDOW_WIDTH);
 		i++;
 	}
-	return (scale_x_table);
+	return (sxt);
 }
 
 void	ft_scale_t_image_precalc(t_texture *tex_origin, t_texture *text_destiny,
@@ -60,8 +60,8 @@ void	ft_scale_t_image_precalc(t_texture *tex_origin, t_texture *text_destiny,
 		while (dest_x < text_destiny->width)
 		{
 			text_destiny->cmx[dest_y][dest_x]
-				= tex_origin->cmx[game->precalc.scale_y_table[dest_y]]
-			[game->precalc.scale_x_table[dest_x]];
+				= tex_origin->cmx[game->precalc.syt[dest_y]]
+			[game->precalc.sxt[dest_x]];
 			dest_x++;
 		}
 		dest_y++;

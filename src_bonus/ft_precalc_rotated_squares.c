@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_precalc_rotated_squares.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 19:59:17 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 03:04:10 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	ft_rotate_point(int *x, int *y, double angle)
 	double	temp_y;
 	double	cos_a;
 	double	sin_a;
-	
+
 	cos_a = ft_cos(angle);
 	sin_a = ft_sin(angle);
 	temp_x = *x * cos_a - *y * sin_a;
@@ -34,14 +34,14 @@ static void	ft_rotate_point(int *x, int *y, double angle)
 }
 
 /**
- * Inicializa las esquinas de un cuadrado centrado en el origen con un tamaño dado.
- * @param square estructura t_rotated_square donde se almacenarán las coordenadas.
+ * Inicializa las esquinas de un cuadrado centrado 
+ * en el origen con un tamaño dado.
  * @param size Tamaño del cuadrado.
  */
 static void	ft_init_square_corners(t_rotated_square *square, int size)
 {
 	int	half;
-	
+
 	half = size / 2;
 	square->x[0] = -half;
 	square->y[0] = -half;
@@ -62,7 +62,7 @@ static void	ft_init_square_corners(t_rotated_square *square, int size)
 static void	ft_rotate_square(t_rotated_square *square, double angle, int size)
 {
 	int	i;
-	
+
 	ft_init_square_corners(square, size);
 	i = 0;
 	while (i < 4)
@@ -72,10 +72,6 @@ static void	ft_rotate_square(t_rotated_square *square, double angle, int size)
 	}
 }
 
-/**
- * Precalcula y retorna una lista de cuadrados rotados para cada ángulo de 0 a 359.99 grados.
- * @return Puntero a un arreglo de estructuras t_rotated_square con las coordenadas precalculadas.
- */
 t_rotated_square	*ft_precalc_rotated_squares(void)
 {
 	t_rotated_square	*squares;

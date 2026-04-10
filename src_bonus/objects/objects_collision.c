@@ -13,7 +13,7 @@
 #include "../../includes/cub_3d_bonus.h"
 
 static int	ft_can_alien_hit_player(t_game *game, t_player *alien,
-	t_player *player)
+		t_player *player)
 {
 	double	dx;
 	double	dy;
@@ -48,7 +48,6 @@ void	ft_kill_player(t_player *player)
 	if (!player || !player->alive)
 		return ;
 	player->alive = 0;
-	//player->active = 0;
 }
 
 /**
@@ -72,8 +71,8 @@ void	ft_check_alien_collision(t_game *game)
 	i = 0;
 	while (i < game->config.n_players && i < 4)
 	{
-		if (game->players[i].alive
-			&& ft_can_alien_hit_player(game, alien, &game->players[i]))
+		if (game->players[i].alive && ft_can_alien_hit_player(game, alien,
+				&game->players[i]))
 			ft_kill_player(&game->players[i]);
 		i++;
 	}

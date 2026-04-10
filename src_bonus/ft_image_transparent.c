@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_image_transparent.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/12 00:00:00 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/01/19 23:57:33 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 02:01:01 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static void	ft_blend_pixel(unsigned int *dst_ptr, unsigned int src_color,
 	else if (alpha > 0)
 	{
 		dst_color = dst_ptr[pos.y];
-		ft_mix_color_alpha(&dst_color, &src_color, alpha);
+		ft_mix_rgba(&dst_color, &src_color, alpha);
 		dst_ptr[pos.y] = dst_color;
 	}
 }

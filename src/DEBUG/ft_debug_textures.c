@@ -10,25 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-# include <stdio.h>
-# include "../includes/cub_3d.h"
+#include "../includes/cub_3d.h"
+#include <stdio.h>
 
-void ft_print_map(char **map, int error_x, int error_y)
+void	ft_print_map(char **map, int error_x, int error_y)
 {
-    int i;
-	int j;
+	int	i;
+	int	j;
 
 	if (error_x != -1 || error_y != -1)
-		ft_dprintf(2, "%sError: in %d, %d\n%s", RED, error_y + 1, error_x + 1, RESET);
-    if(!map)
-    {
-        ft_dprintf(2, "Map: (null)\n");
-        return ;
-    }
-    ft_dprintf(2, "Map:\n");
+		ft_dprintf(2, "%sError: in %d, %d\n%s", RED, error_y + 1, error_x + 1,
+			RESET);
+	if (!map)
+	{
+		ft_dprintf(2, "Map: (null)\n");
+		return ;
+	}
+	ft_dprintf(2, "Map:\n");
 	i = 0;
-    while(map[i])
-    {
+	while (map[i])
+	{
 		j = 0;
 		while (map[i][j])
 		{
@@ -44,18 +45,19 @@ void ft_print_map(char **map, int error_x, int error_y)
 			j++;
 		}
 		ft_dprintf(1, "\n");
-        i++;
-    }
+		i++;
+	}
 }
 
-
-void debug_print_textures(t_game *game)
+void	debug_print_textures(t_game *game)
 {
-	const char *direction_names[4] = {"WALL_NO", "WALL_SO", "WALL_WE", "WALL_EA"};
-	t_list *curr_list;
-	t_texture *tex;
-	int index;
-	int count;
+	const char	*direction_names[4] = {"WALL_NO", "WALL_SO", "WALL_WE",
+			"WALL_EA"};
+	t_list		*curr_list;
+	t_texture	*tex;
+	int			index;
+	int			count;
+
 	index = 0;
 	while (index < 4)
 	{
@@ -65,7 +67,7 @@ void debug_print_textures(t_game *game)
 		{
 			printf("  No textures loaded.\n");
 			index++;
-			continue;
+			continue ;
 		}
 		count = 0;
 		while (curr_list)
@@ -81,25 +83,21 @@ void debug_print_textures(t_game *game)
 	}
 }
 
-void ft_debug_game(t_game *game)
+void	ft_debug_game(t_game *game)
 {
-    ft_dprintf(1, "\n--- DEBUG GAME STRUCT ---\n");
-    if (!game)
-    {
-        ft_dprintf(1, "Error: game structure is NULL\n");
-        return;
-    }
-
-    ft_dprintf(1, "Map size: width=%d, height=%d\n", game->width_height[0], game->width_height[1]);
-
-    if (game->map)
-        ft_print_map(game->map, -1, -1);
-    else
-        ft_dprintf(1, "Map: (null)\n");
-
-    ft_dprintf(1, "\n--------------------------\n");
-
-    debug_print_textures(game);
-
-    ft_dprintf(1, "\n--- END DEBUG GAME STRUCT ---\n");
+	ft_dprintf(1, "\n--- DEBUG GAME STRUCT ---\n");
+	if (!game)
+	{
+		ft_dprintf(1, "Error: game structure is NULL\n");
+		return ;
+	}
+	ft_dprintf(1, "Map size: width=%d, height=%d\n", game->width_height[0],
+		game->width_height[1]);
+	if (game->map)
+		ft_print_map(game->map, -1, -1);
+	else
+		ft_dprintf(1, "Map: (null)\n");
+	ft_dprintf(1, "\n--------------------------\n");
+	debug_print_textures(game);
+	ft_dprintf(1, "\n--- END DEBUG GAME STRUCT ---\n");
 }

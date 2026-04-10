@@ -14,8 +14,8 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	t_game				*game;
-	t_audio_manager		*audio_manager;
+	t_game			*game;
+	t_audio_manager	*audio_manager;
 
 	hd_alloc_set_error_func(hd_alloc_error_func_d);
 	audio_manager = init_audio_manager(env);

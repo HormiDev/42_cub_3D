@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_render_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:01 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 22:50:37 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/10 01:22:05 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 /**
  * @brief Oculta columnas del sprite que están detrás de paredes.
  */
-void	ft_mask_alien_by_depth(t_game *game, t_texture *scaled,
-	int screen_x, double alien_distance)
+void	ft_mask_alien_by_depth(t_game *game, t_texture *scaled, int screen_x,
+		double alien_distance)
 {
 	int	x;
 	int	ray_index;
@@ -50,4 +50,3 @@ int	ft_compute_sprite_size(t_game *game, double base_size, double distance)
 		size = MIN_ALIEN_SIZE;
 	return (size);
 }
-

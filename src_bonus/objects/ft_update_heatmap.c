@@ -3,28 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_update_heatmap.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:46:48 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 16:55:53 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 01:17:42 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
-
-static void ft_calc_heat(t_game *game, int index_player)
+static void	ft_calc_heat(t_game *game, int index_player)
 {
-	int	mult;
-	int distance;
-	t_vector_int pos;
+	int				mult;
+	int				distance;
+	t_vector_int	pos;
 
 	pos.x = (int)game->players[index_player].position.x;
 	pos.y = (int)game->players[index_player].position.y;
 	if (game->actions[index_player].walk)
 	{
 		distance = (int)ft_vector_distance(game->players[index_player].position,
-			game->players[5].position);
+				game->players[5].position);
 		if (distance < MAX_RAY_SIZE)
 		{
 			mult = MAX_RAY_SIZE - distance;

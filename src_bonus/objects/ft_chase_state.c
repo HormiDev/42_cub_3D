@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_chase_state.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:08 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/10 00:19:55 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 01:33:14 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

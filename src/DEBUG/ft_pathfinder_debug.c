@@ -14,7 +14,7 @@
 
 /**
  * @brief Visualiza el mapa original en salida de debug.
- * 
+ *
  * Imprime el mapa completo usando caracteres especiales:
  * - █ para muros (rojo)
  * - espacios para celdas vacías
@@ -43,12 +43,13 @@ void	ft_debug_print_map(t_game *game)
 		}
 		ft_dprintf(1, "\n");
 	}
-	ft_dprintf(1, "%s====================================%s\n\n", YELLOW, RESET);
+	ft_dprintf(1, "%s====================================%s\n\n", YELLOW,
+		RESET);
 }
 
 /**
  * @brief Visualiza los nodos visitados durante la búsqueda BFS.
- * 
+ *
  * Imprime el mapa mostrando:
  * - █ para muros (rojo)
  * - 0 para nodos visitados (verde)
@@ -83,7 +84,7 @@ void	ft_debug_print_visited(t_game *game, int visited[128][64])
 
 /**
  * @brief Visualiza la ruta calculada por el BFS.
- * 
+ *
  * Imprime el mapa mostrando:
  * - S para punto de inicio (verde)
  * - G para objetivo (amarillo)
@@ -98,7 +99,7 @@ void	ft_debug_print_visited(t_game *game, int visited[128][64])
  * @param goal punto objetivo.
  */
 void	ft_debug_print_path(t_game *game, t_vector_int *path, int path_len,
-	t_vector_int start, t_vector_int goal)
+		t_vector_int start, t_vector_int goal)
 {
 	int	x;
 	int	y;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_pathfinder_bfs.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/10 01:37:40 by ismherna          #+#    #+#             */
+/*   Updated: 2026/04/10 01:41:32 by ismherna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub_3d_bonus.h"
 
 /**
@@ -43,7 +55,7 @@ static int	ft_bfs_explore(t_game *game, t_bfs *bfs, t_vector_int goal)
  * @return longitud del camino encontrado.
  */
 static int	ft_bfs_backtrack_path(t_bfs *bfs, t_vector_int start,
-	t_vector_int goal, t_vector_int *path)
+		t_vector_int goal, t_vector_int *path)
 {
 	t_vector_int	current;
 	int				idx;
@@ -94,17 +106,20 @@ static void	ft_bfs_invert_path(t_vector_int *path, int path_len)
  * @param path array donde se almacenará la ruta.
  * @param path_len puntero donde se guarda la longitud de la ruta.
  */
-static void	ft_bfs_rebuild_path(t_bfs *bfs, t_vector_int start,
-	t_vector_int goal, t_vector_int *path, int *path_len)
+static void	ft_bfs_rebuild_path(t_bfs *bfs, t_bfs_request request,
+		t_bfs_result result)
 {
-	*path_len = ft_bfs_backtrack_path(bfs, start, goal, path);
-	ft_bfs_invert_path(path, *path_len);
+	*result.path_len = ft_bfs_backtrack_path(bfs, request.start, request.goal,
+			result.path);
+	ft_bfs_invert_path(result.path, *result.path_len);
 }
 
 /**
  * @brief Calcula el camino más corto entre dos puntos usando BFS.
- * 
- * Función principal del pathfinding. Inicializa el BFS con estructuras dinámicas,
+ *
+
+ * Función principal del pathfinding. 
+ * Inicializa el BFS con estructuras dinámicas,
  * ejecuta la exploración, y reconstruye la ruta si se alcanza el objetivo.
  * Debug activable con #define DEBUG_PATHFINDER.
  *
@@ -115,35 +130,21 @@ static void	ft_bfs_rebuild_path(t_bfs *bfs, t_vector_int start,
  * @param path_len longitud del camino encontrado.
  * @return 1 si se encontró camino, 0 si no existe camino.
  */
-int	ft_bfs_path(t_game *game, t_vector_int start, t_vector_int goal,
-	t_vector_int *path, int *path_len)
+int	ft_bfs_path(t_game *game, t_bfs_request request, t_bfs_result result)
 {
 	t_bfs	bfs;
 
-	/* Use pre-allocated memory from game structure (allocated once at map loading) */
 	bfs.queue = game->bfs_queue;
 	bfs.parent = game->bfs_parent;
 	bfs.visited = game->bfs_visited;
 	bfs.max_queue = game->bfs_queue_size;
-	ft_bfs_init(&bfs, start, game->bfs_visited_width, game->bfs_visited_height);
-	//ft_dprintf(1, "%s[BFS] Start:(%d,%d) -> Goal:(%d,%d)%s\n",
-		//CYAN, start.x, start.y, goal.x, goal.y, RESET);
-	//ft_debug_print_map(game);
-	if (!ft_bfs_explore(game, &bfs, goal))
+	ft_bfs_init(&bfs, request.start, game->bfs_visited_width,
+		game->bfs_visited_height);
+	if (!ft_bfs_explore(game, &bfs, request.goal))
 	{
-		//ft_dprintf(1, "%s[BFS] No path found (explored %d nodes)%s\n",
-		//	RED, bfs.queue_end, RESET);
-		//ft_debug_print_visited(game, bfs.visited);
-		*path_len = 0;
+		*result.path_len = 0;
 		return (0);
 	}
-	ft_bfs_rebuild_path(&bfs, start, goal, path, path_len);
-	//ft_dprintf(1, "%s[BFS] Path found: %d steps%s\n", GREEN, *path_len, RESET);
-	//ft_debug_print_visited(game, bfs.visited);
-	//ft_debug_print_path(game, path, *path_len, start, goal);
+	ft_bfs_rebuild_path(&bfs, request, result);
 	return (1);
 }
-
-
-
-

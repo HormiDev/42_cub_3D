@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   door.c                                            :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2026/04/02 16:22:08 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 16:38:16 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   door.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/02 16:22:08 by username          #+#    #+#             */
+/*   Updated: 2026/04/10 01:17:11 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	ft_init_doors(t_game *game)
 	}
 }
 
-static void	ft_update_door_auto_reopen(t_game *game, t_door *door, double delta_time)
+static void	ft_update_door_auto_reopen(t_game *game, t_door *door,
+		double delta_time)
 {
 	if (door->state != DOOR_CLOSED)
 		return ;
@@ -84,7 +85,7 @@ void	ft_update_doors(t_game *game)
 	current = game->doors;
 	while (current)
 	{
-		door = (t_door *) current->content;
+		door = (t_door *)current->content;
 		ft_update_door_auto_reopen(game, door, game->delta_time);
 		current = current->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gamepad.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/08 13:46:14 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 02:16:46 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,34 +20,32 @@
 */
 void	ft_remap_gamepads(t_game *game)
 {
-	int		i;
-	int		slot;
-	const char	*paths[] = {"/dev/input/js0", "/dev/input/js1",
+	t_vector_int	idx;
+	const char		*paths[] = {"/dev/input/js0", "/dev/input/js1",
 		"/dev/input/js2", "/dev/input/js3", "/dev/input/event0",
 		"/dev/input/event1", "/dev/input/event2", "/dev/input/event3",
 		NULL};
 
-	slot = game->config.n_players;
-	while (slot < MAX_GAMEPADS)
+	idx.y = game->config.n_players;
+	while (idx.y < MAX_GAMEPADS)
 	{
-		if (game->gamepads[slot].fd != -1)
-			close(game->gamepads[slot].fd);
-		ft_reset_single_gamepad(&game->gamepads[slot]);
-		slot++;
+		if (game->gamepads[idx.y].fd != -1)
+			close(game->gamepads[idx.y].fd);
+		ft_reset_single_gamepad(&game->gamepads[idx.y]);
+		idx.y++;
 	}
-	i = 0;
-	slot = 0;
-	while (paths[i] && slot < game->config.n_players)
+	idx.x = 0;
+	idx.y = 0;
+	while (paths[idx.x] && idx.y < game->config.n_players)
 	{
-		if (!game->gamepads[slot].connected)
-			ft_try_open_gamepad_at(game, paths[i], slot);
-		if (game->gamepads[slot].connected)
-			slot++;
-		i++;
+		if (!game->gamepads[idx.y].connected)
+			ft_try_open_gamepad_at(game, paths[idx.x], idx.y);
+		if (game->gamepads[idx.y].connected)
+			idx.y++;
+		idx.x++;
 	}
 	ft_recount_gamepads(game);
 }
-
 
 void	ft_gamepad_handle_system_buttons(t_game *game)
 {

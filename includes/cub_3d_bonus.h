@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 00:39:22 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 03:09:50 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,15 @@
 // ============================================================================
 int		ft_check_args(int argc, char **argv);
 t_game	*ft_loading_game(char *path_map);
+void	ft_check_and_correct_door_textures(t_game *game, t_list **list);
+void	ft_build_array_textures(t_game *game);
+void	ft_create_render(t_game *game);
+void	ft_create_window_img(t_game *game);
+void	ft_create_minimap(t_game *game);
+void	ft_load_all_textures(t_game *game);
+void	ft_setup_map_and_ui(t_game *game, t_file *map_file);
+void	ft_init_game(t_game *game);
+void	ft_finalize_world(t_game *game);
 void	ft_close_game(int exit_code);
 int		ft_close_game_for_mlx(t_game *game);
 void	ft_loading_menu(t_game *game);
@@ -81,6 +90,18 @@ void	ft_right_left(t_game *game, double move_speed);
 int		ft_key_press(int keycode, t_game *game);
 int		ft_key_release(int keycode, t_game *game);
 int		ft_mouse_move(int x, int y, t_game *game);
+int		ft_handle_player_movement(t_game *game,
+		double move_speed, int player_index);
+int		ft_move_player_front(t_game *game,
+		t_player_actions *actions, double move_speed, int player_index);
+int		ft_move_player_back(t_game *game,
+		t_player_actions *actions, double move_speed, int player_index);
+int		ft_move_player_strafe(t_game *game,
+		t_player_actions *actions, double move_speed, int player_index);
+void	ft_handle_player_rotation(t_game *game, int player_index);
+int		ft_handle_system_keys(int keycode, t_game *game);
+void	ft_set_key_action(int keycode,
+		t_player_actions *actions, t_game *game, int player_index);
 void ft_move_direction(t_game * game,
 	double	angle, double move_speed, int player_index);
 void ft_move_player(t_game * game,
@@ -248,14 +269,19 @@ int				ft_str_isnumber(char *str);
 // ============================================================================
 // TIMER FUNCTIONS
 // ============================================================================
+int		append_two_digits(char *buf, int len, int value);
+void	get_timer_string(char *str, int remaining);
+t_vector_int	ft_get_timer_hud_pos(t_vector_int offset,
+		t_vector_int viewport, int scale, int text_width);
 int		get_duration(t_game *game);
 void	ft_init_timer(t_game *game);
 int		ft_get_remaining(t_game *game);
 void	ft_check_timer(t_game *game);
+void	ft_change_duration(void *game_ptr, int direction);
 void	ft_render_timer_hud(t_game *game);
 void ft_render_timer_hud_viewport(t_game * game,
 	t_texture	*target,
-int	offset_x, int offset_y, t_vector_int viewport);
+	t_vector_int offset, t_vector_int viewport);
 
 // ============================================================================
 // DOOR FUNCTIONS
@@ -271,6 +297,17 @@ int		ft_try_toggle_door(t_game *game);
 // ============================================================================
 void	ft_config_alien(t_game *game);
 void	ft_respawn_alien(t_game *game);
+void	ft_set_alien_pos(t_game *game, t_vector2 pos);
+void	ft_get_exclusion_bounds(t_game *game, t_vector2 center,
+		int radius, int bounds[4]);
+void	ft_mark_exclusion_area(t_game *game, t_vector2 center, int radius);
+void	ft_mark_player_areas(t_game *game);
+int		ft_aviable_positions(t_game *game);
+int		ft_try_set_random_position(t_vector2 *pos, int count,
+		int index, t_vector_int tile);
+int		ft_get_random_position(t_game *game, int indez, t_vector2 *pos);
+void	ft_copy_transitable_map(t_game *game);
+int		ft_find_respawn_candidates(t_game *game);
 void	ft_update_aliens(t_game *game);
 void	ft_search_heatmap(t_game *game);
 
@@ -304,9 +341,8 @@ t_vector_int	*last_goal);
 void ft_patrol_move_and_cleanup(t_game * game, t_player * alien,
 	t_vector_int	*last_goal);
 
-int ft_bfs_path(t_game * game, t_vector_int start,
-	t_vector_int	goal,
-t_vector_int	*path, int *path_len);
+int	ft_bfs_path(t_game *game, t_bfs_request request,
+		t_bfs_result result);
 void ft_bfs_init(t_bfs * bfs, t_vector_int start,
 	int	width, int height);
 int ft_bfs_is_valid_tile(t_game * game,
@@ -321,15 +357,13 @@ void ft_debug_print_path(t_game * game, t_vector_int * path,
 	int	path_len, t_vector_int start, t_vector_int goal);
 
 void	ft_alien_patrol_update(t_game *game, t_player *alien);
-void	ft_alien_chase_update(t_game *game, t_player *alien);
 void	ft_check_alien_collision(t_game *game);
 void	ft_kill_player(t_player *player);
 int		ft_check_game_end(t_game *game);
-void	ft_debug_alien(t_game *game);
+void	ft_get_door_position(t_raycast *ray, t_vector_int *door_pos);
 void	ft_update_render_distances(t_game *game);
 void	ft_render_all_sprites(t_game *game);
 void	ft_render_player_sprite(t_game *game, t_player *player);
-void	ft_free_aliens(t_game *game);
 int		ft_compare_by_distance(const void *a, const void *b);
 void	ft_get_sorted_players(t_game *game);
 int ft_get_original_index(t_game * game,
@@ -358,6 +392,8 @@ t_rotated_square	*ft_precalc_rotated_squares(void);
 void	ft_mouse_capture(t_game *game);
 void	ft_mouse_free(t_game *game);
 int		ft_mouse_move(int x, int y, t_game *game);
+int		ft_mouse_menu_move(int x, int y, t_game *game);
+void	ft_mouse_apply_rotation(t_game *game, int delta_x);
 
 double	ft_format_cos(double value);
 double	ft_format_sin(double value);
@@ -367,7 +403,7 @@ pid_t	ft_play_audio(const char *filename, char **env);
 void	ft_prec_fish_eye_correction(t_game *game);
 void ft_draw_image_rgba(t_texture * dst, t_texture * src,
 	int	start_x, int start_y);
-void ft_mix_color_alpha(unsigned int * color,
+void ft_mix_rgba(unsigned int * color,
 	unsigned int	*mix_color, int percent);
 void	ft_prec_vector_cloud(t_game *game);
 
@@ -381,13 +417,21 @@ void ft_scale_t_image_precalc_two(t_texture * tex_origin,
 	t_texture	*text_destiny, t_game *game, int player);
 void ft_scale_t_image_precalc_three(t_texture * tex_origin,
 	t_texture	*text_destiny, t_game *game, int player);
-
+void	ft_hober_buttons(t_game *game, t_menu *menu);
 t_texture	*ft_loading_texture(void *mlx_ptr, char *path);
 t_texture	*ft_new_texture(void *mlx_ptr, int width, int height);
 int			ft_mouse_click(int button, int x, int y, t_game *game);
 void		input_reset_actions(t_game *game, int player_index);
 
 void	ft_loading_menu_settings(t_game *game);
+void	ft_loading_settings_buttons(t_game *game);
+void	ft_setup_settings_button(t_game *game, int idx,
+		t_vector_int pos, const char *base_hover[2], void (*on_click)(void *));
+void	ft_fill_settings_callbacks(void (*callbacks[9])(void *));
+void	ft_fill_settings_positions(t_vector_int positions[9]);
+void	ft_init_settings_button_assets(const char **right_btn,
+		const char **left_btn, void (*callbacks[9])(void *),
+		t_vector_int positions[9]);
 void ft_loading_texture_buttons(t_game * game, t_button * button,
 	char	*base_texture, char *hover_texture);
 void ft_button_position_size(t_button * button, int x, int y,
@@ -408,11 +452,26 @@ void	ft_hd_alloc_closedir(void *ptr);
 
 void ft_draw_string_hud(t_texture * dst, t_texture * font,
 	const char	*str, t_vector_int *pos, int scale);
+void	ft_scaled_state_init(t_scaled_state *state,
+		t_texture *src, t_scaled_draw draw);
+void	ft_scaled_state_clip(t_scaled_state *state,
+		t_texture *src, t_vector_int dst_size);
+void	ft_draw_scaled_basic(t_texture *dst,
+		t_texture *src, t_scaled_state *state);
+void	ft_draw_scaled_basic_row(t_texture *dst,
+		t_texture *src, t_scaled_state *state, t_vector_int row);
+void	ft_draw_scaled_mist(t_game *game,
+		t_texture *src, t_scaled_state *state, double distance);
+void	ft_draw_scaled_mist_row(t_game *game,
+		t_texture *src, t_scaled_state *state, t_scaled_draw row_draw);
+void	ft_scaled_mist_scan_init(t_scaled_scan *scan,
+		t_texture *src, t_scaled_state *state, t_scaled_draw row_draw);
+void	ft_scaled_mist_scan_draw(t_scaled_scan *scan,
+		t_game *game, t_texture *src, t_scaled_state *state);
 void ft_draw_image_rgba_scaled(t_texture * dst, t_texture * src,
-	int	pos_x, int pos_y, int scale);
+	t_scaled_draw draw);
 void ft_draw_image_rgba_scaled_plus(t_game * game,
-	t_texture	*src, int pos_x, int pos_y,
-int	src_size, double distance);
+	t_texture	*src, t_scaled_draw draw);
 
 // ============================================================================
 // FLAMETHROWER FUNCTIONS
@@ -431,6 +490,14 @@ void ft_flamethrower_hud(t_game * game, int player_index,
 void	ft_loading_prerender_models(t_game *game);
 t_prerender_model * ft_init_prerender_model(t_game * game, int n_frames,
 	int	n_angles, char *path);
+void	ft_loading_textures_with_path(t_game *game, t_prerender_model *pre,
+	char *path_dir);
+void	ft_ordered_textures(t_prerender_model *pre);
+char	*ft_get_next_file(DIR *dir, char *path_dir);
+void	ft_load_prerender_texture(t_game *game, t_prerender_model *pre,
+	t_prerender_load load_ctx);
+void	ft_sort_textures_bubble(t_prerender_model *pre);
+void	ft_print_sorted_textures(t_prerender_model *pre);
 
 // ============================================================================
 // FLAMETHROWER FUNCTIONS

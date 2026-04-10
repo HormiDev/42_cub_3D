@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_sort.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:14 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/02 16:36:40 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 01:43:05 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,18 @@ int	ft_compare_by_distance(const void *a, const void *b)
  */
 void	ft_get_sorted_players(t_game *game)
 {
-	int	i;
-	int j;
-	t_player *temp;
+	int			i;
+	int			j;
+	t_player	*temp;
 
 	i = 0;
-	while(i < MAX_PLAYERS - 1)
+	while (i < MAX_PLAYERS - 1)
 	{
 		j = 0;
-		while(j < MAX_PLAYERS - i - 1)
+		while (j < MAX_PLAYERS - i - 1)
 		{
-			if (ft_compare_by_distance(game->ordered_ojects[j], game->ordered_ojects[j + 1]) > 0)
+			if (ft_compare_by_distance(game->ordered_ojects[j],
+					game->ordered_ojects[j + 1]) > 0)
 			{
 				temp = game->ordered_ojects[j];
 				game->ordered_ojects[j] = game->ordered_ojects[j + 1];

@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   ft_resolutions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 01:16:45 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/05 19:48:50 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 02:26:02 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
 
-void ft_next_resolution(void *game_ptr)
+void	ft_next_resolution(void *game_ptr)
 {
 	t_game	*game;
 
 	game = (t_game *)game_ptr;
-	if (game->config.resolution_index >= game->resolutions_size -1)
+	if (game->config.resolution_index >= game->resolutions_size - 1)
 		return ;
 	game->config.resolution_index++;
 }
 
-void ft_previous_resolution(void *game_ptr)
+void	ft_previous_resolution(void *game_ptr)
 {
 	t_game	*game;
 
@@ -32,7 +32,7 @@ void ft_previous_resolution(void *game_ptr)
 	game->config.resolution_index--;
 }
 
-void ft_init_resolutions(t_game *game)
+void	ft_init_resolutions(t_game *game)
 {
 	game->resolutions_size = 10;
 	game->resolutions = hd_calloc(game->resolutions_size, sizeof(t_resolution));

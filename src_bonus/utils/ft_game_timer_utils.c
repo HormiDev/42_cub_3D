@@ -32,13 +32,13 @@ int	get_duration(t_game *game)
 }
 
 /**
-* @brief Inicializa el temporizador de la partida.
-*
-* Establece `game->game_start_time` al tiempo actual y fija el estado del juego
-* en `GAME_PLAYING`.
-*
-* @param game Puntero al estado del juego a inicializar.
-*/
+ * @brief Inicializa el temporizador de la partida.
+ *
+ * Establece `game->game_start_time` al tiempo actual y fija el estado del juego
+ * en `GAME_PLAYING`.
+ *
+ * @param game Puntero al estado del juego a inicializar.
+ */
 
 void	ft_init_timer(t_game *game)
 {
@@ -47,15 +47,15 @@ void	ft_init_timer(t_game *game)
 }
 
 /**
-* @brief Calcula los segundos restantes de la partida.
-*
-* Calcula el tiempo transcurrido en milisegundos desde `game_start_time`, lo
-* convierte a segundos y resta de la duración configurada. Nunca devuelve
-* valores negativos; en ese caso retorna 0.
-*
-* @param game Puntero al estado del juego.
-* @return Segundos restantes (>= 0).
-*/
+ * @brief Calcula los segundos restantes de la partida.
+ *
+ * Calcula el tiempo transcurrido en milisegundos desde `game_start_time`, lo
+ * convierte a segundos y resta de la duración configurada. Nunca devuelve
+ * valores negativos; en ese caso retorna 0.
+ *
+ * @param game Puntero al estado del juego.
+ * @return Segundos restantes (>= 0).
+ */
 
 int	ft_get_remaining(t_game *game)
 {

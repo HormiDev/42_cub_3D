@@ -13,10 +13,10 @@
 #include "../../includes/cub_3d_bonus.h"
 
 /**
-* @brief Devuelve el valor absoluto de un entero.
-* @param n El entero del cual obtener el valor absoluto.
-* @return El valor absoluto de n.
-*/
+ * @brief Devuelve el valor absoluto de un entero.
+ * @param n El entero del cual obtener el valor absoluto.
+ * @return El valor absoluto de n.
+ */
 
 int	ft_abs(int n)
 {
@@ -26,9 +26,9 @@ int	ft_abs(int n)
 }
 
 /**
-* @brief Devuelve el valor absoluto de un vector de enteros.
-* @param v El vector del cual obtener el valor absoluto.
-*/
+ * @brief Devuelve el valor absoluto de un vector de enteros.
+ * @param v El vector del cual obtener el valor absoluto.
+ */
 
 void	ft_vector_int_abs(t_vector_int *v)
 {
@@ -37,10 +37,10 @@ void	ft_vector_int_abs(t_vector_int *v)
 }
 
 /**
-* @brief Devuelve el valor máximo de un vector de enteros.
-* @param v El vector del cual obtener el valor máximo.
-* @return El valor máximo de v.
-*/
+ * @brief Devuelve el valor máximo de un vector de enteros.
+ * @param v El vector del cual obtener el valor máximo.
+ * @return El valor máximo de v.
+ */
 
 int	ft_vector_int_max(t_vector_int v)
 {

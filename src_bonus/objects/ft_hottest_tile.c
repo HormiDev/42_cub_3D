@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   ft_hottest_tile.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:08 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/07 01:07:21 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/10 01:17:30 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 int	ft_find_hottest_reachable_tile(t_game *game, t_player *alien,
-	t_vector_int *pos)
+		t_vector_int *pos)
 {
-	int	best_heat;
-	int	y;
-	int	x;
+	int		best_heat;
+	int		y;
+	int		x;
 
 	(void)alien;
 	best_heat = 0;

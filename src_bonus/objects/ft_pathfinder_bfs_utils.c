@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_pathfinder_bfs_utils.c                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/04/10 01:16:01 by ismherna          #+#    #+#             */
+/*   Updated: 2026/04/10 01:16:16 by ismherna         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/cub_3d_bonus.h"
 
 /**
  * @brief Inicializa las estructuras del BFS con memoria dinámica.
- * 
+ *
  * Usa los punteros pre-asignados en la estructura t_bfs del juego.
  * Las matrices ya están asignadas dinámicamente durante el parse del mapa.
  *
@@ -37,7 +49,8 @@ void	ft_bfs_init(t_bfs *bfs, t_vector_int start, int width, int height)
  */
 int	ft_bfs_is_valid_tile(t_game *game, t_bfs *bfs, t_vector_int next)
 {
-	if (next.x < 0 || next.x >= bfs->width || next.y < 0 || next.y >= bfs->height)
+	if (next.x < 0 || next.x >= bfs->width || next.y < 0
+		|| next.y >= bfs->height)
 		return (0);
 	if (bfs->visited[next.y][next.x])
 		return (0);
@@ -59,7 +72,8 @@ int	ft_bfs_process_neighbor(t_bfs *bfs, t_vector_int current, t_vector_int next)
 		return (0);
 	bfs->visited[next.y][next.x] = 1;
 	bfs->queue[bfs->queue_end] = next;
-	bfs->parent[next.y * bfs->width + next.x] = current.y * bfs->width + current.x;
+	bfs->parent[next.y * bfs->width + next.x] = current.y * bfs->width
+		+ current.x;
 	bfs->queue_end++;
 	return (1);
 }

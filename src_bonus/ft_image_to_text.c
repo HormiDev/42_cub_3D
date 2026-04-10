@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_image_to_text.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:26:34 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/04 02:24:31 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 02:01:01 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * Itera 5 píxeles a partir de `src_x` de la línea `src_y` en `src` y los
  * mezcla en `dst` en la posición `dst_x`, `dst_y`, respetando el canal alfa.
  * Si el píxel fuente es totalmente transparente (color 0x00000000) se
- * omite. Para valores intermedios de alfa se usa `ft_mix_color_alpha`.
+ * omite. Para valores intermedios de alfa se usa `ft_mix_rgba`.
  *
  * @param dst Textura destino donde se escriben los píxeles.
  * @param src Textura de la fuente origen.

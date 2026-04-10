@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_mix_color_precalc.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/10 19:52:57 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/03/15 22:46:28 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 03:10:48 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ unsigned char	***ft_precalc_mixcolor(void)
  * @brief Mezcla dos colores en un porcentaje dado.
  *
 
-	* Esta función mezcla dos colores (color y mix_color) en un porcentaje especificado
  * (0 a 100). Si el porcentaje es menor que 0,
 	no se realiza ninguna acción. Si es mayor
  * que 100, se ajusta al 100%.

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_gamepad_utils_2.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nirmata <nirmata@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 00:22:23 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/06 23:10:35 by nirmata          ###   ########.fr       */
+/*   Updated: 2026/04/10 01:50:18 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	ft_process_axis_event(t_gamepad *gp, struct js_event event)
 ** Enruta el evento según su tipo (botón o eje).
 */
 void	ft_process_gamepad_event(t_game *game, t_gamepad *gp,
-	struct js_event event)
+		struct js_event event)
 {
 	unsigned char	type;
 

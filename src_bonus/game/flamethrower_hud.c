@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   flamethrower_hud.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:20 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 00:39:48 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 02:03:54 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ static int	ft_get_hud_scale(int viewport_height)
 	return (scale);
 }
 
-static void ft_draw_flamethrower_charges(t_game * game,
-	t_player_actions	*actions, t_hud_draw *hud)
+static void	ft_draw_flamethrower_charges(t_game *game,
+		t_player_actions *actions, t_hud_draw *hud)
 {
 	char	str[32];
 
@@ -32,19 +32,20 @@ static void ft_draw_flamethrower_charges(t_game * game,
 	ft_draw_string_hud(hud->target, game->font, str, &hud->pos, hud->scale);
 }
 
-static void ft_draw_flamethrower_cooldown(t_game * game,
-	t_player_actions	*actions, t_hud_draw *hud)
+static void	ft_draw_flamethrower_cooldown(t_game *game,
+		t_player_actions *actions, t_hud_draw *hud)
 {
 	char	str[32];
 
 	if (actions->flamethrower_cooldown_remaining <= 0)
 		return ;
-	ft_sprintf(str, "COOLDOWN:%ds", (int) actions->flamethrower_cooldown_remaining);
+	ft_sprintf(str, "COOLDOWN:%ds",
+		(int)actions->flamethrower_cooldown_remaining);
 	ft_draw_string_hud(hud->target, game->font, str, &hud->pos, hud->scale);
 }
 
-void ft_flamethrower_hud(t_game * game, int player_index,
-	t_texture	*target, t_vector_int pos_offset)
+void	ft_flamethrower_hud(t_game *game, int player_index, t_texture *target,
+		t_vector_int pos_offset)
 {
 	t_player_actions	*actions;
 	t_hud_draw			hud;

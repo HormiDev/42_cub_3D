@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 00:40:07 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 03:09:33 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,13 @@ typedef struct s_prerender_model
 	long		last_update_time;
 }	t_prerender_model;
 
+typedef struct s_prerender_load
+{
+	int		idx;
+	char	*file_name;
+	char	*path_dir;
+}	t_prerender_load;
+
 typedef struct s_cursor
 {
 	int	x;
@@ -260,6 +267,47 @@ typedef struct s_bfs
 	int				width;
 	int				height;
 }	t_bfs;
+
+typedef struct s_bfs_request
+{
+	t_vector_int	start;
+	t_vector_int	goal;
+}	t_bfs_request;
+
+typedef struct s_bfs_result
+{
+	t_vector_int	*path;
+	int				*path_len;
+}	t_bfs_result;
+
+typedef struct s_scaled_draw
+{
+	t_vector_int	pos;
+	int				src_size;
+	double			distance;
+}	t_scaled_draw;
+
+typedef struct s_scaled_state
+{
+	t_vector_int	start_dst;
+	t_vector_int	end_dst;
+	t_vector2		start_src;
+	t_vector2		src_iter;
+	int				start_dst_x;
+	float			start_src_x;
+	int				src_size;
+}	t_scaled_state;
+
+typedef struct s_scaled_scan
+{
+	t_vector_int	dst_pos;
+	t_vector2		src_f;
+	t_vector_int	src_pos;
+	double			distance;
+	int				raycast_iter;
+	int				mist_mix;
+	unsigned int	mist_color;
+}	t_scaled_scan;
 
 typedef enum e_entity_type
 {
@@ -391,8 +439,8 @@ typedef struct s_rotated_square
 typedef struct s_precalc
 {
 	unsigned char		***mix_colors;
-	int					*scale_x_table;
-	int					*scale_y_table;
+	int					*sxt;
+	int					*syt;
 	t_rotated_square	*rotated_squares;
 }	t_precalc;
 

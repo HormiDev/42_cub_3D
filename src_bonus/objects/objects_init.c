@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   objects_init.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:23:51 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/06 18:13:01 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 01:35:22 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,18 @@ static void	ft_spawn_alien(t_game *game)
  */
 static void	ft_assign_textures_to_players(t_game *game)
 {
-    int	k;
+	int	k;
 
-    k = 0;
-    while (k < MAX_PLAYERS)
-    {
-        if (k != 4 && game->players[k].active)
-        {
-            game->players[k].model = game->players[4].model;
-            game->players[k].size = 2.0;
-        }
-        k++;
-    }
+	k = 0;
+	while (k < MAX_PLAYERS)
+	{
+		if (k != 4 && game->players[k].active)
+		{
+			game->players[k].model = game->players[4].model;
+			game->players[k].size = 2.0;
+		}
+		k++;
+	}
 }
 
 /**

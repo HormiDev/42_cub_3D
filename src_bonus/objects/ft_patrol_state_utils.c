@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_patrol_state_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/06 14:46:48 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/07 18:56:07 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 01:38:13 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 int	ft_patrol_prepare_step(t_player *alien, t_vector2 *target,
-	t_vector2 *direction, double *dist)
+		t_vector2 *direction, double *dist)
 {
 	if (alien->curr_step >= alien->path_len)
 		return (0);
@@ -31,7 +31,7 @@ int	ft_patrol_prepare_step(t_player *alien, t_vector2 *target,
 }
 
 void	ft_patrol_apply_step(t_game *game, t_player *alien,
-	t_vector2 *direction)
+		t_vector2 *direction)
 {
 	double	norm;
 
@@ -59,7 +59,7 @@ void	ft_move_along_path(t_game *game, t_player *alien)
 }
 
 void	ft_patrol_update_retry_timer(double *retry_timer,
-	t_vector_int *last_goal, t_player *alien)
+		t_vector_int *last_goal, t_player *alien)
 {
 	*retry_timer += 0.016;
 	if (*retry_timer >= 2.0 || alien->path_len == 0)
@@ -72,15 +72,21 @@ void	ft_patrol_update_retry_timer(double *retry_timer,
 	}
 }
 
-void	ft_patrol_search_path(t_game *game, t_player *alien,
-	t_vector_int goal, t_vector_int *last_goal)
+void	ft_patrol_search_path(t_game *game, t_player *alien, t_vector_int goal,
+		t_vector_int *last_goal)
 {
 	t_vector_int	start;
+	t_bfs_request	request;
+	t_bfs_result	result;
 
 	if (goal.x == last_goal->x && goal.y == last_goal->y)
 		return ;
 	*last_goal = goal;
 	start.x = (int)alien->position.x;
 	start.y = (int)alien->position.y;
-	ft_bfs_path(game, start, goal, alien->path, &alien->path_len);
+	request.start = start;
+	request.goal = goal;
+	result.path = alien->path;
+	result.path_len = &alien->path_len;
+	ft_bfs_path(game, request, result);
 }

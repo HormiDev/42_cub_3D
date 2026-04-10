@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   flamethrower_hud_utils.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:20 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 00:37:41 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 02:08:36 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
-static t_texture	*ft_get_flamethrower_frame(t_game *game, t_player_actions *actions)
+static t_texture	*ft_get_flamethrower_frame(t_game *game,
+		t_player_actions *actions)
 {
 	t_texture	*flame;
 	int			frame_index;
@@ -43,8 +44,7 @@ void	ft_render_flamethrower(t_game *game, int player_index)
 	t_player_actions	*actions;
 	int					size;
 	int					max_size;
-	int					x;
-	int					y;
+	t_vector_int		pos;
 
 	actions = &game->actions[player_index];
 	flame = ft_get_flamethrower_frame(game, actions);
@@ -58,7 +58,8 @@ void	ft_render_flamethrower(t_game *game, int player_index)
 		max_size = (game->render->width * 200) / 100;
 	if (size > max_size)
 		size = max_size;
-	x = game->render->width - size + (game->render->width / 15);
-	y = game->render->height - size + (game->render->height / 2.2);
-	ft_draw_image_rgba_scaled(game->render, flame, x, y, size);
+	pos.x = game->render->width - size + (game->render->width / 15);
+	pos.y = game->render->height - size + (game->render->height / 2.2);
+	ft_draw_image_rgba_scaled(game->render, flame, (t_scaled_draw){pos, size,
+		0.0});
 }

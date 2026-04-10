@@ -1,26 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                       :::      ::::::::    */
-/*   ft_config_player.c                                :+:      :+:    :+:    */
-/*                                                   +:+ +:+         +:+      */
-/*   By: username <username@student.42tokyo.jp>    #+#  +:+       +#+         */
-/*                                               +#+#+#+#+#+   +#+            */
-/*   Created: 2025/05/12 13:30:01 by username         #+#    #+#              */
-/*   Updated: 2026/04/09 14:24:03 by username        ###   ########.fr        */
+/*                                                        :::      ::::::::   */
+/*   ft_config_player.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/12 13:30:01 by username          #+#    #+#             */
+/*   Updated: 2026/04/10 03:09:44 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/cub_3d_bonus.h"
 
 /**
-* @brief Establece la rotación del jugador según el carácter de dirección.
-*
-* Esta función estática configura la rotación del jugador basándose en el carácter
-* que representa la dirección inicial ('N', 'S', 'E', 'W').
-*
-* @param game estructura del juego.
-* @param direction_char Carácter que representa la dirección ('N', 'S', 'E', 'W').
-*/
+ * @brief Establece la rotación del jugador según el carácter de dirección.
+ *
+
+	* Esta función estática configura la rotación del jugador basándose en el carácter
+ * que representa la dirección inicial ('N', 'S', 'E', 'W').
+ *
+ * @param game estructura del juego.
+ * @param direction_char Carácter que representa la dirección ('N', 'S', 'E',
+	'W').
+ */
 
 static void	ft_set_player_spawn_rotation(t_game *game, char direction_char)
 {
@@ -32,20 +34,21 @@ static void	ft_set_player_spawn_rotation(t_game *game, char direction_char)
 		game->player->rotation.x = 0.0;
 	else if (direction_char == 'W')
 		game->player->rotation.x = 180.0;
-	// Normalizar el ángulo por consistencia
 	game->player->rotation.x = ft_normalize_angle(game->player->rotation.x);
 }
 
 /**
-* @brief Configura la posición y rotación del jugador en el mapa.
-*
-* Esta función recorre el mapa del juego para encontrar la posición del jugador
-* representada por los caracteres 'N', 'S', 'E' o 'W'. Establece la posición y
-* rotación del jugador según el carácter encontrado, y luego reemplaza el carácter
-* en el mapa con '0'.
-*
-* @param game estructura del juego que contiene el mapa y la información del jugador.
-*/
+ * @brief Configura la posición y rotación del jugador en el mapa.
+ *
+ * Esta función recorre el mapa del juego para encontrar la posición del jugador
+ * representada por los caracteres 'N', 'S', 'E' o 'W'. Establece la posición y
+ * rotación del jugador según el carácter encontrado,
+	y luego reemplaza el carácter
+ * en el mapa con '0'.
+ *
+
+	* @param game estructura del juego que contiene el mapa y la información del jugador.
+ */
 
 void	ft_config_player(t_game *game)
 {
@@ -84,7 +87,7 @@ void	ft_config_player(t_game *game)
 		while (game->map[i][j])
 		{
 			if (game->map[i][j] == 'N' || game->map[i][j] == 'S'
-					|| game->map[i][j] == 'E' || game->map[i][j] == 'W')
+				|| game->map[i][j] == 'E' || game->map[i][j] == 'W')
 			{
 				game->player->position.x = j + 0.5;
 				game->player->position.y = i + 0.5;

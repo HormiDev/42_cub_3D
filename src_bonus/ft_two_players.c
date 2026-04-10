@@ -39,18 +39,14 @@ static void	ft_render_two_players_view(t_game *game, int player_index)
 static void	ft_render_two_players_hud(t_game *game, int player_index,
 	t_vector_int viewport)
 {
-	int			offset_x;
-	int			offset_y;
 	t_vector_int	pos_offset;
 
 	ft_draw_image_rgba(game->window_img, game->minimap, WINDOW_WIDTH / 100,
 		WINDOW_HEIGHT / 100 + (WINDOW_HEIGHT / 2 * player_index));
-	offset_x = 0;
-	offset_y = viewport.y * player_index;
-	ft_render_timer_hud_viewport(game, game->window_img,
-		offset_x, offset_y, viewport);
-	pos_offset.x = offset_x;
-	pos_offset.y = offset_y;
+	pos_offset.x = 0;
+	pos_offset.y = viewport.y * player_index;
+	ft_render_timer_hud_viewport(game, game->window_img, pos_offset,
+		viewport);
 	ft_flamethrower_hud(game, player_index,
 		game->window_img, pos_offset);
 }

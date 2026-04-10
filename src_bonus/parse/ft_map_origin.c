@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   ft_map_origin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:41 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/09 23:59:02 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 02:02:15 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
 /**
- * @brief Verifica si todas las directivas requeridas están presentes en el mapa.
+
+ * @brief Verifica si todas las directivas 
+ * requeridas están presentes en el mapa.
  *
  * Esta función comprueba un arreglo de booleanos que indica si cada directiva
  * ha sido encontrada. Si no se encuentra, imprime un mensaje de error
@@ -24,25 +26,25 @@
  */
 static void	check_all_directives_found(bool found[7], const char *dirs[7])
 {
-	int		k;
+	int	k;
 
 	k = 0;
 	while (k < 7)
 	{
 		if (!found[k])
 		{
-			ft_dprintf(2,
-				RED "Error: Missing texture or color: %s\n" RESET, dirs[k]);
+			ft_dprintf(2, RED "Error: Missing texture or color: %s\n" RESET,
+				dirs[k]);
 			ft_close_game(1);
 		}
 		k++;
 	}
 }
 
-static void	update_found_directive(char *line,
-				bool found[7], const char *dirs[7])
+static void	update_found_directive(char *line, bool found[7],
+		const char *dirs[7])
 {
-	int		k;
+	int	k;
 
 	k = 0;
 	while (k < 7)
@@ -56,13 +58,12 @@ static void	update_found_directive(char *line,
 	}
 }
 
-static int	find_map_start_index(t_file *map_file,
-				bool found[7], const char *dirs[7])
+static int	find_map_start_index(t_file *map_file, bool found[7],
+		const char *dirs[7])
 {
-	int		i;
+	int	i;
 
 	i = 0;
-	
 	while (map_file->array_content[i])
 	{
 		if (!is_only_spaces(map_file->array_content[i]))

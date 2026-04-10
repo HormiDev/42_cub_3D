@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_three_players.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 13:43:53 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 00:39:10 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 02:36:09 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,54 +33,46 @@ static void	ft_render_three_player_scene(t_game *game, int player_index)
 		player_index);
 }
 
-static void	ft_get_three_offsets(int player_index, t_vector_int viewport,
-	int *offset_x, int *offset_y)
+static void	ft_get_three_player_hud_pos(int player_index,
+	t_vector_int viewport, t_vector_int *minimap_pos, t_vector_int *hud_offset)
 {
-	*offset_x = 0;
-	*offset_y = 0;
+	minimap_pos->x = WINDOW_WIDTH / 100;
+	minimap_pos->y = WINDOW_HEIGHT / 100;
+	hud_offset->x = 0;
+	hud_offset->y = 0;
 	if (player_index == 1)
-		*offset_y = viewport.y;
-	else if (player_index == 2)
-		*offset_x = viewport.x;
-	else if (player_index == 3)
 	{
-		*offset_x = viewport.x;
-		*offset_y = viewport.y;
+		hud_offset->y = viewport.y;
+		minimap_pos->y += WINDOW_HEIGHT / 2;
+	}
+	else if (player_index == 2)
+	{
+		hud_offset->x = viewport.x;
+		minimap_pos->x += WINDOW_WIDTH / 2;
+	}
+	else if (player_index > 2)
+	{
+		hud_offset->x = viewport.x;
+		hud_offset->y = viewport.y;
+		minimap_pos->x += WINDOW_WIDTH / 2;
+		minimap_pos->y += WINDOW_HEIGHT / 2;
 	}
 }
 
 static void	ft_render_three_player_hud(t_game *game, int player_index,
 	t_vector_int viewport)
 {
-	int	minimap_x;
-	int	minimap_y;
-	int	offset_x;
-	int	offset_y;
+	t_vector_int	minimap_pos;
+	t_vector_int	hud_offset;
 
 	if (!game->player->alive)
 		return ;
-	minimap_x = WINDOW_WIDTH / 100;
-	minimap_y = WINDOW_HEIGHT / 100;
-	if (player_index == 1)
-		minimap_y += WINDOW_HEIGHT / 2;
-	else if (player_index == 2)
-		minimap_x += WINDOW_WIDTH / 2;
-	else if (player_index > 2)
-	{
-		minimap_x += WINDOW_WIDTH / 2;
-		minimap_y += WINDOW_HEIGHT / 2;
-	}
-	ft_draw_image_rgba(game->window_img, game->minimap, minimap_x, minimap_y);
-	ft_get_three_offsets(player_index, viewport, &offset_x, &offset_y);
-	ft_render_timer_hud_viewport(game, game->window_img,
-		offset_x, offset_y, viewport);
-	{
-		t_vector_int	pos_offset;
-		pos_offset.x = offset_x;
-		pos_offset.y = offset_y;
-		ft_flamethrower_hud(game, player_index,
-			game->window_img, pos_offset);
-	}
+	ft_get_three_player_hud_pos(player_index, viewport,
+		&minimap_pos, &hud_offset);
+	ft_draw_image_rgba(game->window_img, game->minimap,
+		minimap_pos.x, minimap_pos.y);
+	ft_render_timer_hud_viewport(game, game->window_img, hud_offset, viewport);
+	ft_flamethrower_hud(game, player_index, game->window_img, hud_offset);
 }
 
 static void	ft_finish_three_players_frame(t_game *game)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_close_game.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 18:25:32 by ide-dieg          #+#    #+#             */
-/*   Updated: 2026/04/09 00:35:30 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/10 02:46:12 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 /**
  * @brief Libera la memoria asignada y cierra el juego.
  *
- * Esta función libera toda la memoria asignada por el juego y finaliza el programa
+
+ * Esta función libera toda la memoria asignada por 
+ * el juego y finaliza el programa
  * con el código de salida especificado.
  *
  * @param exit_code Código de salida del programa.
