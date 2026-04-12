@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/12 19:25:05 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@
 # define G 103
 
 # ifndef WINDOW_WIDTH
-#  define WINDOW_WIDTH 3840
+#  define WINDOW_WIDTH 1920
 # endif
 # if WINDOW_WIDTH < 192
 #  undef WINDOW_WIDTH
@@ -104,7 +104,7 @@
 # endif
 
 # ifndef WINDOW_HEIGHT
-#  define WINDOW_HEIGHT 2160
+#  define WINDOW_HEIGHT 1080
 # endif
 # if WINDOW_HEIGHT < 108
 #  undef WINDOW_HEIGHT
@@ -133,8 +133,8 @@
 # define ANGLE_STEP 0.01
 # define MIN_ALIEN_SIZE 15
 
-# define ALIEN_SPEED_ATTACK 3.2 // 3.5
-# define ALIEN_SPEED_PATROL 4.0 // 4.0
+# define ALIEN_SPEED_ATTACK 0.0 // 3.2
+# define ALIEN_SPEED_PATROL 0.0 // 4.0
 
 # define MIST_COLOR 0xFF323232
 # define MAX_GAMEPADS 4

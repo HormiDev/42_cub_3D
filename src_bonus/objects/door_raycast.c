@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door_raycast.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:03 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/10 01:33:21 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/12 21:19:22 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 int	ft_is_wall_or_closed_door(t_game *game, int x, int y)
 {
-	if (game->map[y][x] == '1')
+	if (game->map[y][x] == '0')
+		return (0);
+	else if (game->map[y][x] == '1' || game->map[y][x] == ' ')
 		return (1);
-	if (game->map[y][x] == 'D')
+	else if (game->map[y][x] == 'D')
 		return (2);
 	return (0);
 }

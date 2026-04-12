@@ -6,13 +6,13 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/07 00:00:00 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 00:19:31 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/12 20:38:40 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
 
-static int	ft_raycast_check_vertical(t_game *game, t_raycast *ray,
+static int	ft_raycast_check_horizontal(t_game *game, t_raycast *ray,
 	t_raycast_ctx	*ctx, double aux_distance)
 {
 	int	wall_or_dor;
@@ -27,6 +27,7 @@ static int	ft_raycast_check_vertical(t_game *game, t_raycast *ray,
 			ctx->tile_xy[1]);
 	if (wall_or_dor)
 	{
+		aux_distance = ctx->sin_cos[1] * (ctx->distance.y / ctx->sin_cos[0]);
 		ft_rotate_to_cuadrant(ctx->cuadrant, &aux_distance, &ctx->distance.y);
 		ft_calc_ray_position(ray, &ray->origin_position,
 			aux_distance, ctx->distance.y);
@@ -41,7 +42,7 @@ static int	ft_raycast_check_vertical(t_game *game, t_raycast *ray,
 	return (0);
 }
 
-static int	ft_raycast_horizontal_hit(t_game *game, t_raycast *ray,
+static int	ft_raycast_vertical_hit(t_game *game, t_raycast *ray,
 	t_raycast_ctx	*ctx, double aux_distance)
 {
 	ctx->distance.y = aux_distance;
@@ -57,7 +58,7 @@ static int	ft_raycast_horizontal_hit(t_game *game, t_raycast *ray,
 	return (1);
 }
 
-static int	ft_raycast_check_horizontal(t_game *game, t_raycast *ray,
+static int	ft_raycast_check_vertical(t_game *game, t_raycast *ray,
 	t_raycast_ctx	*ctx, double aux_distance)
 {
 	if (ctx->distance.y > ctx->max_size + 1)
@@ -69,7 +70,7 @@ static int	ft_raycast_check_horizontal(t_game *game, t_raycast *ray,
 	ctx->wall_or_dor = ft_is_wall_or_closed_door(game, ctx->tile_xy[0],
 			ctx->tile_xy[1]);
 	if (ctx->wall_or_dor)
-		return (ft_raycast_horizontal_hit(game, ray, ctx, aux_distance));
+		return (ft_raycast_vertical_hit(game, ray, ctx, aux_distance));
 	return (0);
 }
 
@@ -81,9 +82,9 @@ static int	ft_raycast_step(t_game *game, t_raycast *ray, t_raycast_ctx *ctx)
 		&ctx->distance);
 	aux_distance = ctx->sin_cos[1] * (ctx->distance.y / ctx->sin_cos[0]);
 	if (aux_distance < ctx->distance.x)
-		return (ft_raycast_check_vertical(game, ray, ctx, aux_distance));
+		return (ft_raycast_check_horizontal(game, ray, ctx, aux_distance));
 	aux_distance = ctx->sin_cos[0] * (ctx->distance.x / ctx->sin_cos[1]);
-	return (ft_raycast_check_horizontal(game, ray, ctx, aux_distance));
+	return (ft_raycast_check_vertical(game, ray, ctx, aux_distance));
 }
 
 void	ft_raycast(t_raycast_input *input)
