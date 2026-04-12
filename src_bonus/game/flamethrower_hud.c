@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:20 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/13 01:15:14 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_flamethrower_hud(t_game *game, int player_index, t_texture *target,
 	pos.y = pos_offset.y + target->height / 4.5;
 	hud.pos = pos;
 	ft_draw_flamethrower_charges(game, actions, &hud);
-	pos.y = pos_offset.y + target->height / 12;
+	pos.y += hud.scale * 18;
 	hud.pos = pos;
 	ft_draw_flamethrower_cooldown(game, actions, &hud);
 }

@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:03 by username          #+#    #+#             */
-/*   Updated: 2026/04/12 19:25:05 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/13 00:19:29 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@
 # define C_ALIEN_PLAYER 0xFF00FFFF
 # define MAX_RAY_SIZE 10
 # define MAX_PLAYERS 5
+
+# define DOOR_REOPEN 7.0
 
 // minimap
 # define MINIMAP_TILE_SIZE 8
@@ -133,8 +135,8 @@
 # define ANGLE_STEP 0.01
 # define MIN_ALIEN_SIZE 15
 
-# define ALIEN_SPEED_ATTACK 0.0 // 3.2
-# define ALIEN_SPEED_PATROL 0.0 // 4.0
+# define ALIEN_SPEED_ATTACK 3.2
+# define ALIEN_SPEED_PATROL 4.0
 
 # define MIST_COLOR 0xFF323232
 # define MAX_GAMEPADS 4

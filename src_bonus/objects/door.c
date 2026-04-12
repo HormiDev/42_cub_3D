@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   door.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:22:08 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 01:17:11 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/13 00:15:46 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static t_door	*ft_create_door(int x, int y)
 	door->position.x = x;
 	door->position.y = y;
 	door->state = DOOR_CLOSED;
-	door->auto_reopen_delay = 5.0;
+	door->auto_reopen_delay = DOOR_REOPEN;
 	door->auto_reopen_timer = -1.0;
 	door->texture_index = 0;
 	return (door);

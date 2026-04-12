@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/13 01:15:44 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -450,7 +450,6 @@ void				ft_fill_settings_callbacks(void (*callbacks[9])(void *));
 void				ft_fill_settings_positions(t_vector_int positions[9]);
 void				ft_loading_texture_buttons(t_game *game, t_button *button,
 						char *base_texture, char *hover_texture);
-
 
 // ============================================================================
 // MLX HD_ALLOC FUNCTIONS

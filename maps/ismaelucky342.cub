@@ -1,0 +1,86 @@
+
+C ./textures/AlienIsolation/techos&suelos/ceiling-2.xpm
+C ./textures/AlienIsolation/techos&suelos/ceiling-l-1.xpm
+C ./textures/AlienIsolation/techos&suelos/ceiling-1.xpm
+C ./textures/AlienIsolation/techos&suelos/ceiling-l-2.xpm
+C ./textures/AlienIsolation/techos&suelos/ceiling-3.xpm
+F ./textures/AlienIsolation/techos&suelos/floor-1.xpm
+F ./textures/AlienIsolation/techos&suelos/floor-1.xpm
+F ./textures/AlienIsolation/techos&suelos/floor-1.xpm
+F ./textures/AlienIsolation/techos&suelos/floor-1.xpm
+F ./textures/AlienIsolation/techos&suelos/floor-2.xpm
+F ./textures/AlienIsolation/techos&suelos/floor-1.xpm
+F ./textures/AlienIsolation/techos&suelos/floor-1.xpm
+F ./textures/AlienIsolation/techos&suelos/floor-1.xpm
+F ./textures/AlienIsolation/techos&suelos/floor-3.xpm
+
+
+
+D ./textures/AlienIsolation/Puertas/puerta-textura.xpm
+D ./textures/AlienIsolation/Puertas/door-ceiling.xpm
+D ./textures/AlienIsolation/Puertas/door-floor.xpm
+
+NO ./textures/AlienIsolation/Paredes/pixel-pared-N-1.xpm
+NO ./textures/AlienIsolation/Paredes/pixel-pared-2-N.xpm
+NO ./textures/AlienIsolation/Especial/window.xpm
+NO ./textures/AlienIsolation/Paredes/pixel-pared-N-blood.xpm
+NO ./textures/AlienIsolation/Paredes/pixel-pared-4-N.xpm
+NO ./textures/AlienIsolation/Especial/windowbroken.xpm
+NO ./textures/AlienIsolation/Paredes/pixel-pared-3-N.xpm
+
+
+SO ./textures/AlienIsolation/Paredes/pixel-pared-2-S.xpm
+SO ./textures/AlienIsolation/Especial/canhearyou.xpm
+SO ./textures/AlienIsolation/Paredes/pixel-pared-3-S.xpm
+SO ./textures/AlienIsolation/Paredes/pixel-pared-S-Blood.xpm
+SO ./textures/AlienIsolation/Especial/windowplanet.xpm
+SO ./textures/AlienIsolation/Paredes/pixel-pared-4-S.xpm
+
+
+
+WE ./textures/AlienIsolation/Paredes/pixel-pared-2-W.xpm
+WE ./textures/AlienIsolation/Especial/run.xpm
+WE ./textures/AlienIsolation/Paredes/pixel-pared-3-W.xpm
+WE ./textures/AlienIsolation/Paredes/pixel-pared-4-W.xpm
+
+EA ./textures/AlienIsolation/Paredes/pixel-pared-2-E.xpm
+EA ./textures/AlienIsolation/Paredes/pixel-pared-3-E.xpm
+
+
+                                  111111111111111111111
+                                  100000000000000000001
+                                  101111111101111111101
+                                  101000000000000000101
+                                  1010111110N0111111101
+                                  101011111000111111101
+                                  101000000000000000101
+                                  111111111D11111111111
+                                          101
+                                          101
+                                          101
+      1111111111111111111111111111111111111D111111111111111111111111111
+      10000000000000000000000000000000000000000000000000000000000000001
+      10111111111111111111111111111111100011111111111111111111111111101
+      10100000000001000000000000000000100010000000000000000001000000001
+      101011111110010011111111111111101000101111111111111110010111110101   111111111111111111111
+      101011000000010011000000000000111000111000000000000011010110110101111100000000000000000001
+      101011011111110011011111111110111000111011D1111111011101111111000D000000000000000000000001
+      101011000000000000011000000000000000000000000000000000000000000101111100000000000000000001
+      101011011111111111111D1111111111100011111D1111011111111D1111110101   101011111000111111101
+      10101101100000000000001100000000100010000000011000000000000110001    111111111111111111111
+      101011011011111111111011011111011000110111110110111111D1110110101
+      10101100001100000000000001100001100011000011000000000000011010101
+      10101111101101111111111111101111100011111011111111111110110110101
+      10100000000000000000000000000000000000000000000000000000000000101
+      10111111111111111111111111111111100011111111111111111111111111101
+      10000000000000000000000000000000000000000000000000000000000000001
+      11111111111111111111111111101111111111111111111111111111111111111
+                                101
+                11111111111111111D111
+                100000000000000000001
+                101111111101111111101
+                101000000000000000101
+                101011111000111111101
+                101011111000111111101
+                101000000000000000101
+                111111111111111111111
