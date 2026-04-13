@@ -161,6 +161,7 @@ SRC_BONUS =	src_bonus/main.c \
 			src_bonus/objects/ft_pathfinder_bfs.c \
 			src_bonus/objects/ft_update_heatmap.c \
 			src_bonus/objects/ft_pathfinder_bfs_utils.c \
+			src_bonus/objects/ft_pathfinder_bfs_utils_2.c \
 			src_bonus/objects/ft_chase_state.c \
 			src_bonus/objects/ft_hottest_tile.c \
 			src_bonus/objects/ft_chase_state_utils_2.c \
@@ -201,7 +202,7 @@ OBJ = $(patsubst %.c, $(OBJ_DIR)/%.o, $(SRC))
 OBJ_BONUS = $(patsubst %.c, $(OBJ_DIR_BONUS)/%.o, $(SRC_BONUS))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror #-fsanitize=address -g
+CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address -g
 
 all: clear $(NAME) title_print
 

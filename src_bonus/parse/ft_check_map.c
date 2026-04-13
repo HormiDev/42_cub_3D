@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_check_map.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:24:34 by username          #+#    #+#             */
-/*   Updated: 2026/04/09 23:29:11 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/13 19:16:49 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ void	ft_check_map(t_game *game)
 	ft_check_map_valid_characters(game->map);
 	if (!ft_check_map_dimensions(game))
 	{
-		ft_dprintf(2, RED "Error: Map dimensions exceed 1000x1000\n" RESET);
+		ft_dprintf(2, RED "Error: Map dimensions exceed 500x500\n" RESET);
 		ft_close_game(1);
 	}
 	player_count = ft_check_map_count_player(game);

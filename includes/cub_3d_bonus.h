@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub_3d_bonus.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:17:15 by username          #+#    #+#             */
-/*   Updated: 2026/04/13 01:15:44 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/13 19:48:15 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,7 +349,7 @@ void				ft_patrol_move_and_cleanup(t_game *game, t_player *alien,
 
 int					ft_bfs_path(t_game *game, t_bfs_request request,
 						t_bfs_result result);
-void				ft_bfs_init(t_bfs *bfs, t_vector_int start, int width,
+int					ft_bfs_init(t_bfs *bfs, t_vector_int start, int width,
 						int height);
 double				ft_calculate_ray_distance(double fov_y, int i,
 						int render_height);

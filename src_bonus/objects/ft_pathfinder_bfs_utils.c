@@ -3,42 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pathfinder_bfs_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 01:16:01 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/10 01:16:16 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/13 19:45:35 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/cub_3d_bonus.h"
-
-/**
- * @brief Inicializa las estructuras del BFS con memoria dinámica.
- *
- * Usa los punteros pre-asignados en la estructura t_bfs del juego.
- * Las matrices ya están asignadas dinámicamente durante el parse del mapa.
- *
- * @param bfs estructura del BFS a inicializar.
- * @param start nodo inicial de la búsqueda.
- * @param width ancho del mapa.
- * @param height alto del mapa.
- */
-void	ft_bfs_init(t_bfs *bfs, t_vector_int start, int width, int height)
-{
-	int	i;
-
-	i = 0;
-	bfs->queue_start = 0;
-	bfs->queue_end = 1;
-	bfs->width = width;
-	bfs->height = height;
-	bfs->queue[0] = start;
-	ft_memset(bfs->parent, -1, sizeof(int) * width * height);
-	i = -1;
-	while (++i < height)
-		ft_memset(bfs->visited[i], 0, sizeof(int) * width);
-	bfs->visited[start.y][start.x] = 1;
-}
 
 /**
  * @brief Valida si un tile es visitable en el BFS.

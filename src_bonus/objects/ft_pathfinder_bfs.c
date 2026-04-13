@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pathfinder_bfs.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ismherna <ismherna@student.42madrid.com    +#+  +:+       +#+        */
+/*   By: ismherna <ismherna@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 01:37:40 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/10 01:41:32 by ismherna         ###   ########.fr       */
+/*   Updated: 2026/04/13 19:49:01 by ismherna         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ static void	ft_bfs_rebuild_path(t_bfs *bfs, t_bfs_request request,
  * @brief Calcula el camino más corto entre dos puntos usando BFS.
  *
 
- * Función principal del pathfinding. 
+ * Función principal del pathfinding.
  * Inicializa el BFS con estructuras dinámicas,
  * ejecuta la exploración, y reconstruye la ruta si se alcanza el objetivo.
  * Debug activable con #define DEBUG_PATHFINDER.
@@ -138,8 +138,12 @@ int	ft_bfs_path(t_game *game, t_bfs_request request, t_bfs_result result)
 	bfs.parent = game->bfs_parent;
 	bfs.visited = game->bfs_visited;
 	bfs.max_queue = game->bfs_queue_size;
-	ft_bfs_init(&bfs, request.start, game->bfs_visited_width,
-		game->bfs_visited_height);
+	if (!ft_bfs_init(&bfs, request.start, game->bfs_visited_width,
+			game->bfs_visited_height))
+	{
+		*result.path_len = 0;
+		return (0);
+	}
 	if (!ft_bfs_explore(game, &bfs, request.goal))
 	{
 		*result.path_len = 0;
