@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/02 16:25:10 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/08 00:36:46 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/15 23:18:42 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,11 @@ t_texture	*ft_create_texture(t_game *game, char *line)
 	if (path_or_color == 1)
 		ft_load_texture_from_path(game, tex, split[1]);
 	else if (path_or_color == 2)
+	{
 		tex->texture_color = ft_parse_color_rgb(split[1]);
+		ft_printf("Parsed color: %u\n", tex->texture_color);
+		tex->path = NULL;
+	}
 	else
 		ft_close_game(1);
 	return (tex);

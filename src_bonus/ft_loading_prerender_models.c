@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/05 12:16:38 by nirmata           #+#    #+#             */
-/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/15 22:11:07 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ft_loading_textures_with_path(t_game *game,
 		ft_printf("Error opening directory: %s\n", path_dir);
 		return ;
 	}
-	ft_printf("Loading prerender models from: %s\n", path_dir);
 	i = 0;
 	file_name = ft_get_next_file(dir, path_dir);
 	while (i < (pre->n_angles * pre->n_frames))
@@ -55,11 +54,8 @@ t_prerender_model	*ft_init_prerender_model(t_game *game, int n_frames,
 	pre->n_frames = n_frames;
 	pre->n_angles = n_angles;
 	pre->texture = hd_calloc(n_frames * n_angles, sizeof(t_texture *));
-	ft_printf("Initializing prerender model with %d frames and %d angles\n",
-		n_frames, n_angles);
 	ft_loading_textures_with_path(game, pre, path);
 	ft_ordered_textures(pre);
-	ft_printf("Finished loading prerender model from: %s\n", path);
 	if (n_frames)
 		pre->active_frame = n_frames;
 	return (pre);
@@ -73,7 +69,6 @@ void	ft_loading_prerender_models(t_game *game)
 			"textures/prerender_alien/");
 	game->player->model = ft_init_prerender_model(game, 12, 36,
 			"textures/prerender_astro/");
-	ft_printf("Loading player prerender model from: \n");
 	i = 1;
 	while (i < 4)
 	{
@@ -83,6 +78,5 @@ void	ft_loading_prerender_models(t_game *game)
 		game->players[i].model->n_angles = 36;
 		game->players[i].model->texture = game->player->model->texture;
 		i++;
-		ft_printf("Assigned player %d prerender model to player 0 model\n", i);
 	}
 }

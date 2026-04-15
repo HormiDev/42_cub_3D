@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/10 03:05:00 by ismherna          #+#    #+#             */
-/*   Updated: 2026/04/10 20:00:18 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/15 22:10:43 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ char	*ft_get_next_file(DIR *dir, char *path_dir)
 			return (entry->d_name);
 		entry = readdir(dir);
 	}
-	ft_printf("No more files to load.\n");
 	return (NULL);
 }
 
@@ -43,7 +42,6 @@ void	ft_load_prerender_texture(t_game *game, t_prerender_model *pre,
 	{
 		ft_snprintf(cwd, sizeof(cwd), "%s%s", load_ctx.path_dir,
 			load_ctx.file_name);
-		ft_printf("Loading texture: %s\n", load_ctx.file_name);
 		pre->texture[load_ctx.idx] = ft_loading_texture(game->mlx, cwd);
 		if (!pre->texture[load_ctx.idx])
 			pre->texture[load_ctx.idx] = game->null_texture;
@@ -84,11 +82,7 @@ void	ft_print_sorted_textures(t_prerender_model *pre)
 	int	size;
 
 	size = pre->n_angles * pre->n_frames;
-	ft_printf("Ordered textures: %d   %d\n", size - 1, size);
 	i = 0;
 	while (i < size - 1 && pre->texture[i])
-	{
-		ft_printf("Ordered texture: %s\n", pre->texture[i]->path);
 		i++;
-	}
 }

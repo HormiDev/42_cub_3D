@@ -6,7 +6,7 @@
 /*   By: ide-dieg <ide-dieg@student.42madrid.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/09 19:20:01 by username          #+#    #+#             */
-/*   Updated: 2026/04/10 00:30:08 by ide-dieg         ###   ########.fr       */
+/*   Updated: 2026/04/16 00:09:28 by ide-dieg         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	ft_init_column_ctx(t_game *game, int x, t_raycast *ray,
 	if (ctx->wall_height <= 0)
 		return (draw_ceiling_and_floor(game, x, game->mist_cloud_height), 0);
 	ctx->texture = get_texture_for_wall(game, ray);
-	if (!ctx->texture || ctx->texture->height <= 0 || ctx->texture->width <= 0)
+	if (ctx->texture->path && (ctx->texture->height <= 0 || ctx->texture->width <= 0))
 		return (draw_ceiling_and_floor(game, x, game->mist_cloud_height), 0);
 	ctx->texture_iteration = (double) ctx->texture->height
 		/ (double) ctx->wall_height;
