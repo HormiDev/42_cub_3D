@@ -1,3 +1,5 @@
+<img width="937" height="291" alt="imagen" src="https://github.com/user-attachments/assets/8a4b190a-b00f-425b-bb3a-de61e6b6e7fd" />
+
 *This project has been created as part of the 42 curriculum by ide-dieg, ismherna.*
 
 ## Description
